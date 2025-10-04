@@ -3,17 +3,32 @@
     padding:0;
     box-sizing: border-box;
 }
+body{
+    font-family: Arial, sans-serif;
+}
 .container{
+    width: 90px;
     max-width: 1200px;
     margin: auto;
     padding: 20px;
     display:flex;
     justify-content: space-between;
+    align-items: center;
 }
-.logo{
+.sub-container{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.title h1{
+    font-size:24px;
+    color:rgb(30, 29, 29);
+    font-weight: bold;
+}
+.logo img{
+    height:60px;
+}
+.nav{
     display:flex;
-    width:30%;
-}
-img{
-    width:50%;
+
 }
