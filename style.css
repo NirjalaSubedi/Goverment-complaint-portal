@@ -6,12 +6,16 @@
 body{
     font-family: Arial, sans-serif;
 }
+header{
+    color:white;
+    padding:20px 0;
+}
 .container{
-    width: 90px;
+    width: 90%;
     max-width: 1200px;
     margin: auto;
-    padding: 20px;
     display:flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
 }
@@ -30,5 +34,15 @@ body{
 }
 .nav{
     display:flex;
-
+    gap:20px;
+}
+.nav a{
+    text-decoration: none;
+    color:rgb(40, 39, 39);
+    font-weight:500;
+}
+.auth-buttons{
+    display:flex;
+    gap:10px;
+    align-items: center;
 }
