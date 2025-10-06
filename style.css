@@ -7,8 +7,9 @@ body{
     font-family: Arial, sans-serif;
 }
 header{
-    color:white;
+    background-color:#1a2b4c;
     padding:20px 0;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
 .container{
     width: 90%;
@@ -26,8 +27,8 @@ header{
 }
 .title h1{
     font-size:24px;
-    color:rgb(30, 29, 29);
-    font-weight: bold;
+    color:white;
+    font-weight:600;
 }
 .logo img{
     height:60px;
@@ -38,8 +39,12 @@ header{
 }
 .nav a{
     text-decoration: none;
-    color:rgb(40, 39, 39);
+    color:white;
     font-weight:500;
+    transition: color 0.3s ease;
+}
+.nav a:hover{
+    color:#2a9d8f;
 }
 .auth-buttons{
     display:flex;
@@ -47,29 +52,31 @@ header{
     align-items: center;
 }
 button{
-    padding:5px 8px;
+    padding:6px 12px;
+    border-radius: 4px;
+    font-size:14px;
+    transition:all 0.3s ease;
 }
 #language-toggle{
-    font-size:15px;
-    padding: 6px 10px;
     display:flex;
     align-items: center;
-    gap:5px;
+    gap:6px;
     background-color:white;
-   border:0.5px solid black;
+   border:1px solid white;
+   color:#1a2b4c;
 }
 .auth-buttons button:hover{
     cursor: pointer;
     opacity:0.8;
 }
 .login-btn{
+    padding:6px 16px;
     border:1px solid black;
-    background-color:transparent;
+    background-color:rgb(74, 74, 247);
+    color:white;
     
 }
-.register-btn{
-    border:1px rgb(58, 58, 240);
-    background-color:rgb(58, 58, 240);
+.login-btn:hover{
+    background-color:black;
     color:white;
-    padding:5px 8px;
 }
