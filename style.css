@@ -46,3 +46,25 @@ header{
     gap:10px;
     align-items: center;
 }
+button{
+    padding:5px 8px;
+}
+#language-toggle{
+    background-color:white;
+   border:0.5px solid black;
+}
+.auth-buttons button:hover{
+    cursor: pointer;
+    opacity:0.8;
+}
+.login-btn{
+    border:1px solid black;
+    background-color:transparent;
+    
+}
+.register-btn{
+    border:1px rgb(58, 58, 240);
+    background-color:rgb(58, 58, 240);
+    color:white;
+    padding:5px 8px;
+}
