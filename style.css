@@ -156,4 +156,18 @@ button{
     text-align: center;
     border-radius:20%;
 }
+#tracking{
+    background-color:rgb(34, 174, 34);
+    color:white;
+    padding:10px;
+    text-align: center;
+    border-radius:20%;
+}
+#security{
+    background-color:rgb(225, 42, 42);
+    color:white;
+    padding:10px;
+    text-align: center;
+    border-radius:20%;
+}
 
