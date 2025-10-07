@@ -149,6 +149,15 @@ button{
     background-color:#f9f9f9;
     text-align: center;
 }
+.features-sections h2{
+    font-size:28px;
+    font-weight:600;
+    margin-bottom:10px;
+}
+.features-sections p{
+    color:rgb(105, 105, 105);
+    font-size:16px;
+}
 #complaints{
     background-color:#0d55e7;
     color:white;
@@ -181,16 +190,17 @@ button{
     width:30%;
     border-radius:5%;
     padding:20px;
+    padding-top:30px;
 }
 .card h2{
-    margin:15px 0px;
+    margin-top:15px;
+    margin-bottom:10px;
     font-size:22px;
     font-weight:600;
 }
 .card p{
     font-size:16px;
-    padding:10px;
-    margin:10px;
+    padding:8px;
     color:rgb(105, 105, 105);
 }
 #card1{
