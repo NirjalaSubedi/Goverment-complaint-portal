@@ -217,5 +217,52 @@ button{
 #card3{
     background-color: #f4e9e9;
 }
+.how-it-works{
+    padding:50px 0;
+    text-align: center;
+    margin:
+}
+.how-it-works h2{
+    font-size:28px;
+    font-weight:600;
+    margin-bottom:10px;
+}
+.how-it-works p{
+    color:rgb(105, 105, 105);
+    font-size:16px;
+    max-width:700px;
+    margin: auto;
+}
+.steps{
+    
+    display:flex;
+    gap:2rem;
+    justify-content:center;
+    align-items: center;
+    margin-top:30px; 
+    padding:20px;
+}
+.step{
+    display:grid;
+    place-items: center;
+    text-align: center;
+    max-width:30%;
+    margin-top: 30px;
+    padding:20px;
+    padding-top:30px;
+}
+.step h4{
+    width:50px;
+    height:50px;
+    font-size:20px;
+    font-weight:600;
+    color:white;
+    border-radius:100%;
+    background-color: #2a68e6;
+    display: flex;
+    justify-content: center;
+    margin-bottom:10px;
+    padding-top:10px;
+}
 
 
