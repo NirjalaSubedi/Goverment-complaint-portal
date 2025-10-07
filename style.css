@@ -170,4 +170,37 @@ button{
     text-align: center;
     border-radius:20%;
 }
+.features-cards{
+    display:flex;
+    gap:10px;
+    justify-content: space-between;
+    margin-top:30px; 
+    padding:20px;
+}
+.card{
+    width:30%;
+    border-radius:5%;
+    padding:20px;
+}
+.card h2{
+    margin:15px 0px;
+    font-size:22px;
+    font-weight:600;
+}
+.card p{
+    font-size:16px;
+    padding:10px;
+    margin:10px;
+    color:rgb(105, 105, 105);
+}
+#card1{
+    background-color: #e9ecf4;
+}
+#card2{
+    background-color: #e9f4ec;
+}
+#card3{
+    background-color: #f4e9e9;
+}
+
 
