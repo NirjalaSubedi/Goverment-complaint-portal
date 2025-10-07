@@ -263,5 +263,14 @@ button{
     margin-bottom:10px;
     padding-top:10px;
 }
+.submit-your-complaint{
+    background:linear-gradient(to right, #4d41f1, #a1acf9, #0a248f);
+    padding:50px 0;
+    text-align: center;
+    margin-top:20px;
+    color:white;
+}
+
+
 
 
