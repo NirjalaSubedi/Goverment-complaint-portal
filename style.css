@@ -264,11 +264,32 @@ button{
     padding-top:10px;
 }
 .submit-your-complaint{
-    background:linear-gradient(to right, #4d41f1, #a1acf9, #0a248f);
+    background:linear-gradient(to right, #362bdb, #5361ce);
     padding:50px 0;
     text-align: center;
     margin-top:20px;
     color:white;
+}
+.submit-your-complaint h2{
+    font-size:28px;
+    font-weight:600;
+    margin-bottom:10px;
+}
+.submit-your-complaint p{
+    font-size:16px;
+    max-width:700px;
+    margin: auto;
+    color:rgb(196, 187, 187);
+}
+.submit-your-complaint button{
+    margin-top:20px;
+    padding:10px 30px;
+    font-size:16px;
+    border-radius:6px;
+    background-color:none;
+    color:#0d55e7;
+    border:1px solid white;
+    font-weight:600;
 }
 
 
