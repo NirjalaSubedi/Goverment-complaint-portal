@@ -12,8 +12,8 @@ header{
     left:0;
     width:100%;
     z-index:1000;
-    background-color:#1a2b4c;
-    padding:20px 0;
+    background-color:white;
+    padding:10px 0;
     box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
 .container{
@@ -32,7 +32,7 @@ header{
 }
 .title h1{
     font-size:24px;
-    color:white;
+    color:#0d55e7;
     font-weight:600;
 }
 .logo img{
@@ -44,12 +44,13 @@ header{
 }
 .nav a{
     text-decoration: none;
-    color:white;
+    color:black;
     font-weight:500;
     transition: color 0.3s ease;
 }
 .nav a:hover{
-    color:#2a9d8f;
+    color:#0d55e7;
+    font-weight:bold;
 }
 .auth-buttons{
     display:flex;
@@ -75,9 +76,9 @@ button{
     opacity:0.8;
 }
 .login-btn{
-    padding:6px 16px;
-    border:1px solid black;
-    background-color:rgb(74, 74, 247);
+    padding:6px 20px;
+    border:1px solid #0d55e7;
+    background-color:#0d55e7;
     color:white;
     
 }
@@ -100,8 +101,47 @@ button{
 }
 .overlay-section{
     position:absolute;
-    top:50%;
-    left:7%;
-    color:white;
-
+    top:30%;
+    left:5%;
+    color:rgb(227, 215, 215);
+    padding:10px;
 }
+.overlay-section h1{
+    font-size:42px;
+}
+.color-change{
+    color:#2054bd;
+}
+.overlay-section p{
+    margin:10px 0;
+    font-size:18px;
+    max-width:700px;
+    color:rgb(188, 176, 176);
+}
+.buttons{
+    margin-top:20px;
+    display:flex;
+    gap:10px;
+}
+.buttons button{
+    padding:8px 20px;
+    font-size:16px;
+    border-radius: 6px;
+}
+.submit-complaint{
+    background-color: #0d55e7;
+    color:white;
+    border:1px solid #0d55e7;
+    font-size:bold;
+}
+.register-btn{
+    background-color:rgba(0,0,0,0.4);
+    color:white;
+    font-weight: bold;
+    border:1px solid white;
+}
+.buttons button:hover{
+    cursor: pointer;
+    opacity:0.8;
+}
+
