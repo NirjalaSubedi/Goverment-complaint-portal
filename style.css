@@ -87,12 +87,7 @@ button{
     color:white;
 }
 
-.main-container img{
-    width:100%;
-    opacity: 0.9;
-    object-fit: cover;
-    filter:brightness(20%);
-}
+
  .main-container{
   position: relative;
   width: 100%;
@@ -286,8 +281,8 @@ button{
     padding:10px 30px;
     font-size:16px;
     border-radius:6px;
-    background-color:none;
-    color:#0d55e7;
+    background-color:rgba(0,0,0,0.2);
+    color:white;
     border:1px solid white;
     font-weight:600;
 }
