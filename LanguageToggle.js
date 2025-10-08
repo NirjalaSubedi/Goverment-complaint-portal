@@ -115,9 +115,10 @@ const Translate={
 
     }
 }
+
 function LanguageTranslate(){
     currentLanguage=currentLanguage==='en'?'ne':'en';
-    document.getElementById('language-toggle').innerText=Translate[currentLanguage].languageToggle;
+    document.getElementById('language-toggle').innerHTML = `<i class="material-icons">language</i> ${Translate[currentLanguage].languageToggle}`;
     document.getElementsByClassName('Heading1')[0].innerText=Translate[currentLanguage].title;
     document.getElementById('Features').innerText=Translate[currentLanguage].Features;
     document.getElementById('HowItWorks').innerText=Translate[currentLanguage].HowItWorks;
