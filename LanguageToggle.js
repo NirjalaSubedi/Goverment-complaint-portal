@@ -20,6 +20,18 @@ const Translate={
         TransparentTrackingDesc:' Track the status and progress of your complaints in real-time',
         SecureSystem:'Secure System',
         SecureSystemDesc:' Your Personal information and complaints are kept completely secure',
+        howItWorks:'How It Works',
+        inThreeSteps:' In three simple steps',
+        oneStep:'1',
+        createAccount:'Create Account',
+        createAccountDesc:'Register as a citizens or goverment Officer',
+        twoStep:'2',
+        submitComplaintStep:'Submit Complaint',
+        submitComplaintDesc:'Submit complaints with detailed descriptions and evidence',
+        threeStep:'3',
+        trackProgress:'Track Progress',
+        trackProgressDesc:'Monitor the status and resolutions progress of your complaint',
+
 
 
     },
@@ -43,6 +55,17 @@ const Translate={
         TransparentTrackingDesc:'तपाईंको उजुरीहरूको स्थिति र प्रगतिको वास्तविक-समय ट्र्याक गर्नुहोस्',
         SecureSystem:'सुरक्षित प्रणाली',
         SecureSystemDesc:'तपाईंको व्यक्तिगत जानकारी र उजुरीहरू पूर्ण रूपमा सुरक्षित राखिन्छ',
+        howItWorks:'यो कसरी काम गर्छ',
+        inThreeSteps:' तीन सरल चरणहरूमा',
+        oneStep:'१',
+        createAccount:'खाता सिर्जना गर्नुहोस्',
+        createAccountDesc:'नागरिक वा सरकारी अधिकारीको रूपमा दर्ता गर्नुहोस्',
+        twoStep:'२',
+        submitComplaintStep:'उजुरी पेश गर्नुहोस्',
+        submitComplaintDesc:'विस्तृत विवरण र प्रमाणहरू सहित उजुरीहरू पेश गर्नुहोस्',
+        threeStep:'३',
+        trackProgress:'प्रगति ट्र्याक गर्नुहोस्',
+        trackProgressDesc:'तपाईंको उजुरीको स्थिति र समाधान प्रगतिको अनुगमन गर्नुहोस्',
 
     }
 }
@@ -67,4 +90,15 @@ function LanguageTranslate(){
     document.getElementsByClassName('desc')[3].innerText=Translate[currentLanguage].TransparentTrackingDesc;
     document.getElementsByClassName('heading2')[3].innerText=Translate[currentLanguage].SecureSystem;
     document.getElementsByClassName('desc')[4].innerText=Translate[currentLanguage].SecureSystemDesc;
+    document.getElementsByClassName('heading2')[4].innerText=Translate[currentLanguage].howItWorks;
+    document.getElementsByClassName('desc')[5].innerText=Translate[currentLanguage].inThreeSteps;
+    document.getElementsByClassName('heading2')[5].innerText=Translate[currentLanguage].oneStep;
+    document.getElementsByClassName('heading2')[6].innerText=Translate[currentLanguage].createAccount;
+    document.getElementsByClassName('desc')[6].innerText=Translate[currentLanguage].createAccountDesc;
+    document.getElementsByClassName('heading2')[7].innerText=Translate[currentLanguage].twoStep;
+    document.getElementsByClassName('heading2')[8].innerText=Translate[currentLanguage].submitComplaintStep;
+    document.getElementsByClassName('desc')[7].innerText=Translate[currentLanguage].submitComplaintDesc;
+    document.getElementsByClassName('heading2')[9].innerText=Translate[currentLanguage].threeStep;
+    document.getElementsByClassName('heading2')[10].innerText=Translate[currentLanguage].trackProgress;
+    document.getElementsByClassName('desc')[8].innerText=Translate[currentLanguage].trackProgressDesc;
 }
