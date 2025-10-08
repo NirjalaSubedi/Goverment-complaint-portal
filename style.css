@@ -296,6 +296,7 @@ button{
     justify-content:space-between;
     padding:30px 0;
     margin:0px 50px;
+    border-bottom:2px solid rgb(90, 87, 87);
 }
 .system-description{
     max-width:400px;
@@ -320,8 +321,37 @@ button{
 .logo h2{
     margin-top:20px;
 }
-
-
+.info h3{
+    font-size:22px;
+    font-weight:600;
+    margin-bottom:10px;
+}
+.info p{
+    font-size:16px;
+    color:rgb(200, 200, 200);
+    line-height:1;
+    margin-top:10px;
+}
+.footer-links{
+    display:flex;
+    gap:30%;
+    margin-top:20px;
+    padding-bottom:20px;
+    margin-left:50px;
+}
+.reserved{
+    padding:10px 0;
+    font-size:14px;
+    color:rgb(200, 200, 200);
+}
+.links a{
+    text-decoration: none;
+    color:white;
+    margin-left:20px;
+}
+.links a:hover{
+    color:#1d63f0;
+}
 
 
 
