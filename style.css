@@ -300,6 +300,24 @@ button{
 .system-description{
     max-width:400px;
 }
+.system-description h2{
+    font-size:22px;
+    font-weight:600;
+    margin-bottom:10px;
+}
+.system-description p{
+    font-size:16px;
+    color:rgb(200, 200, 200);
+    line-height:1;
+}
+.logo{
+    display:flex;
+    justify-content:row;
+    align-items:row;
+}
+.logo h2{
+    margin-top:20px;
+}
 
 
 
