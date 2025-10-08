@@ -34,6 +34,26 @@ const Translate={
         SubmitComplaint:'Submit Your Complaint',
         YourVoice:'Your Voice Can Bring Change. Join Us In Building A Better Nepal',
         SubmitBtn:'Submit Complaint',
+        goverment:'Goverment Portal',
+        systemDesc:' A system to hear and resolve the voices of Nepali citizens',
+        services:'Services',
+        service1:'Corruption Reports',
+        service2:'Road Issues',
+        service3:'Water Issues',
+        service4:'Other Services',
+        support:'Support',
+        support1:'Help Center',
+        support2:'Contact',
+        support3:'Guide',
+        contact:'Contact',
+        phone:'Phone:+977-01-5970087',
+        email:'Email:info@nepal.gov.np',
+        address:'Address:Singha Durbar, Kathmandu',
+        copyright:'&copy; 2025 Goverment Complaint Portal. All rights reserved.',
+        privacy:'Privacy Policy',
+        terms:'Terms of Service',
+        contactus:'Contact Us',
+
 
 
 
@@ -72,6 +92,25 @@ const Translate={
         SubmitComplaint:'आफ्नो उजुरी पेश गर्नुहोस्',
         YourVoice:'तपाईंको आवाजले परिवर्तन ल्याउन सक्छ। हामीसँग राम्रो नेपाल निर्माणमा सामेल हुनुहोस्',
         SubmitBtn:'उजुरी पेश गर्नुहोस्',
+        goverment:'सरकारी पोर्टल',
+        systemDesc:'नेपाली नागरिकहरूको आवाज सुन्न र समाधान गर्नको लागि एक प्रणाली',
+        services:'सेवाहरू',
+        service1:'भ्रष्टाचार रिपोर्टहरू',
+        service2:'सडक समस्याहरू',
+        service3:'पानीका समस्या',
+        service4:'अन्य सेवाहरू',
+        support:'समर्थन',
+        support1:'मद्दत केन्द्र',
+        support2:'सम्पर्क',
+        support3:'गाइड',
+        contact:'सम्पर्क',
+        phone:'फोन:+९७७-०१-५९७००८७',
+        email:'इमेल:info@nepal.gov.np',
+        address:'ठेगाना:सिंहदरबार, काठमाडौं',
+        copyright:'&copy; २०२५ सरकारी उजुरी पोर्टल। सबै अधिकार सुरक्षित।',
+        privacy:'गोपनीयता नीति',
+        terms:'सेवा सर्तहरू',
+        contactus:'हामीलाई सम्पर्क गर्नुहोस्',
 
 
     }
@@ -111,4 +150,23 @@ function LanguageTranslate(){
     document.getElementsByClassName('heading2')[11].innerText=Translate[currentLanguage].SubmitComplaint;
     document.getElementsByClassName('desc')[9].innerText=Translate[currentLanguage].YourVoice;
     document.getElementsByClassName('complaint-btn')[0].innerText=Translate[currentLanguage].SubmitBtn;
+    document.getElementsByClassName('heading2')[12].innerText=Translate[currentLanguage].goverment;
+    document.getElementsByClassName('desc')[10].innerText=Translate[currentLanguage].systemDesc;
+    document.getElementsByClassName('heading2')[13].innerText=Translate[currentLanguage].services;
+    document.getElementsByClassName('desc')[11].innerText=Translate[currentLanguage].service1;
+    document.getElementsByClassName('desc')[12].innerText=Translate[currentLanguage].service2;
+    document.getElementsByClassName('desc')[13].innerText=Translate[currentLanguage].service3;
+    document.getElementsByClassName('desc')[14].innerText=Translate[currentLanguage].service4;
+    document.getElementsByClassName('heading2')[14].innerText=Translate[currentLanguage].support;
+    document.getElementsByClassName('desc')[15].innerText=Translate[currentLanguage].support1;
+    document.getElementsByClassName('desc')[16].innerText=Translate[currentLanguage].support2;
+    document.getElementsByClassName('desc')[17].innerText=Translate[currentLanguage].support3;
+    document.getElementsByClassName('heading2')[15].innerText=Translate[currentLanguage].contact;
+    document.getElementsByClassName('desc')[18].innerText=Translate[currentLanguage].phone;
+    document.getElementsByClassName('desc')[19].innerText=Translate[currentLanguage].email;
+    document.getElementsByClassName('desc')[20].innerText=Translate[currentLanguage].address;
+    document.getElementsByClassName('desc')[21].innerHTML=Translate[currentLanguage].copyright;
+    document.getElementsByClassName('desc')[22].innerText=Translate[currentLanguage].privacy;
+    document.getElementsByClassName('desc')[23].innerText=Translate[currentLanguage].terms;
+    document.getElementsByClassName('desc')[24].innerText=Translate[currentLanguage].contactus;
 }
