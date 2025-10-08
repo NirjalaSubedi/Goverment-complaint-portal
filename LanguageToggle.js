@@ -31,6 +31,9 @@ const Translate={
         threeStep:'3',
         trackProgress:'Track Progress',
         trackProgressDesc:'Monitor the status and resolutions progress of your complaint',
+        SubmitComplaint:'Submit Your Complaint',
+        YourVoice:'Your Voice Can Bring Change. Join Us In Building A Better Nepal',
+        SubmitBtn:'Submit Complaint',
 
 
 
@@ -66,6 +69,10 @@ const Translate={
         threeStep:'३',
         trackProgress:'प्रगति ट्र्याक गर्नुहोस्',
         trackProgressDesc:'तपाईंको उजुरीको स्थिति र समाधान प्रगतिको अनुगमन गर्नुहोस्',
+        SubmitComplaint:'आफ्नो उजुरी पेश गर्नुहोस्',
+        YourVoice:'तपाईंको आवाजले परिवर्तन ल्याउन सक्छ। हामीसँग राम्रो नेपाल निर्माणमा सामेल हुनुहोस्',
+        SubmitBtn:'उजुरी पेश गर्नुहोस्',
+
 
     }
 }
@@ -101,4 +108,7 @@ function LanguageTranslate(){
     document.getElementsByClassName('heading2')[9].innerText=Translate[currentLanguage].threeStep;
     document.getElementsByClassName('heading2')[10].innerText=Translate[currentLanguage].trackProgress;
     document.getElementsByClassName('desc')[8].innerText=Translate[currentLanguage].trackProgressDesc;
+    document.getElementsByClassName('heading2')[11].innerText=Translate[currentLanguage].SubmitComplaint;
+    document.getElementsByClassName('desc')[9].innerText=Translate[currentLanguage].YourVoice;
+    document.getElementsByClassName('complaint-btn')[0].innerText=Translate[currentLanguage].SubmitBtn;
 }
