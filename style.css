@@ -286,7 +286,10 @@ button{
     border:1px solid white;
     font-weight:600;
 }
-
+.footer-content{
+    background-color: #46494e;
+    color:white;
+}
 
 
 
