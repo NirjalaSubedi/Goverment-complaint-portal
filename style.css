@@ -362,6 +362,16 @@ button{
     padding: 20px;
     text-align: center;
 }
+.login-form{
+   margin-bottom:20px;
+    padding:20px;
+}
+.toggle-login-register-btn{
+    gap:3px;
+    display:flex;
+    justify-content: center;
+    margin-bottom:20px;
+}
 
 
 
