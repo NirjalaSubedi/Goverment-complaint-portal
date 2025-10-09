@@ -375,8 +375,25 @@ button{
 .form{
     display:flex;
     flex-direction:column;
-    gap:10px;
+    gap:5px;
     text-align:left;
 }
+.form label{
+    font-weight:550;
+    color:#484848;
+}
+.form input{
+    padding:10px;
+    margin-bottom:15px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    font-size:16px;
+}
+.form input:focus{
+    border-color:#286cf3;
+    outline:none;
+    box-shadow:0 0 5px rgba(13, 85, 231, 0.5);
+}
+
 
 
