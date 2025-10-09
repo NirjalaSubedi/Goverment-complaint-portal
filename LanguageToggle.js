@@ -53,6 +53,8 @@ const Translate={
         privacy:'Privacy Policy',
         terms:'Terms of Service',
         contactus:'Contact Us',
+        title2:'Goverment Portal',
+        tagline:'Make your Voice Heard',
 
 
 
@@ -111,6 +113,8 @@ const Translate={
         privacy:'गोपनीयता नीति',
         terms:'सेवा सर्तहरू',
         contactus:'हामीलाई सम्पर्क गर्नुहोस्',
+        title2:'सरकारी पोर्टल',
+        tagline:'आफ्नो आवाज बनाउनुहोस्',
 
 
     }
@@ -170,4 +174,11 @@ function LanguageTranslate(){
     document.getElementsByClassName('desc')[22].innerText=Translate[currentLanguage].privacy;
     document.getElementsByClassName('desc')[23].innerText=Translate[currentLanguage].terms;
     document.getElementsByClassName('desc')[24].innerText=Translate[currentLanguage].contactus;
+}
+
+function loginLanguageTranslate(){
+    currentLanguage=currentLanguage==='en'?'ne':'en';
+     document.getElementById('language-toggle').innerHTML = `<i class="material-icons">language</i> ${Translate[currentLanguage].languageToggle}`;
+    document.getElementById('Heading').innerText=Translate[currentLanguage].title2;
+    document.getElementById('tagline').innerText=Translate[currentLanguage].tagline;
 }

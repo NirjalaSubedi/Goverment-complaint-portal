@@ -413,5 +413,12 @@ button{
 .forgot-password a:hover{
     text-decoration: underline;
 }
-
+.privacy-policy p{
+    font-size:16px;
+    color:rgb(105, 105, 105);
+}
+.privacy-policy a{
+    text-decoration: none;
+    color:#3976ef;
+}
 

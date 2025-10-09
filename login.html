@@ -33,6 +33,7 @@
             margin-bottom: 8px;
         }
         .sub-container h1{
+            margin-top: 15px;
             font-size:24px;
            margin-bottom: 15px;
         }
@@ -68,18 +69,18 @@
 <body>
     <div class="login-container">
         <div class="auth-buttons">
-                <button id="language-toggle" onclick="LanguageTranslate()">
+                <button id="language-toggle" onclick="loginLanguageTranslate()">
                     <i class="material-icons">language</i> नेपाली
                 </button>
         </div>
         <div class="sub-container">
                 <div class="logo">
                 <img src="logo.png" alt="logo">
-                <h1 class="Heading1">Goverment Portal</h1>
+                <h1 id="Heading">Goverment Portal</h1>
                 </div>
         </div>
         <div class="tagline">
-                <p>Make your Voice Heard</p>
+                <p id="tagline">Make your Voice Heard</p>
         </div>
         
             <div class="Login-form">
@@ -107,5 +108,7 @@
             </div>
             
     </div>
+    <script src="LanguageToggle.js"></script>
+
 </body>
 </html>
