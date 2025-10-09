@@ -394,6 +394,24 @@ button{
     outline:none;
     box-shadow:0 0 5px rgba(13, 85, 231, 0.5);
 }
-
+.submit-btn{
+    cursor: pointer;
+    background-color:rgb(59, 59, 240);
+    color:white;
+    border:none;
+    padding:10px;
+}
+.forgot-password a{
+    display: grid;
+    place-items: center;
+    margin-bottom:15px;
+    text-decoration: none;
+    margin-top: 10px;
+    color:#3976ef;
+    font-size:16px;
+}
+.forgot-password a:hover{
+    text-decoration: underline;
+}
 
 
