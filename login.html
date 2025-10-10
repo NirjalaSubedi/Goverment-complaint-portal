@@ -55,7 +55,7 @@
         }
         .register-btn{
             width:50%;
-            background-color:rgb(232, 232, 237);
+            background-color:#eaeaea;
             color:rgb(104, 103, 103);
             padding:10px 20px;
             border-radius:20px;
@@ -101,14 +101,32 @@
                     <div class="forgot-password">
                         <a href="#">Forgot your Password?</a>
                     </div>
+
+                    <div class="user-type">
+                        <p>User Type</p>
+                        <div class="btn-select">
+                            <button class="user-btn" id="citizen-btn">Citizen</button>
+                            <button class="user-btn" id="officer-btn">Officer</button>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="privacy-policy">
                 <p>By continuing, in you agree to our <a href="#">Terms of services and Privacy Policy</a></p>
             </div>
+            <div class="register">
+                <label for="fullName">FullName</label>
+                <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required/>
+                <label for="phonenumber">PhoneNumber</label>
+                <input type="number" id="phonenumber" name="phonenumber" placeholder="Enter your phone number" required/>
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" placeholder="Enter your address" required/>
+
+            </div>
             
     </div>
     <script src="LanguageToggle.js"></script>
+    <script src="buttonclick.js"></script>
 
 </body>
 </html>
