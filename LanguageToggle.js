@@ -55,6 +55,15 @@ const Translate={
         contactus:'Contact Us',
         title2:'Goverment Portal',
         tagline:'Make your Voice Heard',
+        login1:'Login',
+        registerbtn1:'Register',
+        email:'Email',
+        password:'Password',
+        userType:'User Type',
+        emailplaceholder:'Enter your email',
+        remember:'Remember Me',
+        forgot:'Forgot your Password?',
+        signin:'Sign In',
 
 
 
@@ -115,6 +124,15 @@ const Translate={
         contactus:'हामीलाई सम्पर्क गर्नुहोस्',
         title2:'सरकारी पोर्टल',
         tagline:'आफ्नो आवाज बनाउनुहोस्',
+        login1:'लगइन',
+        registerbtn1:'दर्ता गर्नुहोस्',
+        email:'इमेल',
+        emailplaceholder:'आफ्नो इमेल प्रविष्ट गर्नुहोस्',
+        password:'पासवर्ड',
+        userType:'प्रयोगकर्ता प्रकार',
+        remember:'मलाई सम्झनुहोस्',
+        forgot:'तपाईंको पासवर्ड बिर्सनुभयो?',
+        signin:'साइन इन गर्नुहोस्',
 
 
     }
@@ -181,4 +199,15 @@ function loginLanguageTranslate(){
     document.getElementById('language-toggle').innerHTML = `<i class="material-icons">language</i> ${Translate[currentLanguage].languageToggle}`;
     document.getElementById('Heading').innerText=Translate[currentLanguage].title2;
     document.getElementById('tagline').innerText=Translate[currentLanguage].tagline;
+    document.getElementsByClassName('log')[0].innerText=Translate[currentLanguage].login1;
+    document.getElementsByClassName('register')[0].innerText=Translate[currentLanguage].registerbtn1;
+    document.getElementById('email').placeholder=Translate[currentLanguage].emailplaceholder;
+    document.getElementById('password').placeholder=Translate[currentLanguage].password;
+    document.getElementById('user-type').innerText=Translate[currentLanguage].userType;
+    document.getElementsByClassName('email')[0].innerText=Translate[currentLanguage].email;
+    document.getElementsByClassName('password')[0].innerText=Translate[currentLanguage].password;
+    document.getElementsByClassName('rememberme')[0].innerText=Translate[currentLanguage].remember;
+    document.getElementsByClassName('forgotpassword')[0].innerText=Translate[currentLanguage].forgot;
+    document.getElementsByClassName('signin')[0].innerText=Translate[currentLanguage].signin;
 }
+
