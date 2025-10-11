@@ -161,6 +161,20 @@ const Translate={
         phoneNumberPlaceholder:'आफ्नो फोन नम्बर प्रविष्ट गर्नुहोस्',
         confirmPassword:'पासवर्ड पुष्टि गर्नुहोस्',
         confirmPasswordPlaceholder:'आफ्नो पासवर्ड पुष्टि गर्नुहोस्',
+        address:'ठेगाना',
+        addressPlaceholder:'आफ्नो ठेगाना प्रविष्ट गर्नुहोस्',
+        department:'विभाग',
+        roaddepartment:'सडक विभाग',
+        waterdepartment:'पानी आपूर्ति विभाग',
+        electricitydepartment:'विद्युत प्राधिकरण',
+        corruptiondepartment:'भ्रष्टाचार विरोधी विभाग',
+        others:'अन्य',
+        position:'पद',
+        positionPlaceholder:'आफ्नो पद प्रविष्ट गर्नुहोस्',
+        citizenship:'नागरिकता नम्बर',
+        citizenshipPlaceholder:'आफ्नो नागरिकता नम्बर प्रविष्ट गर्नुहोस्',
+        createAccount:'खाता सिर्जना गर्नुहोस्',
+        privacyPolicy:'जारी राखेर, तपाईं हाम्रो सेवा सर्तहरू र गोपनीयता नीतिमा सहमत हुनुहुन्छ।',
 
 
     }
