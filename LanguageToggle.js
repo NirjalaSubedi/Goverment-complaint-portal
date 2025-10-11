@@ -66,6 +66,20 @@ const Translate={
         signin:'Sign In',
         citizen:'Citizen',
         officer:'Officer',
+        fullname:'Full Name',
+        fullnamePlaceholder:'Enter your full name',
+        phoneNumber:'Phone Number',
+        phoneNumberPlaceholder:'Enter your phone number',
+        confirmPassword:'Confirm Password',
+        confirmPasswordPlaceholder:'confirm your password',
+        address:'Address',
+        addressPlaceholder:'Enter your address',
+        department:'Department',
+        roaddepartment:'Road Department',
+        waterdepartment:'Water Supply Department',
+        electricitydepartment:'Electricity Authority',
+        corruptiondepartment:'Anti-Corruption Department',
+
 
 
 
