@@ -64,6 +64,9 @@ const Translate={
         remember:'Remember Me',
         forgot:'Forgot your Password?',
         signin:'Sign In',
+        citizen:'Citizen',
+        officer:'Officer',
+
 
 
 
@@ -133,6 +136,8 @@ const Translate={
         remember:'मलाई सम्झनुहोस्',
         forgot:'तपाईंको पासवर्ड बिर्सनुभयो?',
         signin:'साइन इन गर्नुहोस्',
+        citizen:'नागरिक',
+        officer:'अधिकारी',
 
 
     }
@@ -209,5 +214,7 @@ function loginLanguageTranslate(){
     document.getElementsByClassName('rememberme')[0].innerText=Translate[currentLanguage].remember;
     document.getElementsByClassName('forgotpassword')[0].innerText=Translate[currentLanguage].forgot;
     document.getElementsByClassName('signin')[0].innerText=Translate[currentLanguage].signin;
+    document.getElementById('citizen-btn').innerText=Translate[currentLanguage].citizen;
+    document.getElementById('officer-btn').innerText=Translate[currentLanguage].officer;
 }
 
