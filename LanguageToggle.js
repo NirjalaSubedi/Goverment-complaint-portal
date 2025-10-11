@@ -79,6 +79,13 @@ const Translate={
         waterdepartment:'Water Supply Department',
         electricitydepartment:'Electricity Authority',
         corruptiondepartment:'Anti-Corruption Department',
+        others:'Others',
+        position:'Position',
+        positionPlaceholder:'Enter your position',
+        citizenship:'Citizenship Number',
+        citizenshipPlaceholder:'Enter your citizenship number',
+        createAccount:'Create Account',
+        privacyPolicy:'By continuing, you agree to our  Terms of Service and Privacy Policy.',
 
 
 
