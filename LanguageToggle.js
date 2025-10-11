@@ -80,13 +80,14 @@ const Translate={
         waterdepartment:'Water Supply Department',
         electricitydepartment:'Electricity Authority',
         corruptiondepartment:'Anti-Corruption Department',
-        others:'Others',
+        other:'Others',
         position:'Position',
         positionPlaceholder:'Enter your position',
         citizenship:'Citizenship Number',
         citizenshipPlaceholder:'Enter your citizenship number',
         createAccount:'Create Account',
-        privacyPolicy:'By continuing, you agree to our  Terms of Service and Privacy Policy.',
+        agree:'By continuing, you agree to our',
+        tosapp:'Terms of services and Privacy Policy'
 
 
     },
@@ -170,13 +171,14 @@ const Translate={
         waterdepartment:'पानी आपूर्ति विभाग',
         electricitydepartment:'विद्युत प्राधिकरण',
         corruptiondepartment:'भ्रष्टाचार विरोधी विभाग',
-        others:'अन्य',
+        other:'अन्य',
         position:'पद',
         positionPlaceholder:'आफ्नो पद प्रविष्ट गर्नुहोस्',
         citizenship:'नागरिकता नम्बर',
         citizenshipPlaceholder:'आफ्नो नागरिकता नम्बर प्रविष्ट गर्नुहोस्',
         createAccount:'खाता सिर्जना गर्नुहोस्',
-        privacyPolicy:'जारी राखेर, तपाईं हाम्रो सेवा सर्तहरू र गोपनीयता नीतिमा सहमत हुनुहुन्छ।',
+        agree:'जारी राखेर, तपाईं हाम्रो सेवा सर्तहरू र गोपनीयता नीतिमा सहमत हुनुहुन्छ।',
+        tosapp:' mmmmmmm',
 
 
     }
@@ -263,6 +265,18 @@ function loginLanguageTranslate(){
     document.getElementById('address').placeholder=Translate[currentLanguage].addressPlaceholder;
     document.getElementsByClassName('department')[0].innerText=Translate[currentLanguage].department;
     document.getElementsByClassName('select')[0].innerText=Translate[currentLanguage].select;
-
+    document.getElementsByClassName('roaddepartments')[0].innerText=Translate[currentLanguage].roaddepartment;
+    document.getElementsByClassName('waterSupply')[0].innerText=Translate[currentLanguage].waterdepartment;
+    document.getElementsByClassName('electricityAuthority')[0].innerText=Translate[currentLanguage].electricitydepartment;
+    document.getElementsByClassName('AntiCorruptions')[0].innerText=Translate[currentLanguage].corruptiondepartment;
+    document.getElementsByClassName('other')[0].innerText=Translate[currentLanguage].other;
+    document.getElementsByClassName('position')[0].innerText=Translate[currentLanguage].position;
+    document.getElementById('position').placeholder=Translate[currentLanguage].positionPlaceholder;
+    document.getElementsByClassName('citizenship')[0].innerText=Translate[currentLanguage].citizenship;
+    document.getElementById('citizenshipNumber').placeholder=Translate[currentLanguage].citizenshipPlaceholder;
+    document.getElementsByClassName('createAccount')[0].innerText=Translate[currentLanguage].createAccount;
+    document.getElementsByClassName('confirmpassword')[0].innerText=Translate[currentLanguage].confirmPassword;
+    document.getElementById('confirmPassword').placeholder=Translate[currentLanguage].confirmPasswordPlaceholder;
+   
 
 }
