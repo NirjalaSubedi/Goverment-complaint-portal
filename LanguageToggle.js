@@ -155,6 +155,12 @@ const Translate={
         signin:'साइन इन गर्नुहोस्',
         citizen:'नागरिक',
         officer:'अधिकारी',
+        fullname:'पूरा नाम',
+        fullnamePlaceholder:'आफ्नो पूरा नाम प्रविष्ट गर्नुहोस्',
+        phoneNumber:'फोन नम्बर',
+        phoneNumberPlaceholder:'आफ्नो फोन नम्बर प्रविष्ट गर्नुहोस्',
+        confirmPassword:'पासवर्ड पुष्टि गर्नुहोस्',
+        confirmPasswordPlaceholder:'आफ्नो पासवर्ड पुष्टि गर्नुहोस्',
 
 
     }
