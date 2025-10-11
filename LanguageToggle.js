@@ -88,10 +88,6 @@ const Translate={
         privacyPolicy:'By continuing, you agree to our  Terms of Service and Privacy Policy.',
 
 
-
-
-
-
     },
     'ne':{
         languageToggle:'English',
