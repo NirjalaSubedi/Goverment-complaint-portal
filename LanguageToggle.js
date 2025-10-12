@@ -87,7 +87,7 @@ const Translate={
         citizenshipPlaceholder:'Enter your citizenship number',
         createAccount:'Create Account',
         agree:'By continuing, you agree to our',
-        tosapp:'Terms of services and Privacy Policy'
+        tosapp:'Terms of services and Privacy Policy',
 
 
     },
@@ -177,8 +177,8 @@ const Translate={
         citizenship:'नागरिकता नम्बर',
         citizenshipPlaceholder:'आफ्नो नागरिकता नम्बर प्रविष्ट गर्नुहोस्',
         createAccount:'खाता सिर्जना गर्नुहोस्',
-        agree:'जारी राखेर, तपाईं हाम्रो सेवा सर्तहरू र गोपनीयता नीतिमा सहमत हुनुहुन्छ।',
-        tosapp:' mmmmmmm',
+        agree:'जारी राखेर, तपाईं हाम्रो सहमत हुनुहुन्छ',
+        tosapp:'सेवा सर्तहरू र गोपनीयता नीति',
 
 
     }
@@ -277,6 +277,9 @@ function loginLanguageTranslate(){
     document.getElementsByClassName('createAccount')[0].innerText=Translate[currentLanguage].createAccount;
     document.getElementsByClassName('confirmpassword')[0].innerText=Translate[currentLanguage].confirmPassword;
     document.getElementById('confirmPassword').placeholder=Translate[currentLanguage].confirmPasswordPlaceholder;
+    document.getElementById('agree').innerText=Translate[currentLanguage].agree;
+    document.getElementById('tosapp').innerText=Translate[currentLanguage].tosapp;
    
+    
 
 }
