@@ -29,12 +29,12 @@ const registerfields=[
 function togglefields(showLogin){
 	loginfields.forEach(field=>{
 		if(field)
-		field.style.display=showLogin?'none':'block';
+		field.style.display=showLogin?'block':'none';
 	})
 }
 registerfields.forEach(field=>{
 	if(field)
-	field.style.display=showLogin?'block':'none';
+	field.style.display=showLogin?'none':'block';
 })
 
 
