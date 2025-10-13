@@ -36,15 +36,14 @@ registerfields.forEach(field=>{
 	if(field)
 	field.style.display=showLogin?'none':'block';
 })
-
-
-
-if(registerbtn){
 	registerbtn.addEventListener('click',function(e){
 		e.preventDefault();
+		togglefields(false);
 		registerbtn.style.backgroundColor='#0d55e7';
 		registerbtn.style.color='white';
-		disableloginbtn();
-	})
-}
+		loginbtn.style.backgroundColor='#aeaeae';
+		loginbtn.style.color='white';
+	});
+
+	
 })
