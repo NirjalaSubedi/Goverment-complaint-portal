@@ -24,14 +24,21 @@ const registerfields=[
 	document.getElementById('citizenshipnumber'),
 	document.getElementById('confirmPassword'),
 	document.getElementsByClassName('createAccount')[0]
-]
+];
 
-
-function disableloginbtn(){
-	document.getElementsByClassName('email')[0].disabled=true;
-	document.getElementById('email').disabled=true;
-	document.getElementById('password').disabled=true;
+function togglefields(showLogin){
+	loginfields.forEach(field=>{
+		if(field)
+		field.style.display=showLogin?'block':'none';
+	})
 }
+registerfields.forEach(field=>{
+	if(field)
+	field.style.display=showLogin?'none':'block';
+})
+
+
+
 if(registerbtn){
 	registerbtn.addEventListener('click',function(e){
 		e.preventDefault();
