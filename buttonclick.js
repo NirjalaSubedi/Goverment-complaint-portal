@@ -31,11 +31,12 @@ function togglefields(showLogin){
 		if(field)
 		field.style.display=showLogin?'block':'none';
 	})
-}
+
 registerfields.forEach(field=>{
 	if(field)
 	field.style.display=showLogin?'none':'block';
 })
+}
 	registerbtn.addEventListener('click',function(e){
 		e.preventDefault();
 		togglefields(false);
@@ -43,11 +44,12 @@ registerfields.forEach(field=>{
 		registerbtn.style.color='white';
 		loginbtn.style.backgroundColor='#aeaeae';
 		loginbtn.style.color='white';
+		loginbtn.style.border='none';
 	});
 
 	loginbtn.addEventListener('click',function(e){
 		e.preventDefault();
-		togglefields(false);
+		togglefields(true);
 		loginbtn.style.backgroundColor='#0d55e7';
 		loginbtn.style.color='white';
 		registerbtn.style.backgroundColor='#aeaeae';
