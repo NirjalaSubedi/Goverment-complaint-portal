@@ -45,5 +45,13 @@ registerfields.forEach(field=>{
 		loginbtn.style.color='white';
 	});
 
-	
+	loginbtn.addEventListener('click',function(e){
+		e.preventDefault();
+		togglefields(false);
+		loginbtn.style.backgroundColor='#0d55e7';
+		loginbtn.style.color='white';
+		registerbtn.style.backgroundColor='#aeaeae';
+		registerbtn.style.color='white';
+	});
+
 })
