@@ -11,8 +11,20 @@ const loginfields=[
 	document.getElementsByClassName('rememberme')[0],
 	document.getElementsByClassName('signin')[0],
 	document.getElementsByClassName('forgotpassword')[0]
-
 ];
+const registerfields=[
+	document.getElementById('user-type'),
+	document.getElementById('citizen-btn'),
+	document.getElementById('officer-btn'),
+	document.getElementById('fullName'),
+	document.getElementById('phonenumber'),
+	document.getElementById('address'),
+	document.getElementById('department'),
+	document.getElementById('position'),
+	document.getElementById('citizenshipnumber'),
+	document.getElementById('confirmPassword'),
+	document.getElementsByClassName('createAccount')[0]
+]
 
 
 function disableloginbtn(){
