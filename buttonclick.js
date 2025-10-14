@@ -20,6 +20,8 @@ const registerfields=[
 	document.getElementById('fullName'),
 	document.getElementsByClassName('phonenumber')[0],
 	document.getElementById('phonenumber'),
+	document.getElementsByClassName('email1')[0],
+	document.getElementById('email1'),
 	document.getElementsByClassName('address')[0],
 	document.getElementById('address'),
 	document.getElementsByClassName('department')[0],
@@ -28,6 +30,8 @@ const registerfields=[
 	document.getElementById('position'),
 	document.getElementsByClassName('citizenship')[0],
 	document.getElementById('citizenshipNumber'),
+	document.getElementsByClassName('password1')[0],
+	document.getElementById('password1'),
 	document.getElementsByClassName('confirmpassword')[0],
 	document.getElementById('confirmPassword'),
 	document.getElementsByClassName('createAccount')[0]
