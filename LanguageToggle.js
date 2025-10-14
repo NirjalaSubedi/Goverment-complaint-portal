@@ -88,6 +88,10 @@ const Translate={
         createAccount:'Create Account',
         agree:'By continuing, you agree to our',
         tosapp:'Terms of services and Privacy Policy',
+        email:'Email',
+        emailplaceholder:'Enter your email',
+        password:'Password',
+        passwordPlaceholder:'Create a password',
 
 
     },
@@ -179,6 +183,11 @@ const Translate={
         createAccount:'खाता सिर्जना गर्नुहोस्',
         agree:'जारी राखेर, तपाईं हाम्रो सहमत हुनुहुन्छ',
         tosapp:'सेवा सर्तहरू र गोपनीयता नीति',
+        email:'इमेल',
+        emailplaceholder:'आफ्नो इमेल प्रविष्ट गर्नुहोस्',
+        password:'पासवर्ड',
+        passwordPlaceholder:'पासवर्ड सिर्जना गर्नुहोस्',
+        
 
 
     }
@@ -279,6 +288,10 @@ function loginLanguageTranslate(){
     document.getElementById('confirmPassword').placeholder=Translate[currentLanguage].confirmPasswordPlaceholder;
     document.getElementById('agree').innerText=Translate[currentLanguage].agree;
     document.getElementById('tosapp').innerText=Translate[currentLanguage].tosapp;
+    document.getElementsByClassName('password1')[0].innerText=Translate[currentLanguage].password;
+    document.getElementById('password1').placeholder=Translate[currentLanguage].passwordPlaceholder;
+    document.getElementsByClassName('email1')[0].innerText=Translate[currentLanguage].email;
+    document.getElementById('email1').placeholder=Translate[currentLanguage].emailplaceholder;
    
     
 
