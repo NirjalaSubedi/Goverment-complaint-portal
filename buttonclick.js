@@ -35,6 +35,7 @@ const registerfields=[
 ];
 
 function togglefields(showLogin){
+
 	loginfields.forEach(field=>{
 		if(field)
 		field.style.display=showLogin?'block':'none';
