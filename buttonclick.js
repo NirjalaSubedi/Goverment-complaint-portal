@@ -16,14 +16,22 @@ const registerfields=[
 	document.getElementById('user-type'),
 	document.getElementById('citizen-btn'),
 	document.getElementById('officer-btn'),
+	document.getElementsByClassName('fullname')[0],
 	document.getElementById('fullName'),
+	document.getElementsByClassName('phonenumber')[0],
 	document.getElementById('phonenumber'),
+	document.getElementsByClassName('address')[0],
 	document.getElementById('address'),
+	document.getElementsByClassName('department')[0],
 	document.getElementById('department'),
+	document.getElementsByClassName('position')[0],
 	document.getElementById('position'),
-	document.getElementById('citizenshipnumber'),
+	document.getElementsByClassName('citizenship')[0],
+	document.getElementById('citizenshipNumber'),
+	document.getElementsByClassName('confirmpassword')[0],
 	document.getElementById('confirmPassword'),
 	document.getElementsByClassName('createAccount')[0]
+
 ];
 
 function togglefields(showLogin){
@@ -32,10 +40,10 @@ function togglefields(showLogin){
 		field.style.display=showLogin?'block':'none';
 	})
 
-registerfields.forEach(field=>{
+	registerfields.forEach(field=>{
 	if(field)
 	field.style.display=showLogin?'none':'block';
-})
+	})
 }
 	registerbtn.addEventListener('click',function(e){
 		e.preventDefault();
