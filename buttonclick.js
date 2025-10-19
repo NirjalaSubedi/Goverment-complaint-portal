@@ -49,11 +49,6 @@ const officerbtn=document.getElementById('officer-btn');
 
 togglefields(true);
 
-citizenlog.forEach(field=>{
-	if(field)
-	field.style.display='none';
-})
-
 citizenbtn.addEventListener('click',function(e){
 	e.preventDefault();
 	citizenbtn.style.backgroundColor="rgb(18, 177, 18)";
@@ -95,6 +90,11 @@ function togglefields(showLogin){
 		loginbtn.style.backgroundColor='#aeaeae';
 		loginbtn.style.color='white';
 		loginbtn.style.border='none';
+
+		citizenlog.forEach(field=>{
+			if(field)
+			field.style.display='none';
+		})
 	});
 
 	loginbtn.addEventListener('click',function(e){
