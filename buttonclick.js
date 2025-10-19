@@ -38,6 +38,13 @@ const registerfields=[
 
 ];
 
+const citizenlog=[
+	document.getElementsByClassName('department')[0],
+	document.getElementsByClassName('position')[0],
+	document.getElementById('department'),
+	document.getElementById('position')
+]
+
 function togglefields(showLogin){
 
 	loginfields.forEach(field=>{
