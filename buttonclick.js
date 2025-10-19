@@ -44,7 +44,17 @@ const citizenlog=[
 	document.getElementById('department'),
 	document.getElementById('position')
 ]
+const citizenbtn=document.getElementById('citizen-btn');
+const officerbtn=document.getElementById('officer-btn');
 
+citizenbtn.addEventListener('click',function(e){
+	e.preventDefault();
+	citizenlog.forEach(field=>{
+		if(field)
+		field.style.display='none';	
+	})
+
+})
 function togglefields(showLogin){
 
 	loginfields.forEach(field=>{
