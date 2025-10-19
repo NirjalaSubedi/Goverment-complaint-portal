@@ -96,8 +96,8 @@ function togglefields(showLogin){
 			field.style.display='none';
 		})
 	});
-
-	const forgotpassword=document.getElementsByClassName('forgotpassword')[0];
+	document.getElementsByClassName('checkbox-container')[0].style.display='flex';
+	document.getElementsByClassName('forgotpassword')[0].style.textAlign='center';
 	loginbtn.addEventListener('click',function(e){
 		e.preventDefault();
 		togglefields(true);
@@ -105,8 +105,6 @@ function togglefields(showLogin){
 		loginbtn.style.color='white';
 		registerbtn.style.backgroundColor='#aeaeae';
 		registerbtn.style.color='white';
-		forgotpassword.style.textAlign='center';
-
 	});
 
 
