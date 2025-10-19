@@ -55,6 +55,17 @@ citizenbtn.addEventListener('click',function(e){
 	})
 
 })
+
+officerbtn.addEventListener('click',function(e){
+	e.preventDefault();
+	officerbtn.style.backgroundColor="red";
+	citizenbtn.style.backgroundColor="#aeaeae";
+	citizenlog.forEach(field=>{
+		if(field)
+		field.style.display='block';
+	})
+
+})
 function togglefields(showLogin){
 
 	loginfields.forEach(field=>{
