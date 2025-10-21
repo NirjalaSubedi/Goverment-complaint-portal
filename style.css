@@ -498,6 +498,17 @@ button{
     font-weight:550;
     color:#484848;
 }
+.auth-form input{
+    padding:10px;
+    margin-bottom:15px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    font-size:16px;
+}
+.auth-form input:focus{
+    border-color:#0ab74f;
+    outline:none;
+}
 
 
 
