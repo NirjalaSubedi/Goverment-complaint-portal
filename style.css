@@ -509,6 +509,15 @@ button{
     border-color:#0ab74f;
     outline:none;
 }
+.auth-form button{
+    cursor:pointer;
+    background-color:#1558df;
+    border:none;
+    color:white;
+    padding:10px;
+    border-radius:5px;
+    font-weight:600;
+}
 
 
 
