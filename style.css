@@ -488,6 +488,16 @@ button{
     margin: 10px 0 20px;
     color: #666;
 }
+.auth-form{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    text-align:left;
+}
+.auth-form label{
+    font-weight:550;
+    color:#484848;
+}
 
 
 
