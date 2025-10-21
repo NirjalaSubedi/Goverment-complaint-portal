@@ -485,8 +485,9 @@ button{
     color: #333;
 }
 .auth p{
-    margin: 10px 0 20px;
+    margin: 10px 0 10px 0;
     color: #666;
+    text-align: center;
 }
 .auth-form{
     display:flex;
@@ -519,6 +520,20 @@ button{
     font-size:16px;
     font-weight:bold;
 }
+.link-btn{
+    text-decoration: none;
+    color:#666;
+    font-size:16px;
+    text-align: center;
+    margin-bottom:15px;
+}
+.link-btn:hover{
+    text-decoration: underline;
+}
+.resend-btn{
+    color:#1558df
+}
+
 
 
 
