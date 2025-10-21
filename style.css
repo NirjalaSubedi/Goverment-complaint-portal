@@ -470,6 +470,7 @@ button{
     margin: 80px auto;
     padding: 20px;
     text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .logo-auth i{
     font-size: 48px;
@@ -483,6 +484,11 @@ button{
     font-size: 24px;
     color: #333;
 }
+.auth p{
+    margin: 10px 0 20px;
+    color: #666;
+}
+
 
 
 
