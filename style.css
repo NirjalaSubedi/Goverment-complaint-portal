@@ -471,4 +471,18 @@ button{
     padding: 20px;
     text-align: center;
 }
+.logo-auth i{
+    font-size: 48px;
+    color: #077f37;
+    background-color: #92f3b9;
+    padding:10px;
+    border-radius: 50%;
+}
+.auth h3{
+    margin-top: 15px;
+    font-size: 24px;
+    color: #333;
+}
+
+
 
