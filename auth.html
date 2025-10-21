@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Password Auth</title>
+    <title>Password Authentication</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="img/png" href="./logo.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 </head>
 <body>
-    <div class="auth-buttons">
+    <div class="auth">
         <div class="logo-auth">
             <i class="material-icons" id="auth-icon">lock</i>
         </div>
         <h3> Verification Required</h3>
-        <p>Enter the 6-digit code sent to your</p><p id="auth-method">email</p>
+        <p>Enter the 6-digit code sent to your Phone Number</p>
         <label for="verification-code">Verification Code</label>
         <input type="text" id="verification-code" name="verification-code" placeholder="000000" maxlength="6" required>
         <button  type="submit" class="verify-btn"> Verify code</button>
