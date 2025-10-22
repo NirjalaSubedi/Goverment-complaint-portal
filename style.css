@@ -539,6 +539,30 @@ button{
 }
 #notifications-icon{
     color: #0d55e7;
+    font-size:30px;
+}
+#profile-icon{
+    font-size:30px;
+}
+.username{
+    font-weight:600;
+    color:#333;
+
+}
+.role{
+    color:#666;
+}
+.profile-dropdown{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding:10px;
+    border-radius:5px;
+    display:flex;
+    flex-direction: column;
+}
+.dropdown-text{
+    margin:5px 0;
+    color:#333;
+    text-decoration: none;
 }
 
    
