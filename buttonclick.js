@@ -107,7 +107,10 @@ function togglefields(showLogin){
 		registerbtn.style.color='white';
 	});
 
-	
+	document.getElementById('CA').addEventListener('click',function(){
+    window.location.href='auth.html';
+}
+)
 
 
 })
