@@ -533,6 +533,15 @@ button{
 .resend-btn{
     color:#1558df
 }
+.profile-sections{
+    display:flex;
+    gap:10px;
+}
+#notifications-icon{
+    color: #0d55e7;
+}
+
+   
 
 
 
