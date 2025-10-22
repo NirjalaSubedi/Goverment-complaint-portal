@@ -109,8 +109,12 @@ function togglefields(showLogin){
 
 	document.getElementsByClassName('createAccount')[0].addEventListener('click',function(){
     window.location.href='auth.html';
-}
-)
+	})
+
+	const verifybtn=document.getElementsByClassName('verify-btn')[0];
+	const resendbtn=document.getElementsByClassName('resend-btn')[0];
+
+	
 
 
 })
