@@ -567,6 +567,25 @@ button{
     color:#333;
     text-decoration: none;
 }
+.profileicon{
+    cursor: pointer;
+    gap:2000px;
+}
+.logout{
+    margin-top:10px;
+    border-top:1px solid #ccc;
+    padding-top:10px;
+    display:flex;
+    gap:5px;
+}
+.logout a{
+    color:red;
+    margin-top:1px;
+}
+.logout i{
+    color:red;
+    font-size:18px;
+}
 .vertical-navigation{
     margin-top:250px;
 }
