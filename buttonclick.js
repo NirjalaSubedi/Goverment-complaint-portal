@@ -118,3 +118,21 @@ function togglefields(showLogin){
 
 
 })
+
+function dropDownbtn(){
+	dropmenu(fales);
+		const dropdownmenu=document.getElementsByClassName('profile-dropdown')[0];
+		if(dropdownmenu.style.display==='block'){
+			dropdownmenu.style.display='none';
+		}else{
+			dropdownmenu.style.display='block';
+		}
+	function dropmenu(showmenu){
+
+	dropdownmenu.forEach(field=>{
+		if(field)
+		field.style.display=showmenu?'block':'none';
+	})
+}
+
+}
