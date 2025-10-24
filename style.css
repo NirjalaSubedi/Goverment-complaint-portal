@@ -578,7 +578,8 @@ button{
     color:#666;
 }
 .profileicon i{
-    color:#666
+    color:#666;
+    font-size:22px;
 }
 .settings{
     display:flex;
@@ -586,8 +587,12 @@ button{
     margin-bottom:10px;
     color:#666;
 }
+.settings i{
+    font-size:22px;
+}
 .settings a{
     color:#666;
+    margin-top:2px;
 }
 .logout{
     margin-top:10px;
@@ -602,7 +607,7 @@ button{
 }
 .logout i{
     color:red;
-    font-size:18px;
+    font-size:20px;
 }
 .vertical-navigation{
     margin-top:250px;
