@@ -643,6 +643,15 @@ button{
     cursor: pointer;
     color:#1558df;
 }
+.notification-badge{
+    background-color:#b1b0b0;
+    color:#333;
+    font-weight: 600;
+    font-size:12px;
+    padding:4px 8px;
+    border-radius:12px;
+    margin-left: auto;
+}
 
 
 
