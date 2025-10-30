@@ -610,7 +610,6 @@ button{
     font-size:20px;
 }
 
-
 .vertical-navigation{
     position:absolute;
     top:100px;
@@ -622,6 +621,15 @@ button{
     height:100vh;
     width:20%;
 }
+
+.navigation1 p{
+    display:flex;
+    flex-direction: column;
+    gap:20px;
+    font-size:16px;
+    
+}
+
 
    
 
