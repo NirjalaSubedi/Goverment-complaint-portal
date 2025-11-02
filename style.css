@@ -619,4 +619,22 @@ button{
     display:flex;
     gap:10px;
 }
+.myComplaints a{
+    text-decoration: none;
+    font-weight: bold;
+    color:#333;
+    font-size:16px;
+    
+}
+.myComplaints p{
+    background-color: #0ab74f;
+    border-radius: 50%;
+    padding:2px 8px;
+    font-size:14px;
+}
+.myComplaints:hover{
+    background-color: #e7ebf2;
+    color:#1558df
+}
+
 
