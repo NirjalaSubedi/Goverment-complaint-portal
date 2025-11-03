@@ -623,7 +623,7 @@ button{
     
 }
 
-#navigation{
+.navigation{
     color:#494848;
     font-weight: bold;
     margin: 10px 0px;
@@ -675,4 +675,9 @@ button{
     border-radius:5px;
     cursor: pointer;
     color:#1558df;
+}
+.change-color{
+    background-color: #0ab74f;
+    padding:20px;
+    border-radius: 50%;
 }
