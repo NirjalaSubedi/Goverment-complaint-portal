@@ -625,11 +625,15 @@ button{
 
 #navigation{
     color:#494848;
+    font-weight: bold;
+    margin: 10px 0px;
+
 }
 .navigation1{
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    
+    border-bottom: 1px solid #ccc;
 }
 .nav-btn{
    display:flex;
@@ -662,6 +666,9 @@ button{
     display: flex;
     gap: 30px;
     justify-content: space-between;
+}
+.profile{
+    padding-bottom:20px;
 }
 .profile:hover{
     background-color:#f0f1f6;
