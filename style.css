@@ -648,17 +648,24 @@ button{
     font-weight:bold;
 }
 .Navbtn:hover{
-    padding:8px;
-    background-color:#d5defb;
+   
+    background-color:#f0f1f6;
     border-radius:5px;
     cursor: pointer;
     color:#1558df;
 }
 .Navbtn:hover .notification-badge{
-    background-color: pink;
+    background-color:#d5defb;
+    border:#d2d0d0 1px solid;
 }
 .Navbtn{
     display: flex;
     gap: 30px;
     justify-content: space-between;
+}
+.profile:hover{
+    background-color:#f0f1f6;
+    border-radius:5px;
+    cursor: pointer;
+    color:#1558df;
 }
