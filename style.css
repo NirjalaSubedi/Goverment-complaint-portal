@@ -689,7 +689,6 @@ button{
 .dashboard-container{
     margin-left:240px;
     padding:20px;
-    background-color:#ea1111;
     width:100%;
     margin-top:110px;
 }
@@ -710,5 +709,9 @@ button{
     justify-content: space-between;
     align-items: center;
     margin-bottom:20px;
-    background-color: #0ab74f;
+}
+.myComplaintsHeading p{
+    color:#666;
+    margin:5px 0px;
+    
 }
