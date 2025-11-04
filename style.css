@@ -686,7 +686,10 @@ button{
     gap:20px;
     justify-content: space-between;
 }
-.main-container{
-    margin-left:220px;
+.dashboard-container{
+    margin-left:240px;
     padding:20px;
+    background-color:#ea1111;
+    width:100%;
+    margin-top:110px;
 }
