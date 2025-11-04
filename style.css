@@ -730,7 +730,24 @@ button{
     justify-content: space-between;
     gap:20px;
     border: 1px solid #ccc;
-    padding: 10px;
+    padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
+}
+#documentblue{
+    background-color:rgb(69, 69, 250);
+    color:white;
+    padding: 10px;
+    border-radius:5px;
+    margin-top:10px;
+    text-align: center;
+    
+}
+#assestimeYellow{
+    background-color:rgb(247, 167, 9);
+    color:white;
+    padding: 10px;
+    border-radius:5px;
+    margin-top:10px;
+    text-align: center;
 }
