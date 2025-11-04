@@ -681,3 +681,12 @@ button{
     padding:8px;
     border-radius: 50%;
 }
+.main-divider{
+    display:flex;
+    gap:20px;
+    justify-content: space-between;
+}
+.main-container{
+    margin-left:220px;
+    padding:20px;
+}
