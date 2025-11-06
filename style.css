@@ -870,13 +870,13 @@ table th{
 }
 .empty{
    background-color: #0ab74f;
-   padding: 8px;
+   padding: 6px;
    border-radius:50%;
    text-align: center;
 }
 .complaintPriority .empty{
-    width:10px;
-    height:10px;
+    width:5px;
+    height:5px;
 }
 .complaintPriority{
     display: flex;
