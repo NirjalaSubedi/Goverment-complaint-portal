@@ -894,4 +894,8 @@ table th{
     cursor: pointer;
     font-size:14px;
 }
+.waterDrop{
+    color:#0d55e7;
+    background-color: #cbdcfd;
+}
 
