@@ -824,3 +824,11 @@ button{
 .ComplaintDetails{
     padding:10px;
 }
+
+
+
+
+.testTable tr,th,td{
+    width:100%;
+    border:1px solid #ccc;
+}
