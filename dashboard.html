@@ -221,6 +221,7 @@
                 <div class="myComplaintsHeading1">
                     <h4 class="myComplaintsText1" style="font-size:18px;">myComplaints</h>
                 </div>
+            
             <div class="ComplaintDashboard">
                 <div class="ComplaintHeader">
                     <p class="complaintText011">COMPLAINT</p>
@@ -269,6 +270,50 @@
                     </div>
                 </div>
             </div>
+
+
+
+            <table>
+                <tr>
+                    <th>COMPLAINT</th>
+                    <th>STATUS</th>
+                    <th>PRIORITY</th>
+                    <th>DATE</th>
+                    <th>ACTIONS</th>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="combine-logo-title">
+                            <div class="ComplaintIcon">
+                                <i class="material-icons location">location_on</i>
+                            </div>
+
+                            <div class="complaintTitleDetails">
+                                <div class="complaintTitle">
+                                    <p class="complaintTitleText">Road Damage - itahari</p>
+                                    <i class="material-icons" style="font-weight:100; color:#bcb9b9">attachment</i>
+                                </div>
+                                <p id="complaintID">ID:C001</p>
+                                <p id="ComplaintAddress">Itahari,Sunsari</p>
+                            </div>
+
+                        </div>
+                    </td>
+                    <td><p class="statusPending">Pending</p></td>
+                    <td><p class="priorityHigh">High</p></td>
+                    <td><p>2024-06-15</p></td>
+                    <td>
+                        <button class="viewDetailsBtn" onclick="viewDetails()">View Details</button>
+                        <i class="material-icons editIcon" onclick="editComplaint()">edit</i>
+                        <i class="material-icons deleteIcon" onclick="deleteComplaint()">delete</i>
+                    </td>
+                </tr>
+            </table>
+
+
+
+
         </div>
 
     </div>
