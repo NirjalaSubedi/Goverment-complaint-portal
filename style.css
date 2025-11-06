@@ -780,3 +780,10 @@ button{
 .complaintsee h2{
     margin-bottom:8px;
 }
+.MainBox{
+    margin-top:20px;
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+}
