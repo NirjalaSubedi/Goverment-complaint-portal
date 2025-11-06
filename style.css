@@ -831,4 +831,19 @@ button{
 .testTable tr,th,td{
     width:100%;
     border:1px solid #ccc;
+    border-collapse: collapse;
+}
+.ComplaintHeader1 th{
+    padding:10px;
+    text-align: left;
+    font-weight:600;
+    color:#828080;
+     background-color:#e6e3e3;
+    font-size:14px;
+}
+.combine-logo-title{
+    padding: 20px;
+    display:flex;
+    gap:10px;
+    align-items: center;
 }
