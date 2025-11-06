@@ -898,4 +898,9 @@ table th{
     color:#0d55e7;
     background-color: #cbdcfd;
 }
+.heading003{
+    display:flex;
+    justify-content: space-between;
+    
+}
 
