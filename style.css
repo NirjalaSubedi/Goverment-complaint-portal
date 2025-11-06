@@ -874,4 +874,13 @@ button{
     padding:20px;
     margin-top:20px;
 }
+.viewDetailsBtn{
+    background-color:#3373f4;
+    color:white;
+    border:none;
+    padding:6px 8px;
+    border-radius:5px;
+    cursor: pointer;
+    font-size:14px;
+}
 
