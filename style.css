@@ -847,3 +847,9 @@ button{
     gap:10px;
     align-items: center;
 }
+.statusPending{
+    color:rgb(87, 50, 4);
+    background-color: rgb(255, 223, 173);
+    border-radius:5px;
+    padding:5px;
+}
