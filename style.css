@@ -869,7 +869,7 @@ table th{
     width:50%;
 }
 .empty{
-   background-color: #0ab74f;
+   background-color:red;
    padding: 6px;
    border-radius:50%;
    text-align: center;
