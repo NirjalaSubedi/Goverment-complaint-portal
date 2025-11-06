@@ -785,5 +785,9 @@ button{
     width:100%;
     display: flex;
     flex-direction: column;
-    gap:20px;
+    gap:10px;
+}
+.complaintText011{
+    font-size:14px;
+    color:#474747;
 }
