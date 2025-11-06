@@ -860,6 +860,18 @@ button{
 }
 .empty{
    background-color: #0ab74f;
-   padding: 8px 12px;
-   border-radius:5px;
+   padding: 8px;
+   border-radius:50%;
 }
+.complaintPriority .empty{
+    width:10px;
+    height:10px;
+}
+.complaintPriority{
+    display: flex;
+    align-items: center;
+    gap:5px;
+    padding:20px;
+    margin-top:20px;
+}
+
