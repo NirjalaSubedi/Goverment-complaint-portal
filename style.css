@@ -783,8 +783,7 @@ button{
 .MainBox{
     margin-top:20px;
     width:100%;
-    display: flex;
-    flex-direction: column;
+   
     gap:10px;
     border:#eae6e6 1px solid;
     border-radius:5px;
@@ -823,6 +822,9 @@ button{
 }
 .ComplaintDetails{
     padding:10px;
+    display:flex;
+    justify-content: space-between;
+    flex-direction: row;
 }
 
 
@@ -852,4 +854,9 @@ button{
     background-color: rgb(255, 223, 173);
     border-radius:5px;
     padding:5px;
+}
+.empty{
+   background-color: #0ab74f;
+   padding: 8px 12px;
+   border-radius:5px;
 }
