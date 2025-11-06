@@ -812,3 +812,15 @@ button{
     padding:5px;
 
 }
+.complaintTitle{
+    display:flex;
+    gap:10px;
+    align-items: center;
+}
+.complaintTitle p{
+    font-size:16px;
+    font-weight:600;
+}
+.ComplaintDetails{
+    padding:10px;
+}
