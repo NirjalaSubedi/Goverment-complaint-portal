@@ -786,8 +786,22 @@ button{
     display: flex;
     flex-direction: column;
     gap:10px;
+    border:#333 1px solid;
+    border-radius:5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding-bottom: 20px;
+    padding-top:20px;
 }
 .complaintText011{
     font-size:14px;
     color:#474747;
+}
+.myComplaintsHeading1{
+    padding-left:10px;
+}
+.ComplaintHeader{
+    display:flex;
+    justify-content: space-between;
+    padding:10px 20px;
+    background-color: #edeef0;
 }
