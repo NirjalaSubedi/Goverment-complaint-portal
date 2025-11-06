@@ -822,9 +822,12 @@ button{
 }
 .ComplaintDetails{
     padding:10px;
+}
+.ComplaintType{
     display:flex;
-    justify-content: space-between;
-    flex-direction: row;
+    gap:20px;
+    align-items: center;
+    margin-bottom:8px;
 }
 
 
@@ -838,9 +841,9 @@ button{
 .ComplaintHeader1 th{
     padding:10px;
     text-align: left;
-    font-weight:600;
-    color:#828080;
-     background-color:#e6e3e3;
+    font-weight:100;
+    color:#474747;
+    background-color:#edeef0;
     font-size:14px;
 }
 .combine-logo-title{
