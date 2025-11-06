@@ -786,7 +786,7 @@ button{
     display: flex;
     flex-direction: column;
     gap:10px;
-    border:#333 1px solid;
+    border:#eae6e6 1px solid;
     border-radius:5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding-bottom: 20px;
@@ -804,4 +804,11 @@ button{
     justify-content: space-between;
     padding:10px 20px;
     background-color: #edeef0;
+}
+.location{
+    color:rgb(254, 4, 4);
+    background-color: rgb(249, 184, 161);
+    border-radius:5px;
+    padding:5px;
+
 }
