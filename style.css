@@ -783,7 +783,6 @@ button{
 .MainBox{
     margin-top:20px;
     width:100%;
-   
     gap:10px;
     border:#eae6e6 1px solid;
     border-radius:5px;
@@ -808,7 +807,7 @@ button{
     color:rgb(254, 4, 4);
     background-color: rgb(249, 184, 161);
     border-radius:5px;
-    padding:5px;
+    padding:8px;
 
 }
 .complaintTitle{
@@ -832,11 +831,21 @@ button{
 
 
 
-
-.testTable tr,th,td{
+table {
+  border-collapse: collapse; 
+  border-spacing: 0;         
+  width: 100%;
+}
+table th{
+    text-align: center;
+}
+.ComplaintHeader1{
     width:100%;
-    border:1px solid #ccc;
-    border-collapse: collapse;
+    border-bottom: 2px solid #ccc;
+}
+.testTable tr,th,td{
+   
+    border:none;
 }
 .ComplaintHeader1 th{
     padding:10px;
@@ -856,12 +865,14 @@ button{
     color:rgb(87, 50, 4);
     background-color: rgb(255, 223, 173);
     border-radius:5px;
-    padding:5px;
+    padding:0;
+    width:50%;
 }
 .empty{
    background-color: #0ab74f;
    padding: 8px;
    border-radius:50%;
+   text-align: center;
 }
 .complaintPriority .empty{
     width:10px;
