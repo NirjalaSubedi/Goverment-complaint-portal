@@ -92,6 +92,9 @@ const Translate={
         emailplaceholder:'Enter your email',
         password:'Password',
         passwordPlaceholder:'Create a password',
+        username:'username',
+        citizen:'citizen',
+        officer:'officer'
 
 
     },
@@ -187,6 +190,9 @@ const Translate={
         emailplaceholder:'आफ्नो इमेल प्रविष्ट गर्नुहोस्',
         password:'पासवर्ड',
         passwordPlaceholder:'पासवर्ड सिर्जना गर्नुहोस्',
+        username:'प्रयोगकर्ता नाम',
+        citizen:'नागरिक',
+        officer:'अधिकारी'
         
 
 
