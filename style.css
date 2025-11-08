@@ -1014,5 +1014,12 @@ textarea:focus{
     padding:0px;
     margin:0px;
 }
+#addComplaints{
+    cursor: pointer;
+}
+#addComplaints a{
+    text-decoration: none;
+    color:black;
+}
 
 
