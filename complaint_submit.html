@@ -35,12 +35,14 @@
             <label for="location">Location*</label>
             <input type="text" id="location" name="location" placeholder="Enter the Location of the Issue" required>
             <label for="priorityLevel">Priority Level</label>
-            <input type="radio" id="high" name="priorityLevel" value="high">
-            <label for="high">High</label>
-            <input type="radio" id="medium" name="priorityLevel" value="medium">
-            <label for="medium">Medium</label>
-            <input type="radio" id="low" name="priorityLevel" value="low">
-            <label for="low">Low</label>
+            <div class="priority-level">
+                <input type="radio" id="high" name="priorityLevel" value="high">
+                <label for="high">High</label>
+                <input type="radio" id="medium" name="priorityLevel" value="medium">
+                <label for="medium">Medium</label>
+                <input type="radio" id="low" name="priorityLevel" value="low">
+                <label for="low">Low</label>
+            </div>
             <label for="description">Description*</label>
             <textarea id="description" name="description" placeholder="Provide a detailed description of your issue" required></textarea>
             <label for="attachment">Attachment</label>
@@ -49,8 +51,6 @@
             <button type="button"class="cancle-btn">Cancel</button>
             <button type="submit" class="submit-btn1">Submit</button>
             </div>
-
-            
         </form>
     </div>
 </body>
