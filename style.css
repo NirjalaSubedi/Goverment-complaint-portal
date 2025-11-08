@@ -1005,6 +1005,14 @@ textarea:focus{
     outline:none;
     box-shadow:0 0 5px rgba(13, 85, 231, 0.5);
 }
-
+.complaint-form input[type="file"]{
+    padding:10px 0;
+    cursor: pointer;
+}
+.complaint-form input[type="radio"]{
+    cursor: pointer;
+    padding:0px;
+    margin:0px;
+}
 
 
