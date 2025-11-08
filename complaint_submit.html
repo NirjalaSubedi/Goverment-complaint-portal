@@ -12,9 +12,34 @@
                 <i class="material-icons">arrow_back</i>
             </div>
             <div class="title-text">
-                <h2>Submit a Complaint</h2>
+                <h2>title</h2>
+                <p>Provide detailed information about your issue</p>
             </div>
         </div>
+        <form action="#" class="complaint-form">
+            <label for="complaint-type">ComplaintType*</label>
+            <select id="complaint-type" name="complaint-type" required>
+                <option value="" disabled selected>Select Complaint Type</option>
+                <option value="corruption">Corruption</option>
+                <option value="roaddamage">roadDamage</option>
+                <option value="waterSupply">waterSupply</option>
+                <option value="electricity">Electricity</option>
+                <option value="HealthCare">HealthCare</option>
+                <option value="other">Other</option>
+            </select>
+            <label for="subject">Subject*</label>
+            <input type="text" id="subject" name="subject" placeholder="Brief Subject of your Complaint" required>
+            <label for="description">Description*</label>
+            <textarea id="description" name="description" placeholder="Provide a detailed description of your issue" required></textarea>
+            <label for="attachment">Attachment</label>
+            <input type="file" id="attachment" name="attachment" accept="image/*,application/pdf">
+            <div class="double-btn">
+            <button type="button"class="cancle-btn">Cancel</button>
+            <button type="submit" class="submit-btn">Submit</button>
+            </div>
+
+            
+        </form>
     </div>
 </body>
 </html>
