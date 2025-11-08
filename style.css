@@ -937,7 +937,7 @@ table th{
     color:#484848;
     cursor: pointer;
 }
-.complaint-form input, .complaint-form select{
+ .complaint-form select{
     padding:10px;
     border:1px solid #ccc;
     border-radius:5px;
@@ -992,5 +992,19 @@ textarea:focus{
     outline:none;
     box-shadow:0 0 5px rgba(13, 85, 231, 0.5);
 }
+.complaint-form input[type="text"]{
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    font-size:16px;
+    width:100%;
+    cursor: pointer;
+}
+.complaint-form input[type="text"]:focus{
+    border-color:#286cf3;
+    outline:none;
+    box-shadow:0 0 5px rgba(13, 85, 231, 0.5);
+}
+
 
 
