@@ -275,6 +275,20 @@ function LanguageTranslate(){
     document.getElementsByClassName('desc')[22].innerText=Translate[currentLanguage].privacy;
     document.getElementsByClassName('desc')[23].innerText=Translate[currentLanguage].terms;
     document.getElementsByClassName('desc')[24].innerText=Translate[currentLanguage].contactus;
+
+
+    document.getElementsByClassName('role')[0].innerText=Translate[currentLanguage].citizen;
+     document.getElementsByClassName('role')[1].innerText=Translate[currentLanguage].officer;
+     document.getElementsByClassName('navigation')[1].innerText=Translate[currentLanguage].NAVIGATION;
+     document.getElementsByClassName('myComplaints')[0].innerText=Translate[currentLanguage].mycomplaints;
+     document.getElementsByClassName('myFavorites')[0].innerText=Translate[currentLanguage].favorites;
+     document.getElementsByClassName('myDrafts')[0].innerText=Translate[currentLanguage].drafts;
+     document.getElementsByClassName('quickActionsHeading')[0].innerText=Translate[currentLanguage].Quickactions;
+     document.getElementsByClassName('newComplaintText')[0].innerText=Translate[currentLanguage].submitnew;
+     document.getElementsByClassName('uploadFileText')[0].innerText=Translate[currentLanguage].Uploadfile;
+     document.getElementsByClassName('searchText')[0].placeholder=Translate[currentLanguage].search;
+
+
 }
 
 function loginLanguageTranslate(){
