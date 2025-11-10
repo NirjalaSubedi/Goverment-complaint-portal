@@ -108,10 +108,6 @@ const Translate={
         search:'search complaints'
 
 
-
-
-
-
     },
     'ne':{
         languageToggle:'English',
@@ -206,7 +202,19 @@ const Translate={
         password:'पासवर्ड',
         passwordPlaceholder:'पासवर्ड सिर्जना गर्नुहोस्',
         citizen:'नागरिक',
-        officer:'अधिकारी'
+        officer:'अधिकारी',
+        profile:'प्रोफाइल',
+        settings:'सेटिङहरू',
+        logout:'लगआउट',
+        NAVIGATION:'नेभिगेसन',
+        description:'विवरण',
+        mycomplaints:'मेरो उजुरीहरू',
+        favorites:'मनपर्नेहरू',
+        drafts:'मसौदाहरू',
+        Quickactions:'छिटो कार्यहरू',
+        submitnew:'नयाँ उजुरी',
+        Uploadfile:'फाइल अपलोड गर्नुहोस्',
+        search:'उजुरीहरू खोज्नुहोस्'
         
 
 
