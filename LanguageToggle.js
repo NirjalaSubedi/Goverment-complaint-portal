@@ -92,9 +92,24 @@ const Translate={
         emailplaceholder:'Enter your email',
         password:'Password',
         passwordPlaceholder:'Create a password',
-        username:'username',
         citizen:'citizen',
-        officer:'officer'
+        officer:'officer',
+        profile:'profile',
+        settings:'settings',
+        logout:'logout',
+        NAVIGATION:'NAVIGATION',
+        description:'description',
+        mycomplaints:'myComplaints',
+        favorites:'favorites',
+        drafts:'drafts',
+        Quickactions:'Quick actions',
+        submitnew:'New complaint',
+        Uploadfile:'Upload file',
+        search:'search complaints'
+
+
+
+
 
 
     },
@@ -190,7 +205,6 @@ const Translate={
         emailplaceholder:'आफ्नो इमेल प्रविष्ट गर्नुहोस्',
         password:'पासवर्ड',
         passwordPlaceholder:'पासवर्ड सिर्जना गर्नुहोस्',
-        username:'प्रयोगकर्ता नाम',
         citizen:'नागरिक',
         officer:'अधिकारी'
         
