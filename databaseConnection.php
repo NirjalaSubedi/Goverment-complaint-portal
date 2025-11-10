@@ -1,12 +1,13 @@
 <?php
-$host = "localhost";    
-$user = "root";          
-$password = "";       
-$dbname = "goverment_complaint_portal"; 
+$host = "localhost";
+$user = "root";
+$password = "";
+$dbname = "goverment_complaint_portal";
+
+// Database connection
 $conn = mysqli_connect($host, $user, $password, $dbname);
-if ($conn) {
-    echo "(Connection successful)";
-} else {
-    echo "error";
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
 }
 ?>
