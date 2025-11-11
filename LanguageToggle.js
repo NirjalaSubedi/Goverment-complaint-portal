@@ -280,7 +280,7 @@ function LanguageTranslate(){
     document.getElementsByClassName('role')[0].innerText=Translate[currentLanguage].citizen;
      document.getElementsByClassName('role')[1].innerText=Translate[currentLanguage].officer;
      document.getElementsByClassName('navigation')[1].innerText=Translate[currentLanguage].NAVIGATION;
-     document.getElementsByClassName('myComplaints')[0].innerText=Translate[currentLanguage].mycomplaints;
+     document.getElementsByClassName('myComplaints')[0].innerText=Translate[currentLanguage].myComplaints;
      document.getElementsByClassName('myFavorites')[0].innerText=Translate[currentLanguage].favorites;
      document.getElementsByClassName('myDrafts')[0].innerText=Translate[currentLanguage].drafts;
      document.getElementsByClassName('quickActionsHeading')[0].innerText=Translate[currentLanguage].Quickactions;

@@ -347,6 +347,8 @@
     let currentLanguage = 'en';
     const Translate={
         'en':{
+            'title':'Goverment Complaint Portal',
+            'languageToggle': 'नेपाली',
             'myComplaints':'myComplaints',
             'Favorites':'Favorites',
             'Drafts':'Drafts',
@@ -372,6 +374,8 @@
             'ACTIONS':'ACTIONS',
             'View Details':'View Details'
         },'ne':{
+            'title':'सरकारी उजुरी पोर्टल',
+            'languageToggle': 'English',
             'myComplaints':'मेरो उजुरीहरू',
             'Favorites':'मनपर्नेहरू',
             'Drafts':'मसौदाहरू',
@@ -399,7 +403,14 @@
         }
 
     }
+    function LanguageTranslate(){
+        currentLanguage=currentLanguage==='en'?'ne':'en';
+    document.getElementById('language-toggle').innerHTML = `<i class="material-icons">language</i> ${Translate[currentLanguage].languageToggle}`;
+    document.getElementsByClassName('Heading1')[0].innerText=Translate[currentLanguage].title;
+    document.getElementsByClassName('myComplaints')[0].innerText=Translate[currentLanguage].myComplaints;
+    }
    </script>
     <script src="buttonclick.js"></script>
+    <script src="LanguageToggle.js"></script>
 </body>
 </html>
