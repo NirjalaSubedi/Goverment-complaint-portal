@@ -349,6 +349,8 @@
         'en':{
             'title':'Goverment Complaint Portal',
             'languageToggle': 'नेपाली',
+            'citizen':'Citizen',
+            'officer':'Officer',
             'myComplaints':'myComplaints',
             'Favorites':'Favorites',
             'Drafts':'Drafts',
@@ -408,9 +410,34 @@
     document.getElementById('language-toggle').innerHTML = `<i class="material-icons">language</i> ${Translate[currentLanguage].languageToggle}`;
     document.getElementsByClassName('Heading1')[0].innerText=Translate[currentLanguage].title;
     document.getElementsByClassName('myComplaints')[0].innerText=Translate[currentLanguage].myComplaints;
-    }
+    document.getElementsByClassName('myFavorites')[0].innerText=Translate[currentLanguage].Favorites;
+    document.getElementsByClassName('myDrafts')[0].innerText=Translate[currentLanguage].Drafts;
+    document.getElementsByClassName('myProfile')[0].innerText=Translate[currentLanguage].Profile;
+    document.getElementsByClassName('quickActionsHeading')[0].innerText=Translate[currentLanguage]['Quick Actions'];
+    document.getElementsByClassName('newComplaintText')[0].innerText=Translate[currentLanguage]['New Complaint'];
+    document.getElementsByClassName('uploadFileText')[0].innerText=Translate[currentLanguage]['Upload File'];
+    document.getElementsByClassName('searchText')[0].innerText=Translate[currentLanguage]['Search'];
+    document.getElementsByClassName('myComplaintsText')[0].innerText=Translate[currentLanguage]['Track and manage yoursubmitted complaints'];
+    document.getElementsByClassName('boldColor')[0].innerText=Translate[currentLanguage]['Total Complaints'];
+    document.getElementsByClassName('lightColor')[0].innerText=Translate[currentLanguage]['Submitted'];
+    document.getElementsByClassName('boldColor')[1].innerText=Translate[currentLanguage]['pending'];
+    document.getElementsByClassName('lightColor')[1].innerText=Translate[currentLanguage]['Awaiting response'];
+    document.getElementsByClassName('boldColor')[2].innerText=Translate[currentLanguage]['inProgress'];
+    document.getElementsByClassName('lightColor')[2].innerText=Translate[currentLanguage]['Being Processed'];
+    document.getElementsByClassName('boldColor')[3].innerText=Translate[currentLanguage]['completed'];
+    document.getElementsByClassName('lightColor')[3].innerText=Translate[currentLanguage]['Success resolved '];
+    document.getElementsByClassName('sortText')[0].innerText=Translate[currentLanguage]['Sort'];
+    document.getElementsByClassName('ComplaintHeader1')[0].children[0].innerText=Translate[currentLanguage]['COMPLAINT'];
+    document.getElementsByClassName('ComplaintHeader1')[0].children[1].innerText=Translate[currentLanguage]['STATUS'];
+    document.getElementsByClassName('ComplaintHeader1')[0].children[2].innerText=Translate[currentLanguage]['PRIORITY'];
+    document.getElementsByClassName('ComplaintHeader1')[0].children[3].innerText=Translate[currentLanguage]['DATE'];
+    document.getElementsByClassName('ComplaintHeader1')[0].children[4].innerText=Translate[currentLanguage]['ACTIONS'];
+   document.querySelectorAll('.viewDetailsBtn').forEach(btn=>{
+    btn.innerText=Translate[currentLanguage]['View Details'];
+   });
+}
    </script>
     <script src="buttonclick.js"></script>
-    <script src="LanguageToggle.js"></script>
+    
 </body>
 </html>
