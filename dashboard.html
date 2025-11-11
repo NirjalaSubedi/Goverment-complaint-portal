@@ -64,7 +64,7 @@
 <div class="main-divider">
     <div class="vertical-navigation">
         <div class="navigation1">
-            <p class="navigation">NAVIGATION</p>
+            <p class="navigation" id="nav00">NAVIGATION</p>
 
                 <div class="Complaints Navbtn">
                     <div class="nav-btn">
@@ -351,7 +351,7 @@
             'languageToggle': 'नेपाली',
             'citizen':'Citizen',
             'officer':'Officer',
-            'NAVIGATION':'NAVIGATION',
+            'nav':'NAVIGATION',
             'myComplaints':'myComplaints',
             'Favorites':'Favorites',
             'Drafts':'Drafts',
@@ -381,7 +381,7 @@
             'languageToggle': 'English',
             'citizen':'नागरिक',
             'officer':'अधिकारी',
-            'NAVIGATION':'नेभिगेसन',
+            'Nav':'नेभिगेसन',
             'myComplaints':'मेरो उजुरीहरू',
             'Favorites':'मनपर्नेहरू',
             'Drafts':'मसौदाहरू',
@@ -413,6 +413,8 @@
         currentLanguage=currentLanguage==='en'?'ne':'en';
     document.getElementById('language-toggle').innerHTML = `<i class="material-icons">language</i> ${Translate[currentLanguage].languageToggle}`;
     document.getElementsByClassName('Heading1')[0].innerText=Translate[currentLanguage].title;
+    document.getElementsByClassName('role')[0].innerText=Translate[currentLanguage].citizen;
+    document.getElementById('nav00').innerText=Translate[currentLanguage].Nav;
     document.getElementsByClassName('myComplaints')[0].innerText=Translate[currentLanguage].myComplaints;
     document.getElementsByClassName('myFavorites')[0].innerText=Translate[currentLanguage].Favorites;
     document.getElementsByClassName('myDrafts')[0].innerText=Translate[currentLanguage].Drafts;
