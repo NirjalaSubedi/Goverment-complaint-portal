@@ -410,7 +410,7 @@
 
     }
     function LanguageTranslate(){
-        currentLanguage=currentLanguage==='en'?'ne':'en';
+    currentLanguage=currentLanguage==='en'?'ne':'en';
     document.getElementById('language-toggle').innerHTML = `<i class="material-icons">language</i> ${Translate[currentLanguage].languageToggle}`;
     document.getElementsByClassName('Heading1')[0].innerText=Translate[currentLanguage].title;
     document.getElementsByClassName('role')[0].innerText=Translate[currentLanguage].citizen;

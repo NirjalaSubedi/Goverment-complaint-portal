@@ -92,21 +92,6 @@ const Translate={
         emailplaceholder:'Enter your email',
         password:'Password',
         passwordPlaceholder:'Create a password',
-        citizen:'citizen',
-        officer:'officer',
-        profile:'profile',
-        settings:'settings',
-        logout:'logout',
-        NAVIGATION:'NAVIGATION',
-        description:'description',
-        mycomplaints:'myComplaints',
-        favorites:'favorites',
-        drafts:'drafts',
-        Quickactions:'Quick actions',
-        submitnew:'New complaint',
-        Uploadfile:'Upload file',
-        search:'search complaints'
-
 
     },
     'ne':{
@@ -201,21 +186,6 @@ const Translate={
         emailplaceholder:'आफ्नो इमेल प्रविष्ट गर्नुहोस्',
         password:'पासवर्ड',
         passwordPlaceholder:'पासवर्ड सिर्जना गर्नुहोस्',
-        citizen:'नागरिक',
-        officer:'अधिकारी',
-        profile:'प्रोफाइल',
-        settings:'सेटिङहरू',
-        logout:'लगआउट',
-        NAVIGATION:'नेभिगेसन',
-        description:'विवरण',
-        mycomplaints:'मेरो उजुरीहरू',
-        favorites:'मनपर्नेहरू',
-        drafts:'मसौदाहरू',
-        Quickactions:'छिटो कार्यहरू',
-        submitnew:'नयाँ उजुरी',
-        Uploadfile:'फाइल अपलोड गर्नुहोस्',
-        search:'उजुरीहरू खोज्नुहोस्'
-        
 
 
     }
@@ -275,18 +245,6 @@ function LanguageTranslate(){
     document.getElementsByClassName('desc')[22].innerText=Translate[currentLanguage].privacy;
     document.getElementsByClassName('desc')[23].innerText=Translate[currentLanguage].terms;
     document.getElementsByClassName('desc')[24].innerText=Translate[currentLanguage].contactus;
-
-
-    document.getElementsByClassName('role')[0].innerText=Translate[currentLanguage].citizen;
-     document.getElementsByClassName('role')[1].innerText=Translate[currentLanguage].officer;
-     document.getElementsByClassName('navigation')[1].innerText=Translate[currentLanguage].NAVIGATION;
-     document.getElementsByClassName('myComplaints')[0].innerText=Translate[currentLanguage].myComplaints;
-     document.getElementsByClassName('myFavorites')[0].innerText=Translate[currentLanguage].favorites;
-     document.getElementsByClassName('myDrafts')[0].innerText=Translate[currentLanguage].drafts;
-     document.getElementsByClassName('quickActionsHeading')[0].innerText=Translate[currentLanguage].Quickactions;
-     document.getElementsByClassName('newComplaintText')[0].innerText=Translate[currentLanguage].submitnew;
-     document.getElementsByClassName('uploadFileText')[0].innerText=Translate[currentLanguage].Uploadfile;
-     document.getElementsByClassName('searchText')[0].placeholder=Translate[currentLanguage].search;
 
 
 }
