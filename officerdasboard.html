@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="icon" type="img/png" href="./logo.png">
+    <style>
+        .bg-none{
+            background-color:#f5f5f5;
+        }
+        .Quick-actions{
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container" style="min-height:60px">
+            <div class="sub-container">
+                <div class="logo">
+                <img src="images/logo.png" alt="logo">
+                </div>
+                <div class="title">
+                <h1 class="Heading1">Goverment Complaint Portal</h1>
+                </div>
+            </div>
+            <div class="auth-buttons">
+                <button id="language-toggle" onclick="LanguageTranslate()">
+                    <i class="material-icons">language</i> नेपाली
+                </button>
+               <i class="material-icons" id="notifications-icon">notifications</i>
+                <div class="profile-sections">
+                    <i class="material-icons" id="profile-icon">account_circle</i>
+                    <div class="user-type">
+                    <div class="username">UserName</div>
+                    <div class="role">Citizen</div>
+                    </div>
+                    <div class="dropdown-container">
+                        <i class="material-icons dropIcon" id="dropdown-icon" onclick="dropDownbtn()" >arrow_drop_down</i>
+                        <div class="profile-dropdown">
+                            <div class="profileicon">
+                                <i class="material-icons">person_outline</i>
+                                <a href="#" class="dropdown-text">Profile</a>
+                            </div>
+                            <div class="settings">
+                                <i class="material-icons">settings</i>
+                                <a href="#" class="dropdown-text">Settings</a>
+                            </div>
+                            <div class="logout">
+                                <i class="material-icons">logout</i>
+                                <a href="#" class="dropdown-text">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               </div>
+
+
+            </div>
+    </header>
+<div class="main-divider">
+    <div class="vertical-navigation">
+        <div class="navigation1">
+            <p class="navigation" id="nav00">NAVIGATION</p>
+
+                <div class="Complaints Navbtn">
+                    <div class="nav-btn">
+                        <i class="material-icons">description</i>
+                        <p class="myComplaints">myComplaints</p>
+                    </div>
+                    <div class="notification-badge">3</div>
+                </div>
+                <div class="favorites Navbtn">
+                    <div class="nav-btn">
+                        <i class="material-icons">favorite</i>
+                        <p class="myFavorites">Favorites</p>
+                    </div>
+                    <div class="notification-badge">5</div>
+                </div>
+                <div class="drafts Navbtn">
+                    <div class="nav-btn">
+                    <i class="material-icons">drafts</i>
+                    <p class="myDrafts">Drafts</p>
+                    </div>
+                    <div class="notification-badge">2</div>
+                </div>
+                <div class="profile nav-btn">
+                    <i class="material-icons">account_circle</i>
+                    <p class="myProfile">Profile</p>
+                </div>
+        </div>
+
+       
+        <div class="Quick-actions navigation1">
+            <p class="quickActionsHeading navigation">Quick Actions</p>
+            <div class="actionButtons">
+                <div class="NewComplaint nav-btn" id="addComplaints">
+                    <a class="material-icons" style="color:green" href="complaint_submit.html" >add</a>
+                    <a href="complaint_submit.html"  class="newComplaintText">New Complaint</a>
+                </div>
+                <div class="UploadFile nav-btn">
+                    <i class="material-icons" style="color:rgb(56, 56, 239)">file_upload</i>
+                    <p class="uploadFileText">Upload File</p>
+                </div>
+                <div class="search nav-btn">
+                    <i class="material-icons" style="color:rgb(135, 4, 135)">search</i>
+                    <p class="searchText">Search</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-container">
+        <div class="MainHeading">
+            <div class="myComplaintsHeading">
+                <h2 class="myComplaintsText">myComplaints</h2>
+                <p>Track and manage yoursubmitted complaints</p>
+            </div>
+            <div class="titlebtn">
+                <button class="addtitle" style="font-size: 18px;"><i class="material-icons">add</i>title</button>
+                </button>
+            </div>
+        </div>
+
+        <div class="complaintCards1">
+
+            <div class="complaintsStatement">
+                <div class="complaintsee">
+                    <p class="boldColor">Total Complaints</p>
+                    <h2>5</h2>
+                    <p  class="lightColor">Submitted</p>
+                </div>
+                <div class="statementLogo">
+                    <i class="material-icons" id="documentblue">description</i>
+                </div>
+            </div>
+
+            <div class="complaintsStatement">
+                <div class="complaintsee">
+                    <p class="boldColor">pending</p>
+                    <h2>3</h2>
+                    <p class="lightColor">Awaiting response</p>
+                </div>
+                <div class="statementLogo">
+                    <i class="material-icons" id="assestimeYellow">access_time</i>
+                </div>
+            </div>
+
+            <div class="complaintsStatement">
+                <div class="complaintsee">
+                    <p class="boldColor">inProgress</p>
+                    <h2>1</h2>
+                    <p  class="lightColor">Being Processed</p>
+                </div>
+                <div class="statementLogo">
+                    <i class="material-icons" id="autoreneworange">autorenew</i>
+                </div>
+            </div>
+
+            <div class="complaintsStatement">
+                <div class="complaintsee">
+                    <p class="boldColor"> completed</p>
+                    <h2>1</h2>
+                    <p  class="lightColor">Success resolved </p>
+                </div>
+                <div class="statementLogo">
+                    <i class="material-icons" id="checkgreen">check</i>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="MainBox">
+                <div class="heading003">
+                    <div class="myComplaintsHeading1">
+                        <h4 class="myComplaintsText1" style="font-size:18px;">myComplaints</h>
+                    </div>
+                            <button class="sortBtn"style="margin-bottom:10px" onclick="sortBtnclick()">
+                                <i class="material-icons">sort</i>
+                                <p class="sortText">Sort</p>
+                            </button>
+                    </div>
+
+            <table class="testTable">
+                <tr class="ComplaintHeader1">
+                    <th>COMPLAINT</th>
+                    <th>STATUS</th>
+                    <th>PRIORITY</th>
+                    <th>DATE</th>
+                    <th>ACTIONS</th>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="combine-logo-title">
+                            <div class="ComplaintIcon">
+                                <i class="material-icons location" style="background-color:rgb(248, 221, 211);">location_on</i>
+                            </div>
+
+                            <div class="complaintTitleDetails">
+                                <div class="complaintTitle">
+                                    <p class="complaintTitleText">Road Damage - itahari</p>
+                                    <i class="material-icons" style="font-weight:100; color:#bcb9b9">attachment</i>
+                                </div>
+                                <p id="complaintID">ID:C001</p>
+                                <p id="ComplaintAddress">Itahari,Sunsari</p>
+                            </div>
+
+                        </div>
+                    </td>
+                    <td><p class="statusPending">Pending</p></td>
+                    <td class="complaintPriority">
+                        <div class="empty"></div>
+                        <p class="priorityHigh">High</p>
+                    </td>
+                    <td><p>2025-06-15</p></td>
+                    <td>
+                        <button class="viewDetailsBtn" onclick="viewDetails()">View Details</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="combine-logo-title">
+                            <div class="ComplaintIcon">
+                               
+                                <i class="material-icons location waterDrop">water_drop</i>
+
+                            </div>
+
+                            <div class="complaintTitleDetails">
+                                <div class="complaintTitle">
+                                    <p class="complaintTitleText">Water Supply Issue - Jhumka</p>
+                                    <i class="material-icons" style="font-weight:100; color:#bcb9b9">attachment</i>
+                                </div>
+                                <p id="complaintID">ID:C002</p>
+                                <p id="ComplaintAddress">Jhumka,Sunsari</p>
+                            </div>
+
+                        </div>
+                    </td>
+                    <td><p class=" statusPending statusInProgress" style="background-color: rgb(196, 209, 250); color:rgb(7, 7, 199);width:70%">InProgress</p></td>
+                    <td class="complaintPriority">
+                        <div class="empty" style="background-color:orange;"></div>
+                        <p class="priorityHigh">Medium</p>
+                    </td>
+                    <td><p>2025-07-05</p></td>
+                    <td>
+                        <button class="viewDetailsBtn" onclick="viewDetails()">View Details</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="combine-logo-title">
+                            <div class="ComplaintIcon">
+                               <i class="material-icons location corruptionIcon" style="background-color:rgb(248, 232, 232);">security</i>
+                            </div>
+
+                            <div class="complaintTitleDetails">
+                                <div class="complaintTitle">
+                                    <p class="complaintTitleText">Corruption Report - Inurwa</p>
+                                    <i class="material-icons" style="font-weight:100; color:#bcb9b9">attachment</i>
+                                </div>
+                                <p id="complaintID">ID:C003</p>
+                                <p id="ComplaintAddress">Inurwa,Sunsari</p>
+                            </div>
+
+                        </div>
+                    </td>
+                    <td><p class=" statusPending statusCompleted" style="background-color:rgb(207, 240, 207);color:green; width:70%">Completed</p></td>
+                    <td class="complaintPriority">
+                        <div class="empty"></div>
+                        <p class="priorityHigh">High</p>
+                    </td>
+                    <td><p>2025-08-10</p></td>
+                    <td>
+                        <button class="viewDetailsBtn" onclick="viewDetails()">View Details</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="combine-logo-title">
+                            <div class="ComplaintIcon">
+                               <i class="material-icons location electricityIcon" style="background-color:rgb(245, 232, 135);color:orange">flash_on</i>
+                            </div>
+
+                            <div class="complaintTitleDetails">
+                                <div class="complaintTitle">
+                                    <p class="complaintTitleText">Electricity Problem  - Inurwa</p>
+                                    <i class="material-icons" style="font-weight:100; color:#bcb9b9">attachment</i>
+                                </div>
+                                <p id="complaintID">ID:C004</p>
+                                <p id="ComplaintAddress">Inurwa,Sunsari</p>
+                            </div>
+
+                        </div>
+                    </td>
+                    <td><p class=" statusPending">Pending</p></td>
+                    <td class="complaintPriority">
+                        <div class="empty" style="background-color: rgb(13, 180, 13);"></div>
+                        <p class="priorityLow">Low</p>
+                    </td>
+                    <td><p>2025-11-15</p></td>
+                    <td>
+                        <button class="viewDetailsBtn" onclick="viewDetails()">View Details</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="combine-logo-title">
+                            <div class="ComplaintIcon">
+                               <i class="material-icons location HealthcareIcon" style="background-color: #ecebeb;color:rgb(131, 129, 129)">medical_services</i>
+                            </div>
+
+                            <div class="complaintTitleDetails">
+                                <div class="complaintTitle">
+                                    <p class="complaintTitleText">HealthCare Service Issue</p>
+                                    <i class="material-icons" style="font-weight:100; color:#bcb9b9">attachment</i>
+                                </div>
+                                <p id="complaintID">ID:C005</p>
+                                <p id="ComplaintAddress">Dharan,Nepal</p>
+                            </div>
+
+                        </div>
+                    </td>
+                    <td><p class=" statusPending statusInProgress" style="background-color: rgb(196, 209, 250); color:rgb(7, 7, 199);width:70%">InProgress</p></td>
+                    <td class="complaintPriority">
+                        <div class="empty"></div>
+                        <p class="priorityHigh">High</p>
+                    </td>
+                    <td><p>2025-11-29</p></td>
+                    <td>
+                        <button class="viewDetailsBtn" onclick="viewDetails()">View Details</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+   <script>
+    let currentLanguage = 'en';
+    const Translate={
+        'en':{
+            'title':'Goverment Complaint Portal',
+            'languageToggle': 'नेपाली',
+            'citizen':'Citizen',
+            'officer':'Officer',
+            'nav':'NAVIGATION',
+            'myComplaints':'myComplaints',
+            'Favorites':'Favorites',
+            'Drafts':'Drafts',
+            'Profile':'Profile',
+            'Quick Actions':'Quick Actions',
+            'New Complaint':'New Complaint',
+            'Upload File':'Upload File',
+            'Search':'Search',
+            'Track and manage yoursubmitted complaints':'Track and manage your submitted complaints',
+            'Total Complaints':'Total Complaints',
+            'Submitted':'Submitted',
+            'pending':'pending',
+            'Awaiting response':'Awaiting response',
+            'inProgress':'inProgress',
+            'Being Processed':'Being Processed',
+            'completed':'completed',
+            'Success resolved ':'Success resolved ',
+            'Sort':'Sort',
+            'COMPLAINT':'COMPLAINT',
+            'STATUS':'STATUS',
+            'PRIORITY':'PRIORITY',
+            'DATE':'DATE',
+            'ACTIONS':'ACTIONS',
+            'View Details':'View Details'
+        },'ne':{
+            'title':'सरकारी उजुरी पोर्टल',
+            'languageToggle': 'English',
+            'citizen':'नागरिक',
+            'officer':'अधिकारी',
+            'Nav':'नेभिगेसन',
+            'myComplaints':'मेरो उजुरीहरू',
+            'Favorites':'मनपर्नेहरू',
+            'Drafts':'मसौदाहरू',
+            'Profile':'प्रोफाइल',
+            'Quick Actions':'छिटो कार्यहरू',
+            'New Complaint':'नयाँ उजुरी',
+            'Upload File':'फाइल अपलोड गर्नुहोस्',
+            'Search':'खोजी',
+            'Track and manage yoursubmitted complaints':'आफ्ना पेश गरिएका उजुरीहरू ट्र्याक र व्यवस्थापन गर्नुहोस्',
+            'Total Complaints':'कुल उजुरीहरू',
+            'Submitted':'पेश गरियो',
+            'pending':'प्रतीक्षारत',
+            'Awaiting response':'उत्तरको प्रतीक्षा गर्दै',
+            'inProgress':'प्रगतिको क्रममा',
+            'Being Processed':'प्रक्रियामा छ',
+            'completed':'सम्पन्न भयो',
+            'Success resolved ':'सफलतापूर्वक समाधान भयो ',
+            'Sort':'क्रमबद्ध गर्नुहोस्',
+            'COMPLAINT':'उजुरी',
+            'STATUS':'स्थिति',
+            'PRIORITY':'प्राथमिकता',
+            'DATE':'मिति',
+            'ACTIONS':'कार्यहरू',
+            'View Details':'विवरण हेर्नुहोस्'
+        }
+
+    }
+    function LanguageTranslate(){
+    currentLanguage=currentLanguage==='en'?'ne':'en';
+    document.getElementById('language-toggle').innerHTML = `<i class="material-icons">language</i> ${Translate[currentLanguage].languageToggle}`;
+    document.getElementsByClassName('Heading1')[0].innerText=Translate[currentLanguage].title;
+    document.getElementsByClassName('role')[0].innerText=Translate[currentLanguage].citizen;
+    document.getElementById('nav00').innerText=Translate[currentLanguage].Nav;
+    document.getElementsByClassName('myComplaints')[0].innerText=Translate[currentLanguage].myComplaints;
+    document.getElementsByClassName('myFavorites')[0].innerText=Translate[currentLanguage].Favorites;
+    document.getElementsByClassName('myDrafts')[0].innerText=Translate[currentLanguage].Drafts;
+    document.getElementsByClassName('myProfile')[0].innerText=Translate[currentLanguage].Profile;
+    document.getElementsByClassName('quickActionsHeading')[0].innerText=Translate[currentLanguage]['Quick Actions'];
+    document.getElementsByClassName('newComplaintText')[0].innerText=Translate[currentLanguage]['New Complaint'];
+    document.getElementsByClassName('uploadFileText')[0].innerText=Translate[currentLanguage]['Upload File'];
+    document.getElementsByClassName('searchText')[0].innerText=Translate[currentLanguage]['Search'];
+    document.getElementsByClassName('myComplaintsText')[0].innerText=Translate[currentLanguage]['Track and manage yoursubmitted complaints'];
+    document.getElementsByClassName('boldColor')[0].innerText=Translate[currentLanguage]['Total Complaints'];
+    document.getElementsByClassName('lightColor')[0].innerText=Translate[currentLanguage]['Submitted'];
+    document.getElementsByClassName('boldColor')[1].innerText=Translate[currentLanguage]['pending'];
+    document.getElementsByClassName('lightColor')[1].innerText=Translate[currentLanguage]['Awaiting response'];
+    document.getElementsByClassName('boldColor')[2].innerText=Translate[currentLanguage]['inProgress'];
+    document.getElementsByClassName('lightColor')[2].innerText=Translate[currentLanguage]['Being Processed'];
+    document.getElementsByClassName('boldColor')[3].innerText=Translate[currentLanguage]['completed'];
+    document.getElementsByClassName('lightColor')[3].innerText=Translate[currentLanguage]['Success resolved '];
+    document.getElementsByClassName('sortText')[0].innerText=Translate[currentLanguage]['Sort'];
+    document.getElementsByClassName('ComplaintHeader1')[0].children[0].innerText=Translate[currentLanguage]['COMPLAINT'];
+    document.getElementsByClassName('ComplaintHeader1')[0].children[1].innerText=Translate[currentLanguage]['STATUS'];
+    document.getElementsByClassName('ComplaintHeader1')[0].children[2].innerText=Translate[currentLanguage]['PRIORITY'];
+    document.getElementsByClassName('ComplaintHeader1')[0].children[3].innerText=Translate[currentLanguage]['DATE'];
+    document.getElementsByClassName('ComplaintHeader1')[0].children[4].innerText=Translate[currentLanguage]['ACTIONS'];
+   document.querySelectorAll('.viewDetailsBtn').forEach(btn=>{
+    btn.innerText=Translate[currentLanguage]['View Details'];
+   });
+}
+   </script>
+    <script src="buttonclick.js"></script>
+    
+</body>
+</html>
