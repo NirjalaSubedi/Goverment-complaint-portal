@@ -1,3 +1,6 @@
+<?php 
+include ("./backend/databaseConnection.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,5 +56,6 @@
             </div>
         </form>
     </div>
+    
 </body>
 </html>
