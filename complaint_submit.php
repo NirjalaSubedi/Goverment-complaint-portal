@@ -22,7 +22,7 @@ include ("./backend/databaseConnection.php");
                 <p>Provide detailed information about your issue</p>
             </div>
         </div>
-        <form action="#" class="complaint-form">
+        <form action="#" class="complaint-form" method="POST">
             <label for="complaint-type">ComplaintType*</label>
             <select id="complaint-type" name="complaint-type" required>
                 <option value="" disabled selected>Select Complaint Type</option>
@@ -51,11 +51,17 @@ include ("./backend/databaseConnection.php");
             <label for="attachment">Attachment</label>
             <input type="file" id="attachment" name="attachment" accept="image/*,application/pdf">
             <div class="double-btn">
-            <button type="button"class="cancle-btn">Cancel</button>
-            <button type="submit" class="submit-btn1">Submit</button>
+            <button type="button"class="cancle-btn" value="cancel">Cancel</button>
+            <button type="submit" class="submit-btn1" value="submit">Submit</button>
             </div>
         </form>
     </div>
-    
+
 </body>
 </html>
+
+<?php
+    if($_POST['submit']){
+        
+    }
+ ?>
