@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Details - C001</title>
+    <style>
+        /* Internal CSS Starts Here */
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .top-header {
+            /* नयाँ header, जसमा arrow, title र status छ */
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px; /* ID C001 सँग अलिकति ठाउँ छोड्न */
+        }
+
+        .header-back {
+            font-size: 24px;
+            text-decoration: none;
+            color: #333;
+            margin-right: 15px;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .status-tag {
+            background-color: #e0f7fa; /* Light cyan */
+            color: #00bcd4; /* Cyan */
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .id-c001 {
+            /* ID: C001 लाई छुट्टै लाइनमा देखाउन */
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .main-content {
+            flex: 2; 
+        }
+
+        .sidebar {
+            flex: 1; 
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        h3 {
+            /* Road Damage - Kathmandu को लागि */
+            margin-top: 0;
+            color: #333;
+            font-size: 20px;
+            /* तलको बर्डर हटाइएको छ किनभने इमेजमा छैन */
+            /* border-bottom: 1px solid #eee; */
+            padding-bottom: 0; 
+            margin-bottom: 20px;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .detail-item {
+            flex: 1;
+        }
+
+        .detail-label {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .detail-value .priority-high {
+            color: #e53935; 
+            font-weight: bold;
+        }
+
+        .description-section {
+            margin-top: 15px;
+        }
+
+        .description-text {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .attachments {
+            margin-top: 20px;
+        }
+
+        .attachments .detail-label {
+            margin-bottom: 10px;
+        }
+
+        .attachment-file {
+            display: inline-flex;
+            align-items: center;
+            background-color: #f0f4f7;
+            padding: 8px 15px;
+            border-radius: 6px;
+            margin-right: 10px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .attachment-file small {
+            color: #777;
+            margin-left: 5px;
+        }
+        
+        .download-icon {
+            margin-left: 10px;
+            color: #007bff; 
+        }
+
+        /* Officer Response */
+        .officer-response {
+            margin-top: 20px;
+            border-left: 4px solid #00bcd4; 
+            padding: 15px;
+            background-color: #fff; /* छविमा background सेतो छ */
+            border-radius: 4px;
+        }
+
+        .officer-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .officer-initials {
+            background-color: #007bff; 
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        .officer-details strong {
+            display: block;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .officer-details small {
+            color: #777;
+            font-size: 12px;
+        }
+
+        .officer-text {
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        /* Status Information */
+        .current-status .detail-value {
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Quick Actions */
+        .quick-actions-list button {
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            padding: 10px 0;
+            color: #555;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: color 0.2s;
+        }
+        
+        .quick-actions-list button.report-issue {
+            color: #e53935; 
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="top-header">
+        <a href="#" class="header-back">&leftarrow;</a>
+        <div class="header-title">complaintDetails</div>
+        <div class="status-tag">inProgress</div>
+    </div>
+    <div class="id-c001">ID: C001</div>
+    <div class="container">
+        <div class="main-content">
+            <div class="card">
+                <h3>Road Damage - Kathmandu</h3>
+                
+                <div class="detail-row">
+                    <div class="detail-item">
+                        <div class="detail-label">submittedBy</div>
+                        <div class="detail-value">Ram Sharma</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">submittedOn</div>
+                        <div class="detail-value">2024-01-15</div>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-item">
+                        <div class="detail-label">location</div>
+                        <div class="detail-value">Kathmandu, Nepal</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Priority</div>
+                        <div class="detail-value"><span class="priority-high">🔴 High</span></div>
+                    </div>
+                </div>
+
+                <div class="description-section">
+                    <div class="detail-label">description</div>
+                    <div class="description-text">
+                        There is a large pothole near my house that is causing problems for vehicles. The pothole is approximately 2 meters wide and 1 meter deep. During the rainy season, it fills with water and becomes even more dangerous.
+                    </div>
+                </div>
+
+                <div class="attachments">
+                    <div class="detail-label">attachments</div>
+                    <div style="display: flex;">
+                        <a href="#" class="attachment-file">
+                             <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDdiZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTMgMTcgbC01IDUgLTUgLTUiPjwvcGF0aD48cGF0aCBkPSJNMTggNUgxN0wxMCAxMnYtNyI+PC9wYXRoPjwvc3ZnPg==" alt="File Icon" style="width: 18px; height: 18px; margin-right: 8px;">
+                            <span>pothole_image1.jpg</span>
+                            <small>2.3 MB</small>
+                            <span class="download-icon">↓</span>
+                        </a>
+                        <a href="#" class="attachment-file">
+                             <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDdiZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTMgMTcgbC01IDUgLTUgLTUiPjwvcGF0aD48cGF0aCBkPSJNMTggNUgxN0wxMCAxMnYtNyI+PC9wYXRoPjwvc3ZnPg==" alt="File Icon" style="width: 18px; height: 18px; margin-right: 8px;">
+                            <span>location_map.pdf</span>
+                            <small>1.1 MB</small>
+                            <span class="download-icon">↓</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="officer-response">
+                <div class="officer-info">
+                    <div class="officer-initials">H</div>
+                    <div class="officer-details">
+                        <strong>Hari Prasad</strong>
+                        <small>Roads Department Officer - 2024-01-16 10:30 AM</small>
+                    </div>
+                </div>
+                <p class="officer-text">Your complaint has been received. We will inspect this issue and resolve it soon.</p>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="card">
+                <h3>Status Information</h3>
+                
+                <div class="detail-row current-status">
+                    <div class="detail-item">
+                        <div class="detail-label">Current Status</div>
+                        <div class="detail-value">
+                            <span class="status-tag">inProgress</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-item">
+                        <div class="detail-label">assignedTo</div>
+                        <div class="detail-value">Hari Prasad (Roads Department)</div>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-item">
+                        <div class="detail-label">lastUpdated</div>
+                        <div class="detail-value">2024-01-16</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Quick Actions</h3>
+                <div class="quick-actions-list">
+                    <button onclick="alert('Print Details')">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM1NTUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMyAxNmgxOFYxMkgzWm0wLTloMThWM0gzem0wIDEyVjloMTh2MTJoLTZ2LTJjMC0xLjEtLjktMi0yLTJIOCBjLTEuMSAwLTIgLjktMiAydjIgSDNaIiBmaWxsPSJjdXJyZW50Q29sb3IiLz48L3N2Zz4=" alt="Print Icon" style="margin-right: 10px;">
+                        Print Details
+                    </button>
+                    <button onclick="alert('Share')">
+                         <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM1NTUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48Y2lyY2xlIGN4PSIxOCIgY3k9IjUiIHI9IjMiPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjYgY3k9IjEyIiByPSIzIj48L2NpcmNsZT48Y2lyY2xlIGN4PSIxOCIgY3k9IjE5IiByPSIzIj48L2NpcmNsZT48bGluZSB4MT0iOC41OSIgeTE9IjEzLjUyIiB4Mj0iMTUuNDEiIHkyPSIxNy40OCI+PC9saW5lPjxsaW5lIHgxPSIxNS40MSIgeTE9IjYuNTIiIHgyPSI4LjU5IiB5Mj0iMTAuNDgiPjwvbGluZT48L2NzZyI+PC9zdmc+" alt="Share Icon" style="margin-right: 10px;">
+                        Share
+                    </button>
+                    <button class="report-issue" onclick="alert('Report Issue')">
+                         <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNlNTM5MzUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIxMCI+PC9jaXJjbGU+PHBhdGggZD0iTTEyIDhWMTJtMCA0aDB2MCI+PC9wYXRoPjwvc3ZnPg==" alt="Report Issue Icon" style="margin-right: 10px;">
+                        Report Issue
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
