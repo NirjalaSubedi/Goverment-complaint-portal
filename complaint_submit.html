@@ -1,6 +1,3 @@
-<?php 
-include ("./backend/databaseConnection.php");
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +19,7 @@ include ("./backend/databaseConnection.php");
                 <p>Provide detailed information about your issue</p>
             </div>
         </div>
-        <form action="#" class="complaint-form" method="POST">
+        <form action="./backend/insertdata.php" class="complaint-form" method="POST">
             <label for="complaint-type">ComplaintType*</label>
             <select id="complaint-type" name="complaint-type" required>
                 <option value="" disabled selected>Select Complaint Type</option>
@@ -59,15 +56,3 @@ include ("./backend/databaseConnection.php");
 
 </body>
 </html>
-
-<?php
-    if($_POST['submit']){
-        $complaintType= $_POST['complaint-type'];
-        $subject= $_POST['subject'];
-        $Location= $_POST['location'];
-        $priorityLevel= $_POST['priorityLevel'];
-        $description= $_POST['description'];
-        $attachment= $_POST['attachment'];
-
-    }
- ?>
