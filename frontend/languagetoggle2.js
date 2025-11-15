@@ -30,7 +30,8 @@ let currentLanguage = 'en';
             'DATE':'DATE',
             'ACTIONS':'ACTIONS',
             'View Details':'View Details'
-        },'ne':{
+        },
+        'ne':{
             'title':'सरकारी उजुरी पोर्टल',
             'languageToggle': 'English',
             'citizen':'नागरिक',
@@ -96,3 +97,8 @@ let currentLanguage = 'en';
     btn.innerText=Translate[currentLanguage]['View Details'];
    });
 }
+
+document.getElementsByClassName('addtitle')[0].addEventListener('click',function(){
+    window.location.href='complaint_submit.html';
+
+})
