@@ -96,7 +96,7 @@ button{
   height: 100vh;
   background-image: 
     linear-gradient(to bottom, rgba(10, 25, 47, 0.85), rgba(0, 0, 0, 0.6)), 
-    url('images/singhaDurbar.jpg');
+    url('singhaDurbar.jpg');
   background-size: cover;
   background-position: center;
   color: white;
