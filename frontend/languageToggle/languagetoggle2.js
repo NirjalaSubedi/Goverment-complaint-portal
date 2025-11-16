@@ -28,6 +28,10 @@ let currentLanguage ='en';
             'DATE':'DATE',
             'ACTIONS':'ACTIONS',
             'View Details':'View Details',
+            'title22':'title',
+            'titledesc':'Provide detailed information about your issue here.',
+            'complainttype':'ComplaintType*',
+            
 
         },
         'ne':{
