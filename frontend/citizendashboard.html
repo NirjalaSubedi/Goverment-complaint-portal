@@ -94,10 +94,6 @@
                     <a class="material-icons" style="color:green" href="complaint_submit.html" >add</a>
                     <a href="complaint_submit.html"  class="newComplaintText">New Complaint</a>
                 </div>
-                <div class="UploadFile nav-btn">
-                    <i class="material-icons" style="color:rgb(56, 56, 239)">file_upload</i>
-                    <p class="uploadFileText">Upload File</p>
-                </div>
             </div>
         </div>
     </div>
@@ -106,10 +102,10 @@
         <div class="MainHeading">
             <div class="myComplaintsHeading">
                 <h2 class="myComplaintsText">myComplaints</h2>
-                <p>Track and manage yoursubmitted complaints</p>
+                <p id="complainttopdesc">Track and manage yoursubmitted complaints</p>
             </div>
             <div class="titlebtn">
-                <button class="addtitle" style="font-size: 18px;"><i class="material-icons">add</i>title</button>
+                <button class="addtitle" style="font-size: 18px;"><i class="material-icons" id="add">add</i>Add</button>
                 </button>
             </div>
         </div>
@@ -343,7 +339,7 @@
             </div>
         </div>
         <form action="./backend/insertdata.php" class="complaint-form" method="POST">
-            <label for="complaint-type">ComplaintType*</label>
+            <label for="complaint-type" id="complaint-type">ComplaintType*</label>
             <select id="complaint-type" name="complaint-type" required>
                 <option value="" disabled selected id="selectType">Select Complaint Type</option>
                 <option value="corruption" id="complaintCorruption">Corruption</option>
@@ -355,9 +351,9 @@
             </select>
             <label for="subject" id="subject">Subject*</label>
             <input type="text" id="subjectPlaceholder" name="subject" placeholder="Brief Subject of your Complaint" required>
-            <label for="location">Location*</label>
-            <input type="text" id="location" name="location" placeholder="Enter the Location of the Issue" required>
-            <label for="priorityLevel">Priority Level</label>
+            <label for="location" id="location">Location*</label>
+            <input type="text" id="locationplaceholder" name="location" placeholder="Enter the Location of the Issue" required>
+            <label for="priorityLevel" id="priorityLevel">Priority Level</label>
             <div class="priority-level">
                 <input type="radio" id="high" name="priorityLevel" value="high">
                 <label for="high" style="background-color: rgb(248, 161, 148); color:red; font-weight: 200">High</label>
@@ -366,13 +362,13 @@
                 <input type="radio" id="low" name="priorityLevel" value="low">
                 <label for="low" style="background-color: rgb(199, 245, 177); color:green;font-weight: 200">Low</label>
             </div>
-            <label for="description">Description*</label>
+            <label for="description" id="descriptionlabel">Description*</label>
             <textarea id="description" name="description" placeholder="Provide a detailed description of your issue" required></textarea>
-            <label for="attachment">Attachment</label>
+            <label for="attachment" id="attachmentlabel">Attachment</label>
             <input type="file" id="attachment" name="attachment" accept="image/*,application/pdf">
             <div class="double-btn">
-            <button type="button"class="cancle-btn" value="cancel">Cancel</button>
-            <button type="submit" class="submit-btn1" value="submit">Submit</button>
+            <button type="button"class="cancle-btn" value="cancel" id="cancelBtn">Cancel</button>
+            <button type="submit" class="submit-btn1" value="submit" id="submitbtn1">Submit</button>
             </div>
         </form>
     </div>

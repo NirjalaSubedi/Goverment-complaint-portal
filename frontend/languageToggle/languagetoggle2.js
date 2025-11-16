@@ -11,8 +11,9 @@ let currentLanguage ='en';
             'Profile':'Profile',
             'Quick Actions':'Quick Actions',
             'New Complaint':'New Complaint',
-            'Upload File':'Upload File',
+            'myComplaintsText':'myComplaints',
             'Track and manage yoursubmitted complaints':'Track and manage your submitted complaints',
+            'add':'Add',
             'Total Complaints':'Total Complaints',
             'Submitted':'Submitted',
             'pending':'pending',
@@ -47,6 +48,7 @@ let currentLanguage ='en';
             'medium':'medium',
             'low':'low',
             'description':'Description*',
+            'descriptionPlaceholder':'Provide detailed information about your issue here.',
             'Attachment':'Attachment',
             'cancel':'cancel',
             'submit':'submit',
@@ -67,8 +69,9 @@ let currentLanguage ='en';
             'Profile':'प्रोफाइल',
             'Quick Actions':'छिटो कार्यहरू',
             'New Complaint':'नयाँ उजुरी',
-            'Upload File':'फाइल अपलोड गर्नुहोस्',
+            'myComplaintsText':'मेरो उजुरीहरू',
             'Track and manage yoursubmitted complaints':'आफ्ना पेश गरिएका उजुरीहरू ट्र्याक र व्यवस्थापन गर्नुहोस्',
+            'add':'थप्नुहोस्',
             'Total Complaints':'कुल उजुरीहरू',
             'Submitted':'पेश गरियो',
             'pending':'प्रतीक्षारत',
@@ -103,6 +106,7 @@ let currentLanguage ='en';
             'medium':'मध्यम',
             'low':'तल्लो',
             'description':'विवरण*',
+            'descriptionPlaceholder':'यहाँ आफ्नो समस्याको बारेमा विस्तृत जानकारी प्रदान गर्नुहोस्।',
             'Attachment':'संलग्नक',
             'cancel':'रद्द गर्नुहोस्',
             'submit':'पेश गर्नुहोस्',
@@ -120,8 +124,10 @@ let currentLanguage ='en';
     document.getElementsByClassName('myProfile')[0].innerText=Translate[currentLanguage].Profile;
     document.getElementsByClassName('quickActionsHeading')[0].innerText=Translate[currentLanguage]['Quick Actions'];
     document.getElementsByClassName('newComplaintText')[0].innerText=Translate[currentLanguage]['New Complaint'];
-    document.getElementsByClassName('uploadFileText')[0].innerText=Translate[currentLanguage]['Upload File'];
-    document.getElementsByClassName('myComplaintsText')[0].innerText=Translate[currentLanguage]['Track and manage yoursubmitted complaints'];
+
+    document.getElementsByClassName('myComplaintsText')[0].innerText=Translate[currentLanguage]['myComplaintsText'];
+    document.getElementById('complainttopdesc').innerText=Translate[currentLanguage]['Track and manage yoursubmitted complaints'];
+
     document.getElementsByClassName('boldColor')[0].innerText=Translate[currentLanguage]['Total Complaints'];
     document.getElementsByClassName('lightColor')[0].innerText=Translate[currentLanguage]['Submitted'];
     document.getElementsByClassName('boldColor')[1].innerText=Translate[currentLanguage]['pending'];
@@ -139,4 +145,27 @@ let currentLanguage ='en';
    document.querySelectorAll('.viewDetailsBtn').forEach(btn=>{
     btn.innerText=Translate[currentLanguage]['View Details'];
    });
+    document.getElementById('title22').innerText=Translate[currentLanguage]['title22'];
+    document.getElementById('titledesc').innerText=Translate[currentLanguage]['titledesc'];
+    document.getElementById('complaint-type').innerText=Translate[currentLanguage]['complainttype'];
+    document.getElementById('selectType').innerText=Translate[currentLanguage]['selectType'];
+    document.getElementById('complaintCorruption').innerText=Translate[currentLanguage]['corruption'];
+    document.getElementById('complaintRoaddamage').innerText=Translate[currentLanguage]['roaddamage'];
+    document.getElementById('complaintWaterSupply').innerText=Translate[currentLanguage]['waterSupply'];
+    document.getElementById('complaintElectricity').innerText=Translate[currentLanguage]['electricity'];
+    document.getElementById('complaintHealthCare').innerText=Translate[currentLanguage]['HealthCare'];
+    document.getElementById('complaintOthers').innerText=Translate[currentLanguage]['other'];
+    document.getElementById('subject').innerText=Translate[currentLanguage]['subject'];
+    document.getElementById('subjectPlaceholder').placeholder=Translate[currentLanguage]['subjectPlaceholder'];
+    document.getElementById('location').innerText=Translate[currentLanguage]['location'];
+    document.getElementById('locationplaceholder').placeholder=Translate[currentLanguage]['locationPlaceholder'];
+    document.getElementById('priorityLevel').innerText=Translate[currentLanguage]['priorityLevel'];
+    document.querySelector('label[for="high"]').innerText=Translate[currentLanguage]['High'];
+    document.querySelector('label[for="medium"]').innerText=Translate[currentLanguage]['medium'];
+    document.querySelector('label[for="low"]').innerText=Translate[currentLanguage]['low'];
+    document.getElementById('descriptionlabel').innerText=Translate[currentLanguage]['description'];
+    document.getElementById('description').placeholder=Translate[currentLanguage]['descriptionPlaceholder'];
+    document.getElementById('attachmentlabel').innerText=Translate[currentLanguage]['Attachment'];
+    document.getElementById('cancelBtn').innerText=Translate[currentLanguage]['cancel'];
+    document.getElementById('submitbtn1').innerText=Translate[currentLanguage]['submit'];
 }
