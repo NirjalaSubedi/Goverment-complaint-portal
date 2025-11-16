@@ -31,6 +31,16 @@ let currentLanguage ='en';
             'title22':'title',
             'titledesc':'Provide detailed information about your issue here.',
             'complainttype':'ComplaintType*',
+            'selectType':'Select Complaint Type',
+            'corruption':'Corruption',
+            'roaddamage':'roadDamage',
+            'waterSupply':'waterSupply',
+            'electricity':'Electricity',
+            'HealthCare':'HealthCare',
+            'other':'Other',
+            'subject':'Subject*',
+            
+
             
 
         },
@@ -62,6 +72,17 @@ let currentLanguage ='en';
             'DATE':'मिति',
             'ACTIONS':'कार्यहरू',
             'View Details':'विवरण हेर्नुहोस्',
+            'title22':'शीर्षक',
+            'titledesc':'यहाँ आफ्नो समस्याको बारेमा विस्तृत जानकारी प्रदान गर्नुहोस्।',
+            'complainttype':'उजुरी प्रकार*',
+            'selectType':'उजुरी प्रकार चयन गर्नुहोस्',
+            'corruption':'भ्रष्टाचार',
+            'roaddamage':'सडक क्षति',
+            'waterSupply':'पानी आपूर्ति',
+            'electricity':'बिजुली',
+            'HealthCare':'स्वास्थ्य सेवा',
+            'other':'अन्य',
+            'subject':'विषय*',
         }
 
     }

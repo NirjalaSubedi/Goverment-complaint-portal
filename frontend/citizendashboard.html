@@ -345,16 +345,16 @@
         <form action="./backend/insertdata.php" class="complaint-form" method="POST">
             <label for="complaint-type">ComplaintType*</label>
             <select id="complaint-type" name="complaint-type" required>
-                <option value="" disabled selected>Select Complaint Type</option>
-                <option value="corruption">Corruption</option>
-                <option value="roaddamage">roadDamage</option>
-                <option value="waterSupply">waterSupply</option>
-                <option value="electricity">Electricity</option>
-                <option value="HealthCare">HealthCare</option>
-                <option value="other">Other</option>
+                <option value="" disabled selected id="selectType">Select Complaint Type</option>
+                <option value="corruption" id="complaintCorruption">Corruption</option>
+                <option value="roaddamage" id="complaintRoaddamage">roadDamage</option>
+                <option value="waterSupply" id="complaintWaterSupply">waterSupply</option>
+                <option value="electricity" id="complaintElectricity">Electricity</option>
+                <option value="HealthCare" id="complaintHealthCare">HealthCare</option>
+                <option value="other" id="complaintOthers">Other</option>
             </select>
-            <label for="subject">Subject*</label>
-            <input type="text" id="subject" name="subject" placeholder="Brief Subject of your Complaint" required>
+            <label for="subject" id="subject">Subject*</label>
+            <input type="text" id="subjectPlaceholder" name="subject" placeholder="Brief Subject of your Complaint" required>
             <label for="location">Location*</label>
             <input type="text" id="location" name="location" placeholder="Enter the Location of the Issue" required>
             <label for="priorityLevel">Priority Level</label>
