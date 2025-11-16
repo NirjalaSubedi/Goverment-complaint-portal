@@ -29,6 +29,8 @@ let currentLanguage ='en';
             'DATE':'DATE',
             'ACTIONS':'ACTIONS',
             'View Details':'View Details',
+            'update':'update',
+            'delete':'Delete',
             'title22':'title',
             'titledesc':'Provide detailed information about your issue here.',
             'complainttype':'ComplaintType*',
@@ -87,6 +89,8 @@ let currentLanguage ='en';
             'DATE':'मिति',
             'ACTIONS':'कार्यहरू',
             'View Details':'विवरण हेर्नुहोस्',
+            
+            
             'title22':'शीर्षक',
             'titledesc':'यहाँ आफ्नो समस्याको बारेमा विस्तृत जानकारी प्रदान गर्नुहोस्।',
             'complainttype':'उजुरी प्रकार*',
