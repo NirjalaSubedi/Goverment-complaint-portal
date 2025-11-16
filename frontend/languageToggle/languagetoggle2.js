@@ -39,7 +39,19 @@ let currentLanguage ='en';
             'HealthCare':'HealthCare',
             'other':'Other',
             'subject':'Subject*',
-            
+            'subjectPlaceholder':'Brief Subject of your Complaint',
+            'location':'location*',
+            'locationPlaceholder':'Enter the Location of the Issue',
+            'priorityLevel':'Priority Level',
+            'High':'High',
+            'medium':'medium',
+            'low':'low',
+            'description':'Description*',
+            'Attachment':'Attachment',
+            'cancel':'cancel',
+            'submit':'submit',
+
+
 
             
 
@@ -83,6 +95,17 @@ let currentLanguage ='en';
             'HealthCare':'स्वास्थ्य सेवा',
             'other':'अन्य',
             'subject':'विषय*',
+            'subjectPlaceholder':'तपाईंको उजुरीको संक्षिप्त विषय',
+            'location':'स्थान*',
+            'locationPlaceholder':'समस्याको स्थान प्रविष्ट गर्नुहोस्',
+            'priorityLevel':'प्राथमिकता स्तर',
+            'High':'उच्च',
+            'medium':'मध्यम',
+            'low':'तल्लो',
+            'description':'विवरण*',
+            'Attachment':'संलग्नक',
+            'cancel':'रद्द गर्नुहोस्',
+            'submit':'पेश गर्नुहोस्',
         }
 
     }
