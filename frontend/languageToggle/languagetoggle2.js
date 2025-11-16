@@ -5,15 +5,13 @@ let currentLanguage = localStorage.getItem('lang') || 'en';
             'languageToggle': 'नेपाली',
             'citizen':'Citizen',
             'officer':'Officer',
-            'nav':'NAVIGATION',
+            'Nav':'NAVIGATION',
             'myComplaints':'myComplaints',
-            'Favorites':'Favorites',
             'Drafts':'Drafts',
             'Profile':'Profile',
             'Quick Actions':'Quick Actions',
             'New Complaint':'New Complaint',
             'Upload File':'Upload File',
-            'Search':'Search',
             'Track and manage yoursubmitted complaints':'Track and manage your submitted complaints',
             'Total Complaints':'Total Complaints',
             'Submitted':'Submitted',
@@ -33,6 +31,7 @@ let currentLanguage = localStorage.getItem('lang') || 'en';
 
             'title22':'title',
             'titledesc':'Provide detailed information about your issue here.',
+
         },
         'ne':{
             'title':'सरकारी उजुरी पोर्टल',
@@ -41,13 +40,11 @@ let currentLanguage = localStorage.getItem('lang') || 'en';
             'officer':'अधिकारी',
             'Nav':'नेभिगेसन',
             'myComplaints':'मेरो उजुरीहरू',
-            'Favorites':'मनपर्नेहरू',
             'Drafts':'मसौदाहरू',
             'Profile':'प्रोफाइल',
             'Quick Actions':'छिटो कार्यहरू',
             'New Complaint':'नयाँ उजुरी',
             'Upload File':'फाइल अपलोड गर्नुहोस्',
-            'Search':'खोजी',
             'Track and manage yoursubmitted complaints':'आफ्ना पेश गरिएका उजुरीहरू ट्र्याक र व्यवस्थापन गर्नुहोस्',
             'Total Complaints':'कुल उजुरीहरू',
             'Submitted':'पेश गरियो',
@@ -77,13 +74,11 @@ let currentLanguage = localStorage.getItem('lang') || 'en';
     document.getElementsByClassName('role')[0].innerText=Translate[currentLanguage].citizen;
     document.getElementById('nav00').innerText=Translate[currentLanguage].Nav;
     document.getElementsByClassName('myComplaints')[0].innerText=Translate[currentLanguage].myComplaints;
-    document.getElementsByClassName('myFavorites')[0].innerText=Translate[currentLanguage].Favorites;
     document.getElementsByClassName('myDrafts')[0].innerText=Translate[currentLanguage].Drafts;
     document.getElementsByClassName('myProfile')[0].innerText=Translate[currentLanguage].Profile;
     document.getElementsByClassName('quickActionsHeading')[0].innerText=Translate[currentLanguage]['Quick Actions'];
     document.getElementsByClassName('newComplaintText')[0].innerText=Translate[currentLanguage]['New Complaint'];
     document.getElementsByClassName('uploadFileText')[0].innerText=Translate[currentLanguage]['Upload File'];
-    document.getElementsByClassName('searchText')[0].innerText=Translate[currentLanguage]['Search'];
     document.getElementsByClassName('myComplaintsText')[0].innerText=Translate[currentLanguage]['Track and manage yoursubmitted complaints'];
     document.getElementsByClassName('boldColor')[0].innerText=Translate[currentLanguage]['Total Complaints'];
     document.getElementsByClassName('lightColor')[0].innerText=Translate[currentLanguage]['Submitted'];
@@ -102,8 +97,8 @@ let currentLanguage = localStorage.getItem('lang') || 'en';
    document.querySelectorAll('.viewDetailsBtn').forEach(btn=>{
     btn.innerText=Translate[currentLanguage]['View Details'];
    });
-   document.getElementById('title22').innerText=Translate[currentLanguage]['title22'];
-    document.getElementById('titledesc').innerText=Translate[currentLanguage]['titledesc'];
+   document.getElementById('title22').innerText=Translate[currentLanguage].title22;
+    document.getElementById('titledesc').innerText=Translate[currentLanguage].titledesc;
 }
 
 window.addEventListener('DOMContentLoaded',()=>{
@@ -114,4 +109,8 @@ window.addEventListener('DOMContentLoaded',()=>{
 document.getElementsByClassName('addtitle')[0].addEventListener('click',function(){
     window.location.href='complaint_submit.html';
 
+})
+
+document.getElementById('viewDetailsBtn1')[0].addEventListener('click',function(){
+    window.location.href='Viewdetails.html';
 })
