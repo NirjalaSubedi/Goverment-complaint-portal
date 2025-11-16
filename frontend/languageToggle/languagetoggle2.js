@@ -1,4 +1,4 @@
-let currentLanguage = localStorage.getItem('lang') || 'en';
+let currentLanguage ='en';
     const Translate={
         'en':{
             'title':'Goverment Complaint Portal',
@@ -29,9 +29,6 @@ let currentLanguage = localStorage.getItem('lang') || 'en';
             'ACTIONS':'ACTIONS',
             'View Details':'View Details',
 
-            'title22':'title',
-            'titledesc':'Provide detailed information about your issue here.',
-
         },
         'ne':{
             'title':'सरकारी उजुरी पोर्टल',
@@ -61,14 +58,11 @@ let currentLanguage = localStorage.getItem('lang') || 'en';
             'DATE':'मिति',
             'ACTIONS':'कार्यहरू',
             'View Details':'विवरण हेर्नुहोस्',
-            'title22':'शीर्षक',
-            'titledesc':'यहाँ आफ्नो समस्याको बारेमा विस्तृत जानकारी प्रदान गर्नुहोस्।',
         }
 
     }
     function LanguageTranslate(){
     currentLanguage=currentLanguage==='en'?'ne':'en';
-    localStorage.setItem('lang', currentLanguage);
     document.getElementById('language-toggle').innerHTML = `<i class="material-icons">language</i> ${Translate[currentLanguage].languageToggle}`;
     document.getElementsByClassName('Heading1')[0].innerText=Translate[currentLanguage].title;
     document.getElementsByClassName('role')[0].innerText=Translate[currentLanguage].citizen;
@@ -97,20 +91,4 @@ let currentLanguage = localStorage.getItem('lang') || 'en';
    document.querySelectorAll('.viewDetailsBtn').forEach(btn=>{
     btn.innerText=Translate[currentLanguage]['View Details'];
    });
-   document.getElementById('title22').innerText=Translate[currentLanguage].title22;
-    document.getElementById('titledesc').innerText=Translate[currentLanguage].titledesc;
 }
-
-window.addEventListener('DOMContentLoaded',()=>{
-  LanguageTranslate();
-});
-
-
-document.getElementsByClassName('addtitle')[0].addEventListener('click',function(){
-    window.location.href='complaint_submit.html';
-
-})
-
-document.getElementById('viewDetailsBtn1')[0].addEventListener('click',function(){
-    window.location.href='Viewdetails.html';
-})
