@@ -29,8 +29,10 @@ let currentLanguage ='en';
             'DATE':'DATE',
             'ACTIONS':'ACTIONS',
             'View Details':'View Details',
+
             'update':'Update',
             'delete':'Delete',
+            
             'title22':'title',
             'titledesc':'Provide detailed information about your issue here.',
             'complainttype':'ComplaintType*',
@@ -89,7 +91,9 @@ let currentLanguage ='en';
             'DATE':'मिति',
             'ACTIONS':'कार्यहरू',
             'View Details':'विवरण हेर्नुहोस्',
-            
+            'update':'अद्यावधिक',
+            'delete':'मेटाउनुहोस्',
+
             'title22':'शीर्षक',
             'titledesc':'यहाँ आफ्नो समस्याको बारेमा विस्तृत जानकारी प्रदान गर्नुहोस्।',
             'complainttype':'उजुरी प्रकार*',
@@ -147,6 +151,14 @@ let currentLanguage ='en';
     document.getElementsByClassName('ComplaintHeader1')[0].children[4].innerText=Translate[currentLanguage]['ACTIONS'];
    document.querySelectorAll('.viewDetailsBtn').forEach(btn=>{
     btn.innerText=Translate[currentLanguage]['View Details'];
+   });
+
+    document.querySelectorAll('#update').forEach(btn=>{
+    btn.innerText=Translate[currentLanguage]['update'];
+   });
+
+    document.querySelectorAll('#delete').forEach(btn=>{
+    btn.innerText=Translate[currentLanguage]['delete'];
    });
     document.getElementById('title22').innerText=Translate[currentLanguage]['title22'];
     document.getElementById('titledesc').innerText=Translate[currentLanguage]['titledesc'];
