@@ -1171,3 +1171,28 @@ textarea:focus{
     color: #555;
     line-height: 1.5;
 }
+.registrationDetails{
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    width:50%;
+}
+form{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    text-align:left;
+}
+form label{
+    font-weight:550;
+    color:#484848;
+}
+form input{
+    padding:10px;
+    margin-bottom:15px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    font-size:16px;
+}
+
