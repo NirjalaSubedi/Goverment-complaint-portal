@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>dashboard</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style/style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="icon" type="img/png" href="./logo.png">
     <style>
@@ -13,10 +13,6 @@
         }
         .Quick-actions{
             border-bottom: none;
-        }
-        form button{
-            display:flex;
-            justify-content:right;
         }
 
     </style>
@@ -362,7 +358,11 @@
 
 
         <div class="registrationDetails">
-           <form action="#" class="details00">
+            <div class="profile123">
+                <p class="profileDesc"> Manage your Personal Details</p>
+                    <i class="material-icons profileIcon" style="color:rgb(26, 166, 26);">person_outline</i>
+            </div>
+           <form action="#" class="details00" style="margin-bottom:30px;">
                 <label for="fullName" class="fullname11">FullName</label>
                 <input type="text" id="fullName11" name="fullName"  placeholder="Enter your full name" required/>
                 <label for="phonenumber" class="phonenumber11">PhoneNumber</label>
@@ -373,7 +373,18 @@
                 <input type="text" id="address11" name="address" placeholder="Enter your address" required/>
             <button type="submit" class="editProfileBtn" id="editProfileBtn">Edit Profile</button>
            </form>
+           </div>
+        <div class="securitySystems registrationDetails">
+           <div class="securityHeadings profile123">
+                <p class="profileDesc">Security Settings</p>
+                <i class="material-icons securityIcon" style="color:rgb(237, 71, 25);">security</i>
+           </div>
+           <div class="">
+
+           </div>
         </div>
+
+
 
          <div class="Container-complaint">
         <div class="title-complaint">

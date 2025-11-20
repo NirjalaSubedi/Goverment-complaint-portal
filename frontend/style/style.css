@@ -1196,7 +1196,7 @@ form input{
     font-size:16px;
 }
 .editProfileBtn{
-    background-color:#0d55e7;
+    background-color:#4ef61b;
     color:white;
     border:none;
     padding:10px;
@@ -1205,5 +1205,15 @@ form input{
     font-size:16px;
     margin-top:10px;
     width:20%;
+}
+.profile123{
+    color:484848;
+    font-size:18px;
+    font-weight:600;
+    border-bottom:2px solid #e1dfdf;
+    padding:10px 0;
+    margin-bottom: 20px;
+    display: flex;
+    gap:5px;
 }
 
