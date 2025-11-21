@@ -12,5 +12,16 @@ document.addEventListener('DOMContentLoaded',function(){
             element.style.display = displayType;
         }
     }
+    function highlightNavButton(selector, shouldHighlight) {
+        const element = document.querySelector(selector);
+        if (element) {
+            element.style.backgroundColor = shouldHighlight ? '#d5defb' : 'transparent';
+            element.style.borderRadius = '8px';
+            
+            const navText = element.querySelector('.myProfile, .myComplaints, .myDrafts'); 
+            const navIcon = element.querySelector('.material-icons'); 
+            
+        }
+    }
 
 });
