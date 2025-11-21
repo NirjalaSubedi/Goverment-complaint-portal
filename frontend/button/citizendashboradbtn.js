@@ -74,5 +74,21 @@ document.addEventListener('DOMContentLoaded',function(){
 
         hideElement('.registrationDetails');
     }
+    function showProfileView() {
+        highlightNavButton('.Complaints.Navbtn', false);
+        highlightNavButton('.drafts.Navbtn', false);
+        highlightNavButton('.profile.nav-btn', true); 
+
+        hideElement('.MainHeading'); 
+
+        hideElement('.complaintCards1'); 
+        hideElement('.MainBox'); 
+        
+        hideElement('.allcomplaintsTable'); 
+        hideElement(document.querySelectorAll('.testTable')[1]);
+
+        showElement('.registrationDetails', 'block'); 
+    }
+
 
 });
