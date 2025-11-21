@@ -31,6 +31,27 @@ document.addEventListener('DOMContentLoaded',function(){
         }
     }
 
-    
+    function showMyComplaintsView() {
+        highlightNavButton('.Complaints.Navbtn', true);
+        highlightNavButton('.drafts.Navbtn', false);
+        highlightNavButton('.profile.nav-btn', false); 
+
+        showElement('.MainHeading', 'flex'); 
+        const headingText = document.getElementById('myComplaintsText');
+        const description = document.getElementById('complainttopdesc');
+        if (headingText) headingText.textContent = 'myComplaints';
+        if (description) description.textContent = 'Track and manage your submitted complaints';
+
+       
+        showElement('.complaintCards1', 'flex');
+        showElement('.MainBox', 'block');
+        showElement('.heading003', 'flex'); 
+        
+      
+        showElement('.allcomplaintsTable', 'table'); 
+        hideElement(document.querySelectorAll('.testTable')[1]); 
+
+        hideElement('.registrationDetails');
+    }
 
 });
