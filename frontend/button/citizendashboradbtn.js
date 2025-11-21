@@ -20,8 +20,17 @@ document.addEventListener('DOMContentLoaded',function(){
             
             const navText = element.querySelector('.myProfile, .myComplaints, .myDrafts'); 
             const navIcon = element.querySelector('.material-icons'); 
+
+            if (navText) {
+                navText.style.color = shouldHighlight ? '#1558df' : 'inherit';
+            }
+            if (navIcon) {
+                navIcon.style.color = shouldHighlight ? '#1558df' : 'inherit';
+            }
             
         }
     }
+
+    
 
 });
