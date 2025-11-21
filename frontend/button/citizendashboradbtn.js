@@ -53,5 +53,26 @@ document.addEventListener('DOMContentLoaded',function(){
 
         hideElement('.registrationDetails');
     }
+    function showDraftsView() {
+        highlightNavButton('.Complaints.Navbtn', false);
+        highlightNavButton('.drafts.Navbtn', true);
+        highlightNavButton('.profile.nav-btn', false); 
+       
+        hideElement('.MainHeading'); 
+
+        
+        hideElement('.complaintCards1'); 
+        hideElement('.MainBox'); 
+        
+        hideElement('.allcomplaintsTable'); 
+        const draftsTable = document.querySelectorAll('.testTable')[1];
+        if (draftsTable) {
+            showElement(draftsTable, 'table'); 
+            draftsTable.style.width = '100%'; 
+            draftsTable.style.margin = '20px 0';
+        }
+
+        hideElement('.registrationDetails');
+    }
 
 });
