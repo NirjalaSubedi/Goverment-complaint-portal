@@ -90,5 +90,30 @@ document.addEventListener('DOMContentLoaded',function(){
         showElement('.registrationDetails', 'block'); 
     }
 
+    const allTestTables = document.querySelectorAll('.testTable');
+    allTestTables.forEach(table => table.style.display = 'none');
+    hideElement('.registrationDetails');
+    hideElement('.MainBox'); 
+    hideElement('.MainHeading');
+
+    showMyComplaintsView(); 
+    const myComplaintsBtn = document.getElementById('myComplaints-btn');
+    if (myComplaintsBtn) {
+       
+        myComplaintsBtn.parentElement.parentElement.addEventListener('click', showMyComplaintsView);
+    }
+    
+    const draftsBtn = document.getElementById('myDrafts');
+    if (draftsBtn) {
+       
+        draftsBtn.parentElement.parentElement.addEventListener('click', showDraftsView);
+    }
+
+   
+    const profileNavElement = document.querySelector('.profile.nav-btn');
+    if (profileNavElement) {
+        profileNavElement.addEventListener('click', showProfileView);
+    }
+
 
 });
