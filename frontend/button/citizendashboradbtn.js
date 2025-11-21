@@ -1,13 +1,16 @@
 document.addEventListener('DOMContentLoaded',function(){
-    const mycomplaints=document.getElementById('myComplaints-btn');
-    const drafts=document.getElementById('myDrafts');
-    const profile=document.getElementById('see-profile');
+   function hideElement(selector) {
+        const element = typeof selector === 'string' ? document.querySelector(selector) : selector;
+        if (element) {
+            element.style.display = 'none';
+        }
+    }
 
-    const mycomplaintsField=[
-        document.getElementById("myComplaintsText"),
-        document.getElementById('complainttopdesc'),
-        document.getElementById('addtitle'),
-        
-    ]
+    function showElement(selector, displayType = 'block') {
+        const element = typeof selector === 'string' ? document.querySelector(selector) : selector;
+        if (element) {
+            element.style.display = displayType;
+        }
+    }
 
 });
