@@ -134,7 +134,6 @@ const Translate = {
     }
 };
 document.addEventListener('DOMContentLoaded', () => {
-    // Complaint Submission Page elements
     const subjectInput = document.getElementById('subject');
     if (subjectInput) subjectInput.setAttribute('data-placeholder-key', 'subjectPlaceholder');
     
@@ -143,8 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const descriptionTextarea = document.getElementById('description');
     if (descriptionTextarea) descriptionTextarea.setAttribute('data-placeholder-key', 'descriptionPlaceholder');
-    
-    // Set data keys for labels in Complaint Submission
     const labels = [
         { selector: 'label[for="complaint-type"]', key: 'complainttype' },
         { selector: 'label[for="subject"]', key: 'subject' },
@@ -153,3 +150,39 @@ document.addEventListener('DOMContentLoaded', () => {
         { selector: 'label[for="description"]', key: 'description' },
         { selector: 'label[for="attachment"]', key: 'Attachment' }
     ];
+    labels.forEach(item => {
+        const el = document.querySelector(item.selector);
+        if (el) el.setAttribute('data-translate-key', item.key);
+    });
+    const profileLabels = [
+        { selector: '.fullname11', key: 'fullName' },
+        { selector: '.phonenumber11', key: 'phoneNumber' },
+        { selector: '.email11', key: 'email' },
+        { selector: '.address11', key: 'address' }
+    ];
+     profileLabels.forEach(item => {
+        const el = document.querySelector(item.selector);
+        if (el) el.setAttribute('data-translate-key', item.key);
+    });
+    const complaintTypeSelect = document.getElementById('complaint-type');
+    if (complaintTypeSelect && complaintTypeSelect.options.length > 1) {
+        complaintTypeSelect.options[0].id = 'selectType';
+        complaintTypeSelect.options[1].id = 'complaintCorruption';
+        complaintTypeSelect.options[2].id = 'complaintRoaddamage';
+        complaintTypeSelect.options[3].id = 'complaintWaterSupply';
+        complaintTypeSelect.options[4].id = 'complaintElectricity';
+        complaintTypeSelect.options[5].id = 'complaintHealthCare';
+        complaintTypeSelect.options[6].id = 'complaintOthers';
+    }
+    const buttons = document.querySelectorAll('.double-btn button');
+    if (buttons.length === 2) {
+        if (buttons[0].classList.contains('cancle-btn')) buttons[0].id = 'cancelBtn';
+        if (buttons[1].classList.contains('submit-btn1')) buttons[1].id = 'submitbtn1';
+    }
+    
+    const profileDesc = document.querySelector('.profileDesc');
+    if (profileDesc) profileDesc.setAttribute('data-translate-key', 'managePersonalDetails');
+    
+    const editProfileBtn = document.querySelector('.editProfileBtn');
+    if (editProfileBtn) editProfileBtn.id = 'editProfileBtn';
+});
