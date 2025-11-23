@@ -1,4 +1,5 @@
 let currentLanguage = 'en';
+
 const Translate = {
     'en': {
         'languageToggle': 'नेपाली',
@@ -31,7 +32,6 @@ const Translate = {
         'update': 'Update',
         'delete': 'Delete',
         
-        // Profile Details
         'managePersonalDetails': 'Manage your Personal Details',
         'fullName': 'FullName',
         'phoneNumber': 'PhoneNumber',
@@ -39,7 +39,6 @@ const Translate = {
         'address': 'Address',
         'editProfile': 'Edit Profile',
 
-        // Complaint Submission Page
         'title22': 'Complaint Submission',
         'titledesc': 'Provide detailed information about your issue',
         'complainttype': 'Complaint Type*',
@@ -97,7 +96,6 @@ const Translate = {
         'update': 'अद्यावधिक',
         'delete': 'मेटाउनुहोस्',
 
-        // Profile Details
         'managePersonalDetails': 'आफ्नो व्यक्तिगत विवरणहरू प्रबन्ध गर्नुहोस्',
         'fullName': 'पूरा नाम',
         'phoneNumber': 'फोन नम्बर',
@@ -105,7 +103,6 @@ const Translate = {
         'address': 'ठेगाना',
         'editProfile': 'प्रोफाइल सम्पादन गर्नुहोस्',
 
-        // Complaint Submission Page
         'title22': 'गुनासो पेश गर्नुहोस्',
         'titledesc': 'आफ्नो समस्याको बारेमा विस्तृत जानकारी प्रदान गर्नुहोस्',
         'complainttype': 'उजुरी प्रकार*',
@@ -133,6 +130,7 @@ const Translate = {
         'Logout': 'लगआउट'
     }
 };
+
 document.addEventListener('DOMContentLoaded', () => {
     const subjectInput = document.getElementById('subject');
     if (subjectInput) subjectInput.setAttribute('data-placeholder-key', 'subjectPlaceholder');
@@ -142,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const descriptionTextarea = document.getElementById('description');
     if (descriptionTextarea) descriptionTextarea.setAttribute('data-placeholder-key', 'descriptionPlaceholder');
+    
     const labels = [
         { selector: 'label[for="complaint-type"]', key: 'complainttype' },
         { selector: 'label[for="subject"]', key: 'subject' },
@@ -154,16 +153,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const el = document.querySelector(item.selector);
         if (el) el.setAttribute('data-translate-key', item.key);
     });
+
     const profileLabels = [
         { selector: '.fullname11', key: 'fullName' },
         { selector: '.phonenumber11', key: 'phoneNumber' },
         { selector: '.email11', key: 'email' },
         { selector: '.address11', key: 'address' }
     ];
-     profileLabels.forEach(item => {
+    profileLabels.forEach(item => {
         const el = document.querySelector(item.selector);
         if (el) el.setAttribute('data-translate-key', item.key);
     });
+
     const complaintTypeSelect = document.getElementById('complaint-type');
     if (complaintTypeSelect && complaintTypeSelect.options.length > 1) {
         complaintTypeSelect.options[0].id = 'selectType';
@@ -174,6 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
         complaintTypeSelect.options[5].id = 'complaintHealthCare';
         complaintTypeSelect.options[6].id = 'complaintOthers';
     }
+
     const buttons = document.querySelectorAll('.double-btn button');
     if (buttons.length === 2) {
         if (buttons[0].classList.contains('cancle-btn')) buttons[0].id = 'cancelBtn';
@@ -186,18 +188,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const editProfileBtn = document.querySelector('.editProfileBtn');
     if (editProfileBtn) editProfileBtn.id = 'editProfileBtn';
 });
+
 function initializeLanguage() {
     const savedLang = localStorage.getItem('currentLanguage');
+    
     if (savedLang) {
         currentLanguage = savedLang;
     } else if (document.title.toLowerCase().includes('dashboard')) {
         currentLanguage = 'en';
-        localStorage.setItem('currentLanguage', currentLanguage); 
+        localStorage.setItem('currentLanguage', currentLanguage);
     }
+    
     applyTranslations();
 }
+
 function LanguageTranslate() {
-   
     currentLanguage = currentLanguage === 'en' ? 'ne' : 'en';
     
     localStorage.setItem('currentLanguage', currentLanguage);
@@ -216,3 +221,112 @@ function applyTranslations() {
     
     const roleEl = document.querySelector('.role');
     if (roleEl) roleEl.innerText = Translate[lang].citizen;
+
+    if(document.querySelector('.profile-dropdown .profileicon a')) document.querySelector('.profile-dropdown .profileicon a').innerText = Translate[lang].Profile;
+    if(document.querySelector('.settings a')) document.querySelector('.settings a').innerText = Translate[lang].Settings;
+    if(document.querySelector('.logout a')) document.querySelector('.logout a').innerText = Translate[lang].Logout;
+
+
+    if(document.getElementById('nav00')) document.getElementById('nav00').innerText = Translate[lang].Nav;
+    if(document.getElementById('myComplaints-btn')) document.getElementById('myComplaints-btn').innerText = Translate[lang].myComplaints;
+    if(document.getElementById('myDrafts')) document.getElementById('myDrafts').innerText = Translate[lang].Drafts;
+    if(document.getElementById('see-profile')) document.getElementById('see-profile').innerText = Translate[lang].Profile;
+    if(document.querySelector('.quickActionsHeading')) document.querySelector('.quickActionsHeading').innerText = Translate[lang]['Quick Actions'];
+    if(document.querySelector('.newComplaintText')) document.querySelector('.newComplaintText').innerText = Translate[lang]['New Complaint'];
+    
+    const myComplaintsText = document.querySelector('.myComplaintsText');
+    if (myComplaintsText) myComplaintsText.innerText = Translate[lang]['myComplaintsText'];
+
+    const complaintTopDesc = document.getElementById('complainttopdesc');
+    if (complaintTopDesc) complaintTopDesc.innerText = Translate[lang]['Track and manage your submitted complaints'];
+
+    const stats = [
+        ['Total Complaints', 'Submitted'], 
+        ['pending', 'Awaiting response'], 
+        ['inProgress', 'Being Processed'], 
+        ['completed', 'Success resolved ']
+    ];
+
+    document.querySelectorAll('.complaintsStatement').forEach((card, index) => {
+        const boldText = card.querySelector('.boldColor');
+        const lightText = card.querySelector('.lightColor');
+        if (boldText && lightText && stats[index]) {
+            boldText.innerText = Translate[lang][stats[index][0]];
+            lightText.innerText = Translate[lang][stats[index][1]];
+        }
+    });
+
+    const headers = ['COMPLAINT', 'STATUS', 'PRIORITY', 'DATE', 'ACTIONS'];
+    document.querySelectorAll('.ComplaintHeader1 th').forEach((th, index) => {
+        if(headers[index]) th.innerText = Translate[lang][headers[index]];
+    });
+
+    if(document.querySelector('.sortText')) document.querySelector('.sortText').innerText = Translate[lang].Sort;
+    document.querySelectorAll('.viewDetailsBtn').forEach(btn => {
+        btn.innerText = Translate[lang]['View Details'];
+    });
+    
+    document.querySelectorAll('#update').forEach(btn => {
+        btn.innerText = Translate[lang].update;
+    });
+
+    document.querySelectorAll('#delete').forEach(btn => {
+        btn.innerText = Translate[lang].delete;
+    });
+    
+    const profileDesc = document.querySelector('.profileDesc');
+    if (profileDesc) profileDesc.innerText = Translate[lang]['managePersonalDetails'];
+    
+    document.querySelectorAll('.details00 label').forEach(label => {
+        const key = label.getAttribute('data-translate-key');
+        if (key && Translate[lang][key]) {
+            label.innerText = Translate[lang][key];
+        }
+    });
+
+    const editProfileBtn = document.getElementById('editProfileBtn');
+    if (editProfileBtn) editProfileBtn.innerText = Translate[lang]['editProfile'];
+
+    const title22 = document.getElementById('title22');
+    if (title22) title22.innerText = Translate[lang].title22;
+    
+    const titledesc = document.getElementById('titledesc');
+    if (titledesc) titledesc.innerText = Translate[lang].titledesc;
+    
+    document.querySelectorAll('.complaint-form label[data-translate-key]').forEach(label => {
+        const key = label.getAttribute('data-translate-key');
+        if (key && Translate[lang][key]) {
+            label.innerText = Translate[lang][key];
+        }
+    });
+
+    document.querySelectorAll('[data-placeholder-key]').forEach(input => {
+        const key = input.getAttribute('data-placeholder-key');
+        if (key && Translate[lang][key]) {
+            input.placeholder = Translate[lang][key];
+        }
+    });
+    
+    const complaintTypeSelect = document.getElementById('complaint-type');
+    if (complaintTypeSelect) {
+        if (complaintTypeSelect.options[0]) complaintTypeSelect.options[0].text = Translate[lang].selectType;
+        if (complaintTypeSelect.options[1]) complaintTypeSelect.options[1].text = Translate[lang].corruption;
+        if (complaintTypeSelect.options[2]) complaintTypeSelect.options[2].text = Translate[lang].roaddamage;
+        if (complaintTypeSelect.options[3]) complaintTypeSelect.options[3].text = Translate[lang].waterSupply;
+        if (complaintTypeSelect.options[4]) complaintTypeSelect.options[4].text = Translate[lang].electricity;
+        if (complaintTypeSelect.options[5]) complaintTypeSelect.options[5].text = Translate[lang].HealthCare;
+        if (complaintTypeSelect.options[6]) complaintTypeSelect.options[6].text = Translate[lang].other;
+    }
+    
+    if(document.querySelector('label[for="high"]')) document.querySelector('label[for="high"]').innerText = Translate[lang].High;
+    if(document.querySelector('label[for="medium"]')) document.querySelector('label[for="medium"]').innerText = Translate[lang].medium;
+    if(document.querySelector('label[for="low"]')) document.querySelector('label[for="low"]').innerText = Translate[lang].low;
+
+    const cancelBtn = document.getElementById('cancelBtn') || document.querySelector('.cancle-btn');
+    if (cancelBtn) cancelBtn.innerText = Translate[lang].cancel;
+    
+    const submitBtn = document.getElementById('submitbtn1') || document.querySelector('.submit-btn1');
+    if (submitBtn) submitBtn.innerText = Translate[lang].submit;
+}
+
+document.addEventListener('DOMContentLoaded', initializeLanguage);
