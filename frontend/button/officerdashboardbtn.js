@@ -28,4 +28,31 @@ document.addEventListener('DOMContentLoaded', function() {
             element.style.display = displayType;
         }
     }
+    function highlightNavButton(selector, shouldHighlight) {
+        const element = document.querySelector(selector);
+        if (element) {
+            element.style.backgroundColor = shouldHighlight ? '#d5defb' : 'transparent';
+            element.style.borderRadius = shouldHighlight ? '8px' : '0px'; 
+            const navText = element.querySelector('p'); 
+            const navIcon = element.querySelector('i'); 
+            if (navText) {
+                navText.style.color = shouldHighlight ? 'rgb(37, 99, 235)' : 'inherit';
+            }
+            if (navIcon) {
+                navIcon.style.color = shouldHighlight ? 'rgb(37, 99, 235)' : 'inherit';
+            }
+            const badge = element.querySelector('.notification-badge');
+            if (badge) {
+                if (element.classList.contains('Complaints') && shouldHighlight) {
+                    badge.style.color = 'black'; 
+                } else if (!shouldHighlight) {
+                    badge.style.backgroundColor = '#e0e0e0';
+                    badge.style.color = 'black'; 
+                } else {
+                    badge.style.backgroundColor = 'transparent';
+                    badge.style.color = 'black'; 
+                }
+            }
+        }
+    }
 });
