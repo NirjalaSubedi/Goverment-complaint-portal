@@ -284,8 +284,35 @@
                         </div>
                     </td>
                     <td >
-                        <button class="viewDetailsBtn" id="update" onclick="Approvecomplaints()" style="background-color:rgb(54, 167, 54);margin-right: 10px;width:20%">Update</button>
-                        <button class="viewDetailsBtn" id="delete" onclick="Rejectcomplaints()" style="background-color:rgb(231, 41, 41);;width:20%">Delete</button>
+                        <button class="viewDetailsBtn" id="update" onclick="Approvecomplaints()" style="background-color:rgb(54, 167, 54);margin-right: 10px;width:20%">Approve</button>
+                        <button class="viewDetailsBtn" id="delete" onclick="Rejectcomplaints()" style="background-color:rgb(231, 41, 41);;width:20%">Reject</button>
+                    </td>
+                </tr>
+        </table>
+
+        <table class="testTable" id="completed">
+
+                <tr id="completedlist">
+                    <td>
+                        <div class="combine-logo-title">
+                            <div class="ComplaintIcon">
+                                <i class="material-icons location" style="background-color:rgb(248, 221, 211);">location_on</i>
+                            </div>
+
+                            <div class="complaintTitleDetails">
+                                <div class="complaintTitle">
+                                    <p class="complaintTitleText">Road Damage - itahari</p>
+                                    <i class="material-icons" style="font-weight:100; color:#bcb9b9">attachment</i>
+                                </div>
+                                <p id="complaintID">ID:C001</p>
+                                <p id="ComplaintAddress">Itahari,Sunsari</p>
+                            </div>
+
+                        </div>
+                    </td>
+                    <td >
+                        <button class="viewDetailsBtn" id="update" onclick="completedcomplaints()" style="background-color:rgb(54, 167, 54);margin-right: 10px;width:40%">Completed</button>
+                        
                     </td>
                 </tr>
         </table>
