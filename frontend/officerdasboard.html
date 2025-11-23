@@ -71,21 +71,21 @@
                 <div class="favorites Navbtn">
                     <div class="nav-btn">
                         <i class="material-icons">assignment_ind</i>
-                        <p class="myFavorites">Assigned Me</p>
+                        <p class="myFavorites assignedtome">Assigned Me</p>
                     </div>
                     <div class="notification-badge">5</div>
                 </div>
                 <div class="drafts Navbtn">
                     <div class="nav-btn">
                     <i class="material-icons">hourglass_empty</i>
-                    <p class="myDrafts">Pending</p>
+                    <p class="myDrafts pendingtask1">Pending</p>
                     </div>
                     <div class="notification-badge">2</div>
                 </div>
                 <div class="drafts Navbtn">
                     <div class="nav-btn">
                     <i class="material-icons">check_circle</i>
-                    <p class="myDrafts">Completed</p>
+                    <p class="myDrafts completed1">Completed</p>
                     </div>
                     <div class="notification-badge">2</div>
                 </div>
@@ -283,9 +283,9 @@
 
                         </div>
                     </td>
-                    <td >
-                        <button class="viewDetailsBtn" id="update" onclick="Approvecomplaints()" style="background-color:rgb(54, 167, 54);margin-right: 10px;width:20%">Approve</button>
-                        <button class="viewDetailsBtn" id="delete" onclick="Rejectcomplaints()" style="background-color:rgb(231, 41, 41);;width:20%">Reject</button>
+                    <td id="approvedeletebtn">
+                        <button class="viewDetailsBtn" id="approve" onclick="Approvecomplaints()" style="background-color:rgb(54, 167, 54);margin-right: 10px;width:100%">Approve</button>
+                        <button class="viewDetailsBtn" id="reject" onclick="Rejectcomplaints()" style="background-color:rgb(231, 41, 41);;width:100%">Reject</button>
                     </td>
                 </tr>
         </table>
@@ -311,13 +311,13 @@
                         </div>
                     </td>
                     <td >
-                        <button class="viewDetailsBtn" id="update" onclick="completedcomplaints()" style="background-color:rgb(54, 167, 54);margin-right: 10px;width:40%">Completed</button>
+                        <button class="viewDetailsBtn" id="update" onclick="completedcomplaints()" style="background-color:rgb(54, 167, 54);margin-right: 10px;width:100%">Completed</button>
                         
                     </td>
                 </tr>
         </table>
 
-        <table class="testTable">
+        <table class="testTable" id="assignedmetable">
 
                 <tr>
                     <td>
@@ -346,13 +346,14 @@
                         </div>
                     </td>
                     <td >
-                        <button class="viewDetailsBtn" id="review" onclick="reviewcomplaints()" style="background-color:rgb(81, 107, 239);margin-right: 10px;width:40%">Review</button>
+                        <button class="viewDetailsBtn" id="review" onclick="reviewcomplaints()" style="background-color:rgb(81, 107, 239);margin-right: 10px;width:100%">Review</button>
         </table>
 
     </div>
 </div>
    
     <script src="button/buttonclick.js"></script>
+    <script src="button/officerdashboardbtn.js"></script>
     
 </body>
 </html>
