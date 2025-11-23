@@ -133,3 +133,23 @@ const Translate = {
         'Logout': 'लगआउट'
     }
 };
+document.addEventListener('DOMContentLoaded', () => {
+    // Complaint Submission Page elements
+    const subjectInput = document.getElementById('subject');
+    if (subjectInput) subjectInput.setAttribute('data-placeholder-key', 'subjectPlaceholder');
+    
+    const locationInput = document.getElementById('location');
+    if (locationInput) locationInput.setAttribute('data-placeholder-key', 'locationPlaceholder');
+
+    const descriptionTextarea = document.getElementById('description');
+    if (descriptionTextarea) descriptionTextarea.setAttribute('data-placeholder-key', 'descriptionPlaceholder');
+    
+    // Set data keys for labels in Complaint Submission
+    const labels = [
+        { selector: 'label[for="complaint-type"]', key: 'complainttype' },
+        { selector: 'label[for="subject"]', key: 'subject' },
+        { selector: 'label[for="location"]', key: 'location' },
+        { selector: 'label[for="priorityLevel"]', key: 'priorityLevel' },
+        { selector: 'label[for="description"]', key: 'description' },
+        { selector: 'label[for="attachment"]', key: 'Attachment' }
+    ];
