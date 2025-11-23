@@ -55,4 +55,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
+    const allComplaintsBtn = document.querySelector('.Complaints.Navbtn');
+    const assignedMeBtn = document.querySelector('.favorites.Navbtn'); 
+    const pendingBtn = document.querySelector('.drafts.Navbtn:nth-child(3)'); 
+    const completedBtn = document.querySelector('.drafts.Navbtn:nth-child(4)'); 
+
+    const mainBox = document.querySelector('.MainBox'); 
+    const pendingTaskTable = document.getElementById('pendingtask'); 
+    const completedTable = document.getElementById('completed'); 
+    const assignedMeTable = document.querySelector('.dashboard-container > .testTable:last-child');
+    
+    const allContentContainers = [mainBox, pendingTaskTable, completedTable, assignedMeTable];
+
 });
