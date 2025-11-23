@@ -81,4 +81,88 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    function showAllComplaintsView() {
+        resetNavButtons();
+        highlightNavButton('.Complaints.Navbtn', true);
+        hideAllContent();
+        showElement(mainBox, 'block'); 
+        hideElement('.MainHeading'); 
+    }
+    function showOfficerAssignedView() {
+        resetNavButtons();
+        highlightNavButton('.favorites.Navbtn', true);
+        hideAllContent();
+        showElement(assignedMeTable, 'block'); 
+        hideElement('.MainHeading'); 
+        const assignedTaskButtons = assignedMeTable.querySelector('.pending-task-buttons');
+        if(assignedTaskButtons) { assignedTaskButtons.remove(); }
+        const reviewBtn = assignedMeTable.querySelector('#review');
+        if(reviewBtn) { showElement(reviewBtn, 'block'); } 
+    }
+    
+    function showPendingView() {
+        resetNavButtons();
+        highlightNavButton('.drafts.Navbtn:nth-child(3)', true);
+        hideAllContent();
+        showElement(pendingTaskTable, 'block'); 
+        hideElement('.MainHeading'); 
+
+        const pendingRow = pendingTaskTable.querySelector('tr:not(:first-child)'); 
+        let actionCell;
+        if(pendingRow) {
+             actionCell = pendingRow.querySelector('td:last-child');
+        }
+
+        if (actionCell && !actionCell.querySelector('.pending-task-buttons')) {
+            let existingControl = actionCell.querySelector('button');
+            if (existingControl) {
+                const approveBtn = document.createElement('button');
+                approveBtn.textContent = 'Approve';
+                approveBtn.className = 'viewDetailsBtn'; 
+                approveBtn.style.backgroundColor = 'green';
+                approveBtn.style.color = 'white';
+                
+                const rejectBtn = document.createElement('button');
+                rejectBtn.textContent = 'Reject';
+                rejectBtn.className = 'viewDetailsBtn'; 
+                rejectBtn.style.backgroundColor = 'red';
+                rejectBtn.style.color = 'white';
+
+                const buttonContainer = document.createElement('div');
+                buttonContainer.className = 'pending-task-buttons'; 
+                buttonContainer.appendChild(approveBtn);
+                buttonContainer.appendChild(rejectBtn);
+
+                actionCell.innerHTML = ''; 
+                actionCell.appendChild(buttonContainer);
+            }
+        }
+    }
+    function showCompletedView() {
+        resetNavButtons();
+        highlightNavButton('.drafts.Navbtn:nth-child(4)', true);
+        hideAllContent();
+        showElement(completedTable, 'block'); 
+        hideElement('.MainHeading'); 
+    }
+    hideAllContent();
+    hideElement('.MainHeading');
+    
+    showAllComplaintsView(); 
+    
+    if (allComplaintsBtn) {
+        allComplaintsBtn.addEventListener('click', showAllComplaintsView);
+    }
+    
+    if (assignedMeBtn) {
+        assignedMeBtn.addEventListener('click', showOfficerAssignedView);
+    }
+
+    if (pendingBtn) {
+        pendingBtn.addEventListener('click', showPendingView);
+    }
+
+    if (completedBtn) {
+        completedBtn.addEventListener('click', showCompletedView);
+    }
 });
