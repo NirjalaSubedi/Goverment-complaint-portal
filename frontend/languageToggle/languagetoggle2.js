@@ -186,3 +186,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const editProfileBtn = document.querySelector('.editProfileBtn');
     if (editProfileBtn) editProfileBtn.id = 'editProfileBtn';
 });
+function initializeLanguage() {
+    const savedLang = localStorage.getItem('currentLanguage');
+    if (savedLang) {
+        currentLanguage = savedLang;
+    } else if (document.title.toLowerCase().includes('dashboard')) {
+        currentLanguage = 'en';
+        localStorage.setItem('currentLanguage', currentLanguage); 
+    }
+    applyTranslations();
+}
+function LanguageTranslate() {
+   
+    currentLanguage = currentLanguage === 'en' ? 'ne' : 'en';
+    
+    localStorage.setItem('currentLanguage', currentLanguage);
+
+    applyTranslations();
+}
+
+function applyTranslations() {
+    const lang = currentLanguage;
+
+    const langToggleBtn = document.getElementById('language-toggle');
+    if (langToggleBtn) langToggleBtn.innerHTML = `<i class="material-icons">language</i> ${Translate[lang].languageToggle}`;
+    
+    const heading1 = document.getElementById('Heading1');
+    if (heading1) heading1.innerText = Translate[lang].title;
+    
+    const roleEl = document.querySelector('.role');
+    if (roleEl) roleEl.innerText = Translate[lang].citizen;
