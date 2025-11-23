@@ -67,4 +67,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const allContentContainers = [mainBox, pendingTaskTable, completedTable, assignedMeTable];
 
+    function resetNavButtons() {
+        highlightNavButton('.Complaints.Navbtn', false);
+        highlightNavButton('.favorites.Navbtn', false);
+        highlightNavButton('.drafts.Navbtn:nth-child(3)', false);
+        highlightNavButton('.drafts.Navbtn:nth-child(4)', false); 
+    }
+
+    function hideAllContent() {
+        allContentContainers.forEach(container => {
+            if (container) {
+                hideElement(container);
+            }
+        });
+    }
 });
