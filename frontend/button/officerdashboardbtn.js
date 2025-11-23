@@ -16,4 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
             color: black !important;
         }`;
     document.head.appendChild(style);
+    function hideElement(selector) {
+        const element = typeof selector === 'string' ? document.querySelector(selector) : selector;
+        if (element) {
+            element.style.display = 'none';
+        }
+    }
 });
