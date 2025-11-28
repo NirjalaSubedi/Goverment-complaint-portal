@@ -26,8 +26,8 @@ const registerfields=[
 	document.getElementById('address'),
 	document.getElementsByClassName('department')[0],
 	document.getElementById('department'),
-	document.getElementsByClassName('position')[0],
-	document.getElementById('position'),
+	document.getElementsByClassName('documents')[0],
+	document.getElementById('documents'),
 	document.getElementsByClassName('citizenship')[0],
 	document.getElementById('citizenshipNumber'),
 	document.getElementsByClassName('password1')[0],
@@ -40,9 +40,9 @@ const registerfields=[
 
 const citizenlog=[
 	document.getElementsByClassName('department')[0],
-	document.getElementsByClassName('position')[0],
+	document.getElementsByClassName('documents')[0],
 	document.getElementById('department'),
-	document.getElementById('position')
+	document.getElementById('documents')
 ]
 const citizenbtn=document.getElementById('citizen-btn');
 const officerbtn=document.getElementById('officer-btn');
