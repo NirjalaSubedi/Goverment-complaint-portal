@@ -81,8 +81,9 @@ const Translate={
         electricitydepartment:'Electricity Authority',
         corruptiondepartment:'Anti-Corruption Department',
         other:'Others',
-        position:'Position',
-        positionPlaceholder:'Enter your position',
+
+        documents:' Upload Documents',
+
         citizenship:'Citizenship Number',
         citizenshipPlaceholder:'Enter your citizenship number',
         createAccount:'Create Account',
@@ -175,8 +176,9 @@ const Translate={
         electricitydepartment:'विद्युत प्राधिकरण',
         corruptiondepartment:'भ्रष्टाचार विरोधी विभाग',
         other:'अन्य',
-        position:'पद',
-        positionPlaceholder:'आफ्नो पद प्रविष्ट गर्नुहोस्',
+
+        documents:' कागजात अपलोड गर्नुहोस्',
+
         citizenship:'नागरिकता नम्बर',
         citizenshipPlaceholder:'आफ्नो नागरिकता नम्बर प्रविष्ट गर्नुहोस्',
         createAccount:'खाता सिर्जना गर्नुहोस्',
@@ -279,8 +281,9 @@ function loginLanguageTranslate(){
     document.getElementsByClassName('electricityAuthority')[0].innerText=Translate[currentLanguage].electricitydepartment;
     document.getElementsByClassName('AntiCorruptions')[0].innerText=Translate[currentLanguage].corruptiondepartment;
     document.getElementsByClassName('other')[0].innerText=Translate[currentLanguage].other;
-    document.getElementsByClassName('position')[0].innerText=Translate[currentLanguage].position;
-    document.getElementById('position').placeholder=Translate[currentLanguage].positionPlaceholder;
+
+    document.getElementsByClassName('documents')[0].innerText=Translate[currentLanguage].documents;
+
     document.getElementsByClassName('citizenship')[0].innerText=Translate[currentLanguage].citizenship;
     document.getElementById('citizenshipNumber').placeholder=Translate[currentLanguage].citizenshipPlaceholder;
     document.getElementsByClassName('createAccount')[0].innerText=Translate[currentLanguage].createAccount;
