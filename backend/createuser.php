@@ -17,9 +17,6 @@ if (isset($_POST['submit'])) {
         $departmentName = mysqli_real_escape_string($conn, $_POST['department'] ?? '');
         $position = mysqli_real_escape_string($conn, $_POST['position'] ?? '');
         
-        // Debug: Show what department name we received
-        echo "Department received: [$departmentName]<br>";
-        
         $departmentId = null;
         
         if ($departmentName !== '') {
@@ -28,20 +25,13 @@ if (isset($_POST['submit'])) {
             if ($depRes && mysqli_num_rows($depRes) === 1) {
                 $depRow = mysqli_fetch_assoc($depRes);
                 $departmentId = (int)$depRow['department_id'];
-                echo "Department found with ID: $departmentId<br>";
             } else {
                 // Department doesn't exist, create it
-                echo "Creating new department: $departmentName<br>";
                 $insertDept = mysqli_query($conn, "INSERT INTO departments (department_name) VALUES ('$departmentName')");
                 if ($insertDept) {
                     $departmentId = mysqli_insert_id($conn);
-                    echo "New department created with ID: $departmentId<br>";
-                } else {
-                    echo "Error creating department: " . mysqli_error($conn) . "<br>";
                 }
             }
-        } else {
-            echo "WARNING: Department name is empty!<br>";
         }
         
         $departmentIdSql = ($departmentId !== null) ? $departmentId : 'NULL';
@@ -78,16 +68,12 @@ if (isset($_POST['submit'])) {
             $docPathEsc = mysqli_real_escape_string($conn, $uploadedDocPath);
             mysqli_query($conn, "INSERT INTO userdocuments(user_id, document_type, file_path, upload_date) VALUES ($newUserId, '$docType', '$docPathEsc', NOW())");
         }
-        echo "User created successfully";
+        header("Location: ../frontend/auth1111.html");
+        exit();
     } else {
         echo "Error: " . mysqli_error($conn);
     }
 }
-
-
-
-
-
 
 
 ?>
