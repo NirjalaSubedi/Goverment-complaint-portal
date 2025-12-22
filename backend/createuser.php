@@ -13,18 +13,39 @@ if (isset($_POST['submit'])) {
     $is_approved = ($user_type === 'Officer') ? 'Pending' : 'Approved';
 
     if ($user_type === 'Officer') {
-        // Department lives in separate table: departments(department_id, department_name)
-        // Resolve department_id from submitted department name.
+        // Get department name from form
         $departmentName = mysqli_real_escape_string($conn, $_POST['department'] ?? '');
+        $position = mysqli_real_escape_string($conn, $_POST['position'] ?? '');
+        
+        // Debug: Show what department name we received
+        echo "Department received: [$departmentName]<br>";
+        
         $departmentId = null;
+        
         if ($departmentName !== '') {
+            // First check if department exists
             $depRes = mysqli_query($conn, "SELECT department_id FROM departments WHERE department_name = '$departmentName' LIMIT 1");
             if ($depRes && mysqli_num_rows($depRes) === 1) {
                 $depRow = mysqli_fetch_assoc($depRes);
                 $departmentId = (int)$depRow['department_id'];
+                echo "Department found with ID: $departmentId<br>";
+            } else {
+                // Department doesn't exist, create it
+                echo "Creating new department: $departmentName<br>";
+                $insertDept = mysqli_query($conn, "INSERT INTO departments (department_name) VALUES ('$departmentName')");
+                if ($insertDept) {
+                    $departmentId = mysqli_insert_id($conn);
+                    echo "New department created with ID: $departmentId<br>";
+                } else {
+                    echo "Error creating department: " . mysqli_error($conn) . "<br>";
+                }
             }
+        } else {
+            echo "WARNING: Department name is empty!<br>";
         }
+        
         $departmentIdSql = ($departmentId !== null) ? $departmentId : 'NULL';
+        $positionSql = ($position !== '') ? "'$position'" : 'NULL';
 
         // Handle officer ID file upload; stored in userdocuments after user is created
         $uploadedDocPath = '';
@@ -42,8 +63,8 @@ if (isset($_POST['submit'])) {
             }
         }
         // Insert officer; use department_id column in users
-        $sql = "INSERT INTO users(full_name, phone_number, email, address, citizenship_number, password_hash, user_type, department_id, is_approved)
-                VALUES ('$fullname', '$phonenumber', '$email', '$address', '$citizenship', '$hashed_password', '$user_type', $departmentIdSql, '$is_approved')";
+        $sql = "INSERT INTO users(full_name, phone_number, email, address, citizenship_number, password_hash, user_type, department_id, position, is_approved)
+                VALUES ('$fullname', '$phonenumber', '$email', '$address', '$citizenship', '$hashed_password', '$user_type', $departmentIdSql, $positionSql, '$is_approved')";
     } else {
         $sql = "INSERT INTO users(full_name, phone_number, email, address, citizenship_number, password_hash, user_type, is_approved)
                 VALUES ('$fullname', '$phonenumber', '$email', '$address', '$citizenship', '$hashed_password', '$user_type', '$is_approved')";
