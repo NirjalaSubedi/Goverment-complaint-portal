@@ -68,7 +68,7 @@ if (isset($_POST['submit'])) {
             $docPathEsc = mysqli_real_escape_string($conn, $uploadedDocPath);
             mysqli_query($conn, "INSERT INTO userdocuments(user_id, document_type, file_path, upload_date) VALUES ($newUserId, '$docType', '$docPathEsc', NOW())");
         }
-        header("Location: ../frontend/auth1111.html");
+        header("Location: ../frontend/auth.html");
         exit();
     } else {
         echo "Error: " . mysqli_error($conn);
