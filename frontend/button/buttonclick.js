@@ -12,7 +12,11 @@ const registerForm = document.querySelector('.register-form-section');
     
     // Officer specific fields
     const deptField = document.getElementById('department');
+    const deptLabel = document.getElementsByClassName('department')[0];
+    const posField = document.getElementById('position');
+    const posLabel = document.getElementsByClassName('position')[0];
     const docField = document.getElementById('documents');
+    const docLabel = document.getElementsByClassName('documents')[0];
 
     // Citizen बटन क्लिक गर्दा
     citizenbtn.addEventListener('click', function(e) {
@@ -21,8 +25,13 @@ const registerForm = document.querySelector('.register-form-section');
         
         // लुकाउने र Required हटाउने
         deptField.style.display = 'none';
+        deptLabel.style.display = 'none';
+        posField.style.display = 'none';
+        posLabel.style.display = 'none';
         docField.style.display = 'none';
+        docLabel.style.display = 'none';
         deptField.removeAttribute('required');
+        posField.removeAttribute('required');
         docField.removeAttribute('required');
         
         citizenbtn.style.backgroundColor = "rgb(18, 177, 18)";
@@ -36,8 +45,13 @@ const registerForm = document.querySelector('.register-form-section');
         
         // देखाउने र Required थप्ने
         deptField.style.display = 'block';
+        deptLabel.style.display = 'block';
+        posField.style.display = 'block';
+        posLabel.style.display = 'block';
         docField.style.display = 'block';
+        docLabel.style.display = 'block';
         deptField.setAttribute('required', 'required');
+        posField.setAttribute('required', 'required');
         docField.setAttribute('required', 'required');
         
         officerbtn.style.backgroundColor = "red";
@@ -76,6 +90,8 @@ const registerfields=[
 	document.getElementById('address'),
 	document.getElementsByClassName('department')[0],
 	document.getElementById('department'),
+	document.getElementsByClassName('position')[0],
+	document.getElementById('position'),
 	document.getElementsByClassName('documents')[0],
 	document.getElementById('documents'),
 	document.getElementsByClassName('citizenship')[0],
@@ -90,8 +106,10 @@ const registerfields=[
 
 const citizenlog=[
 	document.getElementsByClassName('department')[0],
+	document.getElementsByClassName('position')[0],
 	document.getElementsByClassName('documents')[0],
 	document.getElementById('department'),
+	document.getElementById('position'),
 	document.getElementById('documents')
 ]
 //const citizenbtn=document.getElementById('citizen-btn');

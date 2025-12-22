@@ -76,6 +76,8 @@ const Translate={
         addressPlaceholder:'Enter your address',
         department:'Department',
         select:'select your department',
+        position:'Position',
+        positionPlaceholder:'Enter your position',
         roaddepartment:'Road Department',
         waterdepartment:'Water Supply Department',
         electricitydepartment:'Electricity Authority',
@@ -171,6 +173,8 @@ const Translate={
         addressPlaceholder:'आफ्नो ठेगाना प्रविष्ट गर्नुहोस्',
         department:'विभाग',
         select:'आफ्नो विभाग चयन गर्नुहोस्',
+        position:'पद',
+        positionPlaceholder:'आफ्नो पद प्रविष्ट गर्नुहोस्',
         roaddepartment:'सडक विभाग',
         waterdepartment:'पानी आपूर्ति विभाग',
         electricitydepartment:'विद्युत प्राधिकरण',
@@ -276,6 +280,8 @@ function loginLanguageTranslate(){
     document.getElementById('address').placeholder=Translate[currentLanguage].addressPlaceholder;
     document.getElementsByClassName('department')[0].innerText=Translate[currentLanguage].department;
     document.getElementsByClassName('select')[0].innerText=Translate[currentLanguage].select;
+    document.getElementsByClassName('position')[0].innerText=Translate[currentLanguage].position;
+    document.getElementById('position').placeholder=Translate[currentLanguage].positionPlaceholder;
     document.getElementsByClassName('roaddepartments')[0].innerText=Translate[currentLanguage].roaddepartment;
     document.getElementsByClassName('waterSupply')[0].innerText=Translate[currentLanguage].waterdepartment;
     document.getElementsByClassName('electricityAuthority')[0].innerText=Translate[currentLanguage].electricitydepartment;
