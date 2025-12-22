@@ -31,8 +31,8 @@
                     <button type="button" class="login-btn log" id="Login-btn">Login</button>
                     <button  type="button"class="register-btn register" id="Register-btn">Register</button>
                 </div>
-                <form action="../backend/createuser.php" class="form" method="POST" enctype="multipart/form-data">
-                    <!-- Form data will be processed and stored in the database -->
+                <form action="../backend/login.php" class="form" id="loginForm" method="POST">
+                    <!-- Login Form -->
                     <label for="email" class="email">Email</label>
                     <input type="email" id="email" name="loginemail" placeholder="Email address"/>
                     <label for="password" class="password">Password</label>
@@ -45,6 +45,9 @@
                     <div class="forgot-password">
                         <a href="#" class="forgotpassword test">Forgot your Password?</a>
                     </div>
+                </form>
+                <form action="../backend/createuser.php" class="form" id="registerForm" method="POST" enctype="multipart/form-data" style="display:none;">
+                    <!-- Registration Form -->
                     <label for="user-type" id="user-type">User Type</label>
                         <div class="btn-select">
                             <button class="user-btn" id="citizen-btn">Citizen</button>

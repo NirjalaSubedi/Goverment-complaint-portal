@@ -139,6 +139,16 @@ officerbtn.addEventListener('click',function(e){
 
 })
 function togglefields(showLogin){
+	const loginForm = document.getElementById('loginForm');
+	const registerForm = document.getElementById('registerForm');
+	
+	if(showLogin) {
+		loginForm.style.display = 'block';
+		registerForm.style.display = 'none';
+	} else {
+		loginForm.style.display = 'none';
+		registerForm.style.display = 'block';
+	}
 
 	loginfields.forEach(field=>{
 		if(field)
