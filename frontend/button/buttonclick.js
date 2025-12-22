@@ -1,6 +1,56 @@
 document.addEventListener('DOMContentLoaded',function(){
 const loginbtn=document.getElementById('Login-btn');
 const registerbtn=document.getElementById('Register-btn');
+const loginForm = document.querySelector('.login-form-section');
+const registerForm = document.querySelector('.register-form-section');
+
+
+    
+    const citizenbtn = document.getElementById('citizen-btn');
+    const officerbtn = document.getElementById('officer-btn');
+    const userTypeInput = document.getElementById('selected-user-type');
+    
+    // Officer specific fields
+    const deptField = document.getElementById('department');
+    const docField = document.getElementById('documents');
+
+    // Citizen बटन क्लिक गर्दा
+    citizenbtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        userTypeInput.value = 'Citizen';
+        
+        // लुकाउने र Required हटाउने
+        deptField.style.display = 'none';
+        docField.style.display = 'none';
+        deptField.removeAttribute('required');
+        docField.removeAttribute('required');
+        
+        citizenbtn.style.backgroundColor = "rgb(18, 177, 18)";
+        officerbtn.style.backgroundColor = "#aeaeae";
+    });
+
+    // Officer बटन क्लिक गर्दा
+    officerbtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        userTypeInput.value = 'Officer';
+        
+        // देखाउने र Required थप्ने
+        deptField.style.display = 'block';
+        docField.style.display = 'block';
+        deptField.setAttribute('required', 'required');
+        docField.setAttribute('required', 'required');
+        
+        officerbtn.style.backgroundColor = "red";
+        citizenbtn.style.backgroundColor = "#aeaeae";
+    });
+
+    // बाँकी Toggle Form को Logic यहाँ राख्नुहोस्...
+    // याद गर्नुहोस्: registerBtn को ठाउँमा registerbtn प्रयोग गर्नुहोस्।
+
+
+
+
+
 
 const loginfields=[
 	document.getElementById('email'),
@@ -44,8 +94,8 @@ const citizenlog=[
 	document.getElementById('department'),
 	document.getElementById('documents')
 ]
-const citizenbtn=document.getElementById('citizen-btn');
-const officerbtn=document.getElementById('officer-btn');
+//const citizenbtn=document.getElementById('citizen-btn');
+//const officerbtn=document.getElementById('officer-btn');
 
 togglefields(true);
 
@@ -107,15 +157,22 @@ function togglefields(showLogin){
 		registerbtn.style.color='white';
 	});
 
-	document.getElementsByClassName('createAccount')[0].addEventListener('click',function(){
-    window.location.href='auth.html';
-	})
-
 	const verifybtn=document.getElementsByClassName('verify-btn')[0];
 	const resendbtn=document.getElementsByClassName('resend-btn')[0];
 
-	
+	loginBtn.addEventListener('click', () => {
+	    loginForm.style.display = 'block';
+	    registerForm.style.display = 'none';
+	    loginBtn.classList.add('active');
+	    registerBtn.classList.remove('active');
+	});
 
+	registerBtn.addEventListener('click', () => {
+	    loginForm.style.display = 'none';
+	    registerForm.style.display = 'block';
+	    registerBtn.classList.add('active');
+	    loginBtn.classList.remove('active');
+	});
 
 })
 function dropDownbtn(){

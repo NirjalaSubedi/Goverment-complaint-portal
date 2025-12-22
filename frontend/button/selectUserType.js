@@ -1,35 +1,56 @@
-const citizenBtn = document.getElementById('citizen-btn');
-const officerBtn = document.getElementById('officer-btn');
-const userTypeInput = document.getElementById('selected-user-type');
-const officerFields = document.getElementById('officer-fields');
-const departmentSelect = document.getElementById('department');
-const positionInput = document.getElementById('position');
-const officerIdInput = document.getElementById('documents');
-function selectUserType(type) {
-    userTypeInput.value = type;
-    if (type === 'Citizen') {
+document.addEventListener('DOMContentLoaded', () => {
+    const citizenBtn = document.getElementById('citizen-btn');
+    const officerBtn = document.getElementById('officer-btn');
+    const userTypeInput = document.getElementById('selected-user-type');
+    const departmentLabel = document.querySelector('.department');
+    const departmentSelect = document.getElementById('department');
+    const documentsLabel = document.querySelector('.documents');
+    const documentsInput = document.getElementById('documents');
+
+    if (!citizenBtn || !officerBtn || !userTypeInput) return;
+
+    const hideOfficer = () => {
+        userTypeInput.value = 'Citizen';
         citizenBtn.classList.add('active');
         officerBtn.classList.remove('active');
-        officerFields.style.display = 'none';
-        departmentSelect.removeAttribute('required');
-        positionInput.removeAttribute('required');
-        officerIdInput.removeAttribute('required');
-    } else {
-        citizenBtn.classList.remove('active');
-        officerBtn.classList.add('active');
-        officerFields.style.display = 'block';
-        departmentSelect.setAttribute('required', 'required');
-        positionInput.setAttribute('required', 'required');
-        officerIdInput.setAttribute('required', 'required');
-    }
-}
-document.addEventListener('DOMContentLoaded', () => {
-    selectUserType('Citizen'); 
-});
-citizenBtn.addEventListener('click', () => {
-    selectUserType('Citizen');
-});
+        if (departmentLabel) departmentLabel.style.display = 'none';
+        if (departmentSelect) {
+            departmentSelect.style.display = 'none';
+            departmentSelect.removeAttribute('required');
+        }
+        if (documentsLabel) documentsLabel.style.display = 'none';
+        if (documentsInput) {
+            documentsInput.style.display = 'none';
+            documentsInput.removeAttribute('required');
+        }
+    };
 
-officerBtn.addEventListener('click', () => {
-    selectUserType('Officer');
+    const showOfficer = () => {
+        userTypeInput.value = 'Officer';
+        officerBtn.classList.add('active');
+        citizenBtn.classList.remove('active');
+        if (departmentLabel) departmentLabel.style.display = 'block';
+        if (departmentSelect) {
+            departmentSelect.style.display = 'block';
+            departmentSelect.setAttribute('required', 'required');
+        }
+        if (documentsLabel) documentsLabel.style.display = 'block';
+        if (documentsInput) {
+            documentsInput.style.display = 'block';
+            documentsInput.setAttribute('required', 'required');
+        }
+    };
+
+    // default
+    hideOfficer();
+
+    citizenBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        hideOfficer();
+    });
+
+    officerBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        showOfficer();
+    });
 });
