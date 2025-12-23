@@ -61,6 +61,14 @@ const registerForm = document.querySelector('.register-form-section');
     // बाँकी Toggle Form को Logic यहाँ राख्नुहोस्...
     // याद गर्नुहोस्: registerBtn को ठाउँमा registerbtn प्रयोग गर्नुहोस्।
 
+    // Default ma Citizen selected huncha, so officer fields hide garne
+    deptField.style.display = 'none';
+    deptLabel.style.display = 'none';
+    posField.style.display = 'none';
+    posLabel.style.display = 'none';
+    docField.style.display = 'none';
+    docLabel.style.display = 'none';
+
 
 
 
@@ -139,16 +147,6 @@ officerbtn.addEventListener('click',function(e){
 
 })
 function togglefields(showLogin){
-	const loginForm = document.getElementById('loginForm');
-	const registerForm = document.getElementById('registerForm');
-	
-	if(showLogin) {
-		loginForm.style.display = 'block';
-		registerForm.style.display = 'none';
-	} else {
-		loginForm.style.display = 'none';
-		registerForm.style.display = 'block';
-	}
 
 	loginfields.forEach(field=>{
 		if(field)
