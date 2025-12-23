@@ -15,7 +15,6 @@ if ($email === '' || $password === '') {
     exit;
 }
 
-// Prepared statement to prevent SQL injection
 $stmt = $conn->prepare('SELECT user_id, email, full_name, password_hash FROM users WHERE email = ? LIMIT 1');
 $stmt->bind_param('s', $email);
 $stmt->execute();
@@ -32,15 +31,19 @@ if ($result && $result->num_rows === 1) {
         $_SESSION['user_email'] = $row['email'];
         $_SESSION['user_name'] = $row['full_name'];
 
+        // Update last_login_at
+        $updateStmt = $conn->prepare('UPDATE users SET last_login_at = NOW() WHERE user_id = ?');
+        $updateStmt->bind_param('i', $row['user_id']);
+        $updateStmt->execute();
+        $updateStmt->close();
+
         echo "<script>alert('Login Successful!'); window.location.href = '../dashboard.php';</script>";
         exit;
     } else {
-        // Password doesn't match
         echo "<script>alert('Invalid Password'); window.history.back();</script>";
         exit;
     }
 } else {
-    // Email not found in database
     echo "<script>alert('Invalid Email'); window.history.back();</script>";
     exit;
 }
