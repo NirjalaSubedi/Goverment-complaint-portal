@@ -352,8 +352,20 @@
     </div>
 </div>
    
+    <script>
+        // Loading user information on page load
+        fetch('../backend/getuser.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.fullName) {
+                    document.querySelector('.username').textContent = data.fullName;
+                }
+            })
+            .catch(error => console.error('Error loading user info:', error));
+    </script>
     <script src="button/buttonclick.js"></script>
     <script src="button/officerdashboardbtn.js"></script>
+    <script src="languageToggle/languagetoggle2.js"></script>
     
 </body>
 </html>
