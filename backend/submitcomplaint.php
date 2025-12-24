@@ -1,12 +1,10 @@
 <?php
 session_start();
 include '../includes/databaseConnection.php';
-
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     exit('Method not allowed');
 }
-
 if (!isset($_SESSION['user_id'])) {
     echo "<script>alert('Please login first.'); window.location.href='../frontend/login.html';</script>";
     exit;
@@ -22,7 +20,6 @@ $priorityMap = [
     'low' => 'Low'
 ];
 $priority = $priorityMap[$priorityRaw] ?? 'Low';
-
 // Normalize category names
 $categoryAliases = [
     'watersupply' => 'Water Supply',
@@ -36,7 +33,6 @@ $categoryAliases = [
     'other' => 'Other'
 ];
 $normalizedCategory = $categoryAliases[$categoryName] ?? ucfirst($categoryName);
-
 $categoryId = null;
 $stmt = $conn->prepare('SELECT category_id FROM complaintcategories WHERE LOWER(category_name) = LOWER(?) LIMIT 1');
 $stmt->bind_param('s', $normalizedCategory);
@@ -56,7 +52,6 @@ if ($res && $res->num_rows === 1) {
     $insertCat->close();
 }
 $stmt->close();
-
 $attachmentPath = '';
 if (!empty($_FILES['attachment']['name'])) {
     $uploadsDir = realpath(__DIR__ . '/../uploads');
@@ -83,14 +78,9 @@ if ($citizenId <= 0) {
     exit;
 }
 
-if ($subject !== '') {
-    $description = $subject . "\n\n" . $description;
-}
-
 $status = 'Pending';
-
-$insert = $conn->prepare('INSERT INTO complaints (citizen_id, category_id, location, description, priority_level, status, complaint_attachment) VALUES (?, ?, ?, ?, ?, ?, ?)');
-$insert->bind_param('iisssss', $citizenId, $categoryId, $location, $description, $priority, $status, $attachmentPath);
+$insert = $conn->prepare('INSERT INTO complaints (citizen_id, category_id, location, description, priority_level, status, complaint_attachment, subject) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+$insert->bind_param('iissssss', $citizenId, $categoryId, $location, $description, $priority, $status, $attachmentPath, $subject);
 
 if ($insert->execute()) {
     $insert->close();
