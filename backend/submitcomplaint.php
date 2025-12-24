@@ -37,7 +37,57 @@ $categoryAliases = [
 ];
 $normalizedCategory = $categoryAliases[$categoryName] ?? ucfirst($categoryName);
 
+$categoryId = null;
+$stmt = $conn->prepare('SELECT category_id FROM complaintcategories WHERE LOWER(category_name) = LOWER(?) LIMIT 1');
+$stmt->bind_param('s', $normalizedCategory);
+$stmt->execute();
+$res = $stmt->get_result();
+if ($res && $res->num_rows === 1) {
+    $row = $res->fetch_assoc();
+    $categoryId = (int)$row['category_id'];
+} else {
+    $insertCat = $conn->prepare('INSERT INTO complaintcategories(category_name) VALUES (?)');
+    $insertCat->bind_param('s', $normalizedCategory);
+    if (!$insertCat->execute()) {
+        echo "<script>alert('Failed to create category.'); window.history.back();</script>";
+        exit;
+    }
+    $categoryId = $insertCat->insert_id;
+    $insertCat->close();
+}
+$stmt->close();
 
+$attachmentPath = '';
+if (!empty($_FILES['attachment']['name'])) {
+    $uploadsDir = realpath(__DIR__ . '/../uploads');
+    if ($uploadsDir === false) {
+        $uploadsDir = __DIR__ . '/../uploads';
+    }
+    $complaintsDir = $uploadsDir . '/complaints';
+    if (!is_dir($complaintsDir)) {
+        @mkdir($complaintsDir, 0755, true);
+    }
+
+    $safeName = preg_replace('/[^A-Za-z0-9_.-]/', '_', basename($_FILES['attachment']['name']));
+    $uniqueName = time() . '_' . $safeName;
+    $targetPath = $complaintsDir . '/' . $uniqueName;
+
+    if (move_uploaded_file($_FILES['attachment']['tmp_name'], $targetPath)) {
+        // Save relative path for DB
+        $attachmentPath = 'uploads/complaints/' . $uniqueName;
+    }
+}
+
+
+
+if ($insert->execute()) {
+    $insert->close();
+    echo "<script>alert('Complaint submitted successfully'); window.location.href='../frontend/citizendashboard.html';</script>";
+} else {
+    $err = $conn->error;
+    $insert->close();
+    echo "<script>alert('Error submitting complaint: $err'); window.history.back();</script>";
+}
 
 $conn->close();
 ?>
