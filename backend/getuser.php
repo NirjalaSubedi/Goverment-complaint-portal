@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 $userInfo = [
     'fullName' => $_SESSION['user_name'] ?? 'User',
     'email' => $_SESSION['user_email'] ?? '',
-    'userType' => $_SESSION['user_type'] ?? 'Citizen',
+    'userType' => $_SESSION['user_type'] ?? '',
     'userId' => $_SESSION['user_id'] ?? 0
 ];
 

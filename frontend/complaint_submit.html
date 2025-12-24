@@ -19,7 +19,7 @@
                 <p id="titledesc">Provide detailed information about your issue</p>
             </div>
         </div>
-        <form action="./backend/insertdata.php" class="complaint-form" method="POST">
+        <form action="../backend/submitcomplaint.php" class="complaint-form" method="POST">
             <label for="complaint-type">ComplaintType*</label>
             <select id="complaint-type" name="complaint-type" required>
                 <option value="" disabled selected>Select Complaint Type</option>
@@ -48,8 +48,8 @@
             <label for="attachment">Attachment</label>
             <input type="file" id="attachment" name="attachment" accept="image/*,application/pdf">
             <div class="double-btn">
-            <button type="button"class="cancle-btn" value="cancel">Cancel</button>
-            <button type="submit" class="submit-btn1" value="submit">Submit</button>
+            <button type="button"class="cancle-btn" value="cancel" name="cancel">Cancel</button>
+            <button type="submit" class="submit-btn1" value="submit" name="submit">Submit</button>
             </div>
         </form>
     </div>

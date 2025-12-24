@@ -20,13 +20,11 @@ if (isset($_POST['submit'])) {
         $departmentId = null;
         
         if ($departmentName !== '') {
-            // First check if department exists
             $depRes = mysqli_query($conn, "SELECT department_id FROM departments WHERE department_name = '$departmentName' LIMIT 1");
             if ($depRes && mysqli_num_rows($depRes) === 1) {
                 $depRow = mysqli_fetch_assoc($depRes);
                 $departmentId = (int)$depRow['department_id'];
             } else {
-                // Department doesn't exist, create it
                 $insertDept = mysqli_query($conn, "INSERT INTO departments (department_name) VALUES ('$departmentName')");
                 if ($insertDept) {
                     $departmentId = mysqli_insert_id($conn);
