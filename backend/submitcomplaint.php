@@ -77,8 +77,20 @@ if (!empty($_FILES['attachment']['name'])) {
         $attachmentPath = 'uploads/complaints/' . $uniqueName;
     }
 }
+$citizenId = (int)($_SESSION['user_id'] ?? 0);
+if ($citizenId <= 0) {
+    echo "<script>alert('Invalid user session.'); window.location.href='../frontend/login.html';</script>";
+    exit;
+}
 
+if ($subject !== '') {
+    $description = $subject . "\n\n" . $description;
+}
 
+$status = 'Pending';
+
+$insert = $conn->prepare('INSERT INTO complaints (citizen_id, category_id, location, description, priority_level, status, complaint_attachment) VALUES (?, ?, ?, ?, ?, ?, ?)');
+$insert->bind_param('iisssss', $citizenId, $categoryId, $location, $description, $priority, $status, $attachmentPath);
 
 if ($insert->execute()) {
     $insert->close();
@@ -88,6 +100,5 @@ if ($insert->execute()) {
     $insert->close();
     echo "<script>alert('Error submitting complaint: $err'); window.history.back();</script>";
 }
-
 $conn->close();
 ?>
