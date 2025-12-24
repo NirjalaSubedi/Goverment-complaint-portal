@@ -19,7 +19,7 @@
                 <p id="titledesc">Provide detailed information about your issue</p>
             </div>
         </div>
-        <form action="../backend/submitcomplaint.php" class="complaint-form" method="POST">
+        <form action="../backend/submitcomplaint.php" class="complaint-form" method="POST" enctype="multipart/form-data">
             <label for="complaint-type">ComplaintType*</label>
             <select id="complaint-type" name="complaint-type" required>
                 <option value="" disabled selected>Select Complaint Type</option>
