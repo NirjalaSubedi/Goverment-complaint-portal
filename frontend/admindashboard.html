@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style/style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="icon" type="img/png" href="./logo.png">
+</head>
+<body>
+    <header>
+        <div class="container" style="min-height:60px">
+            <div class="sub-container">
+                <div class="logo">
+                    <img src="images/logo.png" alt="logo">
+                </div>
+                <div class="title">
+                    <h1 class="Heading1">Government Complaint Portal</h1>
+                </div>
+            </div>
+            <div class="auth-buttons">
+                <button id="language-toggle">
+                    <i class="material-icons">language</i> नेपाली
+                </button>
+                <i class="material-icons" id="notifications-icon">notifications</i>
+                <div class="profile-sections">
+                    <i class="material-icons" id="profile-icon">account_circle</i>
+                    <div class="user-type">
+                        <div class="username">Admin User</div>
+                        <div class="role">Administrator</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-divider">
+        <div class="vertical-navigation">
+            <div class="navigation1">
+                <p class="navigation">ADMIN PANEL</p>
+                <div class="Complaints Navbtn active">
+                    <div class="nav-btn">
+                        <i class="material-icons">verified_user</i>
+                        <p>Officer Approvals</p>
+                    </div>
+                </div>
+                <div class="Navbtn">
+                    <div class="nav-btn">
+                        <i class="material-icons">people</i>
+                        <p>Manage Users</p>
+                    </div>
+                </div>
+                <div class="logout nav-btn" style="margin-top: 20px;">
+                    <i class="material-icons" style="color: red;">logout</i>
+                    <a href="logout.php" style="text-decoration: none; color: red;">Logout</a>
+                </div>
+            </div>
+        </div>
+</body>
+</html>
