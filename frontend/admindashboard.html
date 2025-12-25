@@ -57,5 +57,69 @@
                 </div>
             </div>
         </div>
+
+        <div class="dashboard-container">
+            <div class="MainHeading">
+                <div class="myComplaintsHeading">
+                    <h2>Pending Officer Registrations</h2>
+                    <p>Review and approve new officer accounts</p>
+                </div>
+            </div>
+
+            <div class="MainBox">
+                <div class="heading003" style="padding: 15px;">
+                    <h4 style="font-size:18px;">New Officer Requests</h4>
+                </div>
+
+                <table class="testTable">
+                    <tr class="ComplaintHeader1">
+                        <th>OFFICER DETAILS</th>
+                        <th>DEPARTMENT</th>
+                        <th>PHONE</th>
+                        <th>EMAIL</th>
+                        <th>ACTIONS</th>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="combine-logo-title">
+                                <div class="officer-initials">RK</div>
+                                <div class="complaintTitleDetails">
+                                    <p class="complaintTitleText" style="font-weight: bold;">Ram Kumar Thapa</p>
+                                    <p id="complaintID">ID: OFF-992</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>Sunsari Police HQ</td>
+                        <td>98XXXXXXXX</td>
+                        <td>ram.thapa@gov.np</td>
+                        <td>
+                            <button class="approve-btn" onclick="confirmApprove('OFF-992')">Approve</button>
+                            <button class="reject-btn" onclick="confirmReject('OFF-992')">Reject</button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="combine-logo-title">
+                                <div class="officer-initials" style="background-color: #6f42c1;">SL</div>
+                                <div class="complaintTitleDetails">
+                                    <p class="complaintTitleText" style="font-weight: bold;">Sita Laxmi</p>
+                                    <p id="complaintID">ID: OFF-102</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>Electricity Auth.</td>
+                        <td>981XXXXXXX</td>
+                        <td>sita.laxmi@nea.org</td>
+                        <td>
+                            <button class="approve-btn" onclick="confirmApprove('OFF-102')">Approve</button>
+                            <button class="reject-btn" onclick="confirmReject('OFF-102')">Reject</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
