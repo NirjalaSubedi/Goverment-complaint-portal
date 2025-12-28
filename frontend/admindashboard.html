@@ -94,53 +94,70 @@
                     <h4 style="font-size:18px;">New Officer Requests</h4>
                 </div>
 
+
+
+
+
                 <table class="testTable">
-                    <tr class="ComplaintHeader1">
-                        <th>OFFICER DETAILS</th>
-                        <th>DEPARTMENT</th>
-                        <th>PHONE</th>
-                        <th>EMAIL</th>
-                        <th>ACTIONS</th>
-                    </tr>
+    <tr class="ComplaintHeader1">
+        <th>OFFICER DETAILS</th>
+        <th>DEPARTMENT</th>
+        <th>PHONE</th>
+        <th>EMAIL</th>
+        <th>DOCUMENT</th> 
+        <th>ACTIONS</th>
+    </tr>
 
-                    <tr>
-                        <td>
-                            <div class="combine-logo-title">
-                                <div class="officer-initials">RK</div>
-                                <div class="complaintTitleDetails">
-                                    <p class="complaintTitleText" style="font-weight: bold;">Ram Kumar Thapa</p>
-                                    <p id="complaintID">ID: OFF-992</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td>Sunsari Police HQ</td>
-                        <td>98XXXXXXXX</td>
-                        <td>ram.thapa@gov.np</td>
-                        <td>
-                            <button class="approve-btn" onclick="confirmApprove('OFF-992')">Approve</button>
-                            <button class="reject-btn" onclick="confirmReject('OFF-992')">Reject</button>
-                        </td>
-                    </tr>
+    <tr>
+        <td>
+            <div class="combine-logo-title">
+                <div class="officer-initials">RK</div>
+                <div class="complaintTitleDetails">
+                    <p class="complaintTitleText" style="font-weight: bold;">Ram Kumar Thapa</p>
+                    <p id="complaintID">ID: OFF-992</p>
+                </div>
+            </div>
+        </td>
+        <td>Sunsari Police HQ</td>
+        <td>98XXXXXXXX</td>
+        <td>ram.thapa@gov.np</td>
+        <td>
+            <a href="path/to/document1.pdf" target="_blank" style="text-decoration: none; color: #007bff;">
+                <i class="material-icons" style="vertical-align: middle;">description</i> View Doc
+            </a>
+        </td>
+        <td>
+            <button class="approve-btn" onclick="confirmApprove('OFF-992')">Approve</button>
+            <button class="reject-btn" onclick="confirmReject('OFF-992')">Reject</button>
+        </td>
+    </tr>
 
-                    <tr>
-                        <td>
-                            <div class="combine-logo-title">
-                                <div class="officer-initials" style="background-color: #6f42c1;">SL</div>
-                                <div class="complaintTitleDetails">
-                                    <p class="complaintTitleText" style="font-weight: bold;">Sita Laxmi</p>
-                                    <p id="complaintID">ID: OFF-102</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td>Electricity Auth.</td>
-                        <td>981XXXXXXX</td>
-                        <td>sita.laxmi@nea.org</td>
-                        <td>
-                            <button class="approve-btn" onclick="confirmApprove('OFF-102')">Approve</button>
-                            <button class="reject-btn" onclick="confirmReject('OFF-102')">Reject</button>
-                        </td>
-                    </tr>
-                </table>
+    <tr>
+        <td>
+            <div class="combine-logo-title">
+                <div class="officer-initials" style="background-color: #6f42c1;">SL</div>
+                <div class="complaintTitleDetails">
+                    <p class="complaintTitleText" style="font-weight: bold;">Sita Laxmi</p>
+                    <p id="complaintID">ID: OFF-102</p>
+                </div>
+            </div>
+        </td>
+        <td>Electricity Auth.</td>
+        <td>981XXXXXXX</td>
+        <td>sita.laxmi@nea.org</td>
+        <td>
+            <a href="path/to/document2.pdf" target="_blank" style="text-decoration: none; color: #007bff;">
+                <i class="material-icons" style="vertical-align: middle;">description</i> View Doc
+            </a>
+        </td>
+        <td>
+            <button class="approve-btn" onclick="confirmApprove('OFF-102')">Approve</button>
+            <button class="reject-btn" onclick="confirmReject('OFF-102')">Reject</button>
+        </td>
+    </tr>
+</table>
+
+
             </div>
         </div>
     </div>
