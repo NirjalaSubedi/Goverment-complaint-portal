@@ -3,7 +3,7 @@ let currentLanguage = 'en';
 const Translate = {
     'en': {
         'languageToggle': 'नेपाली',
-        'title': 'Goverment Complaint Portal',
+        'title': 'Nikaas',
         'citizen': 'Citizen',
         'Nav': 'NAVIGATION',
         'myComplaints': 'myComplaints',
@@ -67,7 +67,7 @@ const Translate = {
     },
     'ne': {
         'languageToggle': 'English',
-        'title': 'सरकारी उजुरी पोर्टल',
+        'title': 'निकास',
         'citizen': 'नागरिक',
         'Nav': 'नेभिगेसन',
         'myComplaints': 'मेरो उजुरीहरू',

@@ -59,9 +59,15 @@ if (isset($_POST['submit'])) {
     }
     
     if (mysqli_query($conn, $sql)) {
+        $newUserId = mysqli_insert_id($conn);
+        
+        // If officer, update user_id in departments table
+        if ($user_type === 'Officer' && $departmentId !== null) {
+            mysqli_query($conn, "UPDATE departments SET user_id = $newUserId WHERE department_id = $departmentId");
+        }
+        
         // If officer and we have a document path, insert into userdocuments
         if ($user_type === 'Officer' && !empty($uploadedDocPath)) {
-            $newUserId = mysqli_insert_id($conn);
             $docType = 'OfficerID';
             $docPathEsc = mysqli_real_escape_string($conn, $uploadedDocPath);
             mysqli_query($conn, "INSERT INTO userdocuments(user_id, document_type, file_path, upload_date) VALUES ($newUserId, '$docType', '$docPathEsc', NOW())");

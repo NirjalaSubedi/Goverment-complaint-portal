@@ -45,11 +45,10 @@ const Translate = {
         'titledesc': 'Provide detailed information about your issue',
         'complainttype': 'Complaint Type*',
         'selectType': 'Select Complaint Type',
-        'corruption': 'Corruption',
-        'roaddamage': 'roadDamage',
+        'roaddamage': 'Roads',
         'waterSupply': 'Water Supply',
         'electricity': 'Electricity',
-        'HealthCare': 'HealthCare',
+        'corruption': 'Anti-Corruption',
         'other': 'Other',
         'subject': 'Subject*',
         'subjectPlaceholder': 'Brief Subject of your Complaint',
@@ -111,11 +110,10 @@ const Translate = {
         'titledesc': 'आफ्नो समस्याको बारेमा विस्तृत जानकारी प्रदान गर्नुहोस्',
         'complainttype': 'उजुरी प्रकार*',
         'selectType': 'उजुरी प्रकार चयन गर्नुहोस्',
-        'corruption': 'भ्रष्टाचार',
-        'roaddamage': 'सडक क्षति',
+        'roaddamage': 'सडक',
         'waterSupply': 'पानी आपूर्ति',
         'electricity': 'बिजुली',
-        'HealthCare': 'स्वास्थ्य सेवा',
+        'corruption': 'भ्रष्टाचार विरोधी',
         'other': 'अन्य',
         'subject': 'विषय*',
         'subjectPlaceholder': 'तपाईंको उजुरीको संक्षिप्त विषय',
@@ -184,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
         complaintTypeSelect.options[3].id = 'complaintWaterSupply';
         complaintTypeSelect.options[4].id = 'complaintElectricity';
         complaintTypeSelect.options[5].id = 'complaintHealthCare';
-        complaintTypeSelect.options[6].id = 'complaintOthers';
+        complaintTypeSelect.options[6].id = 'Others';
     }
 
     // Add IDs to un-ID'd elements for translation
@@ -357,12 +355,11 @@ function applyTranslations() {
     const complaintTypeSelect = document.getElementById('complaint-type');
     if (complaintTypeSelect) {
         if (complaintTypeSelect.options[0]) complaintTypeSelect.options[0].text = Translate[lang].selectType;
-        if (complaintTypeSelect.options[1]) complaintTypeSelect.options[1].text = Translate[lang].corruption;
-        if (complaintTypeSelect.options[2]) complaintTypeSelect.options[2].text = Translate[lang].roaddamage;
-        if (complaintTypeSelect.options[3]) complaintTypeSelect.options[3].text = Translate[lang].waterSupply;
-        if (complaintTypeSelect.options[4]) complaintTypeSelect.options[4].text = Translate[lang].electricity;
-        if (complaintTypeSelect.options[5]) complaintTypeSelect.options[5].text = Translate[lang].HealthCare;
-        if (complaintTypeSelect.options[6]) complaintTypeSelect.options[6].text = Translate[lang].other;
+        if (complaintTypeSelect.options[1]) complaintTypeSelect.options[1].text = Translate[lang].roaddamage;
+        if (complaintTypeSelect.options[2]) complaintTypeSelect.options[2].text = Translate[lang].waterSupply;
+        if (complaintTypeSelect.options[3]) complaintTypeSelect.options[3].text = Translate[lang].electricity;
+        if (complaintTypeSelect.options[4]) complaintTypeSelect.options[4].text = Translate[lang].corruption;
+        if (complaintTypeSelect.options[5]) complaintTypeSelect.options[5].text = Translate[lang].other;
     }
     
     // Priority Labels

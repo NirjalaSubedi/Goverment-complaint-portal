@@ -48,7 +48,7 @@ if ($result && $result->num_rows === 1) {
             echo "<script>window.location.href = '../frontend/officerdasboard.html';</script>";
         } else {
             //admin or other types  
-            echo "window.location.href = '../frontend/index1.html';</script>";
+            echo "<script>window.location.href = '../frontend/admindashboard.html';</script>";
         }
         exit;
     } else {

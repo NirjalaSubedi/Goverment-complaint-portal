@@ -2,7 +2,7 @@ let currentLanguage='en';
 const Translate={
     'en':{
         languageToggle:'नेपाली',
-        title:'Goverment Complaint Portal',
+        title:'Nikaas',
         Features:'Features',
         HowItWorks:'How It Works',
         Contact:'Contact',
@@ -99,7 +99,7 @@ const Translate={
     },
     'ne':{
         languageToggle:'English',
-        title:'सरकारी उजुरी पोर्टल',
+        title:'निकास',
         Features:'विशेषताहरु',
         HowItWorks:'यो कसरी काम गर्छ',
         Contact:'सम्पर्क',

@@ -22,14 +22,13 @@ $priorityMap = [
 $priority = $priorityMap[$priorityRaw] ?? 'Low';
 // Normalize category names to match departments
 $categoryAliases = [
+    'roaddamage' => 'Roads Department',
+    'road' => 'Roads Department',
     'watersupply' => 'Water Supply Department',
     'water' => 'Water Supply Department',
     'electricity' => 'Electricity Authority',
-    'roaddamage' => 'Roads Department',
-    'road' => 'Roads Department',
-    'healthcare' => 'Health Care',
-    'health' => 'Health Care',
     'corruption' => 'Anti-Corruption Commission',
+    'anticorruption' => 'Anti-Corruption Commission',
     'other' => 'Other'
 ];
 $normalizedCategory = $categoryAliases[$categoryName] ?? ucfirst($categoryName);
@@ -81,10 +80,10 @@ if ($citizenId <= 0) {
 // Auto-assign officer based on complaint category -> matching department
 $assignedOfficerId = null;
 
-// Debug: Check what we're looking for
 error_log("DEBUG: Looking for department: '$normalizedCategory'");
 
-$depStmt = $conn->prepare('SELECT department_id FROM departments WHERE LOWER(department_name) = LOWER(?) LIMIT 1');
+// First try: get department and its assigned officer user_id
+$depStmt = $conn->prepare('SELECT department_id, user_id FROM departments WHERE LOWER(department_name) = LOWER(?) LIMIT 1');
 $depStmt->bind_param('s', $normalizedCategory);
 $depStmt->execute();
 $depRes = $depStmt->get_result();
@@ -92,29 +91,37 @@ $depRes = $depStmt->get_result();
 if ($depRes && $depRes->num_rows === 1) {
     $depRow = $depRes->fetch_assoc();
     $targetDeptId = (int)$depRow['department_id'];
-    error_log("DEBUG: Found department_id: $targetDeptId");
-
-    // Pick an approved officer from this department (first one)
-    $offStmt = $conn->prepare("SELECT user_id FROM users WHERE user_type = 'Officer' AND is_approved = 'Approved' AND department_id = ? ORDER BY user_id ASC LIMIT 1");
-    $offStmt->bind_param('i', $targetDeptId);
-    $offStmt->execute();
-    $offRes = $offStmt->get_result();
+    $deptUserId = (int)$depRow['user_id'];
     
-    if ($offRes && $offRes->num_rows === 1) {
-        $offRow = $offRes->fetch_assoc();
-        $assignedOfficerId = (int)$offRow['user_id'];
-        error_log("DEBUG: Found officer_id: $assignedOfficerId");
+    error_log("DEBUG: Found department_id: $targetDeptId, user_id from department: $deptUserId");
+
+    // If department has a user_id assigned, use that (new way)
+    if ($deptUserId > 0) {
+        $assignedOfficerId = $deptUserId;
+        error_log("DEBUG: Using officer_id from department: $assignedOfficerId");
     } else {
-        error_log("DEBUG: No approved officers found in department $targetDeptId");
+        // Fallback: Pick an approved officer from this department (old way)
+        $offStmt = $conn->prepare("SELECT user_id FROM users WHERE user_type = 'Officer' AND is_approved = 'Approved' AND department_id = ? ORDER BY user_id ASC LIMIT 1");
+        $offStmt->bind_param('i', $targetDeptId);
+        $offStmt->execute();
+        $offRes = $offStmt->get_result();
+        
+        if ($offRes && $offRes->num_rows === 1) {
+            $offRow = $offRes->fetch_assoc();
+            $assignedOfficerId = (int)$offRow['user_id'];
+            error_log("DEBUG: Found approved officer_id: $assignedOfficerId");
+        } else {
+            error_log("DEBUG: No approved officers found in department $targetDeptId");
+        }
+        $offStmt->close();
     }
-    $offStmt->close();
 } else {
     error_log("DEBUG: Department '$normalizedCategory' not found in database");
     // List all departments for debugging
-    $allDepts = $conn->query("SELECT department_id, department_name FROM departments");
+    $allDepts = $conn->query("SELECT department_id, department_name, user_id FROM departments");
     if ($allDepts) {
         while ($d = $allDepts->fetch_assoc()) {
-            error_log("DEBUG: Available department - ID: {$d['department_id']}, Name: {$d['department_name']}");
+            error_log("DEBUG: Available department - ID: {$d['department_id']}, Name: {$d['department_name']}, User ID: {$d['user_id']}");
         }
     }
 }
