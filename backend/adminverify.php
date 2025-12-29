@@ -1,8 +1,6 @@
 <?php
 include '../includes/databaseConnection.php';
-
 header('Content-Type: application/json');
-
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
 
 if ($action === 'getPendingOfficers') {
@@ -22,9 +20,10 @@ if ($action === 'getPendingOfficers') {
         while ($row = mysqli_fetch_assoc($result)) {
             $officers[] = $row;
         }
+        echo json_encode(['success' => true, 'officers' => $officers, 'count' => count($officers)]);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Database error: ' . mysqli_error($conn), 'officers' => []]);
     }
-    
-    echo json_encode(['success' => true, 'officers' => $officers]);
     exit;
 }
 
