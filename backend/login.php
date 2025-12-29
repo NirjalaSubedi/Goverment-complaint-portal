@@ -18,7 +18,7 @@ if ($email === '' || $password === '') {
     exit;
 }
 
-$stmt = $conn->prepare('SELECT user_id, email, full_name, password_hash, user_type FROM users WHERE email = ? LIMIT 1');
+$stmt = $conn->prepare('SELECT user_id, email, full_name, password_hash, user_type, is_approved FROM users WHERE email = ? LIMIT 1');
 $stmt->bind_param('s', $email);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -30,6 +30,15 @@ if ($result && $result->num_rows === 1) {
     $valid = password_verify($password, $row['password_hash']) || hash_equals($row['password_hash'], $password);
 
     if ($valid) {
+        // Check if officer is approved
+        if ($row['user_type'] === 'Officer' && $row['is_approved'] !== 'Approved') {
+            echo "<script>
+                alert('Your account is pending admin approval. Please wait for confirmation.');
+                window.location.href = '../frontend/login.html';
+            </script>";
+            exit;
+        }
+
         $_SESSION['user_id'] = $row['user_id'];
         $_SESSION['user_email'] = $row['email'];
         $_SESSION['user_name'] = $row['full_name'];
