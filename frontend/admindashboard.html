@@ -218,7 +218,29 @@
             });
         }
 
-        
+        function rejectOfficer(userId) {
+            const formData = new FormData();
+            formData.append('action', 'rejectOfficer');
+            formData.append('user_id', userId);
+
+            fetch('../backend/adminverify.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Officer rejected.');
+                    loadPendingOfficers();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while rejecting the officer.');
+            });
+        }
     </script>
 </body>
 </html>
