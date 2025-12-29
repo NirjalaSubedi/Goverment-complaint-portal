@@ -126,7 +126,6 @@
         <th>ACTIONS</th>
     </tr>
     <tbody id="officerTableBody">
-        <!-- Pending officers will be loaded here by JavaScript -->
     </tbody>
 </table>
 <div id="noOfficersMsg" style="text-align: center; padding: 20px; color: #666;">
@@ -188,7 +187,6 @@
             tbody.innerHTML = '';
 
             officers.forEach(officer => {
-                // Generate initials for avatar
                 const initials = officer.full_name.split(' ').map(n => n[0]).join('').toUpperCase();
                 const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8'];
                 const bgColor = colors[Math.floor(Math.random() * colors.length)];
