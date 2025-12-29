@@ -144,6 +144,44 @@
                 });
         }
 
+        function displayOfficers(officers) {
+            const tbody = document.getElementById('officerTableBody');
+            tbody.innerHTML = '';
+
+            officers.forEach(officer => {
+                // Generate initials for avatar
+                const initials = officer.full_name.split(' ').map(n => n[0]).join('').toUpperCase();
+                const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8'];
+                const bgColor = colors[Math.floor(Math.random() * colors.length)];
+
+                const documentLink = officer.file_path 
+                    ? `<a href="${officer.file_path}" target="_blank" style="text-decoration: none; color: #007bff;"><i class="material-icons" style="vertical-align: middle;">description</i> View Doc</a>`
+                    : '<span style="color: #999;">No document</span>';
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <div class="combine-logo-title">
+                            <div class="officer-initials" style="background-color: ${bgColor};">${initials}</div>
+                            <div class="complaintTitleDetails">
+                                <p class="complaintTitleText" style="font-weight: bold;">${officer.full_name}</p>
+                                <p id="complaintID">ID: ${officer.user_id}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${officer.department_name || 'Not specified'}</td>
+                    <td>${officer.phone_number || 'N/A'}</td>
+                    <td>${officer.email}</td>
+                    <td>${documentLink}</td>
+                    <td>
+                        <button class="approve-btn" onclick="confirmApprove(${officer.user_id})">Approve</button>
+                        <button class="reject-btn" onclick="confirmReject(${officer.user_id})">Reject</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
         
     </script>
 </body>
