@@ -182,6 +182,42 @@
             });
         }
 
+        function confirmApprove(userId) {
+            if (confirm('Are you sure you want to approve this officer?')) {
+                approveOfficer(userId);
+            }
+        }
+
+        function confirmReject(userId) {
+            if (confirm('Are you sure you want to reject this officer?')) {
+                rejectOfficer(userId);
+            }
+        }
+
+        function approveOfficer(userId) {
+            const formData = new FormData();
+            formData.append('action', 'approveOfficer');
+            formData.append('user_id', userId);
+
+            fetch('../backend/adminverify.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Officer approved successfully! They can now log in.');
+                    loadPendingOfficers();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while approving the officer.');
+            });
+        }
+
         
     </script>
 </body>
