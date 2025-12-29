@@ -126,6 +126,24 @@
             loadPendingOfficers();
         });
 
+        function loadPendingOfficers() {
+            fetch('../backend/adminverify.php?action=getPendingOfficers')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.officers.length > 0) {
+                        displayOfficers(data.officers);
+                        document.getElementById('noOfficersMsg').style.display = 'none';
+                        document.getElementById('officerTable').style.display = 'table';
+                    } else {
+                        document.getElementById('officerTable').style.display = 'none';
+                        document.getElementById('noOfficersMsg').style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading officers:', error);
+                });
+        }
+
         
     </script>
 </body>
