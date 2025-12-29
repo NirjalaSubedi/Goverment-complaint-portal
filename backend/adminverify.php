@@ -28,5 +28,52 @@ if ($action === 'getPendingOfficers') {
     exit;
 }
 
+else if ($action === 'approveOfficer') {
+    $userId = intval($_POST['user_id'] ?? 0);
+    
+    if ($userId <= 0) {
+        echo json_encode(['success' => false, 'message' => 'Invalid user ID']);
+        exit;
+    }
+    
+    $updateSql = "UPDATE users SET is_approved = 'Approved' WHERE user_id = ? AND user_type = 'Officer'";
+    $stmt = $conn->prepare($updateSql);
+    $stmt->bind_param('i', $userId);
+    
+    if ($stmt->execute()) {
+        echo json_encode(['success' => true, 'message' => 'Officer approved successfully']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Failed to approve officer']);
+    }
+    $stmt->close();
+    exit;
+}
 
+else if ($action === 'rejectOfficer') {
+    $userId = intval($_POST['user_id'] ?? 0);
+    
+    if ($userId <= 0) {
+        echo json_encode(['success' => false, 'message' => 'Invalid user ID']);
+        exit;
+    }
+    
+    $updateSql = "UPDATE users SET is_approved = 'Rejected' WHERE user_id = ? AND user_type = 'Officer'";
+    $stmt = $conn->prepare($updateSql);
+    $stmt->bind_param('i', $userId);
+    
+    if ($stmt->execute()) {
+        echo json_encode(['success' => true, 'message' => 'Officer rejected']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Failed to reject officer']);
+    }
+    $stmt->close();
+    exit;
+}
+
+else {
+    echo json_encode(['success' => false, 'message' => 'Invalid action']);
+    exit;
+}
+
+$conn->close();
 ?>
