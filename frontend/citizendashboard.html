@@ -282,8 +282,47 @@
                                 let iconBgColor = 'rgb(248, 221, 211)';
                                 const category = complaint.category_name ? complaint.category_name.toLowerCase() : '';
                                 
+                                if (category.includes('water')) {
+                                    iconClass = 'water_drop';
+                                    iconBgColor = 'rgb(176, 216, 230)';
+                                } else if (category.includes('electricity')) {
+                                    iconClass = 'flash_on';
+                                    iconBgColor = 'rgb(245, 232, 135)';
+                                } else if (category.includes('corruption')) {
+                                    iconClass = 'security';
+                                    iconBgColor = 'rgb(248, 232, 232)';
+                                } else if (category.includes('health')) {
+                                    iconClass = 'medical_services';
+                                    iconBgColor = '#ecebeb';
+                                }
                                 
-        
+                                // Get status color
+                                let statusClass = 'statusPending';
+                                let statusBgColor = 'rgb(255, 205, 205)';
+                                let statusColor = 'rgb(200, 0, 0)';
+                                let statusWidth = '70%';
+                                
+                                if (complaint.status === 'In Progress') {
+                                    statusClass = 'statusInProgress';
+                                    statusBgColor = 'rgb(196, 209, 250)';
+                                    statusColor = 'rgb(7, 7, 199)';
+                                } else if (complaint.status === 'Completed') {
+                                    statusClass = 'statusCompleted';
+                                    statusBgColor = 'rgb(207, 240, 207)';
+                                    statusColor = 'green';
+                                }
+                                
+                                // Get priority color
+                                let priorityColor = '';
+                                if (complaint.priority_level === 'High') {
+                                    priorityColor = 'rgb(200, 0, 0)';
+                                } else if (complaint.priority_level === 'Medium') {
+                                    priorityColor = 'orange';
+                                } else if (complaint.priority_level === 'Low') {
+                                    priorityColor = 'rgb(13, 180, 13)';
+                                }
+                                
+                                
         // Load complaints when page loads
         document.addEventListener('DOMContentLoaded', loadComplaints);
     </script>
