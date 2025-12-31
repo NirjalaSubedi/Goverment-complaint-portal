@@ -363,7 +363,11 @@
                 .catch(error => console.error('Error loading complaints:', error));
         }
         
-       
+        // Function to view complaint details
+        function viewComplaintDetails(complaintId) {
+            localStorage.setItem('selectedComplaintId', complaintId);
+            window.location.href = 'Viewdetails.html';
+        }
         
         // Load complaints when page loads
         document.addEventListener('DOMContentLoaded', loadComplaints);
