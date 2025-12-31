@@ -25,7 +25,20 @@ $query = "SELECT
         ORDER BY c.created_at DESC";
 
 $stmt = $conn->prepare($query);
+if (!$stmt) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Database error: ' . $conn->error]);
+    exit;
+}
 
+$stmt->bind_param('i', $citizen_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$complaints = [];
+while ($row = $result->fetch_assoc()) {
+    $complaints[] = $row;
+}
 
 $stmt->close();
 $conn->close();
