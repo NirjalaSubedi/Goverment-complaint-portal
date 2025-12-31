@@ -116,7 +116,7 @@
             <div class="complaintsStatement">
                 <div class="complaintsee">
                     <p class="boldColor">Total Complaints</p>
-                    <h2>5</h2>
+                    <h2 id="total-complaints">0</h2>
                     <p  class="lightColor">Submitted</p>
                 </div>
                 <div class="statementLogo">
@@ -127,7 +127,7 @@
             <div class="complaintsStatement">
                 <div class="complaintsee">
                     <p class="boldColor">pending</p>
-                    <h2>3</h2>
+                    <h2 id="pending-complaints">0</h2>
                     <p class="lightColor">Awaiting response</p>
                 </div>
                 <div class="statementLogo">
@@ -138,7 +138,7 @@
             <div class="complaintsStatement">
                 <div class="complaintsee">
                     <p class="boldColor">inProgress</p>
-                    <h2>1</h2>
+                    <h2 id="in-progress-complaints">0</h2>
                     <p  class="lightColor">Being Processed</p>
                 </div>
                 <div class="statementLogo">
@@ -149,7 +149,7 @@
             <div class="complaintsStatement">
                 <div class="complaintsee">
                     <p class="boldColor"> completed</p>
-                    <h2>1</h2>
+                    <h2 id="completed-complaints">0</h2>
                     <p  class="lightColor">Success resolved </p>
                 </div>
                 <div class="statementLogo">
@@ -178,153 +178,11 @@
                     <th>DATE</th>
                     <th>ACTIONS</th>
                 </tr>
-
-                <tr>
-                    <td>
-                        <div class="combine-logo-title">
-                            <div class="ComplaintIcon">
-                                <i class="material-icons location" style="background-color:rgb(248, 221, 211);">location_on</i>
-                            </div>
-
-                            <div class="complaintTitleDetails">
-                                <div class="complaintTitle">
-                                    <p class="complaintTitleText">Road Damage - itahari</p>
-                                    <i class="material-icons" style="font-weight:100; color:#bcb9b9">attachment</i>
-                                </div>
-                                <p id="complaintID">ID:C001</p>
-                                <p id="ComplaintAddress">Itahari,Sunsari</p>
-                            </div>
-
-                        </div>
-                    </td>
-                    <td><p class="statusPending">Pending</p></td>
-                    <td class="complaintPriority">
-                        <div class="empty"></div>
-                        <p class="priorityHigh">High</p>
-                    </td>
-                    <td><p>2025-06-15</p></td>
-                    <td>
-                        <button class="viewDetailsBtn" onclick="viewDetails()">View Details</button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <div class="combine-logo-title">
-                            <div class="ComplaintIcon">
-                               
-                                <i class="material-icons location waterDrop">water_drop</i>
-
-                            </div>
-
-                            <div class="complaintTitleDetails">
-                                <div class="complaintTitle">
-                                    <p class="complaintTitleText">Water Supply Issue - Jhumka</p>
-                                    <i class="material-icons" style="font-weight:100; color:#bcb9b9">attachment</i>
-                                </div>
-                                <p id="complaintID">ID:C002</p>
-                                <p id="ComplaintAddress">Jhumka,Sunsari</p>
-                            </div>
-
-                        </div>
-                    </td>
-                    <td><p class=" statusPending statusInProgress" style="background-color: rgb(196, 209, 250); color:rgb(7, 7, 199);width:70%">InProgress</p></td>
-                    <td class="complaintPriority">
-                        <div class="empty" style="background-color:orange;"></div>
-                        <p class="priorityHigh">Medium</p>
-                    </td>
-                    <td><p>2025-07-05</p></td>
-                    <td>
-                        <button class="viewDetailsBtn" onclick="viewDetails()">View Details</button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <div class="combine-logo-title">
-                            <div class="ComplaintIcon">
-                               <i class="material-icons location corruptionIcon" style="background-color:rgb(248, 232, 232);">security</i>
-                            </div>
-
-                            <div class="complaintTitleDetails">
-                                <div class="complaintTitle">
-                                    <p class="complaintTitleText">Corruption Report - Inurwa</p>
-                                    <i class="material-icons" style="font-weight:100; color:#bcb9b9">attachment</i>
-                                </div>
-                                <p id="complaintID">ID:C003</p>
-                                <p id="ComplaintAddress">Inurwa,Sunsari</p>
-                            </div>
-
-                        </div>
-                    </td>
-                    <td><p class=" statusPending statusCompleted" style="background-color:rgb(207, 240, 207);color:green; width:70%">Completed</p></td>
-                    <td class="complaintPriority">
-                        <div class="empty"></div>
-                        <p class="priorityHigh">High</p>
-                    </td>
-                    <td><p>2025-08-10</p></td>
-                    <td>
-                        <button class="viewDetailsBtn" onclick="viewDetails()">View Details</button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <div class="combine-logo-title">
-                            <div class="ComplaintIcon">
-                               <i class="material-icons location electricityIcon" style="background-color:rgb(245, 232, 135);color:orange">flash_on</i>
-                            </div>
-
-                            <div class="complaintTitleDetails">
-                                <div class="complaintTitle">
-                                    <p class="complaintTitleText">Electricity Problem  - Inurwa</p>
-                                    <i class="material-icons" style="font-weight:100; color:#bcb9b9">attachment</i>
-                                </div>
-                                <p id="complaintID">ID:C004</p>
-                                <p id="ComplaintAddress">Inurwa,Sunsari</p>
-                            </div>
-
-                        </div>
-                    </td>
-                    <td><p class=" statusPending">Pending</p></td>
-                    <td class="complaintPriority">
-                        <div class="empty" style="background-color: rgb(13, 180, 13);"></div>
-                        <p class="priorityLow">Low</p>
-                    </td>
-                    <td><p>2025-11-15</p></td>
-                    <td>
-                        <button class="viewDetailsBtn" onclick="viewDetails()">View Details</button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <div class="combine-logo-title">
-                            <div class="ComplaintIcon">
-                               <i class="material-icons location HealthcareIcon" style="background-color: #ecebeb;color:rgb(131, 129, 129)">medical_services</i>
-                            </div>
-
-                            <div class="complaintTitleDetails">
-                                <div class="complaintTitle">
-                                    <p class="complaintTitleText">HealthCare Service Issue</p>
-                                    <i class="material-icons" style="font-weight:100; color:#bcb9b9">attachment</i>
-                                </div>
-                                <p id="complaintID">ID:C005</p>
-                                <p id="ComplaintAddress">Dharan,Nepal</p>
-                            </div>
-
-                        </div>
-                    </td>
-                    <td><p class=" statusPending statusInProgress" style="background-color: rgb(196, 209, 250); color:rgb(7, 7, 199);width:70%">InProgress</p></td>
-                    <td class="complaintPriority">
-                        <div class="empty"></div>
-                        <p class="priorityHigh">High</p>
-                    </td>
-                    <td><p>2025-11-29</p></td>
-                    <td>
-                        <button class="viewDetailsBtn" onclick="viewDetails()">View Details</button>
-                    </td>
-                </tr>
+                <tbody id="complaints-table-body">
+                    <tr id="no-complaints-row" style="display:none;">
+                        <td colspan="5" style="text-align: center; padding: 20px;">No complaints found</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
 
@@ -380,7 +238,6 @@
 
 </div>
     <script>
-        // Loading user information on page load
         fetch('../backend/getuser.php')
             .then(response => response.json())
             .then(data => {
@@ -389,6 +246,23 @@
                 }
             })
             .catch(error => console.error('Error loading user info:', error));
+
+        // Load citizen complaints
+        function loadComplaints() {
+            fetch('../backend/getcitizencomplaint.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const complaints = data.complaints;
+                        const tableBody = document.getElementById('complaints-table-body');
+                        const noComplaintsRow = document.getElementById('no-complaints-row');
+                        
+                        // Clear existing rows
+                        tableBody.innerHTML = '';
+                        
+                       
+        
+                                    document.addEventListener('DOMContentLoaded', loadComplaints);
     </script>
     <script src="languageToggle/languagetoggle2.js"></script>
    <script src="button/citizendashboradbtn.js"></script>
