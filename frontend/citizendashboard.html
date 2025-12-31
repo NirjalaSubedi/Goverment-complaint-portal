@@ -260,9 +260,32 @@
                         // Clear existing rows
                         tableBody.innerHTML = '';
                         
-                       
+                        if (complaints.length === 0) {
+                            noComplaintsRow.style.display = '';
+                            tableBody.appendChild(noComplaintsRow);
+                        } else {
+                            noComplaintsRow.style.display = 'none';
+                            
+                            // Counting status types
+                            let pendingCount = 0;
+                            let inProgressCount = 0;
+                            let completedCount = 0;
+                            
+                            complaints.forEach(complaint => {
+                                if (complaint.status === 'Pending') pendingCount++;
+                                else if (complaint.status === 'In Progress') inProgressCount++;
+                                else if (complaint.status === 'Completed') completedCount++;
+                                
+                                const date = new Date(complaint.created_at).toLocaleDateString('en-CA');
+                
+                                let iconClass = 'location_on';
+                                let iconBgColor = 'rgb(248, 221, 211)';
+                                const category = complaint.category_name ? complaint.category_name.toLowerCase() : '';
+                                
+                                
         
-                                    document.addEventListener('DOMContentLoaded', loadComplaints);
+        // Load complaints when page loads
+        document.addEventListener('DOMContentLoaded', loadComplaints);
     </script>
     <script src="languageToggle/languagetoggle2.js"></script>
    <script src="button/citizendashboradbtn.js"></script>
