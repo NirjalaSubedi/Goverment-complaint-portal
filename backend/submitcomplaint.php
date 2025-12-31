@@ -77,12 +77,11 @@ if ($citizenId <= 0) {
     exit;
 }
 
-// Auto-assign officer based on complaint category -> matching department
+// Auto-assign officer based on complaint category matching department
 $assignedOfficerId = null;
 
 error_log("DEBUG: Looking for department: '$normalizedCategory'");
 
-// First try: get department and its assigned officer user_id
 $depStmt = $conn->prepare('SELECT department_id, user_id FROM departments WHERE LOWER(department_name) = LOWER(?) LIMIT 1');
 $depStmt->bind_param('s', $normalizedCategory);
 $depStmt->execute();
@@ -95,12 +94,10 @@ if ($depRes && $depRes->num_rows === 1) {
     
     error_log("DEBUG: Found department_id: $targetDeptId, user_id from department: $deptUserId");
 
-    // If department has a user_id assigned, use that (new way)
     if ($deptUserId > 0) {
         $assignedOfficerId = $deptUserId;
         error_log("DEBUG: Using officer_id from department: $assignedOfficerId");
     } else {
-        // Fallback: Pick an approved officer from this department (old way)
         $offStmt = $conn->prepare("SELECT user_id FROM users WHERE user_type = 'Officer' AND is_approved = 'Approved' AND department_id = ? ORDER BY user_id ASC LIMIT 1");
         $offStmt->bind_param('i', $targetDeptId);
         $offStmt->execute();
@@ -117,7 +114,6 @@ if ($depRes && $depRes->num_rows === 1) {
     }
 } else {
     error_log("DEBUG: Department '$normalizedCategory' not found in database");
-    // List all departments for debugging
     $allDepts = $conn->query("SELECT department_id, department_name, user_id FROM departments");
     if ($allDepts) {
         while ($d = $allDepts->fetch_assoc()) {
@@ -129,7 +125,6 @@ $depStmt->close();
 
 $status = 'Pending';
 
-// Insert with assigned officer if available
 $insert = $conn->prepare('INSERT INTO complaints (citizen_id, category_id, assigned_officer_id, location, description, priority_level, status, complaint_attachment, subject) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
 $insert->bind_param('iiissssss', $citizenId, $categoryId, $assignedOfficerId, $location, $description, $priority, $status, $attachmentPath, $subject);
 
