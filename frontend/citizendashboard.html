@@ -367,7 +367,20 @@
                         document.getElementById('completed-complaints').textContent = completedCount;
                     }
                 })
-                
+                .catch(error => {
+                    console.error('Error loading complaints:', error);
+                    const tableBody = document.getElementById('complaints-table-body');
+                    const noComplaintsRow = document.getElementById('no-complaints-row');
+                    if (tableBody && noComplaintsRow) {
+                        tableBody.innerHTML = '';
+                        const cell = noComplaintsRow.querySelector('td');
+                        if (cell) {
+                            cell.textContent = 'Error loading complaints. Please refresh.';
+                        }
+                        noComplaintsRow.style.display = '';
+                        tableBody.appendChild(noComplaintsRow);
+                    }
+                });
         }
         
         // Function to view complaint details
