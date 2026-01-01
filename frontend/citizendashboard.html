@@ -331,7 +331,45 @@
                                 priorityColor = 'rgb(13, 180, 13)';
                             }
                             
-                            
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>
+                                    <div class="combine-logo-title">
+                                        <div class="ComplaintIcon">
+                                            <i class="material-icons location" style="background-color:${iconBgColor};">${iconClass}</i>
+                                        </div>
+                                        <div class="complaintTitleDetails">
+                                            <div class="complaintTitle">
+                                                <p class="complaintTitleText">${complaint.subject}</p>
+                                                ${complaint.complaint_attachment ? '<i class="material-icons" style="font-weight:100; color:#bcb9b9">attachment</i>' : ''}
+                                            </div>
+                                            <p id="complaintID">ID:C${complaint.complaint_id}</p>
+                                            <p id="ComplaintAddress">${complaint.location}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><p class="${statusClass}" style="background-color: ${statusBgColor}; color:${statusColor}; width:${statusWidth}">${complaint.status}</p></td>
+                                <td class="complaintPriority">
+                                    <div class="empty" style="background-color:${priorityColor};"></div>
+                                    <p class="priorityHigh">${complaint.priority_level}</p>
+                                </td>
+                                <td><p>${date}</p></td>
+                                <td>
+                                    <button class="viewDetailsBtn" onclick="viewComplaintDetails(${complaint.complaint_id})">View Details</button>
+                                </td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+                        
+                        document.getElementById('total-complaints').textContent = complaints.length;
+                        document.getElementById('pending-complaints').textContent = pendingCount;
+                        document.getElementById('in-progress-complaints').textContent = inProgressCount;
+                        document.getElementById('completed-complaints').textContent = completedCount;
+                    }
+                })
+                
+        }
+        
         // Function to view complaint details
         function viewComplaintDetails(complaintId) {
             localStorage.setItem('selectedComplaintId', complaintId);
