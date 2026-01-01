@@ -61,7 +61,7 @@ const Translate = {
         'description': 'Description*',
         'descriptionPlaceholder': 'Provide a detailed description of your issue',
         'Attachment': 'Attachment',
-        'cancel': 'Cancel',
+        'cancel': 'save to Drafts',
         'submit': 'Submit',
         'Settings': 'Settings',
         'Logout': 'Logout'
@@ -126,18 +126,13 @@ const Translate = {
         'description': 'विवरण*',
         'descriptionPlaceholder': 'आफ्नो समस्याको विस्तृत विवरण प्रदान गर्नुहोस्',
         'Attachment': 'संलग्नक',
-        'cancel': 'रद्द गर्नुहोस्',
+        'cancel': 'ड्राफ्ट मा राखनुहोस',
         'submit': 'पेश गर्नुहोस्',
         'Settings': 'सेटिङ्स',
         'Logout': 'लगआउट'
     }
 };
-
-// =======================================================
-// === HTML Element ID/Attribute Setup (HTML नबदल्नको लागि) ===
-// =======================================================
 document.addEventListener('DOMContentLoaded', () => {
-    // Complaint Submission Page elements
     const subjectInput = document.getElementById('subject');
     if (subjectInput) subjectInput.setAttribute('data-placeholder-key', 'subjectPlaceholder');
     
@@ -147,7 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const descriptionTextarea = document.getElementById('description');
     if (descriptionTextarea) descriptionTextarea.setAttribute('data-placeholder-key', 'descriptionPlaceholder');
     
-    // Set data keys for labels in Complaint Submission
     const labels = [
         { selector: 'label[for="complaint-type"]', key: 'complainttype' },
         { selector: 'label[for="subject"]', key: 'subject' },
@@ -161,7 +155,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (el) el.setAttribute('data-translate-key', item.key);
     });
 
-    // Set data keys for Dashboard Profile Section labels
     const profileLabels = [
         { selector: '.fullname11', key: 'fullName' },
         { selector: '.phonenumber11', key: 'phoneNumber' },
@@ -173,7 +166,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (el) el.setAttribute('data-translate-key', item.key);
     });
 
-    // Add necessary IDs to select options
     const complaintTypeSelect = document.getElementById('complaint-type');
     if (complaintTypeSelect && complaintTypeSelect.options.length > 1) {
         complaintTypeSelect.options[0].id = 'selectType';
@@ -185,7 +177,6 @@ document.addEventListener('DOMContentLoaded', () => {
         complaintTypeSelect.options[6].id = 'Others';
     }
 
-    // Add IDs to un-ID'd elements for translation
     const buttons = document.querySelectorAll('.double-btn button');
     if (buttons.length === 2) {
         if (buttons[0].classList.contains('cancle-btn')) buttons[0].id = 'cancelBtn';
@@ -198,53 +189,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const editProfileBtn = document.querySelector('.editProfileBtn');
     if (editProfileBtn) editProfileBtn.id = 'editProfileBtn';
 });
-// =======================================================
-// =======================================================
 
-
-/**
- * पृष्ठ लोड हुँदा localStorage बाट भाषा सेट गर्ने function
- */
 function initializeLanguage() {
     const savedLang = localStorage.getItem('currentLanguage');
     
-    // यदि यो ड्यासबोर्ड पृष्ठ हो र localStorage मा केहि छैन, वा सेट गरिएको छ भने, त्यसलाई प्रयोग गर्नुहोस्।
-    // यदि यो ड्यासबोर्ड पृष्ठ हो र savedLang छैन भने, default 'en' प्रयोग गर्नुहोस्।
     if (savedLang) {
         currentLanguage = savedLang;
     } else if (document.title.toLowerCase().includes('dashboard')) {
-        // यदि ड्यासबोर्ड पृष्ठ हो र भाषा सेट गरिएको छैन भने, default English मा सेट गर्नुहोस्
         currentLanguage = 'en';
-        localStorage.setItem('currentLanguage', currentLanguage); // localStorage मा पनि बचत गर्नुहोस्
+        localStorage.setItem('currentLanguage', currentLanguage); 
     }
     
-    // लोड भएको भाषामा पृष्ठको सामग्री अपडेट गर्ने
     applyTranslations();
 }
 
-/**
- * भाषा टगल गर्न र localStorage मा बचत गर्नको लागि function (Dashboard button click)
- */
 function LanguageTranslate() {
-    // भाषा परिवर्तन गर्ने
     currentLanguage = currentLanguage === 'en' ? 'ne' : 'en';
-    
-    // localStorage मा नयाँ भाषा बचत गर्ने
     localStorage.setItem('currentLanguage', currentLanguage);
-
-    // पृष्ठको सामग्री अपडेट गर्ने
     applyTranslations();
 }
 
-/**
- * वर्तमान 'currentLanguage' को आधारमा सबै पाठहरू अनुवाद गर्ने function
- */
 function applyTranslations() {
     const lang = currentLanguage;
-
-    // --- नागरिक ड्यासबोर्ड (citizendashboard.html) का तत्वहरू ---
-    
-    // Header
     const langToggleBtn = document.getElementById('language-toggle');
     if (langToggleBtn) langToggleBtn.innerHTML = `<i class="material-icons">language</i> ${Translate[lang].languageToggle}`;
     
@@ -253,14 +219,9 @@ function applyTranslations() {
     
     const roleEl = document.querySelector('.role');
     if (roleEl) roleEl.innerText = Translate[lang].citizen;
-
-    // Dropdown
     if(document.querySelector('.profile-dropdown .profileicon a')) document.querySelector('.profile-dropdown .profileicon a').innerText = Translate[lang].Profile;
     if(document.querySelector('.settings a')) document.querySelector('.settings a').innerText = Translate[lang].Settings;
     if(document.querySelector('.logout a')) document.querySelector('.logout a').innerText = Translate[lang].Logout;
-
-
-    // Navigation
     if(document.getElementById('nav00')) document.getElementById('nav00').innerText = Translate[lang].Nav;
     if(document.getElementById('myComplaints-btn')) document.getElementById('myComplaints-btn').innerText = Translate[lang].myComplaints;
     if(document.getElementById('myDrafts')) document.getElementById('myDrafts').innerText = Translate[lang].Drafts;
@@ -268,14 +229,12 @@ function applyTranslations() {
     if(document.querySelector('.quickActionsHeading')) document.querySelector('.quickActionsHeading').innerText = Translate[lang]['Quick Actions'];
     if(document.querySelector('.newComplaintText')) document.querySelector('.newComplaintText').innerText = Translate[lang]['New Complaint'];
     
-    // Dashboard Summary
     const myComplaintsText = document.querySelector('.myComplaintsText');
     if (myComplaintsText) myComplaintsText.innerText = Translate[lang]['myComplaintsText'];
 
     const complaintTopDesc = document.getElementById('complainttopdesc');
     if (complaintTopDesc) complaintTopDesc.innerText = Translate[lang]['Track and manage your submitted complaints'];
 
-    // Complaint Stats
     const stats = [
         ['Total Complaints', 'Submitted'], 
         ['pending', 'Awaiting response'], 
@@ -292,13 +251,11 @@ function applyTranslations() {
         }
     });
 
-    // Table Header
     const headers = ['COMPLAINT', 'STATUS', 'PRIORITY', 'DATE', 'ACTIONS'];
     document.querySelectorAll('.ComplaintHeader1 th').forEach((th, index) => {
         if(headers[index]) th.innerText = Translate[lang][headers[index]];
     });
 
-    // Table Actions
     if(document.querySelector('.sortText')) document.querySelector('.sortText').innerText = Translate[lang].Sort;
     document.querySelectorAll('.viewDetailsBtn').forEach(btn => {
         btn.innerText = Translate[lang]['View Details'];
@@ -312,11 +269,9 @@ function applyTranslations() {
         btn.innerText = Translate[lang].delete;
     });
     
-    // Profile Section
     const profileDesc = document.querySelector('.profileDesc');
     if (profileDesc) profileDesc.innerText = Translate[lang]['managePersonalDetails'];
     
-    // Profile Labels
     document.querySelectorAll('.details00 label').forEach(label => {
         const key = label.getAttribute('data-translate-key');
         if (key && Translate[lang][key]) {
@@ -327,7 +282,6 @@ function applyTranslations() {
     const editProfileBtn = document.getElementById('editProfileBtn');
     if (editProfileBtn) editProfileBtn.innerText = Translate[lang]['editProfile'];
 
-    // --- गुनासो पेश गर्ने पृष्ठ (complaint_submit.html) का तत्वहरू ---
     
     const title22 = document.getElementById('title22');
     if (title22) title22.innerText = Translate[lang].title22;
@@ -335,7 +289,6 @@ function applyTranslations() {
     const titledesc = document.getElementById('titledesc');
     if (titledesc) titledesc.innerText = Translate[lang].titledesc;
     
-    // Complaint Submission Labels
     document.querySelectorAll('.complaint-form label[data-translate-key]').forEach(label => {
         const key = label.getAttribute('data-translate-key');
         if (key && Translate[lang][key]) {
@@ -343,7 +296,6 @@ function applyTranslations() {
         }
     });
 
-    // Placeholder Texts
     document.querySelectorAll('[data-placeholder-key]').forEach(input => {
         const key = input.getAttribute('data-placeholder-key');
         if (key && Translate[lang][key]) {
@@ -351,7 +303,6 @@ function applyTranslations() {
         }
     });
     
-    // Complaint Type Options
     const complaintTypeSelect = document.getElementById('complaint-type');
     if (complaintTypeSelect) {
         if (complaintTypeSelect.options[0]) complaintTypeSelect.options[0].text = Translate[lang].selectType;
@@ -362,12 +313,10 @@ function applyTranslations() {
         if (complaintTypeSelect.options[5]) complaintTypeSelect.options[5].text = Translate[lang].other;
     }
     
-    // Priority Labels
     if(document.querySelector('label[for="high"]')) document.querySelector('label[for="high"]').innerText = Translate[lang].High;
     if(document.querySelector('label[for="medium"]')) document.querySelector('label[for="medium"]').innerText = Translate[lang].medium;
     if(document.querySelector('label[for="low"]')) document.querySelector('label[for="low"]').innerText = Translate[lang].low;
 
-    // Buttons
     const cancelBtn = document.getElementById('cancelBtn') || document.querySelector('.cancle-btn');
     if (cancelBtn) cancelBtn.innerText = Translate[lang].cancel;
     
@@ -375,5 +324,4 @@ function applyTranslations() {
     if (submitBtn) submitBtn.innerText = Translate[lang].submit;
 }
 
-// पृष्ठ लोड भएपछि भाषा सुरु गर्नुहोस्
 document.addEventListener('DOMContentLoaded', initializeLanguage);

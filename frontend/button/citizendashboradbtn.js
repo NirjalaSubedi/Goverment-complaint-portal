@@ -43,8 +43,8 @@ document.addEventListener('DOMContentLoaded',function(){
         if (description) description.textContent = 'Track and manage your submitted complaints';
 
        
-        showElement('.complaintCards1', 'flex');
-        showElement('.MainBox', 'block');
+        showElement('.complaintCards1', 'flex'); 
+        showElement('.MainBox', 'block'); 
         showElement('.heading003', 'flex'); 
         
       
