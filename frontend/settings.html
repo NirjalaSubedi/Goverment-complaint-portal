@@ -106,6 +106,16 @@
 
     </div>
 </div>
+<script>
+    fetch('../backend/getuser.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.fullName) {
+                    document.querySelector('.username').textContent = data.fullName;
+                }
+            })
+            .catch(error => console.error('Error loading user info:', error));
+</script>
 
 </body>
 </html>
