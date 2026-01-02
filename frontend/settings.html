@@ -100,7 +100,7 @@
                         <p class="settingTitle">Delete Account</p>
                         <p class="settingDesc">This action cannot be undone</p>
                     </div>
-                    <button type="button" class="settingBtn deleteAccountBtn" id="deleteAccountBtn">Delete</button>
+                    <button type="button" class="settingBtn deleteAccountBtn" id="deleteAccountBtn" onclick="deleteAccount()">Delete</button>
                 </div>
             </div>
            </div>
@@ -145,6 +145,28 @@
                 }
             })
             .catch(error => console.error('Error loading user info:', error));
+
+    function deleteAccount() {
+        if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+            fetch('../backend/deleteaccount.php', {
+                method: 'POST',
+                credentials: 'include'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    window.location.href = 'login.html';
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while deleting account.');
+            });
+        }
+    }
 </script>
 
 </body>
