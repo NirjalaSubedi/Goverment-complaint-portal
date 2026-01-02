@@ -1225,6 +1225,34 @@ form input{
     width:100%;
 }
 
+/* Back Button */
+.backButtonContainer {
+    margin-bottom: 20px;
+}
+
+.backButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background-color: #f1f3f4;
+    color: #5f6368;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.backButton:hover {
+    background-color: #e8eaed;
+    color: #202124;
+}
+
+.backButton i {
+    font-size: 20px;
+}
+
 /* Security Settings */
 .securitySettings{
     margin-top: 30px;
