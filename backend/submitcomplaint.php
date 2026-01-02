@@ -77,47 +77,26 @@ if ($citizenId <= 0) {
     exit;
 }
 
-// Auto-assign officer based on complaint category matching department
-$assignedOfficerId = null;
+// Find department based on complaint category
+$departmentId = null;
 
 error_log("DEBUG: Looking for department: '$normalizedCategory'");
 
-$depStmt = $conn->prepare('SELECT department_id, user_id FROM departments WHERE LOWER(department_name) = LOWER(?) LIMIT 1');
+$depStmt = $conn->prepare('SELECT department_id FROM departments WHERE LOWER(department_name) = LOWER(?) LIMIT 1');
 $depStmt->bind_param('s', $normalizedCategory);
 $depStmt->execute();
 $depRes = $depStmt->get_result();
 
 if ($depRes && $depRes->num_rows === 1) {
     $depRow = $depRes->fetch_assoc();
-    $targetDeptId = (int)$depRow['department_id'];
-    $deptUserId = (int)$depRow['user_id'];
-    
-    error_log("DEBUG: Found department_id: $targetDeptId, user_id from department: $deptUserId");
-
-    if ($deptUserId > 0) {
-        $assignedOfficerId = $deptUserId;
-        error_log("DEBUG: Using officer_id from department: $assignedOfficerId");
-    } else {
-        $offStmt = $conn->prepare("SELECT user_id FROM users WHERE user_type = 'Officer' AND is_approved = 'Approved' AND department_id = ? ORDER BY user_id ASC LIMIT 1");
-        $offStmt->bind_param('i', $targetDeptId);
-        $offStmt->execute();
-        $offRes = $offStmt->get_result();
-        
-        if ($offRes && $offRes->num_rows === 1) {
-            $offRow = $offRes->fetch_assoc();
-            $assignedOfficerId = (int)$offRow['user_id'];
-            error_log("DEBUG: Found approved officer_id: $assignedOfficerId");
-        } else {
-            error_log("DEBUG: No approved officers found in department $targetDeptId");
-        }
-        $offStmt->close();
-    }
+    $departmentId = (int)$depRow['department_id'];
+    error_log("DEBUG: Found department_id: $departmentId");
 } else {
     error_log("DEBUG: Department '$normalizedCategory' not found in database");
-    $allDepts = $conn->query("SELECT department_id, department_name, user_id FROM departments");
+    $allDepts = $conn->query("SELECT department_id, department_name FROM departments");
     if ($allDepts) {
         while ($d = $allDepts->fetch_assoc()) {
-            error_log("DEBUG: Available department - ID: {$d['department_id']}, Name: {$d['department_name']}, User ID: {$d['user_id']}");
+            error_log("DEBUG: Available department - ID: {$d['department_id']}, Name: {$d['department_name']}");
         }
     }
 }
@@ -125,8 +104,8 @@ $depStmt->close();
 
 $status = 'Pending';
 
-$insert = $conn->prepare('INSERT INTO complaints (citizen_id, category_id, assigned_officer_id, location, description, priority_level, status, complaint_attachment, subject) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
-$insert->bind_param('iiissssss', $citizenId, $categoryId, $assignedOfficerId, $location, $description, $priority, $status, $attachmentPath, $subject);
+$insert = $conn->prepare('INSERT INTO complaints (citizen_id, category_id, department_id, location, description, priority_level, status, complaint_attachment, subject) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
+$insert->bind_param('iiissssss', $citizenId, $categoryId, $departmentId, $location, $description, $priority, $status, $attachmentPath, $subject);
 
 if ($insert->execute()) {
     $insert->close();
