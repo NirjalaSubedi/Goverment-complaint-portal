@@ -178,6 +178,17 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadPendingOfficers();
             
+            // Add click event listeners for navigation tabs
+            document.getElementById('officerApprovalsTab').addEventListener('click', function() {
+                showOfficerApprovalsSection();
+            });
+            
+            document.getElementById('manageUsersTab').addEventListener('click', function() {
+                showManageUsersSection();
+            });
+        });
+
+        
 
         function loadPendingOfficers() {
             console.log('Loading pending officers...');
