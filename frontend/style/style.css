@@ -1533,8 +1533,8 @@ input:checked + .slider:before {
 	align-items: center;
 	padding: 20px;
 	border-bottom: 1px solid #e7e9f1;
-	background-color: rgb(50, 80, 228);
-	color: #fff;
+	
+	color: #474646;
 	border-radius: 12px 12px 0 0;
 }
 
@@ -1549,7 +1549,7 @@ input:checked + .slider:before {
 	border: none;
 	font-size: 28px;
 	cursor: pointer;
-	color: #fff;
+	color: #474646;
 	transition: transform 0.2s ease;
 	padding: 0;
 	width: 30px;
