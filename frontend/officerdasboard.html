@@ -344,8 +344,34 @@
                         // Format date
                         let date = complaint.submission_date ? new Date(complaint.submission_date).toLocaleDateString('en-CA') : '';
                         
+                        row.innerHTML = `
+                            <td>
+                                <div class="combine-logo-title">
+                                    <div class="ComplaintIcon">
+                                        <i class="material-icons ${iconClass}" style="background-color:${iconBg}; padding: 8px; border-radius: 8px;">${icon}</i>
+                                    </div>
+                                    <div class="complaintTitleDetails">
+                                        <div class="complaintTitle">
+                                            <p class="complaintTitleText">${complaint.subject || 'No Subject'}</p>
+                                            ${complaint.complaint_attachment ? '<i class="material-icons" style="font-weight:100; color:#bcb9b9">attachment</i>' : ''}
+                                        </div>
+                                        <p id="complaintID">ID:C${String(complaint.complaint_id).padStart(3, '0')}</p>
+                                        <p id="ComplaintAddress">${complaint.location || 'N/A'}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><p class="${statusClass}" style="${statusStyle}">${complaint.status || 'Pending'}</p></td>
+                            <td class="complaintPriority">
+                                ${priorityDot}
+                                <p class="priorityHigh">${priorityText}</p>
+                            </td>
+                            <td><p>${date}</p></td>
+                            <td>
+                                <button class="viewDetailsBtn" onclick="viewDetails()">View Details</button>
+                            </td>
+                        `;
                         
-                        
+                        tbody.appendChild(row);
                     });
                 } else {
                     tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No complaints found</td></tr>';
@@ -353,6 +379,8 @@
             })
             .catch(error => console.error('Error loading complaints:', error));
     }
+
+    // Load complaints on page load
     loadAllComplaints();
     </script>
     <script src="button/buttonclick.js"></script>
