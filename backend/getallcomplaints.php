@@ -29,5 +29,25 @@ LEFT JOIN complaintcategories cc ON c.category_id = cc.category_id
 LEFT JOIN users u ON c.citizen_id = u.user_id
 LEFT JOIN departments d ON c.department_id = d.department_id
 ORDER BY c.submission_date DESC";
+
+$result = $conn->query($query);
+
+if (!$result) {
+    echo json_encode(['error' => 'Failed to load complaints: ' . $conn->error]);
+    exit;
+}
+
+$complaints = [];
+while ($row = $result->fetch_assoc()) {
+    $complaints[] = $row;
+}
+
+header('Content-Type: application/json');
+echo json_encode([
+    'success' => true,
+    'complaints' => $complaints,
+    'total_complaints' => count($complaints)
+]);
+
 $conn->close();
 ?>
