@@ -106,38 +106,8 @@ document.addEventListener('DOMContentLoaded', function() {
         highlightNavButton('.drafts.Navbtn:nth-child(3)', true);
         hideAllContent();
         showElement(pendingTaskTable, 'block'); 
-        hideElement('.MainHeading'); 
-
-        const pendingRow = pendingTaskTable.querySelector('tr:not(:first-child)'); 
-        let actionCell;
-        if(pendingRow) {
-             actionCell = pendingRow.querySelector('td:last-child');
-        }
-
-        if (actionCell && !actionCell.querySelector('.pending-task-buttons')) {
-            let existingControl = actionCell.querySelector('button');
-            if (existingControl) {
-                const approveBtn = document.createElement('button');
-                approveBtn.textContent = 'Approve';
-                approveBtn.className = 'viewDetailsBtn'; 
-                approveBtn.style.backgroundColor = 'green';
-                approveBtn.style.color = 'white';
-                
-                const rejectBtn = document.createElement('button');
-                rejectBtn.textContent = 'Reject';
-                rejectBtn.className = 'viewDetailsBtn'; 
-                rejectBtn.style.backgroundColor = 'red';
-                rejectBtn.style.color = 'white';
-
-                const buttonContainer = document.createElement('div');
-                buttonContainer.className = 'pending-task-buttons'; 
-                buttonContainer.appendChild(approveBtn);
-                buttonContainer.appendChild(rejectBtn);
-
-                actionCell.innerHTML = ''; 
-                actionCell.appendChild(buttonContainer);
-            }
-        }
+        hideElement('.MainHeading');
+        loadPendingComplaints(); // Load pending complaints
     }
     function showCompletedView() {
         resetNavButtons();
