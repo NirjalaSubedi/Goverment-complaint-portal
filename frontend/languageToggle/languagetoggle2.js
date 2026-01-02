@@ -37,7 +37,7 @@ const Translate = {
         'phoneNumber': 'PhoneNumber',
         'email': 'Email',
         'address': 'Address',
-        'editProfile': 'Edit Profile',
+        'editProfile': 'Edit',
 
         'title22': 'Complaint Submission',
         'titledesc': 'Provide detailed information about your issue',
@@ -101,7 +101,7 @@ const Translate = {
         'phoneNumber': 'फोन नम्बर',
         'email': 'इमेल',
         'address': 'ठेगाना',
-        'editProfile': 'प्रोफाइल सम्पादन गर्नुहोस्',
+        'editProfile': 'प्सम्पादन गर्नुहोस्',
 
         'title22': 'गुनासो पेश गर्नुहोस्',
         'titledesc': 'आफ्नो समस्याको बारेमा विस्तृत जानकारी प्रदान गर्नुहोस्',
