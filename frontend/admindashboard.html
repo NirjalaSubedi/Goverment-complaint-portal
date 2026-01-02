@@ -77,13 +77,13 @@
         <div class="vertical-navigation">
             <div class="navigation1">
                 <p class="navigation">ADMIN PANEL</p>
-                <div class="Complaints Navbtn active">
+                <div class="Complaints Navbtn active" id="officerApprovalsTab">
                     <div class="nav-btn">
                         <i class="material-icons">verified_user</i>
                         <p>Officer Approvals</p>
                     </div>
                 </div>
-                <div class="Navbtn">
+                <div class="Navbtn" id="manageUsersTab">
                     <div class="nav-btn">
                         <i class="material-icons">people</i>
                         <p>Manage Users</p>
@@ -96,7 +96,7 @@
             </div>
         </div>
 
-        <div class="dashboard-container">
+        <div class="dashboard-container" id="officerApprovalsSection">
             <div class="MainHeading">
                 <div class="myComplaintsHeading">
                     <h2>Pending Officer Registrations</h2>
@@ -135,13 +135,49 @@
 
             </div>
         </div>
+
+        <!-- Manage Users Section -->
+        <div class="dashboard-container" id="manageUsersSection" style="display: none;">
+            <div class="MainHeading">
+                <div class="myComplaintsHeading">
+                    <h2>Manage All Users</h2>
+                    <p>View all citizens and officers in the system</p>
+                </div>
+                <button onclick="loadAllUsers()" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    <i class="material-icons" style="vertical-align: middle;">refresh</i> Refresh
+                </button>
+            </div>
+
+            <div class="MainBox">
+                <div class="heading003" style="padding: 15px;">
+                    <h4 style="font-size:18px;">All Users</h4>
+                </div>
+
+                <table class="testTable" id="usersTable">
+                    <tr class="ComplaintHeader1">
+                        <th>USER DETAILS</th>
+                        <th>USER TYPE</th>
+                        <th>DEPARTMENT</th>
+                        <th>PHONE</th>
+                        <th>EMAIL</th>
+                        <th>STATUS</th>
+                        <th>DOCUMENT</th>
+                    </tr>
+                    <tbody id="usersTableBody">
+                    </tbody>
+                </table>
+                <div id="noUsersMsg" style="text-align: center; padding: 20px; color: #666;">
+                    <p>No users found</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
         // Load pending officers when page loads
         document.addEventListener('DOMContentLoaded', function() {
             loadPendingOfficers();
-        });
+            
 
         function loadPendingOfficers() {
             console.log('Loading pending officers...');
