@@ -1422,3 +1422,68 @@ input:checked + .slider {
 input:checked + .slider:before {
     transform: translateX(22px);
 }
+
+/*change password page*/
+.change-password-body {
+	background: #f5f7fb;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	padding: 40px 16px;
+}
+
+.fp-wrapper {
+	width: 100%;
+	max-width: 440px;
+	background: #ffffff;
+	border-radius: 12px;
+	padding: 28px;
+	box-shadow: 0 12px 28px rgba(16, 24, 40, 0.12);
+	border: 1px solid #e7e9f1;
+}
+
+.fp-header {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+			margin-bottom: 14px;
+		}
+
+		.fp-form {
+			display: flex;
+			flex-direction: column;
+			gap: 14px;
+			margin-top: 8px;
+		}
+
+		.fp-label {
+			font-size: 14px;
+			margin-bottom: 6px;
+		}
+
+		.fp-input {
+			width: 100%;
+			padding: 12px;
+			border: 1px solid #d7dbe7;
+			border-radius: 10px;
+			font-size: 14px;
+		}
+
+		.fp-input:focus {
+			outline: none;
+			border-color: #2f5bff;
+		}
+
+		.fp-btn {
+			width: 100%;
+			padding: 12px;
+			background:rgb(28, 48, 228);
+			color: #fff;
+			border: none;
+			border-radius: 10px;
+			font-size: 15px;
+			font-weight: 700;
+			cursor: pointer;
+			margin-top: 4px;
+		}
