@@ -120,30 +120,9 @@
         </div>
 
         <table class="testTable" id="pendingtask">
-
-                <tr id="pendingtasklist">
-                    <td>
-                        <div class="combine-logo-title">
-                            <div class="ComplaintIcon">
-                                <i class="material-icons location" style="background-color:rgb(248, 221, 211);">location_on</i>
-                            </div>
-
-                            <div class="complaintTitleDetails">
-                                <div class="complaintTitle">
-                                    <p class="complaintTitleText">Road Damage - itahari</p>
-                                    <i class="material-icons" style="font-weight:100; color:#bcb9b9">attachment</i>
-                                </div>
-                                <p id="complaintID">ID:C001</p>
-                                <p id="ComplaintAddress">Itahari,Sunsari</p>
-                            </div>
-
-                        </div>
-                    </td>
-                    <td id="approvedeletebtn">
-                        <button class="viewDetailsBtn" id="approve" onclick="Approvecomplaints()" style="background-color:rgb(54, 167, 54);margin-right: 10px;width:100%">Approve</button>
-                        <button class="viewDetailsBtn" id="reject" onclick="Rejectcomplaints()" style="background-color:rgb(231, 41, 41);;width:100%">Reject</button>
-                    </td>
-                </tr>
+            <tbody id="pendingComplaintsBody">
+                <!-- Pending complaints will be loaded here dynamically -->
+            </tbody>
         </table>
 
         <table class="testTable" id="completed">
@@ -426,6 +405,80 @@
                 }
             })
             .catch(error => console.error('Error loading assigned complaints:', error));
+    }
+
+    // Load pending complaints
+    function loadPendingComplaints() {
+        fetch('../backend/getassignedcomplaints.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('Error:', data.error);
+                    return;
+                }
+                
+                const tbody = document.getElementById('pendingComplaintsBody');
+                tbody.innerHTML = '';
+                
+                if (data.complaints && data.complaints.length > 0) {
+                    data.complaints.forEach(complaint => {
+                        const tr = document.createElement('tr');
+                        
+                        // Get icon based on category
+                        let icon = 'description';
+                        let iconClass = '';
+                        let iconBg = 'rgb(248, 221, 211)';
+                        
+                        if (complaint.category_name && complaint.category_name.toLowerCase().includes('road')) {
+                            icon = 'location_on';
+                            iconClass = 'location';
+                            iconBg = 'rgb(248, 221, 211)';
+                        } else if (complaint.category_name && complaint.category_name.toLowerCase().includes('water')) {
+                            icon = 'water_drop';
+                            iconClass = 'waterDrop';
+                            iconBg = 'rgb(211, 237, 248)';
+                        } else if (complaint.category_name && complaint.category_name.toLowerCase().includes('corruption')) {
+                            icon = 'gavel';
+                            iconClass = 'corruptionIcon';
+                            iconBg = 'rgb(255, 235, 238)';
+                        } else if (complaint.category_name && complaint.category_name.toLowerCase().includes('electric')) {
+                            icon = 'flash_on';
+                            iconClass = 'electricIcon';
+                            iconBg = 'rgb(255, 249, 196)';
+                        }
+                        
+                        // Format date
+                        let date = complaint.submission_date ? new Date(complaint.submission_date).toLocaleDateString('en-CA') : '';
+                        
+                        tr.innerHTML = `
+                            <td>
+                                <div class="combine-logo-title">
+                                    <div class="ComplaintIcon">
+                                        <i class="material-icons ${iconClass}" style="background-color:${iconBg}; padding: 8px; border-radius: 8px;">${icon}</i>
+                                    </div>
+                                    <div class="complaintTitleDetails">
+                                        <div class="complaintTitle">
+                                            <p class="complaintTitleText">${complaint.subject || 'No Subject'}</p>
+                                            ${complaint.complaint_attachment ? '<i class="material-icons" style="font-weight:100; color:#bcb9b9">attachment</i>' : ''}
+                                        </div>
+                                        <p id="complaintID">ID:C${String(complaint.complaint_id).padStart(3, '0')}</p>
+                                        <p id="ComplaintAddress">${complaint.location || 'N/A'}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td id="approvedeletebtn">
+                                <button class="viewDetailsBtn" onclick="Approvecomplaints()" style="background-color:rgb(54, 167, 54);margin-right: 10px;width:100%">Approve</button>
+                                <button class="viewDetailsBtn" onclick="Rejectcomplaints()" style="background-color:rgb(231, 41, 41);width:100%">Reject</button>
+                            </td>
+                        `;
+                        
+                        tbody.appendChild(tr);
+                    });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; padding:20px;">No pending complaints</td></tr>';
+                }
+            })
+            .catch(error => console.error('Error loading pending complaints:', error));
     }
 
     // Load complaints on page load
