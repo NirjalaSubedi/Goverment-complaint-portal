@@ -74,6 +74,28 @@ else if ($action === 'rejectOfficer') {
     exit;
 }
 
+else if ($action === 'getAllUsers') {
+    // Fetching all users (Citizens and Officers)
+    $sql = "SELECT u.user_id, u.full_name, u.email, u.phone_number, u.position, u.user_type,
+                   d.department_name,
+                   u.is_approved
+            FROM users u
+            LEFT JOIN departments d ON u.department_id = d.department_id
+            WHERE u.user_type IN ('Citizen', 'Officer')
+            ORDER BY u.user_type ASC, u.user_id DESC";
+    
+    $result = mysqli_query($conn, $sql);
+    $users = [];
+    
+    if ($result) {
+        
+        echo json_encode(['success' => true, 'users' => $users, 'count' => count($users)]);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Database error: ' . mysqli_error($conn), 'users' => []]);
+    }
+    exit;
+}
+
 else {
     echo json_encode(['success' => false, 'message' => 'Invalid action']);
     exit;
