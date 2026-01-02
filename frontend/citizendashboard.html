@@ -391,6 +391,25 @@
         
         // Load complaints when page loads
         document.addEventListener('DOMContentLoaded', loadComplaints);
+        
+        // Load profile data
+        function loadProfileData() {
+            fetch('../backend/fetchprofile.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error loading profile:', data.error);
+                        return;
+                    }
+                    document.getElementById('fullName11').value = data.fullName || '';
+                    document.getElementById('phonenumber11').value = data.phone || '';
+                    document.getElementById('email111').value = data.email || '';
+                    document.getElementById('address11').value = data.address || '';
+                })
+                .catch(error => console.error('Error loading profile:', error));
+        }
+        document.addEventListener('DOMContentLoaded', loadProfileData);
+        
         const editProfileBtn = document.getElementById('editProfileBtn');
         const fullNameInput = document.getElementById('fullName11');
         const phoneNumberInput = document.getElementById('phonenumber11');
@@ -414,15 +433,64 @@
                 
                 fullNameInput.focus();
             } else {
-                fullNameInput.setAttribute('readonly', 'readonly');
-                phoneNumberInput.setAttribute('readonly', 'readonly');
-                emailInput.setAttribute('readonly', 'readonly');
-                addressInput.setAttribute('readonly', 'readonly');
+                // Save profile data to database
+                const profileData = {
+                    fullName: fullNameInput.value.trim(),
+                    phoneNumber: phoneNumberInput.value.trim(),
+                    email: emailInput.value.trim(),
+                    address: addressInput.value.trim()
+                };
                 
-                editProfileBtn.textContent = 'Edit Profile';
-                editProfileBtn.style.backgroundColor = '';
-                isEditing = false;
-                alert('Profile updated successfully!');
+                // Validate inputs
+                if (!profileData.fullName || !profileData.phoneNumber || !profileData.email || !profileData.address) {
+                    alert('All fields are required!');
+                    return;
+                }
+                
+                // Show loading state
+                editProfileBtn.textContent = 'Saving...';
+                editProfileBtn.disabled = true;
+                
+                // Send update request to backend
+                fetch('../backend/updateprofile.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(profileData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Disable editing
+                        fullNameInput.setAttribute('readonly', 'readonly');
+                        phoneNumberInput.setAttribute('readonly', 'readonly');
+                        emailInput.setAttribute('readonly', 'readonly');
+                        addressInput.setAttribute('readonly', 'readonly');
+                        
+                        editProfileBtn.textContent = 'Edit Profile';
+                        editProfileBtn.style.backgroundColor = '';
+                        editProfileBtn.disabled = false;
+                        isEditing = false;
+                        
+                        alert('Profile updated successfully!');
+                        
+                        // Update username in header
+                        if (data.data && data.data.fullName) {
+                            document.querySelector('.username').textContent = data.data.fullName;
+                        }
+                    } else {
+                        alert('Error: ' + (data.error || 'Failed to update profile'));
+                        editProfileBtn.textContent = 'Save Profile';
+                        editProfileBtn.disabled = false;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error updating profile:', error);
+                    alert('Failed to update profile. Please try again.');
+                    editProfileBtn.textContent = 'Save Profile';
+                    editProfileBtn.disabled = false;
+                });
             }
         });
     </script>
