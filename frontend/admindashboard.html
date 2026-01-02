@@ -188,8 +188,65 @@
             });
         });
 
-        
+        function showOfficerApprovalsSection() {
+            // Hide manage users section
+            document.getElementById('manageUsersSection').style.display = 'none';
+            // Show officer approvals section
+            document.getElementById('officerApprovalsSection').style.display = 'block';
+            
+            // Update active tab
+            document.getElementById('officerApprovalsTab').classList.add('active');
+            document.getElementById('manageUsersTab').classList.remove('active');
+            
+            loadPendingOfficers();
+        }
 
+        function showManageUsersSection() {
+            // Hide officer approvals section
+            document.getElementById('officerApprovalsSection').style.display = 'none';
+            // Show manage users section
+            document.getElementById('manageUsersSection').style.display = 'block';
+            
+            // Update active tab
+            document.getElementById('manageUsersTab').classList.add('active');
+            document.getElementById('officerApprovalsTab').classList.remove('active');
+            
+            loadAllUsers();
+        }
+
+        function loadAllUsers() {
+            console.log('Loading all users...');
+            fetch('../backend/adminverify.php?action=getAllUsers')
+                .then(response => response.text())
+                .then(text => {
+                    console.log('Raw response:', text);
+                    try {
+                        const data = JSON.parse(text);
+                        console.log('Parsed data:', data);
+                        if (data.success && data.users.length > 0) {
+                            displayAllUsers(data.users);
+                            document.getElementById('noUsersMsg').style.display = 'none';
+                            document.getElementById('usersTable').style.display = 'table';
+                        } else {
+                            document.getElementById('usersTable').style.display = 'none';
+                            document.getElementById('noUsersMsg').style.display = 'block';
+                        }
+                    } catch (e) {
+                        console.error('JSON parse error:', e);
+                        document.getElementById('noUsersMsg').innerHTML = 
+                            '<p style="color: #dc3545;">Error loading users. Check console for details.</p>';
+                        document.getElementById('noUsersMsg').style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading users:', error);
+                    document.getElementById('noUsersMsg').innerHTML = 
+                        '<p style="color: #dc3545;">Network error. Please check your connection.</p>';
+                    document.getElementById('noUsersMsg').style.display = 'block';
+                });
+        }
+
+        
         function loadPendingOfficers() {
             console.log('Loading pending officers...');
             fetch('../backend/adminverify.php?action=getPendingOfficers')
