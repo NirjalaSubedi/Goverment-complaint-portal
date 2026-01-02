@@ -115,4 +115,19 @@ document.addEventListener('DOMContentLoaded',function(){
         profileNavElement.addEventListener('click', showProfileView);
     }
 
+    // Dropdown profile link
+    const dropdownProfileLink = document.getElementById('dropdown-profile-link');
+    if (dropdownProfileLink) {
+        dropdownProfileLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            showProfileView();
+            // Close dropdown
+            const dropdown = document.querySelector('.profile-dropdown');
+            if (dropdown) {
+                dropdown.style.display = 'none';
+            }
+        });
+    }
+
+
 });

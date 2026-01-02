@@ -272,15 +272,18 @@
                         
                         // Status styling
                         let statusClass = 'statusPending';
-                        let statusStyle = '';
-                        if (complaint.status === 'InProgress') {
+                        let statusStyle = 'color:rgb(184, 134, 11) !important;';
+                        const complaintStatus = complaint.status ? complaint.status.toLowerCase() : '';
+                        
+                        if (complaintStatus === 'inprogress') {
                             statusClass = 'statusInProgress';
-                            statusStyle = 'background-color: rgb(196, 209, 250); color:rgb(7, 7, 199);width:70%';
-                        } else if (complaint.status === 'Resolved' || complaint.status === 'Completed') {
+                            statusStyle = 'color:rgb(33, 150, 243) !important;';
+                        } else if (complaintStatus === 'resolved' || complaintStatus === 'completed') {
                             statusClass = 'statusCompleted';
-                            statusStyle = 'background-color:rgb(207, 240, 207);color:green; width:70%';
-                        } else if (complaint.status === 'Rejected') {
-                            statusStyle = 'background-color:rgb(255, 200, 200);color:red; width:70%';
+                            statusStyle = 'color:green !important;';
+                        } else if (complaintStatus === 'rejected') {
+                            statusClass = 'statusRejected';
+                            statusStyle = 'color:red !important;';
                         }
                         
                         // Priority styling

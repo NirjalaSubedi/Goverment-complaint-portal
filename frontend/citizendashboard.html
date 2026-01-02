@@ -237,35 +237,6 @@
     </div>
 
 </div>
-
-    <!-- Profile Modal -->
-    <div id="profileModal" class="profile-modal">
-        <div class="profile-modal-content">
-            <div class="profile-modal-header">
-                <h2>Profile Information</h2>
-                <button class="profile-modal-close" onclick="closeProfileModal()">&times;</button>
-            </div>
-            <div class="profile-modal-body">
-                <div class="profile-field">
-                    <label>Full Name</label>
-                    <p id="profileName">-</p>
-                </div>
-                <div class="profile-field">
-                    <label>Email</label>
-                    <p id="profileEmail">-</p>
-                </div>
-                <div class="profile-field">
-                    <label>User Type</label>
-                    <p id="profileUserType">-</p>
-                </div>
-                <div class="profile-field">
-                    <label>User ID</label>
-                    <p id="profileUserId">-</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
         fetch('../backend/getuser.php')
             .then(response => response.json())
@@ -337,18 +308,22 @@
                             }
                             
                             let statusClass = 'statusPending';
-                            let statusBgColor = 'rgb(255, 205, 205)';
-                            let statusColor = 'rgb(200, 0, 0)';
-                            let statusWidth = '70%';
+                            let statusBgColor = 'transparent';
+                            let statusColor = 'rgb(184, 134, 11) !important';
+                            let statusWidth = 'auto';
+                            const complaintStatus = complaint.status ? complaint.status.toLowerCase() : '';
                             
-                            if (complaint.status === 'In Progress') {
+                            if (complaintStatus === 'in progress' || complaintStatus === 'inprogress') {
                                 statusClass = 'statusInProgress';
-                                statusBgColor = 'rgb(196, 209, 250)';
-                                statusColor = 'rgb(7, 7, 199)';
-                            } else if (complaint.status === 'Completed') {
+                                statusBgColor = 'transparent';
+                                statusColor = 'rgb(33, 150, 243) !important';
+                            } else if (complaintStatus === 'completed') {
                                 statusClass = 'statusCompleted';
-                                statusBgColor = 'rgb(207, 240, 207)';
-                                statusColor = 'green';
+                                statusBgColor = 'transparent';
+                                statusColor = 'green !important';
+                            } else if (complaintStatus === 'rejected') {
+                                statusBgColor = 'transparent';
+                                statusColor = 'red !important';
                             }
                             
                             let priorityColor = '';

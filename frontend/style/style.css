@@ -861,11 +861,11 @@ table th{
     align-items: center;
 }
 .statusPending{
-    color:rgb(87, 50, 4);
-    background-color: rgb(255, 223, 173);
+    color:rgb(184, 134, 11);
+    background-color: transparent;
     border-radius:5px;
     padding:0;
-    width:50%;
+    width:auto;
 }
 .empty{
    background-color:red;
