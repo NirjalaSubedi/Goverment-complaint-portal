@@ -38,7 +38,6 @@ if ($result && $result->num_rows === 1) {
             </script>";
             exit;
         }
-
         $_SESSION['user_id'] = $row['user_id'];
         $_SESSION['user_email'] = $row['email'];
         $_SESSION['user_name'] = $row['full_name'];
