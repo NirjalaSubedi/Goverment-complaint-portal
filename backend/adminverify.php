@@ -88,7 +88,21 @@ else if ($action === 'getAllUsers') {
     $users = [];
     
     if ($result) {
-        
+        while ($row = mysqli_fetch_assoc($result)) {
+            // Get document for officers
+            if ($row['user_type'] === 'Officer') {
+                $docSql = "SELECT file_path FROM userdocuments WHERE user_id = {$row['user_id']} ORDER BY upload_date DESC LIMIT 1";
+                $docResult = mysqli_query($conn, $docSql);
+                if ($docResult && $docRow = mysqli_fetch_assoc($docResult)) {
+                    $row['file_path'] = $docRow['file_path'];
+                } else {
+                    $row['file_path'] = null;
+                }
+            } else {
+                $row['file_path'] = null;
+            }
+            $users[] = $row;
+        }
         echo json_encode(['success' => true, 'users' => $users, 'count' => count($users)]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Database error: ' . mysqli_error($conn), 'users' => []]);
