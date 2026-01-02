@@ -44,6 +44,46 @@ $stmt->bind_param('i', $userId);
 $stmt->execute();
 $result = $stmt->get_result();
 
+if ($result->num_rows !== 1) {
+    echo "<script>
+        alert('User not found.');
+        window.location.href = '../frontend/login.html';
+    </script>";
+    exit;
+}
+
+$row = $result->fetch_assoc();
+$currentPasswordHash = $row['password_hash'];
+
+// Verify old password
+$validOldPassword = password_verify($oldPassword, $currentPasswordHash) || hash_equals($currentPasswordHash, $oldPassword);
+
+if (!$validOldPassword) {
+    echo "<script>
+        alert('Old password is incorrect.');
+        window.location.href = '../frontend/password/changepassword.html';
+    </script>";
+    exit;
+}
+
+// Hash new password
+$newPasswordHash = password_hash($newPassword, PASSWORD_DEFAULT);
+
+// Update password in database
+$updateStmt = $conn->prepare('UPDATE users SET password_hash = ? WHERE user_id = ?');
+$updateStmt->bind_param('si', $newPasswordHash, $userId);
+
+if ($updateStmt->execute()) {
+    echo "<script>
+        alert('Password changed successfully!');
+        window.location.href = '../frontend/settings.html';
+    </script>";
+} else {
+    echo "<script>
+        alert('Error changing password. Please try again.');
+        window.location.href = '../frontend/password/changepassword.html';
+    </script>";
+}
 
 $stmt->close();
 $updateStmt->close();
