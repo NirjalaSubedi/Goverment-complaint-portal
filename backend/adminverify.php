@@ -110,6 +110,42 @@ else if ($action === 'getAllUsers') {
     exit;
 }
 
+else if ($action === 'deleteUser') {
+    $userId = intval($_POST['user_id'] ?? 0);
+    
+    if ($userId <= 0) {
+        echo json_encode(['success' => false, 'message' => 'Invalid user ID']);
+        exit;
+    }
+    
+    // Start transaction
+    mysqli_begin_transaction($conn);
+    
+    try {
+        // Delete user documents first
+        $docDeleteSql = "DELETE FROM userdocuments WHERE user_id = ?";
+        $docStmt = $conn->prepare($docDeleteSql);
+        $docStmt->bind_param('i', $userId);
+        $docStmt->execute();
+        $docStmt->close();
+        
+        // Delete user
+        $userDeleteSql = "DELETE FROM users WHERE user_id = ?";
+        $userStmt = $conn->prepare($userDeleteSql);
+        $userStmt->bind_param('i', $userId);
+        $userStmt->execute();
+        $userStmt->close();
+        
+        // Commit transaction
+        mysqli_commit($conn);
+        echo json_encode(['success' => true, 'message' => 'User deleted successfully']);
+    } catch (Exception $e) {
+        mysqli_rollback($conn);
+        echo json_encode(['success' => false, 'message' => 'Failed to delete user']);
+    }
+    exit;
+}
+
 else {
     echo json_encode(['success' => false, 'message' => 'Invalid action']);
     exit;
