@@ -233,6 +233,29 @@
            </form>
            </div>
 
+        <div class="registrationDetails securitySettings" id="securitySettings" style="display: none;">
+            <div class="profile123">
+                <p class="profileDesc"> Security Settings</p>
+                    <i class="material-icons profileIcon" style="color:rgb(200, 0, 0);">security</i>
+            </div>
+            <div class="settingsContainer">
+                <div class="settingItem">
+                    <div class="settingInfo">
+                        <p class="settingTitle">Change Password</p>
+                        <p class="settingDesc">Update your account password</p>
+                    </div>
+                    <button type="button" class="settingBtn changePasswordBtn" id="changePasswordBtn">Change</button>
+                </div>
+                <div class="settingItem">
+                    <div class="settingInfo">
+                        <p class="settingTitle">Delete Account</p>
+                        <p class="settingDesc">This action cannot be undone</p>
+                    </div>
+                    <button type="button" class="settingBtn deleteAccountBtn" id="deleteAccountBtn">Delete</button>
+                </div>
+            </div>
+           </div>
+
 
     </div>
 
@@ -409,6 +432,21 @@
                 .catch(error => console.error('Error loading profile:', error));
         }
         document.addEventListener('DOMContentLoaded', loadProfileData);
+        
+        // Toggle Security Settings visibility
+        const profileSection = document.querySelector('.registrationDetails:not(.securitySettings)');
+        const securitySettings = document.getElementById('securitySettings');
+        const profileIcon = document.querySelector('.registrationDetails:not(.securitySettings) .profile123');
+        
+        profileIcon.style.cursor = 'pointer';
+        
+        profileIcon.addEventListener('click', function(e) {
+            if (securitySettings.style.display === 'none' || securitySettings.style.display === '') {
+                securitySettings.style.display = 'block';
+            } else {
+                securitySettings.style.display = 'none';
+            }
+        });
         
         const editProfileBtn = document.getElementById('editProfileBtn');
         const fullNameInput = document.getElementById('fullName11');

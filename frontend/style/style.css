@@ -1225,3 +1225,83 @@ form input{
     width:100%;
 }
 
+/* Security Settings */
+.securitySettings{
+    margin-top: 30px;
+}
+
+.settingsContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.settingItem{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.settingItem:hover{
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    border-color: #ccc;
+}
+
+.settingInfo{
+    flex: 1;
+}
+
+.settingTitle{
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 6px;
+    font-size: 17px;
+}
+
+.settingDesc{
+    font-size: 13px;
+    color: #888;
+    margin: 0;
+}
+
+.settingBtn{
+    padding: 10px 30px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    margin-left: 20px;
+}
+
+.changePasswordBtn{
+    background-color: #5a6268;
+    color: white;
+}
+
+.changePasswordBtn:hover{
+    background-color: #4a5258;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(90, 98, 104, 0.3);
+}
+
+.deleteAccountBtn{
+    background-color: #dc3545;
+    color: white;
+}
+
+.deleteAccountBtn:hover{
+    background-color: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+
