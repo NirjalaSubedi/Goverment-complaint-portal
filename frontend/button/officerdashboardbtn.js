@@ -93,7 +93,8 @@ document.addEventListener('DOMContentLoaded', function() {
         highlightNavButton('.favorites.Navbtn', true);
         hideAllContent();
         showElement(assignedMeTable, 'block'); 
-        hideElement('.MainHeading'); 
+        hideElement('.MainHeading');
+        loadAssignedComplaints(); // Load assigned complaints
         const assignedTaskButtons = assignedMeTable.querySelector('.pending-task-buttons');
         if(assignedTaskButtons) { assignedTaskButtons.remove(); }
         const reviewBtn = assignedMeTable.querySelector('#review');
