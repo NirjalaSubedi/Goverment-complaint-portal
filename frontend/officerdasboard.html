@@ -409,7 +409,7 @@
 
     // Load pending complaints
     function loadPendingComplaints() {
-        fetch('../backend/getassignedcomplaints.php')
+        fetch('../backend/getpendingcomplaints.php')
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
@@ -423,6 +423,7 @@
                 if (data.complaints && data.complaints.length > 0) {
                     data.complaints.forEach(complaint => {
                         const tr = document.createElement('tr');
+                        tr.setAttribute('data-complaint-id', complaint.complaint_id);
                         
                         // Get icon based on category
                         let icon = 'description';
@@ -467,8 +468,8 @@
                                 </div>
                             </td>
                             <td id="approvedeletebtn">
-                                <button class="viewDetailsBtn" onclick="Approvecomplaints()" style="background-color:rgb(54, 167, 54);margin-right: 10px;width:100%">Approve</button>
-                                <button class="viewDetailsBtn" onclick="Rejectcomplaints()" style="background-color:rgb(231, 41, 41);width:100%">Reject</button>
+                                <button class="viewDetailsBtn approveBtn" data-complaint-id="${complaint.complaint_id}" onclick="Approvecomplaints(this)" style="background-color:rgb(54, 167, 54);margin-right: 10px;width:auto">Approve</button>
+                                <button class="viewDetailsBtn rejectBtn" data-complaint-id="${complaint.complaint_id}" onclick="Rejectcomplaints(this)" style="background-color:rgb(231, 41, 41);width:auto">Reject</button>
                             </td>
                         `;
                         
@@ -481,7 +482,61 @@
             .catch(error => console.error('Error loading pending complaints:', error));
     }
 
-    // Load complaints on page load
+    // Approve complaint
+    function Approvecomplaints(button) {
+        const complaintId = button.getAttribute('data-complaint-id');
+        
+        const formData = new FormData();
+        formData.append('complaint_id', complaintId);
+        formData.append('action', 'approve');
+        
+        fetch('../backend/approvecomplaints.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Complaint approved successfully!');
+                // Reload pending complaints to remove approved complaint
+                loadPendingComplaints();
+            } else {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while approving the complaint');
+        });
+    }
+
+    // Reject complaint
+    function Rejectcomplaints(button) {
+        const complaintId = button.getAttribute('data-complaint-id');
+        
+        const formData = new FormData();
+        formData.append('complaint_id', complaintId);
+        formData.append('action', 'reject');
+        
+        fetch('../backend/approvecomplaints.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Complaint rejected!');
+                loadPendingComplaints();
+            } else {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while rejecting the complaint');
+        });
+    }
+
     loadAllComplaints();
     </script>
     <script src="button/buttonclick.js"></script>
