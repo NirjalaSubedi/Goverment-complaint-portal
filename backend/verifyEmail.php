@@ -45,7 +45,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     VALUES ('$fullname', '$phonenumber', '$email', '$address', '$citizenship', '$hashed_password', '$user_type', 'Approved', 1)";
         }
         
+        if (mysqli_query($conn, $sql)) {
+            $newUserId = mysqli_insert_id($conn);
+            
+            // If officer has ID path, insert into userdocuments
+            if ($user_type === 'Officer' && !empty($pending['officer_id_path'])) {
+                $docType = 'OfficerID';
+                $docPathEsc = mysqli_real_escape_string($conn, $pending['officer_id_path']);
+                mysqli_query($conn, "INSERT INTO userdocuments(user_id, document_type, file_path, upload_date) VALUES ($newUserId, '$docType', '$docPathEsc', NOW())");
+            }
+            
+            // Clear session
+            unset($_SESSION['pending_registration']);
+            
+            echo json_encode(['success' => true, 'message' => 'Email verified successfully']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Error: ' . mysqli_error($conn)]);
+        }
+        exit();
+    }
+    
+    // Resend verification code
+    if ($action === 'resend_code') {
+        $email = mysqli_real_escape_string($conn, $_POST['email'] ?? '');
         
+        // Check if pending registration exists
+        if (!isset($_SESSION['pending_registration']) || $_SESSION['pending_registration']['email'] !== $email) {
+            echo json_encode(['success' => false, 'message' => 'Registration data not found']);
+            exit();
+        }
+        
+        $pending = $_SESSION['pending_registration'];
+        $fullName = $pending['full_name'];
+        
+        $verificationCode = generateVerificationCode();
+        
+        // Update session with new code
+        $_SESSION['pending_registration']['verification_code'] = $verificationCode;
+        
+        if (sendVerificationEmail($email, $fullName, $verificationCode)) {
+            echo json_encode(['success' => true, 'message' => 'Verification code sent to your email']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to send verification email']);
+        }
         exit();
     }
 }
