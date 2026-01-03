@@ -18,7 +18,7 @@ if ($email === '' || $password === '') {
     exit;
 }
 
-$stmt = $conn->prepare('SELECT user_id, email, full_name, password_hash, user_type, is_approved FROM users WHERE email = ? LIMIT 1');
+$stmt = $conn->prepare('SELECT user_id, email, full_name, password_hash, user_type, is_approved, email_verified FROM users WHERE email = ? LIMIT 1');
 $stmt->bind_param('s', $email);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -30,6 +30,15 @@ if ($result && $result->num_rows === 1) {
     $valid = password_verify($password, $row['password_hash']) || hash_equals($row['password_hash'], $password);
 
     if ($valid) {
+        // Check if email is verified
+        if (!$row['email_verified']) {
+            echo "<script>
+                alert('Please verify your email first. Check your email for the verification code.');
+                window.location.href = '../frontend/auth.html?email=" . urlencode($email) . "';
+            </script>";
+            exit;
+        }
+        
         // Check if officer is approved
         if ($row['user_type'] === 'Officer' && $row['is_approved'] !== 'Approved') {
             echo "<script>
