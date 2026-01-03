@@ -61,10 +61,94 @@
                 },
                 body: 'action=verify_code&email=' + encodeURIComponent(userEmail) + '&code=' + encodeURIComponent(code)
             })
-            
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showMessage(data.message, true);
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 1500);
+                } else {
+                    showMessage(data.message, false);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showMessage('An error occurred. Please try again.', false);
+            });
         });
         
+        function resendCode(event) {
+            event.preventDefault();
+            
+            if (!userEmail) {
+                showMessage('Email not found. Please register again.', false);
+                return;
+            }
+            
+            const resendBtn = document.getElementById('resendBtn');
+            resendBtn.style.pointerEvents = 'none';
+            resendBtn.style.opacity = '0.6';
+            
+            fetch('../backend/verifyEmail.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'action=resend_code&email=' + encodeURIComponent(userEmail)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showMessage(data.message, true);
+                    resendCountdown = 60;
+                    updateResendTimer();
+                } else {
+                    showMessage(data.message, false);
+                    resendBtn.style.pointerEvents = 'auto';
+                    resendBtn.style.opacity = '1';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showMessage('Failed to resend code. Please try again.', false);
+                resendBtn.style.pointerEvents = 'auto';
+                resendBtn.style.opacity = '1';
+            });
+        }
         
+        function updateResendTimer() {
+            const timerDiv = document.getElementById('timer');
+            const resendBtn = document.getElementById('resendBtn');
+            
+            if (resendCountdown > 0) {
+                timerDiv.className = 'timer active';
+                timerDiv.textContent = 'Resend code in ' + resendCountdown + ' seconds';
+                resendCountdown--;
+                setTimeout(updateResendTimer, 1000);
+            } else {
+                timerDiv.className = 'timer';
+                timerDiv.textContent = '';
+                resendBtn.style.pointerEvents = 'auto';
+                resendBtn.style.opacity = '1';
+            }
+        }
+        
+        function showMessage(message, isSuccess) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = message;
+            messageDiv.style.display = 'block';
+            
+            if (isSuccess) {
+                messageDiv.style.backgroundColor = '#d4edda';
+                messageDiv.style.color = '#155724';
+                messageDiv.style.border = '1px solid #c3e6cb';
+            } else {
+                messageDiv.style.backgroundColor = '#f8d7da';
+                messageDiv.style.color = '#721c24';
+                messageDiv.style.border = '1px solid #f5c6cb';
+            }
+        }
     </script>
 </body>
 </html>
