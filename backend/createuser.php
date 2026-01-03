@@ -1,5 +1,8 @@
 <?php
+session_start();
 include '../includes/databaseConnection.php';
+include './emailVerify/sendVerification.php';
+
 if (isset($_POST['submit'])) {
     $fullname    = mysqli_real_escape_string($conn, $_POST['fullName'] ?? '');
     $phonenumber = mysqli_real_escape_string($conn, $_POST['phonenumber'] ?? '');
@@ -10,7 +13,10 @@ if (isset($_POST['submit'])) {
     $user_type   = mysqli_real_escape_string($conn, $_POST['userType'] ?? 'Citizen');
 
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-    $is_approved = ($user_type === 'Officer') ? 'Pending' : 'Approved';
+    
+    // Generate verification code BEFORE storing
+    $verificationCode = generateVerificationCode();
+    $expiryTime = date('Y-m-d H:i:s', strtotime('+24 hours'));
 
     if ($user_type === 'Officer') {
         // Get department name from form
@@ -32,10 +38,7 @@ if (isset($_POST['submit'])) {
             }
         }
         
-        $departmentIdSql = ($departmentId !== null) ? $departmentId : 'NULL';
-        $positionSql = ($position !== '') ? "'$position'" : 'NULL';
-
-        // Handle officer ID file upload; stored in userdocuments after user is created
+        // Handle officer ID file upload
         $uploadedDocPath = '';
 
         if (isset($_FILES['officerId']) && $_FILES['officerId']['error'] === 0) {
@@ -50,27 +53,39 @@ if (isset($_POST['submit'])) {
                 $uploadedDocPath = $uploadFile;
             }
         }
-        // Insert officer; use department_id column in users
-        $sql = "INSERT INTO users(full_name, phone_number, email, address, citizenship_number, password_hash, user_type, department_id, position, is_approved)
-                VALUES ('$fullname', '$phonenumber', '$email', '$address', '$citizenship', '$hashed_password', '$user_type', $departmentIdSql, $positionSql, '$is_approved')";
+        
+        $_SESSION['pending_registration'] = [
+            'full_name' => $fullname,
+            'phone_number' => $phonenumber,
+            'email' => $email,
+            'address' => $address,
+            'citizenship_number' => $citizenship,
+            'password_hash' => $hashed_password,
+            'user_type' => $user_type,
+            'department_id' => $departmentId,
+            'position' => $position,
+            'officer_id_path' => $uploadedDocPath,
+            'verification_code' => $verificationCode
+        ];
     } else {
-        $sql = "INSERT INTO users(full_name, phone_number, email, address, citizenship_number, password_hash, user_type, is_approved)
-                VALUES ('$fullname', '$phonenumber', '$email', '$address', '$citizenship', '$hashed_password', '$user_type', '$is_approved')";
+        $_SESSION['pending_registration'] = [
+            'full_name' => $fullname,
+            'phone_number' => $phonenumber,
+            'email' => $email,
+            'address' => $address,
+            'citizenship_number' => $citizenship,
+            'password_hash' => $hashed_password,
+            'user_type' => $user_type,
+            'verification_code' => $verificationCode
+        ];
     }
     
-    if (mysqli_query($conn, $sql)) {
-        $newUserId = mysqli_insert_id($conn);
-        
-        // If officer and we have a document path, insert into userdocuments
-        if ($user_type === 'Officer' && !empty($uploadedDocPath)) {
-            $docType = 'OfficerID';
-            $docPathEsc = mysqli_real_escape_string($conn, $uploadedDocPath);
-            mysqli_query($conn, "INSERT INTO userdocuments(user_id, document_type, file_path, upload_date) VALUES ($newUserId, '$docType', '$docPathEsc', NOW())");
-        }
-        header("Location: ../frontend/auth.html");
+    if (sendVerificationEmail($email, $fullname, $verificationCode)) {
+        header("Location: ../frontend/auth.html?email=" . urlencode($email));
         exit();
     } else {
-        echo "Error: " . mysqli_error($conn);
+        header("Location: ../frontend/auth.html?email=" . urlencode($email));
+        exit();
     }
 }
 
