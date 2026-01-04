@@ -82,9 +82,10 @@ function renderUsers(users) {
         const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8'];
         const bgColor = colors[Math.floor(Math.random() * colors.length)];
 
-        const documentLink = user.file_path && user.user_type === 'Officer'
-            ? `<a href="javascript:void(0)" onclick="openDocumentModal('${user.file_path}')" style="text-decoration: none; color: #007bff;"><i class="material-icons" style="vertical-align: middle;">description</i> View Doc</a>`
-            : '<span style="color: #999;">No document</span>';
+        // Only show document for Officers
+        const documentCell = user.user_type === 'Officer' && user.file_path
+            ? `<td><a href="javascript:void(0)" onclick="openDocumentModal('${user.file_path}')" style="text-decoration: none; color: #007bff;"><i class="material-icons" style="vertical-align: middle;">description</i> View Doc</a></td>`
+            : '';
 
         // Status badge styling
         let statusBadge = '';
@@ -97,6 +98,10 @@ function renderUsers(users) {
         } else {
             statusBadge = '<span style="background-color: #6c757d; color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px;">N/A</span>';
         }
+
+        const documentLink = user.file_path && user.user_type === 'Officer'
+            ? `<a href="javascript:void(0)" onclick="openDocumentModal('${user.file_path}')" style="text-decoration: none; color: #007bff;"><i class="material-icons" style="vertical-align: middle;">description</i> View Doc</a>`
+            : '<span style="color: #999;">No document</span>';
 
         const row = document.createElement('tr');
         row.innerHTML = `
