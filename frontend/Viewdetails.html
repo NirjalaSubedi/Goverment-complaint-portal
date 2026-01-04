@@ -24,6 +24,102 @@
             color: #c33;
             margin: 20px;
         }
+        
+        .officer-response-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+        
+        .response-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f3f7;
+        }
+        
+        .response-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a2b4c;
+            margin: 0;
+        }
+        
+        .response-header .material-icons {
+            color: #0d55e7;
+            font-size: 24px;
+        }
+        
+        .response-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 16px;
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: Arial, sans-serif;
+            resize: vertical;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+        
+        .response-textarea:focus {
+            outline: none;
+            border-color: #0d55e7;
+            box-shadow: 0 0 0 3px rgba(13, 85, 231, 0.1);
+        }
+        
+        .send-response-btn {
+            background: linear-gradient(135deg, #0d55e7 0%, #0a42b8 100%);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 6px 20px rgba(13, 85, 231, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .send-response-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(13, 85, 231, 0.45);
+        }
+        
+        .send-response-btn:active {
+            transform: translateY(0);
+        }
+        
+        .send-response-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .success-message {
+            padding: 15px 20px;
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            color: #155724;
+            margin-top: 15px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .success-message.show {
+            display: flex;
+        }
     </style>
 </head>
 <body>
@@ -160,6 +256,26 @@
 
                             ${attachmentsHTML}
                         </div>
+                        
+                        <div class="officer-response-section">
+                            <div class="response-header">
+                                <i class="material-icons">chat_bubble_outline</i>
+                                <h3>Send Response to Citizen</h3>
+                            </div>
+                            <textarea 
+                                id="responseMessage" 
+                                class="response-textarea" 
+                                placeholder="Write your response or update about this complaint..."
+                            ></textarea>
+                            <button id="sendResponseBtn" class="send-response-btn" onclick="sendResponse(${complaint.complaint_id})">
+                                <i class="material-icons" style="font-size: 20px;">send</i>
+                                Send Response
+                            </button>
+                            <div id="successMessage" class="success-message">
+                                <i class="material-icons" style="color: #155724;">check_circle</i>
+                                <span>Response sent successfully!</span>
+                            </div>
+                        </div>
                     `;
 
                     document.getElementById('mainContent').innerHTML = contentHTML;
@@ -168,6 +284,58 @@
                     console.error('Error loading complaint:', error);
                     document.getElementById('mainContent').innerHTML = '<div class="error-message">Failed to load complaint details. Please try again.</div>';
                 });
+        }
+        
+        // Send officer response
+        function sendResponse(complaintId) {
+            const message = document.getElementById('responseMessage').value.trim();
+            const btn = document.getElementById('sendResponseBtn');
+            const successMsg = document.getElementById('successMessage');
+            
+            if (!message) {
+                alert('Please enter a response message');
+                return;
+            }
+            
+            // Disable button and show loading
+            btn.disabled = true;
+            btn.innerHTML = '<i class="material-icons" style="font-size: 20px;">refresh</i> Sending...';
+            
+            // Send response to backend
+            fetch('../backend/sendresponse.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    complaint_id: complaintId,
+                    message: message
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Clear textarea
+                    document.getElementById('responseMessage').value = '';
+                    
+                    // Show success message
+                    successMsg.classList.add('show');
+                    setTimeout(() => {
+                        successMsg.classList.remove('show');
+                    }, 3000);
+                } else {
+                    alert('Error: ' + (data.error || 'Failed to send response'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to send response. Please try again.');
+            })
+            .finally(() => {
+                // Re-enable button
+                btn.disabled = false;
+                btn.innerHTML = '<i class="material-icons" style="font-size: 20px;">send</i> Send Response';
+            });
         }
     </script>
 
