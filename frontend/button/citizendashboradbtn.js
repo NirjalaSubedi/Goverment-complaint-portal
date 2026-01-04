@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded',function(){
             element.style.backgroundColor = shouldHighlight ? '#d5defb' : 'transparent';
             element.style.borderRadius = '8px';
             
-            const navText = element.querySelector('.myProfile, .myComplaints, .myDrafts'); 
+            const navText = element.querySelector('.myProfile, .myComplaints, .myDrafts, .myCompleted'); 
             const navIcon = element.querySelector('.material-icons'); 
 
             if (navText) {
@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded',function(){
     function showMyComplaintsView() {
         highlightNavButton('.Complaints.Navbtn', true);
         highlightNavButton('.drafts.Navbtn', false);
+        highlightNavButton('.completed.Navbtn', false);
         highlightNavButton('.profile.nav-btn', false); 
 
         showElement('.MainHeading', 'flex'); 
@@ -52,10 +53,12 @@ document.addEventListener('DOMContentLoaded',function(){
         hideElement(document.querySelectorAll('.testTable')[1]); 
 
         hideElement('.registrationDetails');
+        hideElement('.completed-section');
     }
     function showDraftsView() {
         highlightNavButton('.Complaints.Navbtn', false);
         highlightNavButton('.drafts.Navbtn', true);
+        highlightNavButton('.completed.Navbtn', false);
         highlightNavButton('.profile.nav-btn', false); 
        
         hideElement('.MainHeading'); 
@@ -73,10 +76,32 @@ document.addEventListener('DOMContentLoaded',function(){
         }
 
         hideElement('.registrationDetails');
+        hideElement('.completed-section');
+    }
+    function showCompletedView() {
+        highlightNavButton('.Complaints.Navbtn', false);
+        highlightNavButton('.drafts.Navbtn', false);
+        highlightNavButton('.completed.Navbtn', true);
+        highlightNavButton('.profile.nav-btn', false);
+
+        hideElement('.MainHeading');
+        hideElement('.complaintCards1');
+        hideElement('.MainBox');
+        hideElement('.allcomplaintsTable');
+        hideElement(document.querySelectorAll('.testTable')[1]);
+        hideElement('.registrationDetails');
+        
+        showElement('.completed-section', 'block');
+        
+        // Load completed complaints when view is shown
+        if (typeof loadCompletedComplaints === 'function') {
+            loadCompletedComplaints();
+        }
     }
     function showProfileView() {
         highlightNavButton('.Complaints.Navbtn', false);
         highlightNavButton('.drafts.Navbtn', false);
+        highlightNavButton('.completed.Navbtn', false);
         highlightNavButton('.profile.nav-btn', true); 
 
         hideElement('.MainHeading'); 
@@ -87,7 +112,8 @@ document.addEventListener('DOMContentLoaded',function(){
         hideElement('.allcomplaintsTable'); 
         hideElement(document.querySelectorAll('.testTable')[1]);
 
-        showElement('.registrationDetails', 'block'); 
+        showElement('.registrationDetails', 'block');
+        hideElement('.completed-section');
     }
 
     const allTestTables = document.querySelectorAll('.testTable');
@@ -107,6 +133,11 @@ document.addEventListener('DOMContentLoaded',function(){
     if (draftsBtn) {
        
         draftsBtn.parentElement.parentElement.addEventListener('click', showDraftsView);
+    }
+
+    const completedBtn = document.getElementById('myCompleted');
+    if (completedBtn) {
+        completedBtn.parentElement.parentElement.addEventListener('click', showCompletedView);
     }
 
    
