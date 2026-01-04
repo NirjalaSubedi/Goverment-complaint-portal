@@ -340,7 +340,7 @@
                             </td>
                             <td><p>${date}</p></td>
                             <td>
-                                <button class="viewDetailsBtn" onclick="viewDetails()">View Details</button>
+                                <button class="viewDetailsBtn" onclick="viewComplaintDetails(${complaint.complaint_id})">View Details</button>
                             </td>
                         `;
                         
@@ -559,6 +559,11 @@
 
     // Navigate to review page with complaint ID
     function reviewComplaint(complaintId) {
+        window.location.href = `Viewdetails.html?complaint_id=${complaintId}`;
+    }
+    
+    // Navigate to complaint details page
+    function viewComplaintDetails(complaintId) {
         window.location.href = `Viewdetails.html?complaint_id=${complaintId}`;
     }
 

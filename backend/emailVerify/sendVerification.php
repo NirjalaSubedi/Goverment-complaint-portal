@@ -62,7 +62,7 @@ function sendVerificationEmail($recipientEmail, $recipientName, $verificationCod
                     <p>If you did not create this account, please ignore this email.</p>
                     
                     <div class='footer'>
-                        <p>Government Complaint Portal &copy; 2024</p>
+                        <p>Government Complaint Portal &copy; 2026</p>
                     </div>
                 </div>
             </body>
