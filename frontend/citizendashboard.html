@@ -27,8 +27,8 @@
         }
         
         .editProfileBtn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(13, 85, 231, 0.5) !important;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(13, 85, 231, 0.5) !important;
         }
         
         .editProfileBtn:active {
@@ -38,6 +38,27 @@
         .registrationDetails {
             max-width: 600px;
             margin: 40px auto;
+        }
+        
+        #notifications-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 26px;
+            color: #0d55e7;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 8px;
+            border-radius: 50%;
+            background: rgba(13, 85, 231, 0.08);
+        }
+        
+        #notifications-icon:hover {
+            background: rgba(13, 85, 231, 0.15);
+            transform: scale(1.1) rotate(15deg);
+            color: #0a42b8;
+        }
+        
+        #notifications-icon:active {
+            transform: scale(0.95);
         }
 
     </style>
@@ -356,7 +377,7 @@
                         style="width: 100%; padding: 14px 16px; border: 2px solid #e8e8e8; border-radius: 12px; font-size: 15px; transition: all 0.3s; background: #f8f9fa;"/>
                 </div>
                 
-                <div style="margin-bottom: 30px;">
+                <div style="margin-bottom: 20px;">
                     <label for="address" class="address11" style="display: block; font-weight: 600; margin-bottom: 8px; color: #333; font-size: 14px;">
                         <i class="material-icons" style="font-size: 18px; vertical-align: middle; margin-right: 5px; color: #2196f3;">location_on</i>
                         Address
@@ -365,11 +386,12 @@
                         style="width: 100%; padding: 14px 16px; border: 2px solid #e8e8e8; border-radius: 12px; font-size: 15px; transition: all 0.3s; background: #f8f9fa;"/>
                 </div>
                 
-            <button type="button" class="editProfileBtn" id="editProfileBtn" 
-                style="width: 100%; padding: 16px; background: #0d55e7; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 6px 20px rgba(13, 85, 231, 0.4);">
-                <i class="material-icons" style="font-size: 18px; vertical-align: middle; margin-right: 8px;">edit</i>
-                Edit Profile
-            </button>
+                <button type="button" class="editProfileBtn" id="editProfileBtn" 
+                    style="width: 100%; padding: 16px; background: linear-gradient(135deg, #0d55e7 0%, #0a42b8 100%); color: white; border: none; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 8px 24px rgba(13, 85, 231, 0.35); margin-top: 10px;">
+                    <i class="material-icons" style="font-size: 18px; vertical-align: middle; margin-right: 8px;">edit</i>
+                    Edit Profile
+                </button>
+                </div>
            </form>
            </div>
 
@@ -684,7 +706,7 @@
                 emailInput.removeAttribute('readonly');
                 addressInput.removeAttribute('readonly');
                 editProfileBtn.textContent = 'Save Profile';
-                editProfileBtn.style.backgroundColor = 'rgb(26, 166, 26)';
+                editProfileBtn.style.backgroundColor = '#0d55e7';
                 isEditing = true;
                 
                 fullNameInput.focus();
@@ -725,7 +747,7 @@
                         addressInput.setAttribute('readonly', 'readonly');
                         
                         editProfileBtn.textContent = 'Edit Profile';
-                        editProfileBtn.style.backgroundColor = '';
+                        editProfileBtn.style.backgroundColor = '#0d55e7';
                         editProfileBtn.disabled = false;
                         isEditing = false;
                         
