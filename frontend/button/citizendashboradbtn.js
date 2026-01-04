@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
         hideElement('.registrationDetails');
         hideElement('.completed-section');
+        hideElement('.drafts-section');
     }
     function showDraftsView() {
         highlightNavButton('.Complaints.Navbtn', false);
@@ -62,21 +63,13 @@ document.addEventListener('DOMContentLoaded',function(){
         highlightNavButton('.profile.nav-btn', false); 
        
         hideElement('.MainHeading'); 
-
-        
         hideElement('.complaintCards1'); 
         hideElement('.MainBox'); 
-        
         hideElement('.allcomplaintsTable'); 
-        const draftsTable = document.querySelectorAll('.testTable')[1];
-        if (draftsTable) {
-            showElement(draftsTable, 'table'); 
-            draftsTable.style.width = '100%'; 
-            draftsTable.style.margin = '20px 0';
-        }
-
         hideElement('.registrationDetails');
         hideElement('.completed-section');
+        
+        showElement('.drafts-section', 'block');
     }
     function showCompletedView() {
         highlightNavButton('.Complaints.Navbtn', false);
@@ -114,6 +107,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
         showElement('.registrationDetails', 'block');
         hideElement('.completed-section');
+        hideElement('.drafts-section');
     }
 
     const allTestTables = document.querySelectorAll('.testTable');
