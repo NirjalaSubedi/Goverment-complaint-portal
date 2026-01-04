@@ -83,6 +83,7 @@ document.addEventListener('DOMContentLoaded',function(){
         hideElement('.allcomplaintsTable');
         hideElement(document.querySelectorAll('.testTable')[1]);
         hideElement('.registrationDetails');
+        hideElement('.drafts-section');
         
         showElement('.completed-section', 'block');
         
