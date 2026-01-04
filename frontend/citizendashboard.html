@@ -190,6 +190,46 @@
             </table>
         </div>
 
+        <!-- Drafts Section -->
+        <div class="drafts-section" style="display:none;">
+            <div class="MainHeading" style="display:flex;">
+                <div class="myComplaintsHeading">
+                    <h2 class="myComplaintsText">Drafts</h2>
+                    <p id="complainttopdesc">Your saved complaint drafts</p>
+                </div>
+            </div>
+
+            <div class="MainBox">
+                <div class="heading003">
+                    <div class="myComplaintsHeading1">
+                        <h4 class="myComplaintsText1" style="font-size:18px;">Draft Complaints</h4>
+                    </div>
+                    <button class="sortBtn" style="margin-bottom:10px">
+                        <i class="material-icons">sort</i>
+                        <p class="sortText">Sort</p>
+                    </button>
+                </div>
+
+                <table class="testTable draftsTable">
+                    <tr class="ComplaintHeader1">
+                        <th>COMPLAINT</th>
+                        <th>CATEGORY</th>
+                        <th>PRIORITY</th>
+                        <th>SAVED DATE</th>
+                        <th>ACTIONS</th>
+                    </tr>
+                    <tbody id="drafts-table-body">
+                        <tr id="no-drafts-row">
+                            <td colspan="5" style="text-align: center; padding: 40px;">
+                                <i class="material-icons" style="font-size: 48px; color: #ccc;">drafts</i>
+                                <p style="margin-top: 10px; color: #666;">No drafts saved yet</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- Completed Complaints Section -->
         <div class="completed-section" style="display:none;">
             <div class="MainHeading" style="display:flex;">
