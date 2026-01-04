@@ -79,7 +79,7 @@
                     <p class="myDrafts" id="myDrafts">Drafts</p>
                     </div>
                 </div>
-                <div class="completed Navbtn">
+                <div class="completed Navbtn" style="cursor: pointer;">
                     <div class="nav-btn">
                     <i class="material-icons">check_circle</i>
                     <p class="myCompleted" id="myCompleted">Completed</p>
@@ -190,6 +190,42 @@
             </table>
         </div>
 
+        <!-- Completed Complaints Section -->
+        <div class="completed-section" style="display:none;">
+            <div class="MainHeading" style="display:flex;">
+                <div class="myComplaintsHeading">
+                    <h2 class="myComplaintsText">Completed Tasks</h2>
+                    <p id="complainttopdesc">View all successfully resolved complaints</p>
+                </div>
+            </div>
+
+            <div class="MainBox">
+                <div class="heading003">
+                    <div class="myComplaintsHeading1">
+                        <h4 class="myComplaintsText1" style="font-size:18px;">Completed Complaints</h4>
+                    </div>
+                    <button class="sortBtn" style="margin-bottom:10px" onclick="sortCompletedComplaints()">
+                        <i class="material-icons">sort</i>
+                        <p class="sortText">Sort</p>
+                    </button>
+                </div>
+
+                <table class="testTable completedComplaintsTable">
+                    <tr class="ComplaintHeader1">
+                        <th>COMPLAINT</th>
+                        <th>STATUS</th>
+                        <th>PRIORITY</th>
+                        <th>COMPLETED DATE</th>
+                        <th>ACTIONS</th>
+                    </tr>
+                    <tbody id="completed-complaints-table-body">
+                        <tr id="no-completed-complaints-row" style="display:none;">
+                            <td colspan="5" style="text-align: center; padding: 20px;">No completed complaints found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
         <table class="testTable">
 
@@ -399,6 +435,8 @@
         
         // Load complaints when page loads
         document.addEventListener('DOMContentLoaded', loadComplaints);
+        
+       
         
         // Load profile data
         function loadProfileData() {
