@@ -50,14 +50,26 @@
         } else {
             // Fetch complaint details from database
             fetch(`../backend/getcomplaintdetails.php?complaint_id=${complaintId}`)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
                 .then(data => {
+                    console.log('Response data:', data); // Debug log
+                    
                     if (data.error) {
                         document.getElementById('mainContent').innerHTML = `<div class="error-message">${data.error}</div>`;
                         return;
                     }
 
                     const complaint = data.complaint;
+                    
+                    if (!complaint) {
+                        document.getElementById('mainContent').innerHTML = '<div class="error-message">No complaint data received</div>';
+                        return;
+                    }
                     
                     // Update page title
                     document.getElementById('pageTitle').textContent = `Complaint Details - C${String(complaint.complaint_id).padStart(3, '0')}`;
