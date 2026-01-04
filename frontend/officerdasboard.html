@@ -414,7 +414,7 @@
                                 </div>
                             </td>
                             <td>
-                                <button class="viewDetailsBtn" onclick="reviewcomplaints()" style="background-color:rgb(81, 107, 239);margin-right: 10px;width:100%">Review</button>
+                                <button class="viewDetailsBtn" onclick="reviewComplaint(${complaint.complaint_id})" style="background-color:rgb(81, 107, 239);margin-right: 10px;width:100%">Review</button>
                             </td>
                         `;
                         
@@ -555,6 +555,11 @@
             console.error('Error:', error);
             alert('An error occurred while rejecting the complaint');
         });
+    }
+
+    // Navigate to review page with complaint ID
+    function reviewComplaint(complaintId) {
+        window.location.href = `Viewdetails.html?complaint_id=${complaintId}`;
     }
 
     loadAllComplaints();

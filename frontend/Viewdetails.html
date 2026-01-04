@@ -3,88 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Complaint Details - C001</title>
+    <title id="pageTitle">Complaint Details</title>
     <link rel="stylesheet" href="style/style.css">
     <link rel="icon" type="img/png" href="./logo.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
+    <style>
+        .loading-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+            font-size: 18px;
+            color: #0d55e7;
+        }
+        .error-message {
+            padding: 20px;
+            background: #fee;
+            border: 1px solid #fcc;
+            border-radius: 8px;
+            color: #c33;
+            margin: 20px;
+        }
+    </style>
 </head>
 <body>
 
     <div class="container11">
-            <div class="arrowicon">
-                <i class="material-icons">arrow_back</i>
-            </div>
-        <div class="main-content11">
-            <div class="top-header">
-                <div class="header-title">complaintDetails</div>
-                <div class="status-tag">inProgress</div>
-            </div>
-            <div class="card11">
-                <h3>Road Damage - Kathmandu</h3>
-                
-                <div class="detail-row">
-                    <div class="detail-item">
-                        <div class="detail-label">submittedBy</div>
-                        <div class="detail-value">Ram Sharma</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">submittedOn</div>
-                        <div class="detail-value">2024-01-15</div>
-                    </div>
-                </div>
-
-                <div class="detail-row">
-                    <div class="detail-item">
-                        <div class="detail-label">location</div>
-                        <div class="detail-value">Kathmandu, Nepal</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">Priority</div>
-                        <div class="detail-value"><span class="priority-high">High</span></div>
-                    </div>
-                </div>
-
-                <div class="description-section">
-                    <div class="detail-label">description</div>
-                    <div class="description-text">
-                        There is a large pothole near my house that is causing problems for vehicles. The pothole is approximately 2 meters wide and 1 meter deep. During the rainy season, it fills with water and becomes even more dangerous.
-                    </div>
-                </div>
-
-                <div class="attachments">
-                    <div class="detail-label">attachments</div>
-                    <div style="display: flex;">
-                        <a href="#" class="attachment-file">
-                             <img src="" alt="File Icon" style="width: 18px; height: 18px; margin-right: 8px;">
-                            <span>roaddamage_image1.jpg</span>
-                            <small>2.3 MB</small>
-                            <span class="download-icon">↓</span>
-                        </a>
-                        <a href="#" class="attachment-file">
-                        <img src="" alt="File Icon" style="width: 18px; height: 18px; margin-right: 8px;">
-                            <span>location_map.pdf</span>
-                            <small>1.1 MB</small>
-                            <span class="download-icon">↓</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="officer-response">
-                <div class="officer-info">
-                    <div class="officer-initials">H</div>
-                    <div class="officer-details">
-                        <strong>Hari Prasad</strong>
-                        <small>Roads Department Officer - 2024-01-16 10:30 AM</small>
-                    </div>
-                </div>
-                <p class="officer-text">Your complaint has been received. We will inspect this issue and resolve it soon.</p>
+        <div class="arrowicon" onclick="window.history.back()" style="cursor: pointer;">
+            <i class="material-icons">arrow_back</i>
+        </div>
+        <div class="main-content11" id="mainContent">
+            <div class="loading-spinner" id="loadingSpinner">
+                <i class="material-icons" style="animation: spin 1s linear infinite; font-size: 32px;">refresh</i>
+                <span style="margin-left: 10px;">Loading complaint details...</span>
             </div>
         </div>
-
-        
     </div>
+
+    <script>
+        // Get complaint ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const complaintId = urlParams.get('complaint_id');
+
+        if (!complaintId) {
+            document.getElementById('mainContent').innerHTML = '<div class="error-message">No complaint ID provided</div>';
+        } else {
+            // Fetch complaint details from database
+            fetch(`../backend/getcomplaintdetails.php?complaint_id=${complaintId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById('mainContent').innerHTML = `<div class="error-message">${data.error}</div>`;
+                        return;
+                    }
+
+                    const complaint = data.complaint;
+                    
+                    // Update page title
+                    document.getElementById('pageTitle').textContent = `Complaint Details - C${String(complaint.complaint_id).padStart(3, '0')}`;
+
+                    // Get status class and color
+                    let statusClass = 'status-pending';
+                    if (complaint.status === 'In Progress' || complaint.status === 'InProgress') {
+                        statusClass = 'status-inprogress';
+                    } else if (complaint.status === 'Completed') {
+                        statusClass = 'status-completed';
+                    } else if (complaint.status === 'Rejected') {
+                        statusClass = 'status-rejected';
+                    }
+
+                    // Format date
+                    const date = new Date(complaint.created_at).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+
+                    // Build attachments HTML
+                    let attachmentsHTML = '';
+                    if (complaint.complaint_attachment) {
+                        const fileName = complaint.complaint_attachment.split('/').pop();
+                        attachmentsHTML = `
+                            <div class="attachments">
+                                <div class="detail-label">attachments</div>
+                                <div style="display: flex; gap: 10px;">
+                                    <a href="../uploads/complaints/${fileName}" class="attachment-file" target="_blank" download>
+                                        <i class="material-icons" style="font-size: 18px; margin-right: 8px;">attach_file</i>
+                                        <span>${fileName}</span>
+                                        <span class="download-icon">↓</span>
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                    }
+
+                    // Build main content
+                    const contentHTML = `
+                        <div class="top-header">
+                            <div class="header-title">complaintDetails</div>
+                            <div class="status-tag ${statusClass}">${complaint.status}</div>
+                        </div>
+                        <div class="card11">
+                            <h3>${complaint.subject}</h3>
+                            
+                            <div class="detail-row">
+                                <div class="detail-item">
+                                    <div class="detail-label">submittedBy</div>
+                                    <div class="detail-value">${complaint.full_name || 'N/A'}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">submittedOn</div>
+                                    <div class="detail-value">${date}</div>
+                                </div>
+                            </div>
+
+                            <div class="detail-row">
+                                <div class="detail-item">
+                                    <div class="detail-label">location</div>
+                                    <div class="detail-value">${complaint.location || 'N/A'}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Priority</div>
+                                    <div class="detail-value"><span class="priority-${complaint.priority_level.toLowerCase()}">${complaint.priority_level}</span></div>
+                                </div>
+                            </div>
+
+                            <div class="detail-row">
+                                <div class="detail-item">
+                                    <div class="detail-label">Category</div>
+                                    <div class="detail-value">${complaint.category_name || 'N/A'}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Complaint ID</div>
+                                    <div class="detail-value">C${String(complaint.complaint_id).padStart(3, '0')}</div>
+                                </div>
+                            </div>
+
+                            <div class="description-section">
+                                <div class="detail-label">description</div>
+                                <div class="description-text">
+                                    ${complaint.description || 'No description provided'}
+                                </div>
+                            </div>
+
+                            ${attachmentsHTML}
+                        </div>
+                    `;
+
+                    document.getElementById('mainContent').innerHTML = contentHTML;
+                })
+                .catch(error => {
+                    console.error('Error loading complaint:', error);
+                    document.getElementById('mainContent').innerHTML = '<div class="error-message">Failed to load complaint details. Please try again.</div>';
+                });
+        }
+    </script>
 
 </body>
 </html>
