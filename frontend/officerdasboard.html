@@ -199,6 +199,10 @@
                     <p id="profileUserType">-</p>
                 </div>
                 <div class="profile-field">
+                    <label>Department</label>
+                    <p id="profileDepartment">-</p>
+                </div>
+                <div class="profile-field">
                     <label>User ID</label>
                     <p id="profileUserId">-</p>
                 </div>
@@ -229,6 +233,7 @@
                 document.getElementById('profileName').textContent = data.fullName || 'N/A';
                 document.getElementById('profileEmail').textContent = data.email || 'N/A';
                 document.getElementById('profileUserType').textContent = data.userType || 'N/A';
+                document.getElementById('profileDepartment').textContent = data.department || 'N/A';
                 document.getElementById('profileUserId').textContent = data.userId || 'N/A';
                 
                 modal.style.display = 'block';

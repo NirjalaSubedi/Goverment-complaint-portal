@@ -473,7 +473,8 @@
                             let statusBgColor = 'transparent';
                             let statusColor = 'rgb(184, 134, 11) !important';
                             let statusWidth = 'auto';
-                            const complaintStatus = complaint.status ? complaint.status.toLowerCase() : '';
+                            const complaintStatus = complaint.status ? complaint.status.toLowerCase() : 'pending';
+                            const statusDisplay = complaint.status || 'Pending';
                             
                             if (complaintStatus === 'in progress' || complaintStatus === 'inprogress') {
                                 statusClass = 'statusInProgress';
@@ -514,7 +515,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td><p class="${statusClass}" style="background-color: ${statusBgColor}; color:${statusColor}; width:${statusWidth}">${complaint.status}</p></td>
+                                <td><p class="${statusClass}" style="background-color: ${statusBgColor}; color:${statusColor}; width:${statusWidth}">${statusDisplay}</p></td>
                                 <td class="complaintPriority">
                                     <div class="empty" style="background-color:${priorityColor};"></div>
                                     <p class="priorityHigh">${complaint.priority_level}</p>

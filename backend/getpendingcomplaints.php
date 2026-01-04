@@ -33,13 +33,13 @@ if ($dept_result->num_rows === 0) {
 $officer_dept = $dept_result->fetch_assoc();
 $department_id = $officer_dept['department_id'];
 
-// Get only PENDING complaints in the officer's department
+// Get only PENDING complaints assigned to the officer's department
 $query = "SELECT c.*, cc.category_name, u.full_name, d.department_name 
           FROM complaints c 
           LEFT JOIN complaintcategories cc ON c.category_id = cc.category_id 
           LEFT JOIN users u ON c.citizen_id = u.user_id 
           LEFT JOIN departments d ON c.department_id = d.department_id 
-          WHERE c.department_id = ? AND c.status = 'Pending'
+          WHERE c.status = 'Pending' AND (c.department_id = ? OR c.department_id IS NULL)
           ORDER BY c.submission_date DESC";
 
 $stmt = $conn->prepare($query);
