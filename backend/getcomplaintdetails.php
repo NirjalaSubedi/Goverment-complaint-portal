@@ -53,9 +53,36 @@ try {
 
     if ($result->num_rows > 0) {
         $complaint = $result->fetch_assoc();
+        
+        // Fetch officer responses from complaintactivity table
+        $responsesSql = "SELECT 
+                            ca.activity_text as message,
+                            ca.activity_date,
+                            ca.file_path,
+                            u.full_name as officer_name,
+                            u.email as officer_email
+                        FROM complaintactivity ca
+                        LEFT JOIN users u ON ca.actor_id = u.user_id
+                        WHERE ca.complaint_id = ? 
+                        AND ca.activity_type = 'Response'
+                        ORDER BY ca.activity_date DESC";
+        
+        $responseStmt = $conn->prepare($responsesSql);
+        $responseStmt->bind_param('i', $complaintId);
+        $responseStmt->execute();
+        $responsesResult = $responseStmt->get_result();
+        
+        $responses = [];
+        while ($row = $responsesResult->fetch_assoc()) {
+            $responses[] = $row;
+        }
+        
+        $responseStmt->close();
+        
         echo json_encode([
             'success' => true,
-            'complaint' => $complaint
+            'complaint' => $complaint,
+            'responses' => $responses
         ]);
     } else {
         echo json_encode(['error' => 'Complaint not found with ID: ' . $complaintId]);
