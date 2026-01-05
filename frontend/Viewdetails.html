@@ -63,11 +63,49 @@
 
                     const complaint = data.complaint;
                     const responses = data.responses || [];
+                    const officerDepartmentId = data.officer_department_id;
+                    const officerDepartmentName = data.officer_department_name;
+                    
+                    // Check if officer can manage this complaint
+                    // STRICT: Only show if we have positive confirmation
+                    let canManageComplaint = false;
+                    
+                    if (userType === 'Officer' && officerDepartmentId) {
+                        // Method 1: Explicit department_id match (most reliable)
+                        if (complaint.department_id && complaint.department_id === officerDepartmentId) {
+                            canManageComplaint = true;
+                        }
+                        // Method 2: For NULL department_id, match by category AND department name
+                        else if (!complaint.department_id && complaint.category_name && officerDepartmentName) {
+                            const categoryLower = complaint.category_name.toLowerCase();
+                            const deptLower = officerDepartmentName.toLowerCase();
+                            
+                            // Only match if both category and department contain same keywords
+                            if ((categoryLower.includes('electric') && deptLower.includes('electric')) ||
+                                (categoryLower.includes('electricity') && deptLower.includes('electricity')) ||
+                                (categoryLower.includes('road') && deptLower.includes('road')) ||
+                                (categoryLower.includes('water') && deptLower.includes('water')) ||
+                                (categoryLower.includes('corruption') && deptLower.includes('corruption')) ||
+                                (categoryLower.includes('anti-corruption') && deptLower.includes('corruption'))) {
+                                canManageComplaint = true;
+                            }
+                        }
+                    }
                     
                     if (!complaint) {
                         document.getElementById('mainContent').innerHTML = '<div class="error-message">No complaint data received</div>';
                         return;
                     }
+                    
+                    // Debug log
+                    console.log('DEBUG:', {
+                        userType,
+                        officerDepartmentId,
+                        officerDepartmentName,
+                        complaintDepartmentId: complaint.department_id,
+                        complaintCategory: complaint.category_name,
+                        canManageComplaint
+                    });
                     
                     // Update page title
                     document.getElementById('pageTitle').textContent = `Complaint Details - C${String(complaint.complaint_id).padStart(3, '0')}`;
@@ -218,7 +256,7 @@
                         
                         ${responsesHTML}
                         
-                        ${userType === 'Officer' ? `
+                        ${canManageComplaint ? `
                         <div class="officer-response-section">
                             <div class="response-header">
                                 <i class="material-icons">chat_bubble_outline</i>
