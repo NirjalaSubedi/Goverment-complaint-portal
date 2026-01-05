@@ -107,9 +107,9 @@
                         `;
                     }
 
-                    // Build officer responses HTML
+                    // Build officer responses HTML - only for Citizens
                     let responsesHTML = '';
-                    if (responses && responses.length > 0) {
+                    if (userType !== 'Officer' && responses && responses.length > 0) {
                         const responseItems = responses.map(response => {
                             const responseDate = new Date(response.activity_date).toLocaleDateString('en-US', {
                                 year: 'numeric',
