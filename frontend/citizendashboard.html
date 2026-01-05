@@ -475,60 +475,62 @@
                                 iconBgColor = '#ecebeb';
                             }
                             
-                            let statusClass = 'statusPending';
-                            let statusBgColor = 'transparent';
-                            let statusColor = 'rgb(184, 134, 11) !important';
-                            let statusWidth = 'auto';
                             const complaintStatus = complaint.status ? complaint.status.toLowerCase() : 'pending';
                             const statusDisplay = complaint.status || 'Pending';
                             
+                            // Determine status badge styling
+                            let statusBgColor = '#FFF3E0';
+                            let statusTextColor = '#E65100';
+                            
                             if (complaintStatus === 'in progress' || complaintStatus === 'inprogress') {
-                                statusClass = 'statusInProgress';
-                                statusBgColor = 'transparent';
-                                statusColor = 'rgb(33, 150, 243) !important';
+                                statusBgColor = '#E3F2FD';
+                                statusTextColor = '#1976D2';
                             } else if (complaintStatus === 'completed') {
-                                statusClass = 'statusCompleted';
-                                statusBgColor = 'transparent';
-                                statusColor = 'green !important';
+                                statusBgColor = '#E8F5E9';
+                                statusTextColor = '#2E7D32';
                             } else if (complaintStatus === 'rejected') {
-                                statusBgColor = 'transparent';
-                                statusColor = 'red !important';
+                                statusBgColor = '#FFEBEE';
+                                statusTextColor = '#C62828';
                             }
                             
-                            let priorityColor = '';
+                            let priorityColor = '#10B981';
+                            let priorityBgColor = '#E8F5E9';
                             if (complaint.priority_level === 'High') {
-                                priorityColor = 'rgb(200, 0, 0)';
+                                priorityColor = '#DC2626';
+                                priorityBgColor = '#FFEBEE';
                             } else if (complaint.priority_level === 'Medium') {
-                                priorityColor = 'orange';
-                            } else if (complaint.priority_level === 'Low') {
-                                priorityColor = 'rgb(13, 180, 13)';
+                                priorityColor = '#F59E0B';
+                                priorityBgColor = 'transparent';
                             }
                             
                             const row = document.createElement('tr');
+                            row.style.cssText = 'border-bottom: 1px solid #f0f0f0; transition: background-color 0.2s ease;';
+                            row.onmouseover = function() { this.style.backgroundColor = '#f8f9fa'; };
+                            row.onmouseout = function() { this.style.backgroundColor = 'transparent'; };
+                            
                             row.innerHTML = `
-                                <td>
+                                <td style="padding: 16px 8px;">
                                     <div class="combine-logo-title">
                                         <div class="ComplaintIcon">
                                             <i class="material-icons location" style="background-color:${iconBgColor};">${iconClass}</i>
                                         </div>
                                         <div class="complaintTitleDetails">
                                             <div class="complaintTitle">
-                                                <p class="complaintTitleText">${complaint.subject}</p>
-                                                ${complaint.complaint_attachment ? '<i class="material-icons" style="font-weight:100; color:#bcb9b9">attachment</i>' : ''}
+                                                <p class="complaintTitleText" style="font-weight: 600; color: #2c3e50; margin: 0 0 4px 0;">${complaint.subject}</p>
+                                                ${complaint.complaint_attachment ? '<i class="material-icons" style="font-weight:100; color:#bcb9b9; font-size: 18px;">attachment</i>' : ''}
                                             </div>
-                                            <p id="complaintID">ID:C${complaint.complaint_id}</p>
-                                            <p id="ComplaintAddress">${complaint.location}</p>
+                                            <p id="complaintID" style="font-size: 13px; color: #888; margin: 4px 0;">ID:C${complaint.complaint_id}</p>
+                                            <p id="ComplaintAddress" style="font-size: 13px; color: #999; margin: 0;">${complaint.location}</p>
                                         </div>
                                     </div>
                                 </td>
-                                <td><p class="${statusClass}" style="background-color: ${statusBgColor}; color:${statusColor}; width:${statusWidth}">${statusDisplay}</p></td>
-                                <td class="complaintPriority">
-                                    <div class="empty" style="background-color:${priorityColor};"></div>
-                                    <p class="priorityHigh">${complaint.priority_level}</p>
+                                <td style="padding: 16px 8px;"><span style="padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 13px; background-color: ${statusBgColor}; color: ${statusTextColor};">${statusDisplay}</span></td>
+                                <td style="padding: 16px 8px;">
+                                    <span style="padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 13px; background-color: ${priorityBgColor}; color: ${priorityColor};">● ${complaint.priority_level}</span>
                                 </td>
-                                <td><p>${date}</p></td>
-                                <td>
-                                    <button class="viewDetailsBtn" onclick="viewComplaintDetails(${complaint.complaint_id})">View Details</button>
+                                <td style="padding: 16px 8px; color: #666; font-size: 14px;">${date}</td>
+                                <td style="padding: 16px 8px;">
+                                    <button class="viewDetailsBtn" onclick="viewComplaintDetails(${complaint.complaint_id})" style="background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%); color: white; border: none; padding: 8px 18px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; font-size: 14px;">View Details</button>
                                 </td>
                             `;
                             tableBody.appendChild(row);
