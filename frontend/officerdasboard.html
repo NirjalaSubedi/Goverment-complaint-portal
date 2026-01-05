@@ -111,25 +111,27 @@
 
     <div class="dashboard-container">
 
-        <div class="MainBox">
-                <div class="heading003">
+        <div class="MainBox" style="margin-top: 20px;">
+                <div class="heading003" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                     <div class="myComplaintsHeading1">
-                        <h4 class="myComplaintsText1" style="font-size:18px;">All Complaints</h>
+                        <h4 class="myComplaintsText1" style="font-size:20px; color: #333; font-weight: 600;">All Complaints</h4>
                     </div>
-                            <button class="sortBtn"style="margin-bottom:10px" onclick="sortBtnclick()">
-                                <i class="material-icons">sort</i>
-                                <p class="sortText">Sort</p>
+                            <button class="sortBtn" style="margin-bottom:10px; padding: 8px 16px; background: white; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 6px;" onclick="sortBtnclick()">
+                                <i class="material-icons" style="font-size: 18px;">sort</i>
+                                <p class="sortText" style="margin: 0;">Sort</p>
                             </button>
                     </div>
 
-            <table class="testTable">
-                <tr class="ComplaintHeader1">
-                    <th>COMPLAINT</th>
-                    <th>STATUS</th>
-                    <th>PRIORITY</th>
-                    <th>DATE</th>
-                    <th>ACTIONS</th>
-                </tr>
+            <table class="testTable" style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden;">
+                <thead>
+                    <tr class="ComplaintHeader1" style="background-color: #f8f9fa;">
+                        <th style="padding: 15px; text-align: left; font-weight: 600; color: #555;">COMPLAINT</th>
+                        <th style="padding: 15px; text-align: left; font-weight: 600; color: #555;">STATUS</th>
+                        <th style="padding: 15px; text-align: left; font-weight: 600; color: #555;">PRIORITY</th>
+                        <th style="padding: 15px; text-align: left; font-weight: 600; color: #555;">DATE</th>
+                        <th style="padding: 15px; text-align: left; font-weight: 600; color: #555;">ACTIONS</th>
+                    </tr>
+                </thead>
                 <tbody id="complaintsTableBody">
                     <!-- Complaints will be loaded here dynamically -->
                 </tbody>
@@ -271,6 +273,10 @@
                 if (data.complaints && data.complaints.length > 0) {
                     data.complaints.forEach(complaint => {
                         const row = document.createElement('tr');
+                        row.style.borderBottom = '1px solid #f0f0f0';
+                        row.style.transition = 'background-color 0.2s';
+                        row.onmouseenter = function() { this.style.backgroundColor = '#f8f9fa'; };
+                        row.onmouseleave = function() { this.style.backgroundColor = 'white'; };
                         
                         // Get icon based on category
                         let icon = 'description';
@@ -296,66 +302,61 @@
                         }
                         
                         // Status styling
-                        let statusClass = 'statusPending';
-                        let statusStyle = 'color:rgb(184, 134, 11) !important;';
+                        let statusBadge = '';
                         const complaintStatus = complaint.status ? complaint.status.toLowerCase() : '';
                         
                         if (complaintStatus === 'inprogress') {
-                            statusClass = 'statusInProgress';
-                            statusStyle = 'color:rgb(33, 150, 243) !important;';
+                            statusBadge = `<span style="background-color: #E3F2FD; color: #1976D2; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-block;">${complaint.status}</span>`;
                         } else if (complaintStatus === 'resolved' || complaintStatus === 'completed') {
-                            statusClass = 'statusCompleted';
-                            statusStyle = 'color:green !important;';
+                            statusBadge = `<span style="background-color: #E8F5E9; color: #2E7D32; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-block;">${complaint.status}</span>`;
                         } else if (complaintStatus === 'rejected') {
-                            statusClass = 'statusRejected';
-                            statusStyle = 'color:red !important;';
+                            statusBadge = `<span style="background-color: #FFEBEE; color: #C62828; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-block;">${complaint.status}</span>`;
+                        } else {
+                            statusBadge = `<span style="background-color: #FFF3E0; color: #E65100; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-block;">${complaint.status || 'Pending'}</span>`;
                         }
                         
                         // Priority styling
-                        let priorityDot = '';
+                        let priorityBadge = '';
                         let priorityText = complaint.priority_level || 'Medium';
                         if (priorityText === 'High') {
-                            priorityDot = '<div class="empty"></div>';
+                            priorityBadge = `<span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; background-color: #DC2626; border-radius: 50%; display: inline-block;"></span><span style="color: #DC2626; font-weight: 500;">${priorityText}</span></span>`;
                         } else if (priorityText === 'Medium') {
-                            priorityDot = '<div class="empty" style="background-color:orange;"></div>';
+                            priorityBadge = `<span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; background-color: #F59E0B; border-radius: 50%; display: inline-block;"></span><span style="color: #F59E0B; font-weight: 500;">${priorityText}</span></span>`;
                         } else {
-                            priorityDot = '<div class="empty" style="background-color:green;"></div>';
+                            priorityBadge = `<span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; background-color: #10B981; border-radius: 50%; display: inline-block;"></span><span style="color: #10B981; font-weight: 500;">${priorityText}</span></span>`;
                         }
                         
                         // Format date
                         let date = complaint.submission_date ? new Date(complaint.submission_date).toLocaleDateString('en-CA') : '';
                         
                         row.innerHTML = `
-                            <td>
-                                <div class="combine-logo-title">
+                            <td style="padding: 18px;">
+                                <div class="combine-logo-title" style="display: flex; gap: 12px; align-items: center;">
                                     <div class="ComplaintIcon">
-                                        <i class="material-icons ${iconClass}" style="background-color:${iconBg}; padding: 8px; border-radius: 8px;">${icon}</i>
+                                        <i class="material-icons ${iconClass}" style="background-color:${iconBg}; padding: 10px; border-radius: 10px; font-size: 22px;">${icon}</i>
                                     </div>
                                     <div class="complaintTitleDetails">
-                                        <div class="complaintTitle">
-                                            <p class="complaintTitleText">${complaint.subject || 'No Subject'}</p>
-                                            ${complaint.complaint_attachment ? '<i class="material-icons" style="font-weight:100; color:#bcb9b9">attachment</i>' : ''}
+                                        <div class="complaintTitle" style="margin-bottom: 6px;">
+                                            <p class="complaintTitleText" style="font-weight: 600; font-size: 15px; color: #1a1a1a; margin: 0; display: inline;">${complaint.subject || 'No Subject'}</p>
+                                            ${complaint.complaint_attachment ? '<i class="material-icons" style="font-size:16px; color:#999; vertical-align: middle; margin-left: 6px;">attachment</i>' : ''}
                                         </div>
-                                        <p id="complaintID">ID:C${String(complaint.complaint_id).padStart(3, '0')}</p>
-                                        <p id="ComplaintAddress">${complaint.location || 'N/A'}</p>
+                                        <p style="font-size: 12px; color: #666; margin: 3px 0;">ID: C${String(complaint.complaint_id).padStart(3, '0')}</p>
+                                        <p style="font-size: 12px; color: #666; margin: 3px 0;"> ${complaint.location || 'N/A'}</p>
                                     </div>
                                 </div>
                             </td>
-                            <td><p class="${statusClass}" style="${statusStyle}">${complaint.status || 'Pending'}</p></td>
-                            <td class="complaintPriority">
-                                ${priorityDot}
-                                <p class="priorityHigh">${priorityText}</p>
-                            </td>
-                            <td><p>${date}</p></td>
-                            <td>
-                                <button class="viewDetailsBtn" onclick="viewComplaintDetails(${complaint.complaint_id})">View Details</button>
+                            <td style="padding: 18px;">${statusBadge}</td>
+                            <td style="padding: 18px;">${priorityBadge}</td>
+                            <td style="padding: 18px;"><p style="margin: 0; color: #555; font-size: 14px;">${date}</p></td>
+                            <td style="padding: 18px;">
+                                <button class="viewDetailsBtn" onclick="viewComplaintDetails(${complaint.complaint_id})" style="background-color: #2196F3; color: white; border: none; padding: 8px 20px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">View Details</button>
                             </td>
                         `;
                         
                         tbody.appendChild(row);
                     });
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No complaints found</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px;"><p style="color: #999; font-size: 16px;">No complaints found</p></td></tr>';
                 }
             })
             .catch(error => console.error('Error loading complaints:', error));
@@ -377,6 +378,10 @@
                 if (data.complaints && data.complaints.length > 0) {
                     data.complaints.forEach(complaint => {
                         const tr = document.createElement('tr');
+                        tr.style.borderBottom = '1px solid #f0f0f0';
+                        tr.style.transition = 'background-color 0.2s';
+                        tr.onmouseenter = function() { this.style.backgroundColor = '#f8f9fa'; };
+                        tr.onmouseleave = function() { this.style.backgroundColor = 'white'; };
                         
                         // Get icon based on category
                         let icon = 'description';
@@ -405,31 +410,33 @@
                         let date = complaint.submission_date ? new Date(complaint.submission_date).toLocaleDateString('en-CA') : '';
                         
                         tr.innerHTML = `
-                            <td>
-                                <div class="combine-logo-title">
+                            <td style="padding: 18px;">
+                                <div class="combine-logo-title" style="display: flex; gap: 12px; align-items: center;">
                                     <div class="ComplaintIcon">
-                                        <i class="material-icons ${iconClass}" style="background-color:${iconBg}; padding: 8px; border-radius: 8px;">${icon}</i>
+                                        <i class="material-icons ${iconClass}" style="background-color:${iconBg}; padding: 10px; border-radius: 10px; font-size: 22px;">${icon}</i>
                                     </div>
                                     <div class="complaintTitleDetails">
-                                        <div class="complaintTitle">
-                                            <p class="complaintTitleText">${complaint.subject || 'No Subject'}</p>
-                                            ${complaint.complaint_attachment ? '<i class="material-icons" style="font-weight:100; color:#bcb9b9">attachment</i>' : ''}
+                                        <div class="complaintTitle" style="margin-bottom: 6px;">
+                                            <p class="complaintTitleText" style="font-weight: 600; font-size: 15px; color: #1a1a1a; margin: 0; display: inline;">${complaint.subject || 'No Subject'}</p>
+                                            ${complaint.complaint_attachment ? '<i class="material-icons" style="font-size:16px; color:#999; vertical-align: middle; margin-left: 6px;">attachment</i>' : ''}
                                         </div>
-                                        <p id="complaintID">ID:C${String(complaint.complaint_id).padStart(3, '0')}</p>
-                                        <p id="ComplaintAddress">${complaint.location || 'N/A'}</p>
-                                        <p id="assigned_me" style="background-color:rgb(54, 167, 54); color:white; text-align: center; padding:3px; border-radius: 10px; margin-top:10px">Assigned to me</p>
+                                        <p style="font-size: 12px; color: #666; margin: 3px 0;">ID: C${String(complaint.complaint_id).padStart(3, '0')}</p>
+                                        <p style="font-size: 12px; color: #666; margin: 3px 0;">${complaint.location || 'N/A'}</p>
+                                        <div style="margin-top: 8px;">
+                                            <span style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; padding: 5px 12px; border-radius: 16px; font-size: 12px; font-weight: 500; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(76, 175, 80, 0.2);">✓ Assigned to me</span>
+                                        </div>
                                     </div>
                                 </div>
                             </td>
-                            <td>
-                                <button class="viewDetailsBtn" onclick="reviewComplaint(${complaint.complaint_id})" style="background-color:rgb(81, 107, 239);margin-right: 10px;width:100%">Review</button>
+                            <td style="padding: 18px;">
+                                <button class="viewDetailsBtn" onclick="reviewComplaint(${complaint.complaint_id})" style="background-color: #2196F3; color: white; border: none; padding: 8px 20px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">Review</button>
                             </td>
                         `;
                         
                         tbody.appendChild(tr);
                     });
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; padding:20px;">No assigned complaints</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; padding: 40px;"><p style="color: #999; font-size: 16px;">No assigned complaints</p></td></tr>';
                 }
             })
             .catch(error => console.error('Error loading assigned complaints:', error));
@@ -452,6 +459,10 @@
                     data.complaints.forEach(complaint => {
                         const tr = document.createElement('tr');
                         tr.setAttribute('data-complaint-id', complaint.complaint_id);
+                        tr.style.borderBottom = '1px solid #f0f0f0';
+                        tr.style.transition = 'background-color 0.2s';
+                        tr.onmouseenter = function() { this.style.backgroundColor = '#f8f9fa'; };
+                        tr.onmouseleave = function() { this.style.backgroundColor = 'white'; };
                         
                         // Get icon based on category
                         let icon = 'description';
@@ -480,31 +491,31 @@
                         let date = complaint.submission_date ? new Date(complaint.submission_date).toLocaleDateString('en-CA') : '';
                         
                         tr.innerHTML = `
-                            <td>
-                                <div class="combine-logo-title">
+                            <td style="padding: 18px;">
+                                <div class="combine-logo-title" style="display: flex; gap: 12px; align-items: center;">
                                     <div class="ComplaintIcon">
-                                        <i class="material-icons ${iconClass}" style="background-color:${iconBg}; padding: 8px; border-radius: 8px;">${icon}</i>
+                                        <i class="material-icons ${iconClass}" style="background-color:${iconBg}; padding: 10px; border-radius: 10px; font-size: 22px;">${icon}</i>
                                     </div>
                                     <div class="complaintTitleDetails">
-                                        <div class="complaintTitle">
-                                            <p class="complaintTitleText">${complaint.subject || 'No Subject'}</p>
-                                            ${complaint.complaint_attachment ? '<i class="material-icons" style="font-weight:100; color:#bcb9b9">attachment</i>' : ''}
+                                        <div class="complaintTitle" style="margin-bottom: 6px;">
+                                            <p class="complaintTitleText" style="font-weight: 600; font-size: 15px; color: #1a1a1a; margin: 0; display: inline;">${complaint.subject || 'No Subject'}</p>
+                                            ${complaint.complaint_attachment ? '<i class="material-icons" style="font-size:16px; color:#999; vertical-align: middle; margin-left: 6px;">attachment</i>' : ''}
                                         </div>
-                                        <p id="complaintID">ID:C${String(complaint.complaint_id).padStart(3, '0')}</p>
-                                        <p id="ComplaintAddress">${complaint.location || 'N/A'}</p>
+                                        <p style="font-size: 12px; color: #666; margin: 3px 0;">ID: C${String(complaint.complaint_id).padStart(3, '0')}</p>
+                                        <p style="font-size: 12px; color: #666; margin: 3px 0;">📍 ${complaint.location || 'N/A'}</p>
                                     </div>
                                 </div>
                             </td>
-                            <td id="approvedeletebtn">
-                                <button class="viewDetailsBtn approveBtn" data-complaint-id="${complaint.complaint_id}" onclick="Approvecomplaints(this)" style="background-color:rgb(54, 167, 54);margin-right: 10px;width:auto">Approve</button>
-                                <button class="viewDetailsBtn rejectBtn" data-complaint-id="${complaint.complaint_id}" onclick="Rejectcomplaints(this)" style="background-color:rgb(231, 41, 41);width:auto">Reject</button>
+                            <td style="padding: 18px;" id="approvedeletebtn">
+                                <button class="viewDetailsBtn approveBtn" data-complaint-id="${complaint.complaint_id}" onclick="Approvecomplaints(this)" style="background-color: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; margin-right: 8px; transition: all 0.2s ease;">Approve</button>
+                                <button class="viewDetailsBtn rejectBtn" data-complaint-id="${complaint.complaint_id}" onclick="Rejectcomplaints(this)" style="background-color: #F44336; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">Reject</button>
                             </td>
                         `;
                         
                         tbody.appendChild(tr);
                     });
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; padding:20px;">No pending complaints</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; padding: 40px;"><p style="color: #999; font-size: 16px;">No pending complaints</p></td></tr>';
                 }
             })
             .catch(error => console.error('Error loading pending complaints:', error));
