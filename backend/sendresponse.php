@@ -32,6 +32,45 @@ if (empty($message)) {
 
 include('../includes/databaseConnection.php');
 
+// Get officer's department
+$deptQuery = "SELECT department_id FROM users WHERE user_id = ?";
+$deptStmt = $conn->prepare($deptQuery);
+$deptStmt->bind_param('i', $officerId);
+$deptStmt->execute();
+$deptResult = $deptStmt->get_result();
+
+if ($deptResult->num_rows === 0) {
+    echo json_encode(['success' => false, 'error' => 'Officer not found']);
+    exit;
+}
+
+$officerDept = $deptResult->fetch_assoc();
+$departmentId = $officerDept['department_id'];
+$deptStmt->close();
+
+// Verify complaint belongs to officer's department
+$verifyQuery = "SELECT department_id FROM complaints WHERE complaint_id = ?";
+$verifyStmt = $conn->prepare($verifyQuery);
+$verifyStmt->bind_param('i', $complaintId);
+$verifyStmt->execute();
+$verifyResult = $verifyStmt->get_result();
+
+if ($verifyResult->num_rows === 0) {
+    echo json_encode(['success' => false, 'error' => 'Complaint not found']);
+    exit;
+}
+
+$complaint = $verifyResult->fetch_assoc();
+$complaintDeptId = intval($complaint['department_id']);
+$officerDeptId = intval($departmentId);
+
+if ($complaintDeptId === 0 || $complaintDeptId !== $officerDeptId) {
+    echo json_encode(['success' => false, 'error' => 'You can only respond to complaints from your own department']);
+    exit;
+}
+
+$verifyStmt->close();
+
 // Insert response into complaintactivity table
 $sql = "INSERT INTO complaintactivity (complaint_id, actor_id, activity_type, activity_text, activity_date) 
         VALUES (?, ?, 'Response', ?, NOW())";

@@ -17,7 +17,7 @@ try {
 
     $complaintId = intval($_GET['complaint_id']);
 
-    // Fetch complaint details with user information and category
+    // Fetch complaint details with user information, category, and department
     $sql = "SELECT 
                 c.complaint_id,
                 c.subject,
@@ -26,13 +26,16 @@ try {
                 c.status,
                 c.priority_level,
                 c.complaint_attachment,
+                c.department_id,
                 c.submission_date as created_at,
                 u.full_name,
                 u.email,
-                cat.category_name
+                cat.category_name,
+                d.department_name
             FROM complaints c
             LEFT JOIN users u ON c.citizen_id = u.user_id
             LEFT JOIN complaintcategories cat ON c.category_id = cat.category_id
+            LEFT JOIN departments d ON c.department_id = d.department_id
             WHERE c.complaint_id = ?";
 
     $stmt = $conn->prepare($sql);
@@ -79,10 +82,29 @@ try {
         
         $responseStmt->close();
         
+        // Get officer's department if logged in as officer
+        $officerDepartmentId = null;
+        $officerDepartmentName = null;
+        if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'Officer' && isset($_SESSION['user_id'])) {
+            $officerDeptQuery = "SELECT u.department_id, d.department_name FROM users u LEFT JOIN departments d ON u.department_id = d.department_id WHERE u.user_id = ?";
+            $officerStmt = $conn->prepare($officerDeptQuery);
+            $officerStmt->bind_param('i', $_SESSION['user_id']);
+            $officerStmt->execute();
+            $officerDeptResult = $officerStmt->get_result();
+            if ($officerDeptResult->num_rows > 0) {
+                $officerDept = $officerDeptResult->fetch_assoc();
+                $officerDepartmentId = $officerDept['department_id'];
+                $officerDepartmentName = $officerDept['department_name'];
+            }
+            $officerStmt->close();
+        }
+        
         echo json_encode([
             'success' => true,
             'complaint' => $complaint,
-            'responses' => $responses
+            'responses' => $responses,
+            'officer_department_id' => $officerDepartmentId,
+            'officer_department_name' => $officerDepartmentName
         ]);
     } else {
         echo json_encode(['error' => 'Complaint not found with ID: ' . $complaintId]);
