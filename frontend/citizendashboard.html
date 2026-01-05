@@ -297,16 +297,22 @@
                 </div>
 
                 <table class="testTable completedComplaintsTable">
-                    <tr class="ComplaintHeader1">
-                        <th>COMPLAINT</th>
-                        <th>STATUS</th>
-                        <th>PRIORITY</th>
-                        <th>COMPLETED DATE</th>
-                        <th>ACTIONS</th>
-                    </tr>
+                    <thead>
+                        <tr class="ComplaintHeader1">
+                            <th>COMPLAINT</th>
+                            <th>STATUS</th>
+                            <th>PRIORITY</th>
+                            <th>COMPLETED DATE</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
                     <tbody id="completed-complaints-table-body">
                         <tr id="no-completed-complaints-row" style="display:none;">
-                            <td colspan="5" style="text-align: center; padding: 20px;">No completed complaints found</td>
+                            <td colspan="5" style="text-align: center; padding: 40px;">
+                                <i class="material-icons" style="font-size: 48px; color: #76c7c0; display:block; margin-bottom: 10px;">check_circle_outline</i>
+                                <p style="color: #666; font-size: 16px;">No completed complaints yet</p>
+                                <p style="color: #999; font-size: 14px;">Completed complaints will appear here</p>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -556,11 +562,38 @@
             window.location.href = 'Viewdetails.html';
         }
         
+        // Sort completed complaints
+        let completedSortOrder = 'desc'; // Default: newest first
+        function sortCompletedComplaints() {
+            const tableBody = document.getElementById('completed-complaints-table-body');
+            const rows = Array.from(tableBody.querySelectorAll('tr')).filter(row => !row.id);
+            
+            if (rows.length === 0) return;
+            
+            rows.sort((a, b) => {
+                const dateA = new Date(a.querySelector('td:nth-child(4) p').textContent);
+                const dateB = new Date(b.querySelector('td:nth-child(4) p').textContent);
+                
+                if (completedSortOrder === 'desc') {
+                    return dateB - dateA; // Newest first
+                } else {
+                    return dateA - dateB; // Oldest first
+                }
+            });
+            
+            tableBody.innerHTML = '';
+            rows.forEach(row => tableBody.appendChild(row));
+            
+            // Toggle sort order for next click
+            completedSortOrder = completedSortOrder === 'desc' ? 'asc' : 'desc';
+        }
+        
         // Load complaints when page loads
         document.addEventListener('DOMContentLoaded', loadComplaints);
         
         // Load completed complaints
         function loadCompletedComplaints() {
+            console.log('Loading completed complaints...');
             fetch('../backend/getcitizencomplaint.php', { credentials: 'include' })
                 .then(async response => {
                     if (response.status === 401) {
@@ -578,19 +611,50 @@
                         throw new Error(data && data.error ? data.error : 'Failed to load complaints');
                     }
 
-                    const completedComplaints = data.complaints.filter(c => c.status === 'Completed');
+                    console.log('All complaints:', data.complaints);
+                    console.log('Total complaints received:', data.complaints.length);
+                    
+                    // Log each complaint status for debugging
+                    data.complaints.forEach((c, index) => {
+                        console.log(`Complaint ${index + 1} - ID: ${c.complaint_id}, Status: "${c.status}", Type: ${typeof c.status}`);
+                    });
+                    
+                    // Filter completed complaints (case-insensitive and handle spaces)
+                    const completedComplaints = data.complaints.filter(c => {
+                        if (!c.status) return false;
+                        const status = c.status.toString().trim().toLowerCase();
+                        const isCompleted = status === 'completed' || status === 'resolved';
+                        console.log(`Filtering complaint ${c.complaint_id}: status="${c.status}" -> normalized="${status}" -> isCompleted=${isCompleted}`);
+                        return isCompleted;
+                    });
+                    console.log('Completed complaints found:', completedComplaints.length);
+                    console.log('Completed complaints:', completedComplaints);
+                    
                     const tableBody = document.getElementById('completed-complaints-table-body');
                     const noComplaintsRow = document.getElementById('no-completed-complaints-row');
+                    
+                    if (!tableBody) {
+                        console.error('Table body not found!');
+                        return;
+                    }
                     
                     tableBody.innerHTML = '';
                     
                     if (completedComplaints.length === 0) {
-                        noComplaintsRow.style.display = '';
-                        tableBody.appendChild(noComplaintsRow);
+                        if (noComplaintsRow) {
+                            noComplaintsRow.style.display = '';
+                            tableBody.appendChild(noComplaintsRow);
+                        } else {
+                            tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px;"><i class="material-icons" style="font-size: 48px; color: #ccc; display:block; margin-bottom: 10px;">check_circle</i><p style="color: #666;">No completed complaints yet</p></td></tr>';
+                        }
                     } else {
-                        noComplaintsRow.style.display = 'none';
+                        if (noComplaintsRow) {
+                            noComplaintsRow.style.display = 'none';
+                        }
                         
-                        completedComplaints.forEach(complaint => {
+                        console.log('Rendering', completedComplaints.length, 'completed complaints...');
+                        completedComplaints.forEach((complaint, index) => {
+                            console.log(`Rendering complaint ${index + 1}:`, complaint);
                             const date = new Date(complaint.created_at).toLocaleDateString('en-CA');
             
                             let iconClass = 'location_on';
@@ -651,8 +715,12 @@
                                     <button class="viewDetailsBtn" onclick="viewComplaintDetails(${complaint.complaint_id})">View Details</button>
                                 </td>
                             `;
+                            console.log('Appending row to table for complaint:', complaint.complaint_id);
                             tableBody.appendChild(row);
+                            console.log('Row appended successfully');
                         });
+                        console.log('Finished rendering all completed complaints');
+                        console.log('Table body HTML:', tableBody.innerHTML);
                     }
                 })
                 .catch(error => {
