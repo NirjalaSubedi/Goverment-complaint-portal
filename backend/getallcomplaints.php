@@ -21,6 +21,7 @@ $query = "SELECT
     c.status,
     c.submission_date,
     c.complaint_attachment,
+    c.category_id,
     cc.category_name,
     u.full_name as citizen_name,
     d.department_name
@@ -30,7 +31,9 @@ LEFT JOIN users u ON c.citizen_id = u.user_id
 LEFT JOIN departments d ON c.department_id = d.department_id
 ORDER BY c.submission_date DESC";
 
-$result = $conn->query($query);
+$stmt = $conn->prepare($query);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if (!$result) {
     echo json_encode(['error' => 'Failed to load complaints: ' . $conn->error]);
