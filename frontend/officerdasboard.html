@@ -626,7 +626,27 @@
                         tr.onmouseleave = function() { this.style.backgroundColor = 'white'; };
                         
                         // Get icon based on category
+                        let icon = 'description';
+                        let iconClass = '';
+                        let iconBg = 'rgb(248, 221, 211)';
                         
+                        if (complaint.category_name && complaint.category_name.toLowerCase().includes('road')) {
+                            icon = 'location_on';
+                            iconClass = 'location';
+                            iconBg = 'rgb(248, 221, 211)';
+                        } else if (complaint.category_name && complaint.category_name.toLowerCase().includes('water')) {
+                            icon = 'water_drop';
+                            iconClass = 'waterDrop';
+                            iconBg = 'rgb(211, 237, 248)';
+                        } else if (complaint.category_name && complaint.category_name.toLowerCase().includes('corruption')) {
+                            icon = 'gavel';
+                            iconClass = 'corruptionIcon';
+                            iconBg = 'rgb(255, 235, 238)';
+                        } else if (complaint.category_name && complaint.category_name.toLowerCase().includes('electric')) {
+                            icon = 'flash_on';
+                            iconClass = 'electricIcon';
+                            iconBg = 'rgb(255, 249, 196)';
+                        }
                         
                         // Format date
                         let date = complaint.submission_date ? new Date(complaint.submission_date).toLocaleDateString('en-CA') : '';
