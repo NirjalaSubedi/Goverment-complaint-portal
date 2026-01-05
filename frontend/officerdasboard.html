@@ -142,32 +142,35 @@
             </tbody>
         </table>
 
-        <table class="testTable" id="completed">
+        <!-- Completed Complaints Section -->
+        <div class="completed-officer-section" style="display:none;">
+            <div class="MainHeading" style="display:flex;">
+                <div class="myComplaintsHeading">
+                    <h2 class="myComplaintsText" style="font-size: 28px; color: #1a1a1a; margin-bottom: 8px;">Completed Tasks</h2>
+                    <p id="complainttopdesc" style="font-size: 15px; color: #666;">View all successfully resolved complaints</p>
+                </div>
+            </div>
 
-                <tr id="completedlist">
-                    <td>
-                        <div class="combine-logo-title">
-                            <div class="ComplaintIcon">
-                                <i class="material-icons location" style="background-color:rgb(248, 221, 211);">location_on</i>
-                            </div>
+            <div class="MainBox" style="margin-top: 20px;">
+                <div class="heading003" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <div class="myComplaintsHeading1">
+                        <h4 class="myComplaintsText1" style="font-size:18px; color: #333; font-weight: 600;">Completed Complaints</h4>
+                    </div>
+                </div>
 
-                            <div class="complaintTitleDetails">
-                                <div class="complaintTitle">
-                                    <p class="complaintTitleText">Road Damage - itahari</p>
-                                    <i class="material-icons" style="font-weight:100; color:#bcb9b9">attachment</i>
-                                </div>
-                                <p id="complaintID">ID:C001</p>
-                                <p id="ComplaintAddress">Itahari,Sunsari</p>
-                            </div>
-
-                        </div>
-                    </td>
-                    <td >
-                        <button class="viewDetailsBtn" id="update" onclick="completedcomplaints()" style="background-color:rgb(54, 167, 54);margin-right: 10px;width:100%">Completed</button>
-                        
-                    </td>
-                </tr>
-        </table>
+                <table class="testTable completedComplaintsTable" style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden;">
+                    <thead>
+                        <tr class="ComplaintHeader1" style="background-color: #f8f9fa;">
+                            <th style="padding: 15px; text-align: left; font-weight: 600; color: #555;">COMPLAINT</th>
+                            <th style="padding: 15px; text-align: left; font-weight: 600; color: #555;">ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="completedComplaintsBody">
+                        <!-- Completed complaints will be loaded here dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
         <table class="testTable" id="assignedmetable">
             <tbody id="assignedComplaintsBody">
@@ -570,6 +573,100 @@
     // Navigate to complaint details page
     function viewComplaintDetails(complaintId) {
         window.location.href = `Viewdetails.html?complaint_id=${complaintId}`;
+    }
+
+    // Load completed complaints for officers
+    function loadOfficerCompletedComplaints() {
+        console.log('Loading officer completed complaints...');
+        fetch('../backend/getassignedcomplaints.php')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Received data from backend:', data);
+                
+                if (data.error) {
+                    console.error('Error:', data.error);
+                    return;
+                }
+                
+                const tbody = document.getElementById('completedComplaintsBody');
+                if (!tbody) {
+                    console.error('completedComplaintsBody not found!');
+                    return;
+                }
+                
+                tbody.innerHTML = '';
+                
+                console.log('Total complaints:', data.complaints ? data.complaints.length : 0);
+                
+                // Log each complaint status
+                if (data.complaints) {
+                    data.complaints.forEach((c, index) => {
+                        console.log(`Complaint ${index + 1} - ID: ${c.complaint_id}, Status: "${c.status}"`);
+                    });
+                }
+                
+                // Filter only completed complaints
+                const completedComplaints = data.complaints ? data.complaints.filter(c => {
+                    if (!c.status) return false;
+                    const status = c.status.toString().trim().toLowerCase();
+                    const isCompleted = status === 'resolved' || status === 'completed';
+                    console.log(`Filtering complaint ${c.complaint_id}: status="${c.status}" -> normalized="${status}" -> isCompleted=${isCompleted}`);
+                    return isCompleted;
+                }) : [];
+                
+                console.log('Completed complaints found:', completedComplaints.length);
+                console.log('Completed complaints:', completedComplaints);
+                
+                if (completedComplaints.length > 0) {
+                    completedComplaints.forEach(complaint => {
+                        const tr = document.createElement('tr');
+                        tr.style.borderBottom = '1px solid #f0f0f0';
+                        tr.style.transition = 'background-color 0.2s';
+                        tr.onmouseenter = function() { this.style.backgroundColor = '#f8f9fa'; };
+                        tr.onmouseleave = function() { this.style.backgroundColor = 'white'; };
+                        
+                        // Get icon based on category
+                        
+                        
+                        // Format date
+                        let date = complaint.submission_date ? new Date(complaint.submission_date).toLocaleDateString('en-CA') : '';
+                        
+                        tr.innerHTML = `
+                            <td style="padding: 20px;">
+                                <div class="combine-logo-title" style="display: flex; gap: 15px; align-items: center;">
+                                    <div class="ComplaintIcon">
+                                        <i class="material-icons ${iconClass}" style="background-color:${iconBg}; padding: 12px; border-radius: 12px; font-size: 24px;">${icon}</i>
+                                    </div>
+                                    <div class="complaintTitleDetails">
+                                        <div class="complaintTitle" style="margin-bottom: 8px;">
+                                            <p class="complaintTitleText" style="font-weight: 600; font-size: 16px; color: #1a1a1a; margin: 0;">${complaint.subject || 'No Subject'}</p>
+                                            ${complaint.complaint_attachment ? '<i class="material-icons" style="font-size:18px; color:#999; vertical-align: middle; margin-left: 8px;">attachment</i>' : ''}
+                                        </div>
+                                        <p style="font-size: 13px; color: #666; margin: 4px 0;">ID: C${String(complaint.complaint_id).padStart(3, '0')}</p>
+                                        <p style="font-size: 13px; color: #666; margin: 4px 0;">${complaint.location || 'N/A'}</p>
+                                        <div style="margin-top: 10px;">
+                                            <span style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);">
+                                                <i class="material-icons" style="font-size:16px;">check_circle</i>
+                                                Completed
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding: 20px;">
+                                <button class="viewDetailsBtn" onclick="viewComplaintDetails(${complaint.complaint_id})" style="background-color: #2196F3; color: white; border: none; padding: 10px 24px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; width: auto; min-width: 120px; transition: all 0.2s ease;">
+                                    View Details
+                                </button>
+                            </td>
+                        `;
+                        
+                        tbody.appendChild(tr);
+                    });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; padding:60px;"><i class="material-icons" style="font-size: 64px; color: #d0d0d0; display:block; margin-bottom: 16px;">check_circle_outline</i><p style="color: #888; font-size: 18px; margin: 0;">No completed complaints yet</p><p style="color: #aaa; font-size: 14px; margin-top: 8px;">Completed tasks will appear here</p></td></tr>';
+                }
+            })
+            .catch(error => console.error('Error loading completed complaints:', error));
     }
 
     loadAllComplaints();
