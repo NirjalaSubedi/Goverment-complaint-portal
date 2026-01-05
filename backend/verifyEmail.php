@@ -18,11 +18,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         
         $pending = $_SESSION['pending_registration'];
         
-        // Check verification code
-        if ($submittedCode !== $pending['verification_code']) {
-            echo json_encode(['success' => false, 'message' => 'Invalid verification code']);
+        // Check verification code from database
+        $emailEsc = mysqli_real_escape_string($conn, $email);
+        $codeEsc = mysqli_real_escape_string($conn, $submittedCode);
+        $checkQuery = "SELECT * FROM email_verification 
+                      WHERE email = '$emailEsc' 
+                      AND verification_code = '$codeEsc' 
+                      AND is_verified = 0 
+                      AND code_expiry > NOW()
+                      ORDER BY created_at DESC LIMIT 1";
+        
+        $result = mysqli_query($conn, $checkQuery);
+        
+        if (!$result || mysqli_num_rows($result) === 0) {
+            echo json_encode(['success' => false, 'message' => 'Invalid or expired verification code']);
             exit();
         }
+        
+        $verificationRow = mysqli_fetch_assoc($result);
+        $verificationId = $verificationRow['id'];
         
         // Code is valid - NOW insert into users table
         $fullname = mysqli_real_escape_string($conn, $pending['full_name']);
@@ -39,14 +53,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $positionSql = ($position !== '' && $position !== null) ? "'$position'" : 'NULL';
             
             $sql = "INSERT INTO users(full_name, phone_number, email, address, citizenship_number, password_hash, user_type, department_id, position, is_approved, email_verified)
-                    VALUES ('$fullname', '$phonenumber', '$email', '$address', '$citizenship', '$hashed_password', '$user_type', $departmentIdSql, $positionSql, 'Pending', 1)";
+                    VALUES ('$fullname', '$phonenumber', '$email', '$address', '$citizenship', '$hashed_password', '$user_type', $departmentIdSql, $positionSql, 'Pending', 0)";
         } else {
             $sql = "INSERT INTO users(full_name, phone_number, email, address, citizenship_number, password_hash, user_type, is_approved, email_verified)
-                    VALUES ('$fullname', '$phonenumber', '$email', '$address', '$citizenship', '$hashed_password', '$user_type', 'Approved', 1)";
+                    VALUES ('$fullname', '$phonenumber', '$email', '$address', '$citizenship', '$hashed_password', '$user_type', 'Approved', 0)";
         }
         
         if (mysqli_query($conn, $sql)) {
             $newUserId = mysqli_insert_id($conn);
+            
+            // Mark email as verified in users table
+            mysqli_query($conn, "UPDATE users SET email_verified = 1 WHERE user_id = $newUserId");
+            
+            // Mark verification as complete in email_verification table
+            mysqli_query($conn, "UPDATE email_verification SET is_verified = 1, user_id = $newUserId WHERE id = $verificationId");
             
             // If officer has ID path, insert into userdocuments
             if ($user_type === 'Officer' && !empty($pending['officer_id_path'])) {
@@ -79,9 +99,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $fullName = $pending['full_name'];
         
         $verificationCode = generateVerificationCode();
+        $expiryTime = date('Y-m-d H:i:s', strtotime('+24 hours'));
         
         // Update session with new code
         $_SESSION['pending_registration']['verification_code'] = $verificationCode;
+        
+        // Insert new verification code into database
+        $emailEsc = mysqli_real_escape_string($conn, $email);
+        $insertVerification = "INSERT INTO email_verification (email, verification_code, code_expiry, is_verified) 
+                              VALUES ('$emailEsc', '$verificationCode', '$expiryTime', 0)";
+        mysqli_query($conn, $insertVerification);
         
         if (sendVerificationEmail($email, $fullName, $verificationCode)) {
             echo json_encode(['success' => true, 'message' => 'Verification code sent to your email']);
