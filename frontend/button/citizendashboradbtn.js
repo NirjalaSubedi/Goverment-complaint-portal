@@ -87,6 +87,12 @@ document.addEventListener('DOMContentLoaded',function(){
         
         showElement('.completed-section', 'block');
         
+        // Show the completed complaints table
+        const completedTable = document.querySelector('.completed-section .testTable');
+        if (completedTable) {
+            completedTable.style.display = 'table';
+        }
+        
         // Load completed complaints when view is shown
         if (typeof loadCompletedComplaints === 'function') {
             loadCompletedComplaints();
