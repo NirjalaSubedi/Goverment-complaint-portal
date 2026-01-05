@@ -17,6 +17,12 @@ if (isset($_POST['submit'])) {
     // Generate verification code BEFORE storing
     $verificationCode = generateVerificationCode();
     $expiryTime = date('Y-m-d H:i:s', strtotime('+24 hours'));
+    
+    // Insert verification code into email_verification table
+    $emailEsc = mysqli_real_escape_string($conn, $email);
+    $insertVerification = "INSERT INTO email_verification (email, verification_code, code_expiry, is_verified) 
+                          VALUES ('$emailEsc', '$verificationCode', '$expiryTime', 0)";
+    mysqli_query($conn, $insertVerification);
 
     if ($user_type === 'Officer') {
         // Get department name from form
