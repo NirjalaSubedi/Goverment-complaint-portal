@@ -94,11 +94,12 @@ if ($complaintDeptId === 0 || $complaintDeptId !== $officerDeptId) {
 
 $verifyStmt->close();
 
-// Update complaint status to Completed
-$sql = "UPDATE complaints SET status = 'Completed' WHERE complaint_id = ?";
+// Update complaint status to Resolved (Completed)
+$sql = "UPDATE complaints SET status = 'Resolved' WHERE complaint_id = ?";
 $stmt = $conn->prepare($sql);
 
 if (!$stmt) {
+    error_log("ERROR preparing status update: " . $conn->error);
     echo json_encode(['success' => false, 'error' => 'Database prepare error: ' . $conn->error]);
     exit;
 }
@@ -106,16 +107,18 @@ if (!$stmt) {
 $stmt->bind_param('i', $complaintId);
 
 if (!$stmt->execute()) {
+    error_log("ERROR executing status update: " . $stmt->error);
     echo json_encode(['success' => false, 'error' => 'Failed to update status: ' . $stmt->error]);
     $stmt->close();
     exit;
 }
 
+error_log("SUCCESS: Updated complaint $complaintId status to Resolved");
 $stmt->close();
 
-// Add activity log
-$activitySql = "INSERT INTO complaintactivity (complaint_id, actor_id, activity_type, activity_text, file_path, activity_date) 
-                VALUES (?, ?, 'StatusChange', 'Task marked as completed', ?, NOW())";
+// Add activity log with status change
+$activitySql = "INSERT INTO complaintactivity (complaint_id, actor_id, activity_type, activity_text, status_changed_to, file_path, activity_date) 
+                VALUES (?, ?, 'StatusChange', 'Task marked as completed', 'Resolved', ?, NOW())";
 
 $activityStmt = $conn->prepare($activitySql);
 
