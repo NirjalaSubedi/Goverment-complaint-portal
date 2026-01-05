@@ -62,10 +62,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const mainBox = document.querySelector('.MainBox'); 
     const pendingTaskTable = document.getElementById('pendingtask'); 
-    const completedTable = document.getElementById('completed'); 
+    const completedSection = document.querySelector('.completed-officer-section'); 
     const assignedMeTable = document.querySelector('.dashboard-container > .testTable:last-child');
     
-    const allContentContainers = [mainBox, pendingTaskTable, completedTable, assignedMeTable];
+    const allContentContainers = [mainBox, pendingTaskTable, completedSection, assignedMeTable];
 
     function resetNavButtons() {
         highlightNavButton('.Complaints.Navbtn', false);
@@ -113,8 +113,8 @@ document.addEventListener('DOMContentLoaded', function() {
         resetNavButtons();
         highlightNavButton('.drafts.Navbtn:nth-child(4)', true);
         hideAllContent();
-        showElement(completedTable, 'block'); 
-        hideElement('.MainHeading'); 
+        showElement(completedSection, 'block'); 
+        loadOfficerCompletedComplaints(); // Load completed complaints
     }
     hideAllContent();
     hideElement('.MainHeading');
