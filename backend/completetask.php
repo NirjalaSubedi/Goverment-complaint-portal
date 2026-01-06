@@ -116,6 +116,34 @@ if (!$stmt->execute()) {
 error_log("SUCCESS: Updated complaint $complaintId status to Resolved");
 $stmt->close();
 
+// Create notification for the citizen
+$userQuery = "SELECT citizen_id FROM complaints WHERE complaint_id = ?";
+$userStmt = $conn->prepare($userQuery);
+
+if ($userStmt) {
+    $userStmt->bind_param("i", $complaintId);
+    $userStmt->execute();
+    $userResult = $userStmt->get_result();
+    $userRow = $userResult->fetch_assoc();
+    
+    if ($userRow) {
+        $citizen_id = $userRow['citizen_id'];
+        $status = "Resolved";
+        $message = "Your complaint has been resolved and marked as completed";
+        
+        // Insert notification
+        $notifQuery = "INSERT INTO notifications (user_id, complaint_id, status, message, is_read) VALUES (?, ?, ?, ?, 0)";
+        $notifStmt = $conn->prepare($notifQuery);
+        
+        if ($notifStmt) {
+            $notifStmt->bind_param("iiss", $citizen_id, $complaintId, $status, $message);
+            $notifStmt->execute();
+            $notifStmt->close();
+        }
+    }
+    $userStmt->close();
+}
+
 // Add activity log with status change
 $activitySql = "INSERT INTO complaintactivity (complaint_id, actor_id, activity_type, activity_text, status_changed_to, file_path, activity_date) 
                 VALUES (?, ?, 'StatusChange', 'Task marked as completed', 'Resolved', ?, NOW())";
