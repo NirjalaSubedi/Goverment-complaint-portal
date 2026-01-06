@@ -108,7 +108,34 @@ $insert = $conn->prepare('INSERT INTO complaints (citizen_id, category_id, depar
 $insert->bind_param('iiissssss', $citizenId, $categoryId, $departmentId, $location, $description, $priority, $status, $attachmentPath, $subject);
 
 if ($insert->execute()) {
+    // Get new complaint id for notifications
+    $complaintId = $insert->insert_id;
     $insert->close();
+
+    // Notify all officers in the same department (if department detected)
+    if (!empty($departmentId)) {
+        $officerStmt = $conn->prepare('SELECT user_id FROM users WHERE user_type = "Officer" AND department_id = ?');
+        if ($officerStmt) {
+            $officerStmt->bind_param('i', $departmentId);
+            if ($officerStmt->execute()) {
+                $officersRes = $officerStmt->get_result();
+                // Prepare notification insert once, reuse
+                $notifStmt = $conn->prepare('INSERT INTO notifications (user_id, complaint_id, status, message, is_read) VALUES (?, ?, ?, ?, 0)');
+                if ($notifStmt) {
+                    $pendingStatus = 'Pending';
+                    $notifMsg = 'New complaint submitted in your department';
+                    while ($officer = $officersRes->fetch_assoc()) {
+                        $officerId = (int)$officer['user_id'];
+                        $notifStmt->bind_param('iiss', $officerId, $complaintId, $pendingStatus, $notifMsg);
+                        $notifStmt->execute(); // intentionally ignore failures to not block submit
+                    }
+                    $notifStmt->close();
+                }
+            }
+            $officerStmt->close();
+        }
+    }
+
     echo "<script>alert('Complaint submitted successfully'); window.location.href='../frontend/citizendashboard.html';</script>";
 } else {
     $err = $conn->error;
