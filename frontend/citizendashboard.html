@@ -415,6 +415,95 @@
             })
             .catch(error => console.error('Error loading user info:', error));
 
+        function openDraft(draftId) {
+            localStorage.setItem('draftToEditId', draftId);
+            window.location.href = 'complaint_submit.html';
+        }
+
+        async function deleteDraft(draftId) {
+            if (!confirm('Delete this draft?')) return;
+            try {
+                const res = await fetch('../backend/deletedraft.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ draft_id: Number(draftId) })
+                });
+                if (!res.ok) {
+                    const text = await res.text();
+                    throw new Error(text || 'Request failed');
+                }
+                const data = await res.json();
+                if (!data.success) throw new Error(data.error || 'Failed to delete draft');
+                // Optimistically remove the row so user sees it disappear immediately
+                const row = document.querySelector(`tr[data-draft-id="${draftId}"]`);
+                if (row && row.parentElement) {
+                    row.parentElement.removeChild(row);
+                }
+                renderDrafts();
+            } catch (err) {
+                console.error('Error deleting draft:', err);
+                alert('Could not delete draft. Please refresh and try again.');
+            }
+        }
+
+        async function renderDrafts() {
+            const tableBody = document.getElementById('drafts-table-body');
+            const noDraftsRow = document.getElementById('no-drafts-row');
+            if (!tableBody || !noDraftsRow) return;
+
+            tableBody.innerHTML = '';
+
+            try {
+                const res = await fetch('../backend/getdrafts.php', { credentials: 'include', cache: 'no-store' });
+                const data = await res.json();
+                if (!data.success || !Array.isArray(data.drafts)) throw new Error(data.error || 'Failed to load drafts');
+
+                const drafts = data.drafts;
+                if (drafts.length === 0) {
+                    noDraftsRow.style.display = '';
+                    tableBody.appendChild(noDraftsRow);
+                    return;
+                }
+
+                noDraftsRow.style.display = 'none';
+
+                drafts.forEach(draft => {
+                    const savedAt = draft.updated_at ? new Date(draft.updated_at).toLocaleString('en-GB', { hour12: false }) : '--';
+                    const priority = draft.priority_level ? draft.priority_level : '--';
+                    const row = document.createElement('tr');
+                    row.setAttribute('data-draft-id', draft.draft_id);
+                    row.innerHTML = `
+                        <td style="padding: 14px 8px;">
+                            <div class="combine-logo-title" style="gap: 10px; align-items: flex-start;">
+                                <div class="ComplaintIcon">
+                                    <i class="material-icons" style="background-color:#e8eaf6; color:#3f51b5;">drafts</i>
+                                </div>
+                                <div class="complaintTitleDetails">
+                                    <p class="complaintTitleText" style="font-weight: 600; margin: 0 0 4px 0;">${draft.subject || 'Untitled draft'}</p>
+                                    <p style="font-size: 13px; color: #666; margin: 0;">${draft.location || 'No location set'}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="padding: 14px 8px; color:#555;">${draft.complaint_type || '--'}</td>
+                        <td style="padding: 14px 8px; color:#555;">${priority}</td>
+                        <td style="padding: 14px 8px; color:#555;">${savedAt}</td>
+                        <td style="padding: 14px 8px; white-space: nowrap;">
+                            <button class="viewDetailsBtn" style="margin-right: 8px; background: #1976d2; color: white;" onclick="openDraft('${draft.draft_id}')">Open</button>
+                            <button class="viewDetailsBtn" style="background: #e53935; color: white;" onclick="deleteDraft('${draft.draft_id}')">Delete</button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (err) {
+                console.error('Error loading drafts:', err);
+                noDraftsRow.style.display = '';
+                tableBody.appendChild(noDraftsRow);
+                const cell = noDraftsRow.querySelector('td');
+                if (cell) cell.textContent = 'Error loading drafts. Please refresh.';
+            }
+        }
+
         // Load citizen complaints
         function loadComplaints() {
             fetch('../backend/getcitizencomplaint.php', { credentials: 'include' })
@@ -592,6 +681,7 @@
         
         // Load complaints when page loads
         document.addEventListener('DOMContentLoaded', loadComplaints);
+        document.addEventListener('DOMContentLoaded', renderDrafts);
         
         // Load completed complaints
         function loadCompletedComplaints() {
