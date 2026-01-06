@@ -85,6 +85,29 @@ if (!$stmt) {
 $stmt->bind_param('iis', $complaintId, $officerId, $message);
 
 if ($stmt->execute()) {
+    // Create notification for the citizen
+    $userQuery = "SELECT citizen_id FROM complaints WHERE complaint_id = ?";
+    $userStmt = $conn->prepare($userQuery);
+    if ($userStmt) {
+        $userStmt->bind_param('i', $complaintId);
+        $userStmt->execute();
+        $userRes = $userStmt->get_result();
+        if ($userRes && $userRes->num_rows > 0) {
+            $row = $userRes->fetch_assoc();
+            $citizenId = (int)$row['citizen_id'];
+            $notifMsg = 'Officer responded to your complaint';
+            $statusForNotif = 'InProgress';
+
+            $notifStmt = $conn->prepare("INSERT INTO notifications (user_id, complaint_id, status, message, is_read) VALUES (?, ?, ?, ?, 0)");
+            if ($notifStmt) {
+                $notifStmt->bind_param('iiss', $citizenId, $complaintId, $statusForNotif, $notifMsg);
+                $notifStmt->execute();
+                $notifStmt->close();
+            }
+        }
+        $userStmt->close();
+    }
+
     echo json_encode([
         'success' => true,
         'message' => 'Response sent successfully'
