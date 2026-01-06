@@ -76,6 +76,34 @@ $stmt = $conn->prepare($query);
 $stmt->bind_param("si", $status, $complaint_id);
 
 if ($stmt->execute()) {
+    // Create notification for the citizen
+    $userQuery = "SELECT citizen_id FROM complaints WHERE complaint_id = ?";
+    $userStmt = $conn->prepare($userQuery);
+    
+    if ($userStmt) {
+        $userStmt->bind_param("i", $complaint_id);
+        $userStmt->execute();
+        $userResult = $userStmt->get_result();
+        $userRow = $userResult->fetch_assoc();
+        
+        if ($userRow) {
+            $citizen_id = $userRow['citizen_id'];
+            $message = ($action === 'approve') ? "Your complaint has been approved and is now in progress" : "Your complaint has been rejected";
+            
+            // Insert notification
+            $notifQuery = "INSERT INTO notifications (user_id, complaint_id, status, message, is_read) VALUES (?, ?, ?, ?, 0)";
+            $notifStmt = $conn->prepare($notifQuery);
+            
+            if ($notifStmt) {
+                $notifStmt->bind_param("iiss", $citizen_id, $complaint_id, $status, $message);
+                $notifStmt->execute();
+                $notifStmt->close();
+            }
+        }
+        $userStmt->close();
+    }
+    
+    // Always return success if complaint status was updated
     echo json_encode(['success' => true, 'message' => 'Complaint ' . $action . 'ed successfully', 'status' => $status]);
 } else {
     echo json_encode(['error' => 'Failed to update complaint']);
