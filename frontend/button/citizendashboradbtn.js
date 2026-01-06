@@ -70,6 +70,15 @@ document.addEventListener('DOMContentLoaded',function(){
         hideElement('.completed-section');
         
         showElement('.drafts-section', 'block');
+
+        const draftsTable = document.querySelector('.drafts-section .testTable');
+        if (draftsTable) {
+            draftsTable.style.display = 'table';
+        }
+
+        if (typeof renderDrafts === 'function') {
+            renderDrafts();
+        }
     }
     function showCompletedView() {
         highlightNavButton('.Complaints.Navbtn', false);
