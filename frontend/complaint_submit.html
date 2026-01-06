@@ -77,7 +77,8 @@
                     if (!data.success) throw new Error(data.error || 'Failed to save draft');
                     currentDraftId = data.draft_id;
                     localStorage.setItem('draftToEditId', currentDraftId);
-                    alert('Draft saved. You can view it from Drafts.');
+                    alert('Draft saved. Redirecting to Drafts...');
+                    window.location.href = 'citizendashboard.html';
                 } catch (err) {
                     console.error('Error saving draft:', err);
                     alert('Could not save draft. Please try again.');
