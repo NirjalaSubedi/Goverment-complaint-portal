@@ -52,6 +52,79 @@
             </div>
         </form>
     </div>
+    <script>
+        (function() {
+            let currentDraftId = '';
+
+            async function saveDraft() {
+                const payload = {
+                    draft_id: currentDraftId || null,
+                    complaintType: document.getElementById('complaint-type')?.value || '',
+                    subject: document.getElementById('subject')?.value || '',
+                    location: document.getElementById('location')?.value || '',
+                    priorityLevel: document.querySelector('input[name="priorityLevel"]:checked')?.value || '',
+                    description: document.getElementById('description')?.value || ''
+                };
+
+                try {
+                    const res = await fetch('../backend/savedraft.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await res.json();
+                    if (!data.success) throw new Error(data.error || 'Failed to save draft');
+                    currentDraftId = data.draft_id;
+                    localStorage.setItem('draftToEditId', currentDraftId);
+                    alert('Draft saved. You can view it from Drafts.');
+                } catch (err) {
+                    console.error('Error saving draft:', err);
+                    alert('Could not save draft. Please try again.');
+                }
+            }
+
+            async function preloadDraft() {
+                const storedId = localStorage.getItem('draftToEditId');
+                if (!storedId) return;
+                currentDraftId = storedId;
+                try {
+                    const res = await fetch('../backend/getdrafts.php', { credentials: 'include' });
+                    const data = await res.json();
+                    if (!data.success || !Array.isArray(data.drafts)) return;
+                    const draft = data.drafts.find(d => String(d.draft_id) === String(currentDraftId));
+                    if (!draft) return;
+
+                    const typeSelect = document.getElementById('complaint-type');
+                    if (typeSelect && draft.complaint_type) typeSelect.value = draft.complaint_type;
+                    const subjectInput = document.getElementById('subject');
+                    if (subjectInput) subjectInput.value = draft.subject || '';
+                    const locationInput = document.getElementById('location');
+                    if (locationInput) locationInput.value = draft.location || '';
+                    const descInput = document.getElementById('description');
+                    if (descInput) descInput.value = draft.description || '';
+
+                    if (draft.priority_level) {
+                        const priorityRadio = document.querySelector(`input[name="priorityLevel"][value="${draft.priority_level.toLowerCase()}"]`);
+                        if (priorityRadio) priorityRadio.checked = true;
+                    }
+                } catch (err) {
+                    console.error('Error preloading draft:', err);
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                preloadDraft();
+                const saveDraftBtn = document.querySelector('.cancle-btn') || document.getElementById('cancelBtn');
+                if (saveDraftBtn) {
+                    saveDraftBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        saveDraft();
+                    });
+                }
+            });
+        })();
+    </script>
     <script src="languageToggle/languageToggle3.js"></script>
 </body>
 </html>
