@@ -61,6 +61,92 @@
             transform: scale(0.95);
         }
 
+        /* Notification Modal Styles */
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #dc2626;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .notification-dropdown {
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            width: 350px;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .notification-dropdown.show {
+            display: block;
+        }
+
+        .notification-header {
+            padding: 16px;
+            border-bottom: 1px solid #e0e0e0;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notification-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .notification-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .notification-item.unread {
+            background-color: #e3f2fd;
+        }
+
+        .notification-item-message {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .notification-item-time {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .notification-empty {
+            padding: 32px 16px;
+            text-align: center;
+            color: #999;
+        }
+
+        .mark-all-read {
+            padding: 8px 16px;
+            border: none;
+            background: #f0f0f0;
+            color: #0d55e7;
+            cursor: pointer;
+            font-size: 12px;
+            border-radius: 4px;
+        }
+
     </style>
 </head>
 <body>
@@ -78,7 +164,17 @@
                 <button id="language-toggle" onclick="LanguageTranslate()">
                     <i class="material-icons">language</i> नेपाली
                 </button>
-               <i class="material-icons" id="notifications-icon">notifications</i>
+               <div style="position: relative;">
+                    <i class="material-icons" id="notifications-icon" onclick="toggleNotificationDropdown()">notifications</i>
+                    <div class="notification-badge" id="notification-badge" style="display: none;">0</div>
+                    <div class="notification-dropdown" id="notification-dropdown">
+                        <div class="notification-header">
+                            <span>Notifications</span>
+                            <button class="mark-all-read" onclick="markAllNotificationsRead()">Mark all as read</button>
+                        </div>
+                        <div id="notification-list"></div>
+                    </div>
+               </div>
                 <div class="profile-sections">
                     <i class="material-icons" id="profile-icon">account_circle</i>
                     <div class="user-type">
@@ -267,7 +363,6 @@
                     <tbody id="drafts-table-body">
                         <tr id="no-drafts-row">
                             <td colspan="5" style="text-align: center; padding: 40px;">
-                                <i class="material-icons" style="font-size: 48px; color: #ccc;">drafts</i>
                                 <p style="margin-top: 10px; color: #666;">No drafts saved yet</p>
                             </td>
                         </tr>
@@ -415,6 +510,111 @@
             })
             .catch(error => console.error('Error loading user info:', error));
 
+        // Load notifications on page load
+        loadNotifications();
+        // Refresh notifications every 30 seconds
+        setInterval(loadNotifications, 30000);
+
+        // Toggle notification dropdown
+        function toggleNotificationDropdown() {
+            const dropdown = document.getElementById('notification-dropdown');
+            dropdown.classList.toggle('show');
+            if (dropdown.classList.contains('show')) {
+                loadNotifications();
+            }
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('notification-dropdown');
+            const icon = document.getElementById('notifications-icon');
+            if (!dropdown.contains(event.target) && event.target !== icon) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        // Load notifications
+        function loadNotifications() {
+            fetch('../backend/getnotifications.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const notificationList = document.getElementById('notification-list');
+                        const badge = document.getElementById('notification-badge');
+                        const unreadCount = data.unread_count;
+
+                        // Update badge
+                        if (unreadCount > 0) {
+                            badge.style.display = 'flex';
+                            badge.textContent = unreadCount > 9 ? '9+' : unreadCount;
+                        } else {
+                            badge.style.display = 'none';
+                        }
+
+                        // Populate notification list
+                        if (data.notifications.length === 0) {
+                            notificationList.innerHTML = '<div class="notification-empty">No notifications yet</div>';
+                        } else {
+                            notificationList.innerHTML = data.notifications.map(notif => {
+                                const date = new Date(notif.created_at);
+                                const timeAgo = getTimeAgo(date);
+                                return `
+                                    <div class="notification-item ${notif.is_read === 0 ? 'unread' : ''}" onclick="markNotificationAsRead(${notif.notification_id})">
+                                        <div class="notification-item-message">${notif.message}</div>
+                                        <div class="notification-item-time">${timeAgo}</div>
+                                    </div>
+                                `;
+                            }).join('');
+                        }
+                    }
+                })
+                .catch(error => console.error('Error loading notifications:', error));
+        }
+
+        // Mark notification as read
+        function markNotificationAsRead(notificationId) {
+            const formData = new FormData();
+            formData.append('notification_id', notificationId);
+
+            fetch('../backend/marknotificationsread.php', {
+                method: 'POST',
+                body: formData,
+                credentials: 'include'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        loadNotifications();
+                    }
+                })
+                .catch(error => console.error('Error marking notification as read:', error));
+        }
+
+        // Mark all notifications as read
+        function markAllNotificationsRead() {
+            fetch('../backend/marknotificationsread.php', {
+                method: 'POST',
+                credentials: 'include'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        loadNotifications();
+                    }
+                })
+                .catch(error => console.error('Error marking all notifications as read:', error));
+        }
+
+        // Get time ago string
+        function getTimeAgo(date) {
+            const seconds = Math.floor((new Date() - date) / 1000);
+            
+            if (seconds < 60) return 'just now';
+            if (seconds < 3600) return Math.floor(seconds / 60) + 'm ago';
+            if (seconds < 86400) return Math.floor(seconds / 3600) + 'h ago';
+            return Math.floor(seconds / 86400) + 'd ago';
+        }
+
         function openDraft(draftId) {
             localStorage.setItem('draftToEditId', draftId);
             window.location.href = 'complaint_submit.html';
@@ -476,9 +676,7 @@
                     row.innerHTML = `
                         <td style="padding: 14px 8px;">
                             <div class="combine-logo-title" style="gap: 10px; align-items: flex-start;">
-                                <div class="ComplaintIcon">
-                                    <i class="material-icons" style="background-color:#e8eaf6; color:#3f51b5;">drafts</i>
-                                </div>
+                                
                                 <div class="complaintTitleDetails">
                                     <p class="complaintTitleText" style="font-weight: 600; margin: 0 0 4px 0;">${draft.subject || 'Untitled draft'}</p>
                                     <p style="font-size: 13px; color: #666; margin: 0;">${draft.location || 'No location set'}</p>
@@ -547,21 +745,26 @@
                             const date = new Date(complaint.created_at).toLocaleDateString('en-CA');
             
                             let iconClass = 'location_on';
-                            let iconBgColor = 'rgb(248, 221, 211)';
+                            let iconBgColor = 'rgb(255, 225, 215)';
+                            let iconColor = 'rgb(254, 4, 4)';
                             const category = complaint.category_name ? complaint.category_name.toLowerCase() : '';
                             
                             if (category.includes('water')) {
                                 iconClass = 'water_drop';
-                                iconBgColor = 'rgb(176, 216, 230)';
+                                iconBgColor = 'rgb(211, 237, 248)';
+                                iconColor = '#0d55e7';
                             } else if (category.includes('electricity')) {
                                 iconClass = 'flash_on';
                                 iconBgColor = 'rgb(245, 232, 135)';
+                                iconColor = '#f59e0b';
                             } else if (category.includes('corruption')) {
-                                iconClass = 'security';
-                                iconBgColor = 'rgb(248, 232, 232)';
+                                iconClass = 'gavel';
+                                iconBgColor = 'rgb(255, 235, 238)';
+                                iconColor = '#c62828';
                             } else if (category.includes('health')) {
                                 iconClass = 'medical_services';
                                 iconBgColor = '#ecebeb';
+                                iconColor = '#666';
                             }
                             
                             const complaintStatus = complaint.status ? complaint.status.toLowerCase() : 'pending';
@@ -601,7 +804,7 @@
                                 <td style="padding: 16px 8px;">
                                     <div class="combine-logo-title">
                                         <div class="ComplaintIcon">
-                                            <i class="material-icons location" style="background-color:${iconBgColor};">${iconClass}</i>
+                                            <i class="material-icons location" style="background-color:${iconBgColor}; color:${iconColor};">${iconClass}</i>
                                         </div>
                                         <div class="complaintTitleDetails">
                                             <div class="complaintTitle">
@@ -750,21 +953,26 @@
                             const date = new Date(complaint.created_at).toLocaleDateString('en-CA');
             
                             let iconClass = 'location_on';
-                            let iconBgColor = 'rgb(248, 221, 211)';
+                            let iconBgColor = 'rgb(255, 225, 215)';
+                            let iconColor = 'rgb(254, 4, 4)';
                             const category = complaint.category_name ? complaint.category_name.toLowerCase() : '';
                             
                             if (category.includes('water')) {
                                 iconClass = 'water_drop';
-                                iconBgColor = 'rgb(176, 216, 230)';
+                                iconBgColor = 'rgb(211, 237, 248)';
+                                iconColor = '#0d55e7';
                             } else if (category.includes('electricity')) {
                                 iconClass = 'flash_on';
                                 iconBgColor = 'rgb(245, 232, 135)';
+                                iconColor = '#f59e0b';
                             } else if (category.includes('corruption')) {
-                                iconClass = 'security';
-                                iconBgColor = 'rgb(248, 232, 232)';
+                                iconClass = 'gavel';
+                                iconBgColor = 'rgb(255, 235, 238)';
+                                iconColor = '#c62828';
                             } else if (category.includes('health')) {
                                 iconClass = 'medical_services';
                                 iconBgColor = '#ecebeb';
+                                iconColor = '#666';
                             }
                             
                             let priorityColor = '#10B981';
@@ -786,7 +994,7 @@
                                 <td style="padding: 16px 12px;">
                                     <div class="combine-logo-title" style="display: flex; gap: 12px; align-items: flex-start;">
                                         <div class="ComplaintIcon">
-                                            <i class="material-icons location" style="background-color:${iconBgColor}; padding: 10px; border-radius: 8px; color: white;">${iconClass}</i>
+                                            <i class="material-icons location" style="background-color:${iconBgColor}; color: ${iconColor}; padding: 10px; border-radius: 8px;">${iconClass}</i>
                                         </div>
                                         <div class="complaintTitleDetails" style="flex: 1; min-width: 0;">
                                             <div class="complaintTitle" style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">

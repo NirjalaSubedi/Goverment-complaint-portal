@@ -533,14 +533,29 @@
             method: 'POST',
             body: formData
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Complaint approved successfully!');
-                // Reload pending complaints to remove approved complaint
+        .then(response => {
+            // Check if response is ok
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text(); // Get as text first
+        })
+        .then(text => {
+            try {
+                const data = JSON.parse(text);
+                if (data.success) {
+                    alert('Complaint approved successfully!');
+                    // Reload pending complaints to remove approved complaint
+                    loadPendingComplaints();
+                } else {
+                    alert('Error: ' + data.error);
+                }
+            } catch (e) {
+                // If JSON parsing fails, show the raw response
+                console.error('Response text:', text);
+                console.error('Parse error:', e);
+                // Still reload in case the complaint was actually approved
                 loadPendingComplaints();
-            } else {
-                alert('Error: ' + data.error);
             }
         })
         .catch(error => {
