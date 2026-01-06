@@ -138,6 +138,27 @@
         </div>
     </footer>
     <script src="languageToggle/LanguageToggle.js"></script>
-   <script src="button/script.js"></script>
+    <script>
+        // Login button
+        document.getElementById('login-btn').addEventListener('click', function(){
+            window.location.href='login.html';
+        });
+
+        // Submit Complaint buttons
+        const submitComplaintBtns = document.querySelectorAll('.submit-complaint, .complaint-btn');
+        submitComplaintBtns.forEach(btn => {
+            btn.addEventListener('click', function(){
+                window.location.href='complaint_submit.html';
+            });
+        });
+
+        // Register button
+        const registerBtn = document.querySelector('.register-btn');
+        if(registerBtn) {
+            registerBtn.addEventListener('click', function(){
+                window.location.href='login.html';
+            });
+        }
+    </script>
 </body>
 </html>
