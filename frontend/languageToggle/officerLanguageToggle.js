@@ -87,3 +87,42 @@ const officerTranslations = {
     }
 };
 
+// Function to update page content
+function updateOfficerContent() {
+    const lang = officerTranslations[currentLanguage];
+    
+    // Update language toggle button
+    const langBtn = document.getElementById('language-toggle');
+    if (langBtn) {
+        langBtn.innerHTML = `<i class="material-icons">language</i> ${lang.languageToggle}`;
+    }
+    
+    // Update header
+    const title = document.querySelector('.Heading1');
+    if (title) title.textContent = lang.title;
+    
+    const role = document.querySelector('.role');
+    if (role) role.textContent = lang.role;
+    
+    // Update notification dropdown
+    const notificationHeader = document.querySelector('.notification-header span');
+    if (notificationHeader) notificationHeader.textContent = lang.notifications;
+    
+    const markAllReadBtn = document.querySelector('.mark-all-read');
+    if (markAllReadBtn) markAllReadBtn.textContent = lang.markAllRead;
+    
+    // Update profile dropdown
+      if (allComplaintsHeading[0]) allComplaintsHeading[0].textContent = lang.allComplaints;
+}
+
+// Function to toggle language
+function LanguageTranslate() {
+    currentLanguage = currentLanguage === 'en' ? 'ne' : 'en';
+    localStorage.setItem('officerLanguage', currentLanguage);
+    updateOfficerContent();
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateOfficerContent();
+});
