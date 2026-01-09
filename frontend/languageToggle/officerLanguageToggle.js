@@ -42,7 +42,15 @@ const officerTranslations = {
         
         // Common
         viewDetails: 'View Details',
-        noComplaintsFound: 'No complaints found'
+        noComplaintsFound: 'No complaints found',
+        
+        // Profile Modal
+        profileInformation: 'Profile Information',
+        fullName: 'Full Name',
+        email: 'Email',
+        userType: 'User Type',
+        department: 'Department',
+        userId: 'User ID'
     },
     'ne': {
         languageToggle: 'English',
@@ -83,7 +91,15 @@ const officerTranslations = {
         
         // Common
         viewDetails: 'विवरण हेर्नुहोस्',
-        noComplaintsFound: 'कुनै गुनासो फेला परेन'
+        noComplaintsFound: 'कुनै गुनासो फेला परेन',
+        
+        // Profile Modal
+        profileInformation: 'प्रोफाइल जानकारी',
+        fullName: 'पूरा नाम',
+        email: 'इमेल',
+        userType: 'प्रयोगकर्ता प्रकार',
+        department: 'विभाग',
+        userId: 'प्रयोगकर्ता आईडी'
     }
 };
 
@@ -169,6 +185,19 @@ function updateOfficerContent() {
     // Update "All Complaints" heading
     const allComplaintsHeading = document.querySelectorAll('.myComplaintsText1');
     if (allComplaintsHeading[0]) allComplaintsHeading[0].textContent = lang.allComplaints;
+    
+    // Update Profile Modal
+    const profileModalHeader = document.querySelector('.profile-modal-header h2');
+    if (profileModalHeader) profileModalHeader.textContent = lang.profileInformation;
+    
+    const profileLabels = document.querySelectorAll('.profile-field label');
+    if (profileLabels.length >= 5) {
+        profileLabels[0].textContent = lang.fullName;
+        profileLabels[1].textContent = lang.email;
+        profileLabels[2].textContent = lang.userType;
+        profileLabels[3].textContent = lang.department;
+        profileLabels[4].textContent = lang.userId;
+    }
 }
 
 // Function to toggle language
