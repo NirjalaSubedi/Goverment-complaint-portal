@@ -103,6 +103,21 @@ const officerTranslations = {
     }
 };
 
+// Function to update profile modal labels
+function updateProfileModalLabels() {
+    const lang = officerTranslations[currentLanguage];
+    const profileLabels = document.querySelectorAll('.profile-field label');
+    if (profileLabels.length >= 5) {
+        profileLabels[0].textContent = lang.fullName;
+        profileLabels[1].textContent = lang.email;
+        profileLabels[2].textContent = lang.userType;
+        profileLabels[3].textContent = lang.department;
+        profileLabels[4].textContent = lang.userId;
+    }
+    const profileModalHeader = document.querySelector('.profile-modal-header h2');
+    if (profileModalHeader) profileModalHeader.textContent = lang.profileInformation;
+}
+
 // Function to update page content
 function updateOfficerContent() {
     const lang = officerTranslations[currentLanguage];
@@ -187,17 +202,7 @@ function updateOfficerContent() {
     if (allComplaintsHeading[0]) allComplaintsHeading[0].textContent = lang.allComplaints;
     
     // Update Profile Modal
-    const profileModalHeader = document.querySelector('.profile-modal-header h2');
-    if (profileModalHeader) profileModalHeader.textContent = lang.profileInformation;
-    
-    const profileLabels = document.querySelectorAll('.profile-field label');
-    if (profileLabels.length >= 5) {
-        profileLabels[0].textContent = lang.fullName;
-        profileLabels[1].textContent = lang.email;
-        profileLabels[2].textContent = lang.userType;
-        profileLabels[3].textContent = lang.department;
-        profileLabels[4].textContent = lang.userId;
-    }
+    updateProfileModalLabels();
 }
 
 // Function to toggle language
@@ -210,4 +215,23 @@ function LanguageTranslate() {
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
     updateOfficerContent();
+    
+    // Watch for profile modal changes
+    const profileModal = document.getElementById('profileModal');
+    if (profileModal) {
+        // Use MutationObserver to detect when modal display style changes
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.attributeName === 'style') {
+                    // Update labels every time modal style changes (when it's shown)
+                    updateProfileModalLabels();
+                }
+            });
+        });
+        
+        observer.observe(profileModal, {
+            attributes: true,
+            attributeFilter: ['style']
+        });
+    }
 });
