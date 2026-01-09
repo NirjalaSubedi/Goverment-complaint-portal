@@ -115,7 +115,22 @@ function updatePasswordPageContent() {
         }
     });
     
-    
+    // Update all input placeholders
+    const inputs = document.querySelectorAll('.fp-input');
+    inputs.forEach(input => {
+        const id = input.getAttribute('id');
+        if (id === 'oldPassword') {
+            input.placeholder = lang.oldPasswordPlaceholder;
+        } else if (id === 'newPassword') {
+            input.placeholder = lang.newPasswordPlaceholder;
+        } else if (id === 'confirmPassword') {
+            input.placeholder = lang.confirmPasswordPlaceholder;
+        } else if (id === 'email') {
+            input.placeholder = lang.emailPlaceholder;
+        } else if (id === 'verificationCode') {
+            input.placeholder = lang.verificationCodePlaceholder;
+        }
+    });
     
     // Update button text
     const buttons = document.querySelectorAll('.fp-btn');
@@ -137,7 +152,20 @@ function updatePasswordPageContent() {
     }
 }
 
-
+// Function to toggle language
+function togglePasswordLanguage() {
+    currentLanguage = currentLanguage === 'en' ? 'ne' : 'en';
+    
+    // Save to both storage keys to maintain consistency
+    const userType = sessionStorage.getItem('userType') || 'Citizen';
+    if (userType === 'Officer') {
+        localStorage.setItem('officerLanguage', currentLanguage);
+    } else {
+        localStorage.setItem('citizenLanguage', currentLanguage);
+    }
+    
+    updatePasswordPageContent();
+}
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
@@ -149,4 +177,13 @@ document.addEventListener('DOMContentLoaded', function() {
     window.currentLanguageDebug = currentLanguage;
 });
 
-
+// Also try to apply language as soon as script loads (before DOM ready)
+if (document.readyState === 'loading') {
+    // Script loaded during parsing, wait for DOMContentLoaded
+} else {
+    // Script loaded after DOM is ready, apply immediately
+    setTimeout(function() {
+        updatePasswordPageContent();
+        console.log('Password page language applied immediately: ' + currentLanguage);
+    }, 50);
+}
