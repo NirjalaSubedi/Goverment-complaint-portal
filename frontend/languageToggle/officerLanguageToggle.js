@@ -112,7 +112,63 @@ function updateOfficerContent() {
     if (markAllReadBtn) markAllReadBtn.textContent = lang.markAllRead;
     
     // Update profile dropdown
-      if (allComplaintsHeading[0]) allComplaintsHeading[0].textContent = lang.allComplaints;
+    const profileLinks = document.querySelectorAll('.dropdown-text');
+    if (profileLinks[0]) profileLinks[0].textContent = lang.profile;
+    if (profileLinks[1]) profileLinks[1].textContent = lang.settings;
+    if (profileLinks[2]) {
+        const logoutLink = profileLinks[2];
+        const onclickAttr = logoutLink.getAttribute('onclick');
+        if (onclickAttr) {
+            const newOnclick = onclickAttr.replace(/alert\('.*?'\)/, `alert('${lang.logoutSuccess}')`);
+            logoutLink.setAttribute('onclick', newOnclick);
+        }
+        logoutLink.textContent = lang.logout;
+    }
+    
+    // Update navigation
+    const myComplaints = document.querySelector('.myComplaints');
+    if (myComplaints) myComplaints.textContent = lang.allComplaints;
+    
+    const assignedToMe = document.querySelector('.assignedtome');
+    if (assignedToMe) assignedToMe.textContent = lang.assignedMe;
+    
+    const pendingTasks = document.querySelectorAll('.pendingtask1');
+    pendingTasks.forEach(el => {
+        if (el) el.textContent = lang.pending;
+    });
+    
+    const completedTasks = document.querySelectorAll('.completed1');
+    completedTasks.forEach(el => {
+        if (el) el.textContent = lang.completed;
+    });
+    
+    // Update sort button
+    const sortText = document.querySelector('.sortText');
+    if (sortText) sortText.textContent = lang.sort;
+    
+    // Update table headers
+    const tableHeaders = document.querySelectorAll('.ComplaintHeader1 th');
+    if (tableHeaders.length >= 5) {
+        tableHeaders[0].textContent = lang.complaint;
+        tableHeaders[1].textContent = lang.status;
+        tableHeaders[2].textContent = lang.priority;
+        tableHeaders[3].textContent = lang.date;
+        tableHeaders[4].textContent = lang.actions;
+    }
+    
+    // Update completed section
+    const completedHeading = document.querySelector('.completed-officer-section .myComplaintsText');
+    if (completedHeading) completedHeading.textContent = lang.completedTasks;
+    
+    const completedDesc = document.querySelector('#complainttopdesc');
+    if (completedDesc) completedDesc.textContent = lang.completedDesc;
+    
+    const completedTableHeading = document.querySelector('.completed-officer-section .myComplaintsText1');
+    if (completedTableHeading) completedTableHeading.textContent = lang.completedComplaints;
+    
+    // Update "All Complaints" heading
+    const allComplaintsHeading = document.querySelectorAll('.myComplaintsText1');
+    if (allComplaintsHeading[0]) allComplaintsHeading[0].textContent = lang.allComplaints;
 }
 
 // Function to toggle language
