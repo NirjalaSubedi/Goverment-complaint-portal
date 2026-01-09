@@ -121,7 +121,30 @@ function toggleLanguage() {
     updateSettingsContent();
 }
 
-
+// Override delete account function with translated messages
+function deleteAccount() {
+    const lang = settingsTranslations[currentLanguage];
+    
+    if (confirm(lang.deleteConfirm)) {
+        fetch('../backend/deleteaccount.php', {
+            method: 'POST',
+            credentials: 'include'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(lang.deleteSuccess);
+                window.location.href = 'login.html';
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert(lang.deleteError);
+        });
+    }
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     updateSettingsContent();
