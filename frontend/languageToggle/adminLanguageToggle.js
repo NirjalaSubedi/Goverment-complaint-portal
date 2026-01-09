@@ -86,3 +86,41 @@ const adminTranslations = {
     }
 };
 
+// Function to update page content
+function updateAdminContent() {
+    const lang = adminTranslations[currentLanguage];
+    
+    // Update language toggle button
+    const langBtn = document.getElementById('language-toggle');
+    if (langBtn) {
+        langBtn.innerHTML = `<i class="material-icons">language</i> ${lang.languageToggle}`;
+    }
+    
+    // Update header
+    const title = document.querySelector('.Heading1');
+    if (title) title.textContent = lang.title;
+    
+    const username = document.querySelector('.username');
+    if (username) username.textContent = lang.username;
+    
+    const role = document.querySelector('.role');
+    if (role) role.textContent = lang.role;
+    
+    // Update navigation
+    const navTitle = document.querySelector('.navigation');
+    if (navTitle) navTitle.textContent = lang.adminPanel;
+    
+    const navButtons = document.querySelectorAll('.nav-btn p');
+    if (navButtons[0]) navButtons[0].textContent = lang.officerApprovals;
+    if (navButtons[1]) navButtons[1].textContent = lang.manageUsers;
+    
+    const logoutLink = document.querySelector('.logout a');
+    if (logoutLink) {
+        const logoutText = logoutLink.textContent;
+        if (logoutText.includes('Logout') || logoutText.includes('लगआउट')) {
+            logoutLink.textContent = lang.logout;
+        }
+    }
+    
+    
+};
