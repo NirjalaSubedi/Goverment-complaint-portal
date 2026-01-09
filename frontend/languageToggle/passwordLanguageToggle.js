@@ -76,3 +76,77 @@ const passwordTranslations = {
         resetPasswordError: 'पासवर्ड रिसेट गर्न असफल भयो। कृपया पुनः प्रयास गर्नुहोस्।'
     }
 };
+
+// Function to update page content
+function updatePasswordPageContent() {
+    const lang = passwordTranslations[currentLanguage];
+    
+    // Update language toggle button
+    const langBtn = document.getElementById('language-toggle');
+    if (langBtn) {
+        langBtn.innerHTML = `<i class="material-icons">language</i> ${lang.languageToggle}`;
+    }
+    
+    // Update page header title
+    const headerTitle = document.querySelector('.password-page-header h2');
+    if (headerTitle) {
+        headerTitle.textContent = lang.changePasswordTitle;
+    }
+    
+    const pageTitle = document.getElementById('pageTitle');
+    if (pageTitle) {
+        pageTitle.textContent = lang.changePasswordTitle;
+    }
+    
+    // Update all labels
+    const labels = document.querySelectorAll('.fp-label');
+    labels.forEach((label, index) => {
+        const forAttr = label.getAttribute('for');
+        if (forAttr === 'oldPassword') {
+            label.textContent = lang.oldPassword;
+        } else if (forAttr === 'newPassword') {
+            label.textContent = lang.newPassword;
+        } else if (forAttr === 'confirmPassword') {
+            label.textContent = lang.confirmPassword;
+        } else if (forAttr === 'email') {
+            label.textContent = lang.email;
+        } else if (forAttr === 'verificationCode') {
+            label.textContent = lang.verificationCode;
+        }
+    });
+    
+    
+    
+    // Update button text
+    const buttons = document.querySelectorAll('.fp-btn');
+    buttons.forEach(btn => {
+        const btnText = btn.textContent.toLowerCase();
+        if (btnText.includes('change')) {
+            btn.textContent = lang.changePasswordBtn;
+        } else if (btnText.includes('send') || btnText.includes('reset link')) {
+            btn.textContent = lang.sendResetBtn;
+        } else if (btnText.includes('update')) {
+            btn.textContent = lang.updatePasswordBtn;
+        }
+    });
+    
+    // Update back to login link if it exists
+    const backLink = document.querySelector('.back-to-login');
+    if (backLink) {
+        backLink.textContent = lang.backToLogin;
+    }
+}
+
+
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Apply language immediately
+    updatePasswordPageContent();
+    console.log('Password page initialized with language: ' + currentLanguage);
+    
+    // Also add to window for debugging
+    window.currentLanguageDebug = currentLanguage;
+});
+
+
