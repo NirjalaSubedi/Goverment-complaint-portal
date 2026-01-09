@@ -177,4 +177,37 @@ function updateAdminContent() {
         filterOfficerBtn.innerHTML = `<i class="material-icons" style="vertical-align: middle; font-size: 18px;">verified_user</i> ${lang.filterOfficers}`;
     }
     
+    // Update table headers for Users table
+    const usersTableHeaders = document.querySelectorAll('#usersTable th');
+    if (usersTableHeaders.length > 0) {
+        usersTableHeaders[0].textContent = lang.userDetails;
+        usersTableHeaders[1].textContent = lang.userType;
+        usersTableHeaders[2].textContent = lang.department;
+        usersTableHeaders[3].textContent = lang.phone;
+        usersTableHeaders[4].textContent = lang.email;
+        usersTableHeaders[5].textContent = lang.status;
+        usersTableHeaders[6].textContent = lang.document;
+        usersTableHeaders[7].textContent = lang.manage;
+    }
     
+    const noUsersMsg = document.querySelector('#noUsersMsg p');
+    if (noUsersMsg) noUsersMsg.textContent = lang.noUsersFound;
+}
+
+// Function to toggle language
+function toggleAdminLanguage() {
+    currentLanguage = currentLanguage === 'en' ? 'ne' : 'en';
+    localStorage.setItem('adminLanguage', currentLanguage);
+    updateAdminContent();
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateAdminContent();
+    
+    // Add click event to language toggle button
+    const langBtn = document.getElementById('language-toggle');
+    if (langBtn) {
+        langBtn.addEventListener('click', toggleAdminLanguage);
+    }
+});
