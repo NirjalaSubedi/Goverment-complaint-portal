@@ -70,7 +70,7 @@ function updateSettingsContent() {
     const backButtonSpan = document.querySelector('.backButton span');
     if (backButtonSpan) {
         const role = document.querySelector('.role');
-        if (role && role.textContent === 'Officer' || role && role.textContent === 'अधिकृत') {
+        if (role && (role.textContent === 'Officer' || role.textContent === 'अधिकृत')) {
             backButtonSpan.textContent = lang.backToOfficerDashboard;
         } else {
             backButtonSpan.textContent = lang.backToDashboard;
