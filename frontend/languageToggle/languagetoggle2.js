@@ -7,11 +7,17 @@ const Translate = {
         'citizen': 'Citizen',
         'Nav': 'NAVIGATION',
         'myComplaints': 'myComplaints',
+        'CompletedNav': 'Completed',
         'Drafts': 'Drafts',
+        'DraftsTitle': 'Drafts',
+        'SavedDraftsDesc': 'Your saved complaint drafts',
+        'DraftComplaints': 'Draft Complaints',
         'Profile': 'Profile',
         'Quick Actions': 'Quick Actions',
         'New Complaint': 'New Complaint',
         'myComplaintsText': 'myComplaints',
+        'CompletedTasks': 'Completed Tasks',
+        'CompletedComplaints': 'Completed Complaints',
         'Track and manage your submitted complaints': 'Track and manage your submitted complaints',
         'add': 'Add',
         'Total Complaints': 'Total Complaints',
@@ -27,7 +33,10 @@ const Translate = {
         'STATUS': 'STATUS',
         'PRIORITY': 'PRIORITY',
         'DATE': 'DATE',
+        'COMPLETED_DATE': 'COMPLETED DATE',
         'ACTIONS': 'ACTIONS',
+        'Open': 'Open',
+        'DeleteDraft': 'Delete',
         'View Details': 'View Details',
         'update': 'Update',
         'delete': 'Delete',
@@ -71,11 +80,17 @@ const Translate = {
         'citizen': 'नागरिक',
         'Nav': 'नेभिगेसन',
         'myComplaints': 'मेरो उजुरीहरू',
+        'CompletedNav': 'सम्पन्न',
         'Drafts': 'मसौदाहरू',
+        'DraftsTitle': 'मसौदाहरू',
+        'SavedDraftsDesc': 'तपाईंका बचत गरिएका उजुरी मसौदा',
+        'DraftComplaints': 'मसौदा उजुरीहरू',
         'Profile': 'प्रोफाइल',
         'Quick Actions': 'छिटो कार्यहरू',
         'New Complaint': 'नयाँ उजुरी',
         'myComplaintsText': 'मेरो उजुरीहरू',
+        'CompletedTasks': 'सम्पन्न कार्यहरू',
+        'CompletedComplaints': 'सम्पन्न उजुरीहरू',
         'Track and manage your submitted complaints': 'आफ्ना पेश गरिएका उजुरीहरू ट्र्याक र व्यवस्थापन गर्नुहोस्',
         'add': 'थप्नुहोस्',
         'Total Complaints': 'कुल उजुरीहरू',
@@ -91,7 +106,10 @@ const Translate = {
         'STATUS': 'स्थिति',
         'PRIORITY': 'प्राथमिकता',
         'DATE': 'मिति',
+        'COMPLETED_DATE': 'सम्पन्न मिति',
         'ACTIONS': 'कार्यहरू',
+        'Open': 'खोल्नुहोस्',
+        'DeleteDraft': 'मेटाउनुहोस्',
         'View Details': 'विवरण हेर्नुहोस्',
         'update': 'अद्यावधिक',
         'delete': 'मेटाउनुहोस्',
@@ -232,16 +250,31 @@ function applyTranslations() {
 
     if(document.getElementById('nav00')) document.getElementById('nav00').innerText = Translate[lang].Nav;
     if(document.getElementById('myComplaints-btn')) document.getElementById('myComplaints-btn').innerText = Translate[lang].myComplaints;
+    if(document.getElementById('myCompleted')) document.getElementById('myCompleted').innerText = Translate[lang].CompletedNav;
     if(document.getElementById('myDrafts')) document.getElementById('myDrafts').innerText = Translate[lang].Drafts;
     if(document.getElementById('see-profile')) document.getElementById('see-profile').innerText = Translate[lang].Profile;
     if(document.querySelector('.quickActionsHeading')) document.querySelector('.quickActionsHeading').innerText = Translate[lang]['Quick Actions'];
     if(document.querySelector('.newComplaintText')) document.querySelector('.newComplaintText').innerText = Translate[lang]['New Complaint'];
     
     const myComplaintsText = document.querySelector('.myComplaintsText');
-    if (myComplaintsText) myComplaintsText.innerText = Translate[lang]['myComplaintsText'];
+    if (myComplaintsText) {
+        const inCompleted = document.querySelector('.completed-section') && document.querySelector('.completed-section').contains(myComplaintsText);
+        const inDrafts = document.querySelector('.drafts-section') && document.querySelector('.drafts-section').contains(myComplaintsText);
+        if (inCompleted) myComplaintsText.innerText = Translate[lang]['CompletedTasks'];
+        else if (inDrafts) myComplaintsText.innerText = Translate[lang]['DraftsTitle'];
+        else myComplaintsText.innerText = Translate[lang]['myComplaintsText'];
+    }
+    const myComplaintsText1 = document.querySelector('.myComplaintsText1');
+    if (myComplaintsText1) {
+        const inDrafts = document.querySelector('.drafts-section') && document.querySelector('.drafts-section').contains(myComplaintsText1);
+        myComplaintsText1.innerText = inDrafts ? Translate[lang]['DraftComplaints'] : Translate[lang]['CompletedComplaints'];
+    }
 
-    const complaintTopDesc = document.getElementById('complainttopdesc');
-    if (complaintTopDesc) complaintTopDesc.innerText = Translate[lang]['Track and manage your submitted complaints'];
+    // Top description under section title
+    const draftsTopDesc = document.querySelector('.drafts-section #complainttopdesc');
+    const complaintTopDesc = document.querySelector(':not(.drafts-section) #complainttopdesc') || document.getElementById('complainttopdesc');
+    if (draftsTopDesc) draftsTopDesc.innerText = Translate[lang]['SavedDraftsDesc'];
+    if (complaintTopDesc && !draftsTopDesc) complaintTopDesc.innerText = Translate[lang]['Track and manage your submitted complaints'];
 
     const stats = [
         ['Total Complaints', 'Submitted'], 
@@ -259,14 +292,43 @@ function applyTranslations() {
         }
     });
 
+    // Headers for main complaints table
     const headers = ['COMPLAINT', 'STATUS', 'PRIORITY', 'DATE', 'ACTIONS'];
     document.querySelectorAll('.ComplaintHeader1 th').forEach((th, index) => {
         if(headers[index]) th.innerText = Translate[lang][headers[index]];
     });
+    // Headers for completed complaints table
+    const completedHeaders = ['COMPLAINT', 'STATUS', 'PRIORITY', 'COMPLETED_DATE', 'ACTIONS'];
+    const completedThs = document.querySelectorAll('.completedComplaintsTable thead th');
+    completedThs.forEach((th, index) => {
+        if (completedHeaders[index]) th.innerText = Translate[lang][completedHeaders[index]];
+    });
+    // Headers for drafts table
+    const draftsHeaders = ['COMPLAINT', 'CATEGORY', 'PRIORITY', 'SAVED_DATE', 'ACTIONS'];
+    const draftsThs = document.querySelectorAll('.draftsTable thead th');
+    draftsThs.forEach((th, index) => {
+        if (draftsHeaders[index]) th.innerText = Translate[lang][draftsHeaders[index]];
+    });
 
     if(document.querySelector('.sortText')) document.querySelector('.sortText').innerText = Translate[lang].Sort;
-    document.querySelectorAll('.viewDetailsBtn').forEach(btn => {
+    const sortBtn = document.querySelector('.completed-section .sortBtn');
+    if (sortBtn) sortBtn.innerText = Translate[lang].Sort;
+    // Update detail buttons in non-drafts sections
+    document.querySelectorAll(':not(.drafts-section) .viewDetailsBtn').forEach(btn => {
         btn.innerText = Translate[lang]['View Details'];
+    });
+    // Update draft action buttons
+    document.querySelectorAll('.drafts-section .viewDetailsBtn').forEach(btn => {
+        const onclickText = String(btn.getAttribute('onclick') || '');
+        if (onclickText.includes('openDraft')) btn.innerText = Translate[lang]['Open'];
+        else if (onclickText.includes('deleteDraft')) btn.innerText = Translate[lang]['DeleteDraft'];
+    });
+
+    // Update status tag inside completed table rows
+    document.querySelectorAll('.completedComplaintsTable td span').forEach(span => {
+        if (span.textContent && /Completed/i.test(span.textContent.trim())) {
+            span.innerHTML = span.innerHTML.replace(/Completed/i, Translate[lang]['completed']);
+        }
     });
     
     document.querySelectorAll('#update').forEach(btn => {
@@ -330,6 +392,10 @@ function applyTranslations() {
     
     const submitBtn = document.getElementById('submitbtn1') || document.querySelector('.submit-btn1');
     if (submitBtn) submitBtn.innerText = Translate[lang].submit;
+
+    // Update Add button on myComplaints
+    const addTitleBtn = document.getElementById('addtitle');
+    if (addTitleBtn) addTitleBtn.innerHTML = `<i class="material-icons" id="add">add</i> ${Translate[lang].add}`;
 }
 
 document.addEventListener('DOMContentLoaded', initializeLanguage);
