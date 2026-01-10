@@ -35,11 +35,10 @@
                     if (backLink && data.userType) {
                         if (data.userType === 'Officer') {
                             backLink.setAttribute('href', 'officerdasboard.html');
-                            if (backText) backText.textContent = 'Back to Officer Dashboard';
                         } else {
                             backLink.setAttribute('href', 'citizendashboard.html');
-                            if (backText) backText.textContent = 'Back to Dashboard';
                         }
+                        
                     }
                 })
                 .catch((error) => console.error('Error fetching user info:', error));
