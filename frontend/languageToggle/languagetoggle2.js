@@ -190,21 +190,24 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initializeLanguage() {
-    const savedLang = localStorage.getItem('currentLanguage');
-    
+    // Prefer citizenLanguage for persistence across citizen pages and settings
+    const savedLang = localStorage.getItem('citizenLanguage') || localStorage.getItem('currentLanguage');
+
     if (savedLang) {
         currentLanguage = savedLang;
-    } else if (document.title.toLowerCase().includes('dashboard')) {
+    } else {
         currentLanguage = 'en';
+        localStorage.setItem('citizenLanguage', currentLanguage);
         localStorage.setItem('currentLanguage', currentLanguage);
     }
-    
+
     applyTranslations();
 }
 
 function LanguageTranslate() {
     currentLanguage = currentLanguage === 'en' ? 'ne' : 'en';
-    
+    // Persist for citizen pages and compatibility with older code
+    localStorage.setItem('citizenLanguage', currentLanguage);
     localStorage.setItem('currentLanguage', currentLanguage);
 
     applyTranslations();
