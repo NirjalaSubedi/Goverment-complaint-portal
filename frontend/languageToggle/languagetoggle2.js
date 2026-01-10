@@ -317,7 +317,7 @@ function applyTranslations() {
     });
     // Headers for drafts table
     const draftsHeaders = ['COMPLAINT', 'CATEGORY', 'PRIORITY', 'SAVED_DATE', 'ACTIONS'];
-    const draftsThs = document.querySelectorAll('.draftsTable thead th');
+    const draftsThs = document.querySelectorAll('.draftsTable tr.ComplaintHeader1 th');
     draftsThs.forEach((th, index) => {
         if (draftsHeaders[index]) th.innerText = Translate[lang][draftsHeaders[index]];
     });
@@ -412,4 +412,15 @@ function applyTranslations() {
     if (addTitleBtn) addTitleBtn.innerHTML = `<i class="material-icons" id="add">add</i> ${Translate[lang].add}`;
 }
 
-document.addEventListener('DOMContentLoaded', initializeLanguage);
+document.addEventListener('DOMContentLoaded', function(){
+    initializeLanguage();
+    setTimeout(applyTranslations, 0);
+    ['myComplaints-btn','myDrafts','myCompleted','see-profile'].forEach(id=>{
+        const el = document.getElementById(id);
+        if (el && el.parentElement && el.parentElement.parentElement){
+            el.parentElement.parentElement.addEventListener('click', () => setTimeout(applyTranslations, 0));
+        } else if (el) {
+            el.addEventListener('click', () => setTimeout(applyTranslations, 0));
+        }
+    });
+});
