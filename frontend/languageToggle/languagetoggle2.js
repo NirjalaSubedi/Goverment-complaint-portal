@@ -2,6 +2,9 @@ let currentLanguage = 'en';
 
 const Translate = {
     'en': {
+            'CompletedDesc': 'View all successfully resolved complaints',
+            'UntitledDraft': 'Untitled draft',
+            'NoLocationSet': 'No location set',
         'languageToggle': 'नेपाली',
         'title': 'Nikaas',
         'citizen': 'Citizen',
@@ -34,6 +37,8 @@ const Translate = {
         'PRIORITY': 'PRIORITY',
         'DATE': 'DATE',
         'COMPLETED_DATE': 'COMPLETED DATE',
+        'CATEGORY': 'CATEGORY',
+        'SAVED_DATE': 'SAVED DATE',
         'ACTIONS': 'ACTIONS',
         'Open': 'Open',
         'DeleteDraft': 'Delete',
@@ -75,6 +80,9 @@ const Translate = {
         'Logout': 'Logout'
     },
     'ne': {
+            'CompletedDesc': 'सबै सफलतापूर्वक समाधान भएका उजुरीहरू हेर्नुहोस्',
+            'UntitledDraft': 'शीर्षक छैन',
+            'NoLocationSet': 'स्थान सेट गरिएको छैन',
         'languageToggle': 'English',
         'title': 'निकास',
         'citizen': 'नागरिक',
@@ -107,6 +115,8 @@ const Translate = {
         'PRIORITY': 'प्राथमिकता',
         'DATE': 'मिति',
         'COMPLETED_DATE': 'सम्पन्न मिति',
+        'CATEGORY': 'कोटि',
+        'SAVED_DATE': 'बचत मिति',
         'ACTIONS': 'कार्यहरू',
         'Open': 'खोल्नुहोस्',
         'DeleteDraft': 'मेटाउनुहोस्',
@@ -256,25 +266,27 @@ function applyTranslations() {
     if(document.querySelector('.quickActionsHeading')) document.querySelector('.quickActionsHeading').innerText = Translate[lang]['Quick Actions'];
     if(document.querySelector('.newComplaintText')) document.querySelector('.newComplaintText').innerText = Translate[lang]['New Complaint'];
     
-    const myComplaintsText = document.querySelector('.myComplaintsText');
-    if (myComplaintsText) {
-        const inCompleted = document.querySelector('.completed-section') && document.querySelector('.completed-section').contains(myComplaintsText);
-        const inDrafts = document.querySelector('.drafts-section') && document.querySelector('.drafts-section').contains(myComplaintsText);
-        if (inCompleted) myComplaintsText.innerText = Translate[lang]['CompletedTasks'];
-        else if (inDrafts) myComplaintsText.innerText = Translate[lang]['DraftsTitle'];
-        else myComplaintsText.innerText = Translate[lang]['myComplaintsText'];
-    }
-    const myComplaintsText1 = document.querySelector('.myComplaintsText1');
-    if (myComplaintsText1) {
-        const inDrafts = document.querySelector('.drafts-section') && document.querySelector('.drafts-section').contains(myComplaintsText1);
-        myComplaintsText1.innerText = inDrafts ? Translate[lang]['DraftComplaints'] : Translate[lang]['CompletedComplaints'];
-    }
+    document.querySelectorAll('.myComplaintsText').forEach(el => {
+        const inCompleted = el.closest('.completed-section');
+        const inDrafts = el.closest('.drafts-section');
+        if (inCompleted) el.innerText = Translate[lang]['CompletedTasks'];
+        else if (inDrafts) el.innerText = Translate[lang]['DraftsTitle'];
+        else el.innerText = Translate[lang]['myComplaintsText'];
+    });
+    document.querySelectorAll('.myComplaintsText1').forEach(el => {
+        const inDrafts = el.closest('.drafts-section');
+        el.innerText = inDrafts ? Translate[lang]['DraftComplaints'] : Translate[lang]['CompletedComplaints'];
+    });
 
-    // Top description under section title
-    const draftsTopDesc = document.querySelector('.drafts-section #complainttopdesc');
-    const complaintTopDesc = document.querySelector(':not(.drafts-section) #complainttopdesc') || document.getElementById('complainttopdesc');
-    if (draftsTopDesc) draftsTopDesc.innerText = Translate[lang]['SavedDraftsDesc'];
-    if (complaintTopDesc && !draftsTopDesc) complaintTopDesc.innerText = Translate[lang]['Track and manage your submitted complaints'];
+    document.querySelectorAll('#complainttopdesc').forEach(el => {
+        if (el.closest('.drafts-section')) {
+            el.innerText = Translate[lang]['SavedDraftsDesc'];
+        } else if (el.closest('.completed-section')) {
+            el.innerText = Translate[lang]['CompletedDesc'];
+        } else {
+            el.innerText = Translate[lang]['Track and manage your submitted complaints'];
+        }
+    });
 
     const stats = [
         ['Total Complaints', 'Submitted'], 
@@ -310,7 +322,9 @@ function applyTranslations() {
         if (draftsHeaders[index]) th.innerText = Translate[lang][draftsHeaders[index]];
     });
 
-    if(document.querySelector('.sortText')) document.querySelector('.sortText').innerText = Translate[lang].Sort;
+    document.querySelectorAll('.sortText').forEach(el => {
+        el.innerText = Translate[lang].Sort;
+    });
     const sortBtn = document.querySelector('.completed-section .sortBtn');
     if (sortBtn) sortBtn.innerText = Translate[lang].Sort;
     // Update detail buttons in non-drafts sections
