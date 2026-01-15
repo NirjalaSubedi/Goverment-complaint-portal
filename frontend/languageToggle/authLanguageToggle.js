@@ -123,7 +123,67 @@ function updateAuthPageContent() {
         newPwdLabel.textContent = lang.newPasswordLabel;
     }
     
+    const newPwdInput = document.getElementById('newPassword');
+    if (newPwdInput) {
+        newPwdInput.placeholder = lang.newPasswordPlaceholder;
+    }
     
+    const confirmPwdLabel = document.querySelector('label[for="confirmPassword"]');
+    if (confirmPwdLabel) {
+        confirmPwdLabel.textContent = lang.confirmPasswordLabel;
+    }
+    
+    const confirmPwdInput = document.getElementById('confirmPassword');
+    if (confirmPwdInput) {
+        confirmPwdInput.placeholder = lang.confirmPasswordPlaceholder;
+    }
+    
+    const resetBtn = document.getElementById('updatePasswordBtn');
+    if (resetBtn) {
+        resetBtn.textContent = lang.updatePasswordBtn;
+    }
+    
+    const authTitle = document.querySelector('.auth h3');
+    if (authTitle) {
+        authTitle.textContent = lang.emailVerificationTitle;
+    }
+    
+    const emailDisplay = document.getElementById('email-display');
+    if (emailDisplay && !emailDisplay.textContent.includes('@')) {
+        // Only update if it's the generic message, not the custom email display
+        emailDisplay.textContent = lang.verificationCodeMessage;
+    }
+    
+    // Update verification code label in auth form
+    const authVerLabel = document.querySelector('.auth-form label');
+    if (authVerLabel) {
+        authVerLabel.textContent = lang.verificationCodeInputLabel;
+    }
+    
+    const authVerInput = document.getElementById('verification-code');
+    if (authVerInput) {
+        authVerInput.placeholder = lang.verificationCodeInputLabel;
+    }
+    
+    const verifyBtn = document.querySelector('.auth-form .verify-btn');
+    if (verifyBtn) {
+        verifyBtn.textContent = lang.verifyCodeBtn;
+    }
+    
+    const noCodeP = Array.from(document.querySelectorAll('.auth-form p')).find(p => 
+        p.textContent.includes("Didn't receive") || p.textContent.includes("कोड प्राप्त")
+    );
+    if (noCodeP) {
+        noCodeP.textContent = lang.didntReceiveCode;
+    }
+    
+    // Update "Resend Code" link
+    const resendBtn = document.getElementById('resendBtn');
+    if (resendBtn) {
+        resendBtn.textContent = lang.resendCodeBtn;
+    }
+}
+
 // Toggle language and persist choice
 function toggleAuthLanguage() {
     currentLanguage = currentLanguage === 'en' ? 'ne' : 'en';
@@ -142,5 +202,4 @@ if (document.readyState === 'loading') {
         updateAuthPageContent();
         console.log('Auth page language applied immediately: ' + currentLanguage);
     }, 50);
-}
 }
