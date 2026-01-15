@@ -1,4 +1,4 @@
-let currentLanguage = localStorage.getItem('officerLanguage') || localStorage.getItem('citizenLanguage') || 'en';
+let currentLanguage = localStorage.getItem('currentLanguage') || 'en';
 const settingsTranslations = {
     'en': {
         languageToggle: 'नेपाली',
@@ -109,15 +109,7 @@ function updateSettingsContent() {
 // Function to toggle language
 function toggleLanguage() {
     currentLanguage = currentLanguage === 'en' ? 'ne' : 'en';
-    
-    // Save to both storage keys to maintain consistency
-    const userType = document.querySelector('.role');
-    if (userType && (userType.textContent === 'Officer' || userType.textContent === 'अधिकृत')) {
-        localStorage.setItem('officerLanguage', currentLanguage);
-    } else {
-        localStorage.setItem('citizenLanguage', currentLanguage);
-    }
-    
+    localStorage.setItem('currentLanguage', currentLanguage);
     updateSettingsContent();
 }
 

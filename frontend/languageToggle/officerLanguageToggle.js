@@ -1,6 +1,6 @@
 // Officer Dashboard Language Toggle
 // Load language preference from localStorage, default to 'en'
-let currentLanguage = localStorage.getItem('officerLanguage') || 'en';
+let currentLanguage = localStorage.getItem('currentLanguage') || 'en';
 
 const officerTranslations = {
     'en': {
@@ -208,7 +208,7 @@ function updateOfficerContent() {
 // Function to toggle language
 function LanguageTranslate() {
     currentLanguage = currentLanguage === 'en' ? 'ne' : 'en';
-    localStorage.setItem('officerLanguage', currentLanguage);
+    localStorage.setItem('currentLanguage', currentLanguage);
     updateOfficerContent();
 }
 

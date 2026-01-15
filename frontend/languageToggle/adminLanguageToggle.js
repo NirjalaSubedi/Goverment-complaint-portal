@@ -1,4 +1,4 @@
-let currentLanguage = localStorage.getItem('adminLanguage') || 'en';
+let currentLanguage = localStorage.getItem('currentLanguage') || 'en';
 const adminTranslations = {
     'en': {
         languageToggle: 'नेपाली',
@@ -197,7 +197,7 @@ function updateAdminContent() {
 // Function to toggle language
 function toggleAdminLanguage() {
     currentLanguage = currentLanguage === 'en' ? 'ne' : 'en';
-    localStorage.setItem('adminLanguage', currentLanguage);
+    localStorage.setItem('currentLanguage', currentLanguage);
     updateAdminContent();
 }
 

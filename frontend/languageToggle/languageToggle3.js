@@ -1,4 +1,4 @@
-let currentLanguage = 'en';
+let currentLanguage = localStorage.getItem('currentLanguage') || 'en';
 
 const Translate = {
     'en': {
@@ -207,8 +207,6 @@ function initializeLanguage() {
 
 function LanguageTranslate() {
     currentLanguage = currentLanguage === 'en' ? 'ne' : 'en';
-    // Persist for citizen pages and compatibility with older code
-    localStorage.setItem('citizenLanguage', currentLanguage);
     localStorage.setItem('currentLanguage', currentLanguage);
     applyTranslations();
 }
