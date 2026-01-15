@@ -173,15 +173,11 @@ document.addEventListener('DOMContentLoaded', function() {
     updatePasswordPageContent();
     console.log('Password page initialized with language: ' + currentLanguage);
     
-    // Also add to window for debugging
     window.currentLanguageDebug = currentLanguage;
 });
 
-// Also try to apply language as soon as script loads (before DOM ready)
 if (document.readyState === 'loading') {
-    // Script loaded during parsing, wait for DOMContentLoaded
 } else {
-    // Script loaded after DOM is ready, apply immediately
     setTimeout(function() {
         updatePasswordPageContent();
         console.log('Password page language applied immediately: ' + currentLanguage);
