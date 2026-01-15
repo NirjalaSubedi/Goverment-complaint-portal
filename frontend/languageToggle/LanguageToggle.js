@@ -303,7 +303,13 @@ function loginLanguageTranslate(){
     document.getElementById('password1').placeholder=Translate[currentLanguage].passwordPlaceholder;
     document.getElementsByClassName('email1')[0].innerText=Translate[currentLanguage].email;
     document.getElementById('email1').placeholder=Translate[currentLanguage].emailplaceholder;
-   
-    
-
 }
+
+// Apply language on page load for login.html
+document.addEventListener('DOMContentLoaded', function() {
+    const isLoginPage = document.getElementById('Heading') && document.getElementById('tagline');
+    if (isLoginPage) {
+        loginLanguageTranslate();
+        loginLanguageTranslate(); // Call twice to set the stored language
+    }
+});
