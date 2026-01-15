@@ -73,3 +73,74 @@ const authTranslations = {
         seconds: 'सेकेन्ड पछि पुनः पठाउनुहोस्'
     }
 };
+
+// Function to update page content
+function updateAuthPageContent() {
+    const lang = authTranslations[currentLanguage];    
+
+    // Update language toggle button text if present
+    const langBtn = document.getElementById('language-toggle');
+    if (langBtn) {
+        langBtn.innerHTML = `<i class="material-icons">language</i> ${lang.languageToggle}`;
+    }
+    const emailLabel = document.querySelector('label[for="email"]');
+    if (emailLabel) {
+        emailLabel.textContent = lang.emailLabel;
+    }
+    
+    const emailInput = document.getElementById('email');
+    if (emailInput) {
+        emailInput.placeholder = lang.emailPlaceholder;
+    }
+    
+    const submitBtn = document.getElementById('submitBtn');
+    if (submitBtn) {
+        submitBtn.textContent = lang.sendResetCodeBtn;
+    }
+    
+    const fpBackLink = document.querySelector('.back-to-login');
+    if (fpBackLink) {
+        fpBackLink.textContent = lang.backToLogin;
+    }
+    
+    const sentToLabel = document.getElementById('sentToLabel');
+    if (sentToLabel) {
+        sentToLabel.textContent = lang.verificationCodeSentTo;
+    }
+    
+    const verCodeLabel = document.querySelector('label[for="verificationCode"]');
+    if (verCodeLabel) {
+        verCodeLabel.textContent = lang.verificationCodeLabel;
+    }
+    
+    const verCodeInput = document.getElementById('verificationCode');
+    if (verCodeInput) {
+        verCodeInput.placeholder = lang.verificationCodePlaceholder;
+    }
+    
+    const newPwdLabel = document.querySelector('label[for="newPassword"]');
+    if (newPwdLabel) {
+        newPwdLabel.textContent = lang.newPasswordLabel;
+    }
+    
+    
+// Toggle language and persist choice
+function toggleAuthLanguage() {
+    currentLanguage = currentLanguage === 'en' ? 'ne' : 'en';
+    localStorage.setItem('currentLanguage', currentLanguage);
+    updateAuthPageContent();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    updateAuthPageContent();
+    console.log('Auth page initialized with language: ' + currentLanguage);
+});
+
+if (document.readyState === 'loading') {
+} else {
+    setTimeout(function() {
+        updateAuthPageContent();
+        console.log('Auth page language applied immediately: ' + currentLanguage);
+    }, 50);
+}
+}
