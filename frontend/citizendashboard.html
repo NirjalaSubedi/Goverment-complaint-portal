@@ -169,8 +169,8 @@
                     <div class="notification-badge" id="notification-badge" style="display: none;">0</div>
                     <div class="notification-dropdown" id="notification-dropdown">
                         <div class="notification-header">
-                            <span>Notifications</span>
-                            <button class="mark-all-read" onclick="markAllNotificationsRead()">Mark all as read</button>
+                            <span id="notification-header-text">Notifications</span>
+                            <button class="mark-all-read" id="mark-all-read-btn" onclick="markAllNotificationsRead()">Mark all as read</button>
                         </div>
                         <div id="notification-list"></div>
                     </div>
@@ -553,7 +553,8 @@
 
                         // Populate notification list
                         if (data.notifications.length === 0) {
-                            notificationList.innerHTML = '<div class="notification-empty">No notifications yet</div>';
+                            const noNotifText = currentLanguage === 'ne' ? 'अहिले कुनै सूचना छैन' : 'No notifications yet';
+                            notificationList.innerHTML = `<div class="notification-empty">${noNotifText}</div>`;
                         } else {
                             notificationList.innerHTML = data.notifications.map(notif => {
                                 const date = new Date(notif.created_at);

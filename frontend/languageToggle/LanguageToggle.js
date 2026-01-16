@@ -83,9 +83,7 @@ const Translate={
         electricitydepartment:'Electricity Authority',
         corruptiondepartment:'Anti-Corruption Department',
         other:'Others',
-
         documents:' Upload Documents',
-
         citizenship:'Citizenship Number',
         citizenshipPlaceholder:'Enter your citizenship number',
         createAccount:'Create Account',
@@ -95,6 +93,9 @@ const Translate={
         emailplaceholder:'Enter your email',
         password:'Password',
         passwordPlaceholder:'Create a password',
+        Notifications:'Notifications',
+        MarkAllAsRead:'Mark all as read',
+        NoNotificationsYet:'No notifications yet',
 
     },
     'ne':{
@@ -180,9 +181,7 @@ const Translate={
         electricitydepartment:'विद्युत प्राधिकरण',
         corruptiondepartment:'भ्रष्टाचार विरोधी विभाग',
         other:'अन्य',
-
         documents:' कागजात अपलोड गर्नुहोस्',
-
         citizenship:'नागरिकता नम्बर',
         citizenshipPlaceholder:'आफ्नो नागरिकता नम्बर प्रविष्ट गर्नुहोस्',
         createAccount:'खाता सिर्जना गर्नुहोस्',
@@ -192,6 +191,9 @@ const Translate={
         emailplaceholder:'आफ्नो इमेल प्रविष्ट गर्नुहोस्',
         password:'पासवर्ड',
         passwordPlaceholder:'पासवर्ड सिर्जना गर्नुहोस्',
+        Notifications:'सूचनाहरू',
+        MarkAllAsRead:'सबै पढिएको रूपमा चिह्नित गर्नुहोस्',
+        NoNotificationsYet:'अहिले कुनै सूचना छैन',
 
 
     }

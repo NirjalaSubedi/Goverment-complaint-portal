@@ -77,7 +77,10 @@ const Translate = {
         'cancel': 'Cancel',
         'submit': 'Submit',
         'Settings': 'Settings',
-        'Logout': 'Logout'
+        'Logout': 'Logout',
+        'Notifications': 'Notifications',
+        'MarkAllAsRead': 'Mark all as read',
+        'NoNotificationsYet': 'No notifications yet'
     },
     'ne': {
             'CompletedDesc': 'सबै सफलतापूर्वक समाधान भएका उजुरीहरू हेर्नुहोस्',
@@ -155,7 +158,10 @@ const Translate = {
         'cancel': 'रद्द गर्नुहोस्',
         'submit': 'पेश गर्नुहोस्',
         'Settings': 'सेटिङ्स',
-        'Logout': 'लगआउट'
+        'Logout': 'लगआउट',
+        'Notifications': 'सूचनाहरू',
+        'MarkAllAsRead': 'सबै पढिएको रूपमा चिह्नित गर्नुहोस्',
+        'NoNotificationsYet': 'अहिले कुनै सूचना छैन'
     }
 };
 
@@ -408,6 +414,13 @@ function applyTranslations() {
     // Update Add button on myComplaints
     const addTitleBtn = document.getElementById('addtitle');
     if (addTitleBtn) addTitleBtn.innerHTML = `<i class="material-icons" id="add">add</i> ${Translate[lang].add}`;
+    
+    // Update notification header and button text
+    const notificationHeaderText = document.getElementById('notification-header-text');
+    if (notificationHeaderText) notificationHeaderText.innerText = Translate[lang].Notifications;
+    
+    const markAllReadBtn = document.getElementById('mark-all-read-btn');
+    if (markAllReadBtn) markAllReadBtn.innerText = Translate[lang].MarkAllAsRead;
 }
 
 document.addEventListener('DOMContentLoaded', function(){
