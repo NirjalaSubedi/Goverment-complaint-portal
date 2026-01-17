@@ -276,7 +276,31 @@
             if (dd.classList.contains('show')) loadNotifications();
         }
 
-    }
+        // Attach listeners
+        document.addEventListener('DOMContentLoaded', ()=>{
+            setLocalizedTexts();
+            loadNotifications();
+            setInterval(loadNotifications, 30000);
+
+            const icon = document.getElementById('notifications-icon');
+            if (icon) icon.addEventListener('click', (e)=>{ e.stopPropagation(); toggleNotificationDropdown(); });
+
+            const list = document.getElementById('notification-list');
+            if (list) list.addEventListener('click', (e)=>{
+                const item = e.target.closest('.notification-item');
+                if (item){ markNotificationAsRead(item.getAttribute('data-id')); }
+            });
+
+            const markAllBtn = document.getElementById('mark-all-read-btn');
+            if (markAllBtn) markAllBtn.addEventListener('click', (e)=>{ e.stopPropagation(); markAllNotificationsRead(); });
+
+            document.addEventListener('click', (e)=>{
+                const dd = document.getElementById('notification-dropdown');
+                const iconEl = document.getElementById('notifications-icon');
+                if (dd && !dd.contains(e.target) && e.target !== iconEl){ dd.classList.remove('show'); }
+            });
+        });
+    })();
 </script>
 
 </body>
