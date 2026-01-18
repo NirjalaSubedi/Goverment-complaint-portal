@@ -23,7 +23,11 @@ const settingsTranslations = {
         emailNotifications: 'Email Notifications',
         emailNotificationsDesc: 'Receive notifications via email',
         complaintUpdates: 'Complaint Updates',
-        complaintUpdatesDesc: 'Updates on complaint status'
+        complaintUpdatesDesc: 'Updates on complaint status',
+        
+        // Notification Dropdown
+        notificationHeader: 'Notifications',
+        markAllAsRead: 'Mark all as read'
     },
     'ne': {
         languageToggle: 'English',
@@ -48,7 +52,11 @@ const settingsTranslations = {
         emailNotifications: 'इमेल सूचनाहरू',
         emailNotificationsDesc: 'इमेल मार्फत सूचनाहरू प्राप्त गर्नुहोस्',
         complaintUpdates: 'गुनासो अपडेटहरू',
-        complaintUpdatesDesc: 'गुनासो स्थितिमा अपडेटहरू'
+        complaintUpdatesDesc: 'गुनासो स्थितिमा अपडेटहरू',
+        
+        // Notification Dropdown
+        notificationHeader: 'सूचनाहरू',
+        markAllAsRead: 'सबै पढिएको रूपमा चिन्हित गर्नुहोस्'
     }
 };
 
@@ -104,6 +112,13 @@ function updateSettingsContent() {
     const notificationDescs = document.querySelectorAll('.notificationDesc');
     if (notificationDescs[0]) notificationDescs[0].textContent = lang.emailNotificationsDesc;
     if (notificationDescs[1]) notificationDescs[1].textContent = lang.complaintUpdatesDesc;
+    
+    // Update Notification Dropdown
+    const notificationHeaderText = document.getElementById('notification-header-text');
+    if (notificationHeaderText) notificationHeaderText.textContent = lang.notificationHeader;
+    
+    const markAllReadBtn = document.getElementById('mark-all-read-btn');
+    if (markAllReadBtn) markAllReadBtn.textContent = lang.markAllAsRead;
 }
 
 // Function to toggle language
