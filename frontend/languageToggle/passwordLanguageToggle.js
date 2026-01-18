@@ -1,7 +1,4 @@
-let currentLanguage = localStorage.getItem('officerLanguage') || localStorage.getItem('citizenLanguage') || 'en';
-console.log('Initial language loaded:', currentLanguage);
-console.log('officerLanguage:', localStorage.getItem('officerLanguage'));
-console.log('citizenLanguage:', localStorage.getItem('citizenLanguage'));
+let currentLanguage = localStorage.getItem('currentLanguage') || 'en';
 const passwordTranslations = {
     'en': {
         languageToggle: 'नेपाली',
@@ -152,34 +149,7 @@ function updatePasswordPageContent() {
     }
 }
 
-// Function to toggle language
-function togglePasswordLanguage() {
-    currentLanguage = currentLanguage === 'en' ? 'ne' : 'en';
-    
-    // Save to both storage keys to maintain consistency
-    const userType = sessionStorage.getItem('userType') || 'Citizen';
-    if (userType === 'Officer') {
-        localStorage.setItem('officerLanguage', currentLanguage);
-    } else {
-        localStorage.setItem('citizenLanguage', currentLanguage);
-    }
-    
-    updatePasswordPageContent();
-}
 
-// Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
-    // Apply language immediately
     updatePasswordPageContent();
-    console.log('Password page initialized with language: ' + currentLanguage);
-    
-    window.currentLanguageDebug = currentLanguage;
 });
-
-if (document.readyState === 'loading') {
-} else {
-    setTimeout(function() {
-        updatePasswordPageContent();
-        console.log('Password page language applied immediately: ' + currentLanguage);
-    }, 50);
-}
