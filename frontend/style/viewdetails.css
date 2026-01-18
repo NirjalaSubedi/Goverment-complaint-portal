@@ -137,7 +137,7 @@
 }
 
 .completion-header .material-icons {
-    color: #12b112;
+    color: #0d55e7;
     font-size: 26px;
 }
 
@@ -199,7 +199,7 @@
     padding: 10px 15px;
     background: white;
     border-radius: 8px;
-    color: #12b112;
+    color: #0d55e7;
     font-weight: 600;
     display: none;
 }
@@ -209,7 +209,7 @@
 }
 
 .complete-task-btn {
-    background: linear-gradient(135deg, #12b112 0%, #0d8f0d 100%);
+    background: linear-gradient(135deg, #0d55e7 0%, #0940c1 100%);
     color: white;
     border: none;
     padding: 16px 36px;
@@ -218,7 +218,7 @@
     font-size: 16px;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 6px 20px rgba(18, 177, 18, 0.3);
+    box-shadow: 0 6px 20px rgba(13, 85, 231, 0.3);
     display: inline-flex;
     align-items: center;
     gap: 10px;
