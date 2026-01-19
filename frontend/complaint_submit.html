@@ -12,7 +12,7 @@
     <div class="Container-complaint">
         <div class="title-complaint">
             <div class="arrowicon">
-                <a  href="citizendashboard.html" class="material-icons" style="color:black;text-decoration: none;">arrow_back</a>
+                <a href="#" id="backButton" class="material-icons" style="color:black;text-decoration: none;">arrow_back</a>
             </div>
             <div class="title-text">
                 <h2 id="title22">title</h2>
@@ -53,6 +53,38 @@
         </form>
     </div>
     <script>
+        // Handle back button navigation
+        document.addEventListener('DOMContentLoaded', async function() {
+            const backButton = document.getElementById('backButton');
+            if (backButton) {
+                backButton.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    
+                    // Check if user is logged in
+                    let isLoggedIn = false;
+                    try {
+                        const response = await fetch('../backend/fetchprofile.php', { 
+                            credentials: 'include' 
+                        });
+                        isLoggedIn = response.ok && response.status === 200;
+                    } catch (err) {
+                        isLoggedIn = false;
+                    }
+                    
+                    const referrer = sessionStorage.getItem('complaintReferrer');
+                    
+                    // If not logged in OR came from index.html, go to index.html
+                    if (!isLoggedIn || referrer === 'index.html') {
+                        sessionStorage.removeItem('complaintReferrer');
+                        window.location.href = 'index.html';
+                    } else {
+                        // User is logged in and didn't come from index, go to citizen dashboard
+                        window.location.href = 'citizendashboard.html';
+                    }
+                });
+            }
+        });
+
         (function() {
             let currentDraftId = '';
 
