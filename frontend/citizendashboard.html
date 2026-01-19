@@ -238,8 +238,8 @@
             <p class="quickActionsHeading navigation">Quick Actions</p>
             <div class="actionButtons">
                 <div class="NewComplaint nav-btn" id="addComplaints">
-                    <a class="material-icons" style="color:green" href="complaint_submit.html" >add</a>
-                    <a href="complaint_submit.html"  class="newComplaintText">New Complaint</a>
+                    <a class="material-icons" style="color:green" href="#" id="newComplaintIcon" >add</a>
+                    <a href="#" id="newComplaintText" class="newComplaintText">New Complaint</a>
                 </div>
             </div>
         </div>
@@ -618,6 +618,7 @@
 
         function openDraft(draftId) {
             localStorage.setItem('draftToEditId', draftId);
+            sessionStorage.removeItem('complaintReferrer');
             window.location.href = 'complaint_submit.html';
         }
 
@@ -886,6 +887,28 @@
         // Load complaints when page loads
         document.addEventListener('DOMContentLoaded', loadComplaints);
         document.addEventListener('DOMContentLoaded', renderDrafts);
+        
+        // Handle new complaint button clicks
+        document.addEventListener('DOMContentLoaded', function() {
+            const newComplaintIcon = document.getElementById('newComplaintIcon');
+            const newComplaintText = document.getElementById('newComplaintText');
+            
+            if (newComplaintIcon) {
+                newComplaintIcon.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    sessionStorage.removeItem('complaintReferrer');
+                    window.location.href = 'complaint_submit.html';
+                });
+            }
+            
+            if (newComplaintText) {
+                newComplaintText.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    sessionStorage.removeItem('complaintReferrer');
+                    window.location.href = 'complaint_submit.html';
+                });
+            }
+        });
         
         // Load completed complaints
         function loadCompletedComplaints() {
