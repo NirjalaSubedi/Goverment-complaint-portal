@@ -148,6 +148,7 @@
         const submitComplaintBtns = document.querySelectorAll('.submit-complaint, .complaint-btn');
         submitComplaintBtns.forEach(btn => {
             btn.addEventListener('click', function(){
+                sessionStorage.setItem('complaintReferrer', 'index.html');
                 window.location.href='complaint_submit.html';
             });
         });
