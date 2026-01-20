@@ -1625,7 +1625,6 @@ input:checked + .slider:before {
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
 }
-
 .profile-field p {
 	margin: 0;
 	padding: 10px 12px;
