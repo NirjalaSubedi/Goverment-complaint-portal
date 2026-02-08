@@ -82,28 +82,29 @@ try {
         
         $responseStmt->close();
         
-        // Fetch completion activity if complaint is completed
-        $completionData = null;
-        if ($complaint['status'] === 'Completed' || $complaint['status'] === 'Resolved') {
-            $completionSql = "SELECT 
-                                ca.activity_text,
-                                ca.activity_date,
-                                ca.file_path,
-                                u.full_name as officer_name
-                            FROM complaintactivity ca
-                            LEFT JOIN users u ON ca.actor_id = u.user_id
-                            WHERE ca.complaint_id = ? 
-                            AND ca.activity_type = 'StatusChange'
-                            ORDER BY ca.activity_date DESC
-                            LIMIT 1";
-            
-            $completionStmt = $conn->prepare($completionSql);
+        // Fetch completion activity history
+        $completionHistory = [];
+        $completionSql = "SELECT 
+                            ca.activity_text,
+                            ca.activity_date,
+                            ca.file_path,
+                            ca.status_changed_to,
+                            u.full_name as officer_name
+                        FROM complaintactivity ca
+                        LEFT JOIN users u ON ca.actor_id = u.user_id
+                        WHERE ca.complaint_id = ? 
+                        AND ca.activity_type = 'StatusChange'
+                        AND (ca.status_changed_to = 'Resolved' OR ca.status_changed_to = 'Completed')
+                        ORDER BY ca.activity_date DESC";
+        
+        $completionStmt = $conn->prepare($completionSql);
+        if ($completionStmt) {
             $completionStmt->bind_param('i', $complaintId);
             $completionStmt->execute();
             $completionResult = $completionStmt->get_result();
             
-            if ($completionResult->num_rows > 0) {
-                $completionData = $completionResult->fetch_assoc();
+            while ($row = $completionResult->fetch_assoc()) {
+                $completionHistory[] = $row;
             }
             
             $completionStmt->close();
@@ -130,7 +131,7 @@ try {
             'success' => true,
             'complaint' => $complaint,
             'responses' => $responses,
-            'completion' => $completionData,
+            'completion_history' => $completionHistory,
             'officer_department_id' => $officerDepartmentId,
             'officer_department_name' => $officerDepartmentName
         ]);
