@@ -29,6 +29,7 @@ FROM complaints c
 LEFT JOIN complaintcategories cc ON c.category_id = cc.category_id
 LEFT JOIN users u ON c.citizen_id = u.user_id
 LEFT JOIN departments d ON c.department_id = d.department_id
+WHERE c.status IN ('InProgress', 'Resolved', 'Completed')
 ORDER BY c.submission_date DESC";
 
 $stmt = $conn->prepare($query);
