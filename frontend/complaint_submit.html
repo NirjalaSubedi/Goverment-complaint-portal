@@ -87,6 +87,7 @@
 
         (function() {
             let currentDraftId = '';
+            const draftIdParam = new URLSearchParams(window.location.search).get('draft_id');
 
             async function saveDraft() {
                 const payload = {
@@ -118,9 +119,13 @@
             }
 
             async function preloadDraft() {
-                const storedId = localStorage.getItem('draftToEditId');
-                if (!storedId) return;
-                currentDraftId = storedId;
+                if (draftIdParam) {
+                    currentDraftId = draftIdParam;
+                    localStorage.setItem('draftToEditId', draftIdParam);
+                } else {
+                    localStorage.removeItem('draftToEditId');
+                    return;
+                }
                 try {
                     const res = await fetch('../backend/getdrafts.php', { credentials: 'include' });
                     const data = await res.json();
