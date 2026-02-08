@@ -405,8 +405,8 @@
                         <tr id="no-completed-complaints-row" style="display:none;">
                             <td colspan="5" style="text-align: center; padding: 40px; background: white;">
                                 <i class="material-icons" style="font-size: 48px; color: #4caf50; display: block; margin-bottom: 10px;">check_circle_outline</i>
-                                <p style="color: #999; font-size: 16px; margin: 0;">No completed complaints yet</p>
-                                <p style="color: #bbb; font-size: 14px; margin: 4px 0;">Completed complaints will appear here</p>
+                                <p data-translate-key="noCompletedComplaints" style="color: #999; font-size: 16px; margin: 0;">No completed complaints yet</p>
+                                <p data-translate-key="completedComplaintsHint" style="color: #bbb; font-size: 14px; margin: 4px 0;">Completed complaints will appear here</p>
                             </td>
                         </tr>
                     </tbody>
@@ -971,11 +971,23 @@
                     tableBody.innerHTML = '';
                     
                     if (completedComplaints.length === 0) {
+                        const lang = typeof getActiveCitizenLanguage === 'function' ? getActiveCitizenLanguage() : 'en';
+                        const noCompletedText = (typeof Translate !== 'undefined' && Translate[lang] && Translate[lang].noCompletedComplaints)
+                            ? Translate[lang].noCompletedComplaints
+                            : 'No completed complaints yet';
+                        const completedHintText = (typeof Translate !== 'undefined' && Translate[lang] && Translate[lang].completedComplaintsHint)
+                            ? Translate[lang].completedComplaintsHint
+                            : 'Completed complaints will appear here';
+
                         if (noComplaintsRow) {
                             noComplaintsRow.style.display = '';
+                            const titleEl = noComplaintsRow.querySelector('[data-translate-key="noCompletedComplaints"]');
+                            const hintEl = noComplaintsRow.querySelector('[data-translate-key="completedComplaintsHint"]');
+                            if (titleEl) titleEl.textContent = noCompletedText;
+                            if (hintEl) hintEl.textContent = completedHintText;
                             tableBody.appendChild(noComplaintsRow);
                         } else {
-                            tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px;"><i class="material-icons" style="font-size: 48px; color: #ccc; display:block; margin-bottom: 10px;">check_circle</i><p style="color: #666;">No completed complaints yet</p></td></tr>';
+                            tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px;"><i class="material-icons" style="font-size: 48px; color: #ccc; display:block; margin-bottom: 10px;">check_circle</i><p style="color: #666; margin: 0;">' + noCompletedText + '</p><p style="color: #999; margin: 4px 0;">' + completedHintText + '</p></td></tr>';
                         }
                     } else {
                         if (noComplaintsRow) {
