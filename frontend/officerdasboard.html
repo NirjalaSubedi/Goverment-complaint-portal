@@ -345,8 +345,75 @@
         }
     }
 
+    function getOfficerLang() {
+        const storedLang = localStorage.getItem('currentLanguage');
+        const langKey = storedLang || (typeof currentLanguage !== 'undefined' ? currentLanguage : 'en');
+        if (typeof officerTranslations !== 'undefined' && officerTranslations[langKey]) {
+            return officerTranslations[langKey];
+        }
+        if (typeof officerTranslations !== 'undefined' && officerTranslations.en) {
+            return officerTranslations.en;
+        }
+        return {
+            viewDetails: 'View Details',
+            review: 'Review',
+            approve: 'Approve',
+            reject: 'Reject',
+            assignedToMe: 'Assigned to me',
+            noComplaintsFound: 'No complaints found',
+            noAssignedComplaints: 'No assigned complaints',
+            noPendingComplaints: 'No pending complaints',
+            noCompletedComplaints: 'No completed complaints yet',
+            completedTasksHint: 'Completed tasks will appear here',
+            statusPending: 'Pending',
+            statusInProgress: 'In Progress',
+            statusResolved: 'Resolved',
+            statusCompleted: 'Completed',
+            statusRejected: 'Rejected',
+            priorityHigh: 'High',
+            priorityMedium: 'Medium',
+            priorityLow: 'Low'
+        };
+    }
+
+    function getStatusLabel(statusValue, lang) {
+        const value = (statusValue || '').toString().trim().toLowerCase();
+        if (value === 'inprogress' || value === 'in progress') return lang.statusInProgress;
+        if (value === 'resolved') return lang.statusResolved;
+        if (value === 'completed') return lang.statusCompleted;
+        if (value === 'rejected') return lang.statusRejected;
+        if (value === 'pending' || value === '') return lang.statusPending;
+        return statusValue || lang.statusPending;
+    }
+
+    function getPriorityLabel(priorityValue, lang) {
+        const value = (priorityValue || '').toString().trim().toLowerCase();
+        if (value === 'high') return lang.priorityHigh;
+        if (value === 'medium') return lang.priorityMedium;
+        if (value === 'low') return lang.priorityLow;
+        return priorityValue || lang.priorityMedium;
+    }
+
+    function applyOfficerStaticLabels() {
+        if (typeof officerTranslations === 'undefined' || !officerTranslations[currentLanguage]) return;
+        const lang = officerTranslations[currentLanguage];
+        document.querySelectorAll('.viewDetailsBtn').forEach(btn => {
+            const label = (btn.textContent || '').trim().toLowerCase();
+            if (label === 'view details' || label === 'विवरण हेर्नुहोस्') {
+                btn.textContent = lang.viewDetails;
+            } else if (label === 'review' || label === 'समीक्षा') {
+                btn.textContent = lang.review;
+            } else if (label === 'approve' || label === 'स्वीकृत') {
+                btn.textContent = lang.approve;
+            } else if (label === 'reject' || label === 'अस्वीकृत') {
+                btn.textContent = lang.reject;
+            }
+        });
+    }
+
     // Load all complaints
     function loadAllComplaints() {
+        const lang = getOfficerLang();
         fetch('../backend/getallcomplaints.php')
             .then(response => response.json())
             .then(data => {
@@ -392,26 +459,28 @@
                         // Status styling
                         let statusBadge = '';
                         const complaintStatus = complaint.status ? complaint.status.toLowerCase() : '';
+                        const statusLabel = getStatusLabel(complaint.status, lang);
                         
                         if (complaintStatus === 'inprogress') {
-                            statusBadge = `<span style="background-color: #E3F2FD; color: #1976D2; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-block;">${complaint.status}</span>`;
+                            statusBadge = `<span style="background-color: #E3F2FD; color: #1976D2; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-block;">${statusLabel}</span>`;
                         } else if (complaintStatus === 'resolved' || complaintStatus === 'completed') {
-                            statusBadge = `<span style="background-color: #E8F5E9; color: #2E7D32; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-block;">${complaint.status}</span>`;
+                            statusBadge = `<span style="background-color: #E8F5E9; color: #2E7D32; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-block;">${statusLabel}</span>`;
                         } else if (complaintStatus === 'rejected') {
-                            statusBadge = `<span style="background-color: #FFEBEE; color: #C62828; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-block;">${complaint.status}</span>`;
+                            statusBadge = `<span style="background-color: #FFEBEE; color: #C62828; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-block;">${statusLabel}</span>`;
                         } else {
-                            statusBadge = `<span style="background-color: #FFF3E0; color: #E65100; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-block;">${complaint.status || 'Pending'}</span>`;
+                            statusBadge = `<span style="background-color: #FFF3E0; color: #E65100; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-block;">${statusLabel}</span>`;
                         }
                         
                         // Priority styling
                         let priorityBadge = '';
                         let priorityText = complaint.priority_level || 'Medium';
+                        let priorityLabel = getPriorityLabel(priorityText, lang);
                         if (priorityText === 'High') {
-                            priorityBadge = `<span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; background-color: #DC2626; border-radius: 50%; display: inline-block;"></span><span style="color: #DC2626; font-weight: 500;">${priorityText}</span></span>`;
+                            priorityBadge = `<span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; background-color: #DC2626; border-radius: 50%; display: inline-block;"></span><span style="color: #DC2626; font-weight: 500;">${priorityLabel}</span></span>`;
                         } else if (priorityText === 'Medium') {
-                            priorityBadge = `<span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; background-color: #F59E0B; border-radius: 50%; display: inline-block;"></span><span style="color: #F59E0B; font-weight: 500;">${priorityText}</span></span>`;
+                            priorityBadge = `<span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; background-color: #F59E0B; border-radius: 50%; display: inline-block;"></span><span style="color: #F59E0B; font-weight: 500;">${priorityLabel}</span></span>`;
                         } else {
-                            priorityBadge = `<span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; background-color: #10B981; border-radius: 50%; display: inline-block;"></span><span style="color: #10B981; font-weight: 500;">${priorityText}</span></span>`;
+                            priorityBadge = `<span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; background-color: #10B981; border-radius: 50%; display: inline-block;"></span><span style="color: #10B981; font-weight: 500;">${priorityLabel}</span></span>`;
                         }
                         
                         // Format date
@@ -437,14 +506,15 @@
                             <td style="padding: 18px;">${priorityBadge}</td>
                             <td style="padding: 18px;"><p style="margin: 0; color: #555; font-size: 14px;">${date}</p></td>
                             <td style="padding: 18px;">
-                                <button class="viewDetailsBtn" onclick="viewComplaintDetails(${complaint.complaint_id})" style="background-color: #2196F3; color: white; border: none; padding: 8px 20px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">View Details</button>
+                                <button class="viewDetailsBtn" onclick="viewComplaintDetails(${complaint.complaint_id})" style="background-color: #2196F3; color: white; border: none; padding: 8px 20px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">${lang.viewDetails}</button>
                             </td>
                         `;
                         
                         tbody.appendChild(row);
                     });
+                    applyOfficerStaticLabels();
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px;"><p style="color: #999; font-size: 16px;">No complaints found</p></td></tr>';
+                    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 40px;"><p style="color: #999; font-size: 16px;">${lang.noComplaintsFound}</p></td></tr>`;
                 }
             })
             .catch(error => console.error('Error loading complaints:', error));
@@ -452,6 +522,7 @@
 
     // Load assigned complaints
     function loadAssignedComplaints() {
+        const lang = getOfficerLang();
         fetch('../backend/getassignedcomplaints.php')
             .then(response => response.json())
             .then(data => {
@@ -511,20 +582,21 @@
                                         <p style="font-size: 12px; color: #666; margin: 3px 0;">ID: C${String(complaint.complaint_id).padStart(3, '0')}</p>
                                         <p style="font-size: 12px; color: #666; margin: 3px 0;">${complaint.location || 'N/A'}</p>
                                         <div style="margin-top: 8px;">
-                                            <span style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; padding: 5px 12px; border-radius: 16px; font-size: 12px; font-weight: 500; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(76, 175, 80, 0.2);">✓ Assigned to me</span>
+                                            <span style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; padding: 5px 12px; border-radius: 16px; font-size: 12px; font-weight: 500; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(76, 175, 80, 0.2);">✓ ${lang.assignedToMe}</span>
                                         </div>
                                     </div>
                                 </div>
                             </td>
                             <td style="padding: 18px;">
-                                <button class="viewDetailsBtn" onclick="reviewComplaint(${complaint.complaint_id})" style="background-color: #2196F3; color: white; border: none; padding: 8px 20px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">Review</button>
+                                <button class="viewDetailsBtn" onclick="reviewComplaint(${complaint.complaint_id})" style="background-color: #2196F3; color: white; border: none; padding: 8px 20px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">${lang.review}</button>
                             </td>
                         `;
                         
                         tbody.appendChild(tr);
                     });
+                    applyOfficerStaticLabels();
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; padding: 40px;"><p style="color: #999; font-size: 16px;">No assigned complaints</p></td></tr>';
+                    tbody.innerHTML = `<tr><td colspan="2" style="text-align:center; padding: 40px;"><p style="color: #999; font-size: 16px;">${lang.noAssignedComplaints}</p></td></tr>`;
                 }
             })
             .catch(error => console.error('Error loading assigned complaints:', error));
@@ -532,6 +604,7 @@
 
     // Load pending complaints
     function loadPendingComplaints() {
+        const lang = getOfficerLang();
         fetch('../backend/getpendingcomplaints.php')
             .then(response => response.json())
             .then(data => {
@@ -595,15 +668,16 @@
                                 </div>
                             </td>
                             <td style="padding: 18px;" id="approvedeletebtn">
-                                <button class="viewDetailsBtn approveBtn" data-complaint-id="${complaint.complaint_id}" onclick="Approvecomplaints(this)" style="background-color: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; margin-right: 8px; transition: all 0.2s ease;">Approve</button>
-                                <button class="viewDetailsBtn rejectBtn" data-complaint-id="${complaint.complaint_id}" onclick="Rejectcomplaints(this)" style="background-color: #F44336; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">Reject</button>
+                                <button class="viewDetailsBtn approveBtn" data-complaint-id="${complaint.complaint_id}" onclick="Approvecomplaints(this)" style="background-color: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; margin-right: 8px; transition: all 0.2s ease;">${lang.approve}</button>
+                                <button class="viewDetailsBtn rejectBtn" data-complaint-id="${complaint.complaint_id}" onclick="Rejectcomplaints(this)" style="background-color: #F44336; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">${lang.reject}</button>
                             </td>
                         `;
                         
                         tbody.appendChild(tr);
                     });
+                    applyOfficerStaticLabels();
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; padding: 40px;"><p style="color: #999; font-size: 16px;">No pending complaints</p></td></tr>';
+                    tbody.innerHTML = `<tr><td colspan="2" style="text-align:center; padding: 40px;"><p style="color: #999; font-size: 16px;">${lang.noPendingComplaints}</p></td></tr>`;
                 }
             })
             .catch(error => console.error('Error loading pending complaints:', error));
@@ -683,16 +757,19 @@
 
     // Navigate to review page with complaint ID
     function reviewComplaint(complaintId) {
-        window.location.href = `Viewdetails.html?complaint_id=${complaintId}`;
+        const lang = localStorage.getItem('currentLanguage') || 'en';
+        window.location.href = `Viewdetails.html?complaint_id=${complaintId}&lang=${lang}`;
     }
     
     // Navigate to complaint details page
     function viewComplaintDetails(complaintId) {
-        window.location.href = `Viewdetails.html?complaint_id=${complaintId}`;
+        const lang = localStorage.getItem('currentLanguage') || 'en';
+        window.location.href = `Viewdetails.html?complaint_id=${complaintId}&lang=${lang}`;
     }
 
     // Load completed complaints for officers
     function loadOfficerCompletedComplaints() {
+        const lang = getOfficerLang();
         console.log('Loading officer completed complaints...');
         fetch('../backend/getassignedcomplaints.php')
             .then(response => response.json())
@@ -783,7 +860,7 @@
                                         <div style="margin-top: 10px;">
                                             <span style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);">
                                                 <i class="material-icons" style="font-size:16px;">check_circle</i>
-                                                Completed
+                                                ${lang.statusCompleted}
                                             </span>
                                         </div>
                                     </div>
@@ -791,15 +868,16 @@
                             </td>
                             <td style="padding: 20px;">
                                 <button class="viewDetailsBtn" onclick="viewComplaintDetails(${complaint.complaint_id})" style="background-color: #2196F3; color: white; border: none; padding: 10px 24px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; width: auto; min-width: 120px; transition: all 0.2s ease;">
-                                    View Details
+                                    ${lang.viewDetails}
                                 </button>
                             </td>
                         `;
                         
                         tbody.appendChild(tr);
                     });
+                    applyOfficerStaticLabels();
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; padding:60px;"><i class="material-icons" style="font-size: 64px; color: #d0d0d0; display:block; margin-bottom: 16px;">check_circle_outline</i><p style="color: #888; font-size: 18px; margin: 0;">No completed complaints yet</p><p style="color: #aaa; font-size: 14px; margin-top: 8px;">Completed tasks will appear here</p></td></tr>';
+                    tbody.innerHTML = `<tr><td colspan="2" style="text-align:center; padding:60px;"><i class="material-icons" style="font-size: 64px; color: #d0d0d0; display:block; margin-bottom: 16px;">check_circle_outline</i><p style="color: #888; font-size: 18px; margin: 0;">${lang.noCompletedComplaints}</p><p style="color: #aaa; font-size: 14px; margin-top: 8px;">${lang.completedTasksHint}</p></td></tr>`;
                 }
             })
             .catch(error => console.error('Error loading completed complaints:', error));
