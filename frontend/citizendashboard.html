@@ -319,8 +319,8 @@
             <table class="testTable allcomplaintsTable">
                 <tr class="ComplaintHeader1">
                     <th>COMPLAINT</th>
-                    <th>STATUS</th>
-                    <th>PRIORITY</th>
+                    <th>स्थिति</th>
+                    <th>प्राथमिकता</th>
                     <th>DATE</th>
                     <th>ACTIONS</th>
                 </tr>
@@ -356,7 +356,7 @@
                     <tr class="ComplaintHeader1">
                         <th>COMPLAINT</th>
                         <th>CATEGORY</th>
-                        <th>PRIORITY</th>
+                        <th>प्राथमिकता</th>
                         <th>SAVED DATE</th>
                         <th>ACTIONS</th>
                     </tr>
@@ -395,8 +395,8 @@
                     <thead>
                         <tr class="ComplaintHeader1" style="background: linear-gradient(135deg, #f8f9fa 0%, #f5f7fa 100%); border-bottom: 2px solid #e0e0e0;">
                             <th style="padding: 16px 12px; text-align: left; font-size: 12px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">COMPLAINT</th>
-                            <th style="padding: 16px 12px; text-align: left; font-size: 12px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">STATUS</th>
-                            <th style="padding: 16px 12px; text-align: left; font-size: 12px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">PRIORITY</th>
+                            <th style="padding: 16px 12px; text-align: left; font-size: 12px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">स्थिति</th>
+                            <th style="padding: 16px 12px; text-align: left; font-size: 12px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">प्राथमिकता</th>
                             <th style="padding: 16px 12px; text-align: left; font-size: 12px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">COMPLETED DATE</th>
                             <th style="padding: 16px 12px; text-align: left; font-size: 12px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">ACTIONS</th>
                         </tr>
@@ -704,6 +704,29 @@
             }
         }
 
+        function mapStatusToNepali(status) {
+            const normalized = status ? status.toString().trim().toLowerCase() : 'pending';
+
+            if (normalized === 'pending') return 'प्रतीक्षारत';
+            if (normalized === 'in progress' || normalized === 'inprogress') return 'प्रगतिको क्रममा';
+            if (normalized === 'completed' || normalized === 'resolved') return 'सम्पन्न';
+            if (normalized === 'rejected') return 'अस्वीकृत';
+
+            return status || 'प्रतीक्षारत';
+        }
+
+        function mapPriorityToNepali(priority) {
+            if (!priority) return '--';
+
+            const normalized = priority.toString().trim().toLowerCase();
+
+            if (normalized === 'high') return 'उच्च';
+            if (normalized === 'medium') return 'मध्यम';
+            if (normalized === 'low') return 'कम';
+
+            return priority;
+        }
+
         // Load citizen complaints
         function loadComplaints() {
             fetch('../backend/getcitizencomplaint.php', { credentials: 'include' })
@@ -770,7 +793,7 @@
                             }
                             
                             const complaintStatus = complaint.status ? complaint.status.toLowerCase() : 'pending';
-                            const statusDisplay = complaint.status || 'Pending';
+                            const statusDisplay = mapStatusToNepali(complaint.status);
                             
                             // Determine status badge styling
                             let statusBgColor = '#FFF3E0';
@@ -820,7 +843,7 @@
                                 </td>
                                 <td style="padding: 16px 8px;"><span style="padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 13px; background-color: ${statusBgColor}; color: ${statusTextColor};">${statusDisplay}</span></td>
                                 <td style="padding: 16px 8px;">
-                                    <span style="padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 13px; background-color: ${priorityBgColor}; color: ${priorityColor};">● ${complaint.priority_level}</span>
+                                    <span style="padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 13px; background-color: ${priorityBgColor}; color: ${priorityColor};">● ${mapPriorityToNepali(complaint.priority_level)}</span>
                                 </td>
                                 <td style="padding: 16px 8px; color: #666; font-size: 14px;">${date}</td>
                                 <td style="padding: 16px 8px;">
@@ -1030,9 +1053,9 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td style="padding: 16px 12px;"><span style="padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 13px; background-color: #E8F5E9; color: #2E7D32; display: inline-flex; align-items: center; gap: 6px;"><i class="material-icons" style="font-size: 16px;">check_circle</i> Completed</span></td>
+                                <td style="padding: 16px 12px;"><span style="padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 13px; background-color: #E8F5E9; color: #2E7D32; display: inline-flex; align-items: center; gap: 6px;"><i class="material-icons" style="font-size: 16px;">check_circle</i> ${mapStatusToNepali(complaint.status || 'Completed')}</span></td>
                                 <td style="padding: 16px 12px;">
-                                    <span style="padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 13px; background-color: ${priorityBgColor}; color: ${priorityColor}; display: inline-block;">● ${complaint.priority_level}</span>
+                                    <span style="padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 13px; background-color: ${priorityBgColor}; color: ${priorityColor}; display: inline-block;">● ${mapPriorityToNepali(complaint.priority_level)}</span>
                                 </td>
                                 <td style="padding: 16px 12px; color: #666; font-size: 14px; white-space: nowrap;">${date}</td>
                                 <td style="padding: 16px 12px;">
