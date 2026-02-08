@@ -663,7 +663,7 @@
                                             ${complaint.complaint_attachment ? '<i class="material-icons" style="font-size:16px; color:#999; vertical-align: middle; margin-left: 6px;">attachment</i>' : ''}
                                         </div>
                                         <p style="font-size: 12px; color: #666; margin: 3px 0;">ID: C${String(complaint.complaint_id).padStart(3, '0')}</p>
-                                        <p style="font-size: 12px; color: #666; margin: 3px 0;">📍 ${complaint.location || 'N/A'}</p>
+                                        <p style="font-size: 12px; color: #666; margin: 3px 0;">${complaint.location || 'N/A'}</p>
                                     </div>
                                 </div>
                             </td>
