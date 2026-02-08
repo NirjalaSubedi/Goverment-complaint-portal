@@ -319,8 +319,8 @@
             <table class="testTable allcomplaintsTable">
                 <tr class="ComplaintHeader1">
                     <th>COMPLAINT</th>
-                    <th>स्थिति</th>
-                    <th>प्राथमिकता</th>
+                    <th>STATUS</th>
+                    <th>PRIORITY</th>
                     <th>DATE</th>
                     <th>ACTIONS</th>
                 </tr>
@@ -356,7 +356,7 @@
                     <tr class="ComplaintHeader1">
                         <th>COMPLAINT</th>
                         <th>CATEGORY</th>
-                        <th>प्राथमिकता</th>
+                        <th>PRIORITY</th>
                         <th>SAVED DATE</th>
                         <th>ACTIONS</th>
                     </tr>
@@ -395,8 +395,8 @@
                     <thead>
                         <tr class="ComplaintHeader1" style="background: linear-gradient(135deg, #f8f9fa 0%, #f5f7fa 100%); border-bottom: 2px solid #e0e0e0;">
                             <th style="padding: 16px 12px; text-align: left; font-size: 12px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">COMPLAINT</th>
-                            <th style="padding: 16px 12px; text-align: left; font-size: 12px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">स्थिति</th>
-                            <th style="padding: 16px 12px; text-align: left; font-size: 12px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">प्राथमिकता</th>
+                            <th style="padding: 16px 12px; text-align: left; font-size: 12px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">STATUS</th>
+                            <th style="padding: 16px 12px; text-align: left; font-size: 12px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">PRIORITY</th>
                             <th style="padding: 16px 12px; text-align: left; font-size: 12px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">COMPLETED DATE</th>
                             <th style="padding: 16px 12px; text-align: left; font-size: 12px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">ACTIONS</th>
                         </tr>
@@ -671,8 +671,16 @@
                 noDraftsRow.style.display = 'none';
 
                 drafts.forEach(draft => {
+                    const activeLang = typeof getActiveCitizenLanguage === 'function' ? getActiveCitizenLanguage() : 'en';
+                    const untitledText = (typeof Translate !== 'undefined' && Translate[activeLang]) ? Translate[activeLang].UntitledDraft : 'Untitled draft';
+                    const noLocationText = (typeof Translate !== 'undefined' && Translate[activeLang]) ? Translate[activeLang].NoLocationSet : 'No location set';
                     const savedAt = draft.updated_at ? new Date(draft.updated_at).toLocaleString('en-GB', { hour12: false }) : '--';
-                    const priority = draft.priority_level ? draft.priority_level : '--';
+                    const priorityValue = draft.priority_level ? draft.priority_level : '--';
+                    const priorityDisplay = typeof getLocalizedPriority === 'function' ? getLocalizedPriority(priorityValue) : priorityValue;
+                    const categoryValue = draft.complaint_type ? draft.complaint_type : '--';
+                    const categoryDisplay = typeof getLocalizedCategory === 'function' ? getLocalizedCategory(categoryValue) : categoryValue;
+                    const subjectText = draft.subject || untitledText;
+                    const locationText = draft.location || noLocationText;
                     const row = document.createElement('tr');
                     row.setAttribute('data-draft-id', draft.draft_id);
                     row.innerHTML = `
@@ -680,13 +688,13 @@
                             <div class="combine-logo-title" style="gap: 10px; align-items: flex-start;">
                                 
                                 <div class="complaintTitleDetails">
-                                    <p class="complaintTitleText" style="font-weight: 600; margin: 0 0 4px 0;">${draft.subject || 'Untitled draft'}</p>
-                                    <p style="font-size: 13px; color: #666; margin: 0;">${draft.location || 'No location set'}</p>
+                                    <p class="complaintTitleText" style="font-weight: 600; margin: 0 0 4px 0;" ${draft.subject ? '' : 'data-untitled="true"'}>${subjectText}</p>
+                                    <p style="font-size: 13px; color: #666; margin: 0;" ${draft.location ? '' : 'data-location-empty="true"'}>${locationText}</p>
                                 </div>
                             </div>
                         </td>
-                        <td style="padding: 14px 8px; color:#555;">${draft.complaint_type || '--'}</td>
-                        <td style="padding: 14px 8px; color:#555;">${priority}</td>
+                        <td style="padding: 14px 8px; color:#555;" data-category="${categoryValue}">${categoryDisplay}</td>
+                        <td style="padding: 14px 8px; color:#555;" data-priority="${priorityValue}">${priorityValue === '--' ? priorityDisplay : `● ${priorityDisplay}`}</td>
                         <td style="padding: 14px 8px; color:#555;">${savedAt}</td>
                         <td style="padding: 14px 8px; white-space: nowrap;">
                             <button class="viewDetailsBtn" style="margin-right: 8px; background: #1976d2; color: white;" onclick="openDraft('${draft.draft_id}')">Open</button>
@@ -702,29 +710,6 @@
                 const cell = noDraftsRow.querySelector('td');
                 if (cell) cell.textContent = 'Error loading drafts. Please refresh.';
             }
-        }
-
-        function mapStatusToNepali(status) {
-            const normalized = status ? status.toString().trim().toLowerCase() : 'pending';
-
-            if (normalized === 'pending') return 'प्रतीक्षारत';
-            if (normalized === 'in progress' || normalized === 'inprogress') return 'प्रगतिको क्रममा';
-            if (normalized === 'completed' || normalized === 'resolved') return 'सम्पन्न';
-            if (normalized === 'rejected') return 'अस्वीकृत';
-
-            return status || 'प्रतीक्षारत';
-        }
-
-        function mapPriorityToNepali(priority) {
-            if (!priority) return '--';
-
-            const normalized = priority.toString().trim().toLowerCase();
-
-            if (normalized === 'high') return 'उच्च';
-            if (normalized === 'medium') return 'मध्यम';
-            if (normalized === 'low') return 'कम';
-
-            return priority;
         }
 
         // Load citizen complaints
@@ -793,7 +778,8 @@
                             }
                             
                             const complaintStatus = complaint.status ? complaint.status.toLowerCase() : 'pending';
-                            const statusDisplay = mapStatusToNepali(complaint.status);
+                            const statusValue = complaint.status || 'Pending';
+                            const statusDisplay = typeof getLocalizedStatus === 'function' ? getLocalizedStatus(statusValue) : statusValue;
                             
                             // Determine status badge styling
                             let statusBgColor = '#FFF3E0';
@@ -819,6 +805,8 @@
                                 priorityColor = '#F59E0B';
                                 priorityBgColor = '#FEF3C7';
                             }
+                            const priorityValue = complaint.priority_level || '--';
+                            const priorityDisplay = typeof getLocalizedPriority === 'function' ? getLocalizedPriority(priorityValue) : priorityValue;
                             
                             const row = document.createElement('tr');
                             row.style.cssText = 'border-bottom: 1px solid #f0f0f0; transition: background-color 0.2s ease;';
@@ -841,9 +829,9 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td style="padding: 16px 8px;"><span style="padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 13px; background-color: ${statusBgColor}; color: ${statusTextColor};">${statusDisplay}</span></td>
+                                <td style="padding: 16px 8px;"><span style="padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 13px; background-color: ${statusBgColor}; color: ${statusTextColor};" data-status="${statusValue}">${statusDisplay}</span></td>
                                 <td style="padding: 16px 8px;">
-                                    <span style="padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 13px; background-color: ${priorityBgColor}; color: ${priorityColor};">● ${mapPriorityToNepali(complaint.priority_level)}</span>
+                                    <span style="padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 13px; background-color: ${priorityBgColor}; color: ${priorityColor};" data-priority="${priorityValue}">${priorityValue === '--' ? priorityDisplay : `● ${priorityDisplay}`}</span>
                                 </td>
                                 <td style="padding: 16px 8px; color: #666; font-size: 14px;">${date}</td>
                                 <td style="padding: 16px 8px;">
@@ -1031,6 +1019,10 @@
                                 priorityColor = '#F59E0B';
                                 priorityBgColor = '#FEF3C7';
                             }
+                            const priorityValue = complaint.priority_level || '--';
+                            const priorityDisplay = typeof getLocalizedPriority === 'function' ? getLocalizedPriority(priorityValue) : priorityValue;
+                            const statusValue = complaint.status || 'Completed';
+                            const statusDisplay = typeof getLocalizedStatus === 'function' ? getLocalizedStatus(statusValue) : statusValue;
                             
                             const row = document.createElement('tr');
                             row.style.cssText = 'border-bottom: 1px solid #f0f0f0; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer;';
@@ -1053,9 +1045,9 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td style="padding: 16px 12px;"><span style="padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 13px; background-color: #E8F5E9; color: #2E7D32; display: inline-flex; align-items: center; gap: 6px;"><i class="material-icons" style="font-size: 16px;">check_circle</i> ${mapStatusToNepali(complaint.status || 'Completed')}</span></td>
+                                <td style="padding: 16px 12px;"><span style="padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 13px; background-color: #E8F5E9; color: #2E7D32; display: inline-flex; align-items: center; gap: 6px;" data-status="${statusValue}"><i class="material-icons" style="font-size: 16px;">check_circle</i> <span class="status-text">${statusDisplay}</span></span></td>
                                 <td style="padding: 16px 12px;">
-                                    <span style="padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 13px; background-color: ${priorityBgColor}; color: ${priorityColor}; display: inline-block;">● ${mapPriorityToNepali(complaint.priority_level)}</span>
+                                    <span style="padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 13px; background-color: ${priorityBgColor}; color: ${priorityColor}; display: inline-block;" data-priority="${priorityValue}">${priorityValue === '--' ? priorityDisplay : `● ${priorityDisplay}`}</span>
                                 </td>
                                 <td style="padding: 16px 12px; color: #666; font-size: 14px; white-space: nowrap;">${date}</td>
                                 <td style="padding: 16px 12px;">

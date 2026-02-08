@@ -31,6 +31,7 @@ const Translate = {
         'Being Processed': 'Being Processed',
         'completed': 'completed',
         'Success resolved ': 'Success resolved ',
+        'rejected': 'Rejected',
         'Sort': 'Sort',
         'COMPLAINT': 'COMPLAINT',
         'STATUS': 'STATUS',
@@ -112,6 +113,7 @@ const Translate = {
         'Being Processed': 'प्रक्रियामा छ',
         'completed': 'सम्पन्न भयो',
         'Success resolved ': 'सफलतापूर्वक समाधान भयो ',
+        'rejected': 'अस्वीकृत',
         'Sort': 'क्रमबद्ध गर्नुहोस्',
         'COMPLAINT': 'उजुरी',
         'STATUS': 'स्थिति',
@@ -241,12 +243,14 @@ function initializeLanguage() {
 function LanguageTranslate() {
     currentLanguage = currentLanguage === 'en' ? 'ne' : 'en';
     localStorage.setItem('currentLanguage', currentLanguage);
+    localStorage.setItem('citizenLanguage', currentLanguage);
 
     applyTranslations();
 }
 
 function applyTranslations() {
     const lang = currentLanguage;
+    const previousLang = window.__lastAppliedLanguage;
 
     const langToggleBtn = document.getElementById('language-toggle');
     if (langToggleBtn) langToggleBtn.innerHTML = `<i class="material-icons">language</i> ${Translate[lang].languageToggle}`;
@@ -421,6 +425,14 @@ function applyTranslations() {
     
     const markAllReadBtn = document.getElementById('mark-all-read-btn');
     if (markAllReadBtn) markAllReadBtn.innerText = Translate[lang].MarkAllAsRead;
+
+    if (previousLang !== lang) {
+        if (typeof refreshCitizenTablesForLanguage === 'function') {
+            refreshCitizenTablesForLanguage();
+        }
+    }
+
+    window.__lastAppliedLanguage = lang;
 }
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -435,3 +447,75 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     });
 });
+
+function getActiveCitizenLanguage() {
+    return localStorage.getItem('citizenLanguage') || localStorage.getItem('currentLanguage') || currentLanguage || 'en';
+}
+
+function getLocalizedStatus(statusValue) {
+    const lang = getActiveCitizenLanguage();
+    const value = (statusValue || '').toString().trim().toLowerCase();
+
+    if (value === 'in progress' || value === 'inprogress') return Translate[lang].inProgress;
+    if (value === 'completed' || value === 'resolved') return Translate[lang].completed;
+    if (value === 'rejected') return Translate[lang].rejected;
+    if (value === 'pending' || value === '') return Translate[lang].pending;
+
+    return statusValue || Translate[lang].pending;
+}
+
+function getLocalizedPriority(priorityValue) {
+    const lang = getActiveCitizenLanguage();
+    const value = (priorityValue || '').toString().trim().toLowerCase();
+
+    if (value === 'high') return Translate[lang].High;
+    if (value === 'medium') return Translate[lang].medium;
+    if (value === 'low') return Translate[lang].low;
+
+    return priorityValue || '--';
+}
+
+function getLocalizedCategory(categoryValue) {
+    const lang = getActiveCitizenLanguage();
+    const value = (categoryValue || '').toString().trim().toLowerCase();
+
+    if (value.includes('corruption')) return Translate[lang].corruption;
+    if (value.includes('anti-corruption')) return Translate[lang].corruption;
+    if (value.includes('road')) return Translate[lang].roaddamage;
+    if (value.includes('water')) return Translate[lang].waterSupply;
+    if (value.includes('electric')) return Translate[lang].electricity;
+    if (value.includes('health')) return Translate[lang].HealthCare;
+
+    return categoryValue || '--';
+}
+
+function refreshCitizenTablesForLanguage() {
+    const lang = getActiveCitizenLanguage();
+
+    document.querySelectorAll('[data-status]').forEach(el => {
+        const statusValue = el.getAttribute('data-status');
+        const label = getLocalizedStatus(statusValue);
+        const statusText = el.querySelector('.status-text');
+        if (statusText) statusText.textContent = label;
+        else el.textContent = label;
+    });
+
+    document.querySelectorAll('[data-priority]').forEach(el => {
+        const priorityValue = el.getAttribute('data-priority');
+        const label = getLocalizedPriority(priorityValue);
+        el.textContent = priorityValue === '--' ? label : `● ${label}`;
+    });
+
+    document.querySelectorAll('[data-category]').forEach(el => {
+        const categoryValue = el.getAttribute('data-category');
+        el.textContent = getLocalizedCategory(categoryValue);
+    });
+
+    document.querySelectorAll('[data-untitled="true"]').forEach(el => {
+        el.textContent = Translate[lang].UntitledDraft;
+    });
+
+    document.querySelectorAll('[data-location-empty="true"]').forEach(el => {
+        el.textContent = Translate[lang].NoLocationSet;
+    });
+}
