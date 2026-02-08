@@ -635,6 +635,7 @@
                     alert('Complaint approved successfully!');
                     // Reload pending complaints to remove approved complaint
                     loadPendingComplaints();
+                    loadAllComplaints();
                 } else {
                     alert('Error: ' + data.error);
                 }
@@ -644,6 +645,7 @@
                 console.error('Parse error:', e);
                 // Still reload in case the complaint was actually approved
                 loadPendingComplaints();
+                loadAllComplaints();
             }
         })
         .catch(error => {
