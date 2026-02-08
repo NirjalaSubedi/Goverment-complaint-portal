@@ -43,6 +43,26 @@ const officerTranslations = {
         // Common
         viewDetails: 'View Details',
         noComplaintsFound: 'No complaints found',
+        noAssignedComplaints: 'No assigned complaints',
+        noPendingComplaints: 'No pending complaints',
+        noCompletedComplaints: 'No completed complaints yet',
+        completedTasksHint: 'Completed tasks will appear here',
+        review: 'Review',
+        approve: 'Approve',
+        reject: 'Reject',
+        assignedToMe: 'Assigned to me',
+
+        // Status labels
+        statusPending: 'Pending',
+        statusInProgress: 'In Progress',
+        statusResolved: 'Resolved',
+        statusCompleted: 'Completed',
+        statusRejected: 'Rejected',
+
+        // Priority labels
+        priorityHigh: 'High',
+        priorityMedium: 'Medium',
+        priorityLow: 'Low',
         
         // Profile Modal
         profileInformation: 'Profile Information',
@@ -92,6 +112,26 @@ const officerTranslations = {
         // Common
         viewDetails: 'विवरण हेर्नुहोस्',
         noComplaintsFound: 'कुनै गुनासो फेला परेन',
+        noAssignedComplaints: 'मलाई तोकिएको गुनासो छैन',
+        noPendingComplaints: 'कुनै बाँकी गुनासो छैन',
+        noCompletedComplaints: 'अहिलेसम्म कुनै पूरा भएका गुनासो छैन',
+        completedTasksHint: 'पूरा भएका कार्यहरू यहाँ देखिनेछन्',
+        review: 'समीक्षा',
+        approve: 'स्वीकृत',
+        reject: 'अस्वीकृत',
+        assignedToMe: 'मलाई तोकिएको',
+
+        // Status labels
+        statusPending: 'बाँकी',
+        statusInProgress: 'प्रगतिमा',
+        statusResolved: 'समाधान भयो',
+        statusCompleted: 'पूरा भयो',
+        statusRejected: 'अस्वीकृत',
+
+        // Priority labels
+        priorityHigh: 'उच्च',
+        priorityMedium: 'मध्यम',
+        priorityLow: 'कम',
         
         // Profile Modal
         profileInformation: 'प्रोफाइल जानकारी',
@@ -120,7 +160,9 @@ function updateProfileModalLabels() {
 
 // Function to update page content
 function updateOfficerContent() {
-    const lang = officerTranslations[currentLanguage];
+    const storedLang = localStorage.getItem('currentLanguage');
+    if (storedLang) currentLanguage = storedLang;
+    const lang = officerTranslations[currentLanguage] || officerTranslations.en;
     
     // Update language toggle button
     const langBtn = document.getElementById('language-toggle');
@@ -178,13 +220,19 @@ function updateOfficerContent() {
     if (sortText) sortText.textContent = lang.sort;
     
     // Update table headers
-    const tableHeaders = document.querySelectorAll('.ComplaintHeader1 th');
-    if (tableHeaders.length >= 5) {
-        tableHeaders[0].textContent = lang.complaint;
-        tableHeaders[1].textContent = lang.status;
-        tableHeaders[2].textContent = lang.priority;
-        tableHeaders[3].textContent = lang.date;
-        tableHeaders[4].textContent = lang.actions;
+    const mainTableHeaders = document.querySelectorAll('.MainBox .ComplaintHeader1 th');
+    if (mainTableHeaders.length >= 5) {
+        mainTableHeaders[0].textContent = lang.complaint;
+        mainTableHeaders[1].textContent = lang.status;
+        mainTableHeaders[2].textContent = lang.priority;
+        mainTableHeaders[3].textContent = lang.date;
+        mainTableHeaders[4].textContent = lang.actions;
+    }
+
+    const completedTableHeaders = document.querySelectorAll('.completed-officer-section .ComplaintHeader1 th');
+    if (completedTableHeaders.length >= 2) {
+        completedTableHeaders[0].textContent = lang.complaint;
+        completedTableHeaders[1].textContent = lang.actions;
     }
     
     // Update completed section
@@ -210,11 +258,24 @@ function LanguageTranslate() {
     currentLanguage = currentLanguage === 'en' ? 'ne' : 'en';
     localStorage.setItem('currentLanguage', currentLanguage);
     updateOfficerContent();
+    if (typeof loadAllComplaints === 'function') loadAllComplaints();
+    if (typeof loadAssignedComplaints === 'function') loadAssignedComplaints();
+    if (typeof loadPendingComplaints === 'function') loadPendingComplaints();
+    if (typeof loadOfficerCompletedComplaints === 'function') loadOfficerCompletedComplaints();
 }
 
 // Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
+function applyOfficerLanguage() {
     updateOfficerContent();
+    if (typeof loadAllComplaints === 'function') loadAllComplaints();
+    if (typeof loadAssignedComplaints === 'function') loadAssignedComplaints();
+    if (typeof loadPendingComplaints === 'function') loadPendingComplaints();
+    if (typeof loadOfficerCompletedComplaints === 'function') loadOfficerCompletedComplaints();
+    if (typeof applyOfficerStaticLabels === 'function') applyOfficerStaticLabels();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    applyOfficerLanguage();
     
     // Watch for profile modal changes
     const profileModal = document.getElementById('profileModal');
@@ -235,3 +296,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+if (document.readyState !== 'loading') {
+    applyOfficerLanguage();
+}
