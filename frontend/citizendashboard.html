@@ -619,7 +619,7 @@
         function openDraft(draftId) {
             localStorage.setItem('draftToEditId', draftId);
             sessionStorage.removeItem('complaintReferrer');
-            window.location.href = 'complaint_submit.html';
+            window.location.href = `complaint_submit.html?draft_id=${encodeURIComponent(draftId)}`;
         }
 
         async function deleteDraft(draftId) {
@@ -908,6 +908,7 @@
                 newComplaintIcon.addEventListener('click', function(e) {
                     e.preventDefault();
                     sessionStorage.removeItem('complaintReferrer');
+                    localStorage.removeItem('draftToEditId');
                     window.location.href = 'complaint_submit.html';
                 });
             }
@@ -916,6 +917,7 @@
                 newComplaintText.addEventListener('click', function(e) {
                     e.preventDefault();
                     sessionStorage.removeItem('complaintReferrer');
+                    localStorage.removeItem('draftToEditId');
                     window.location.href = 'complaint_submit.html';
                 });
             }
