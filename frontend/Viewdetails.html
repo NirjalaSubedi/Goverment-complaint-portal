@@ -10,22 +10,195 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-
     <div class="container11">
-        <div class="arrowicon" onclick="window.history.back()" style="cursor: pointer;">
-            <i class="material-icons">arrow_back</i>
-        </div>
+        
+            <div class="arrowicon" onclick="window.history.back()" style="cursor: pointer;">
+                <i class="material-icons">arrow_back</i>
+            </div>
         <div class="main-content11" id="mainContent">
             <div class="loading-spinner" id="loadingSpinner">
                 <i class="material-icons" style="animation: spin 1s linear infinite; font-size: 32px;">refresh</i>
-                <span style="margin-left: 10px;">Loading complaint details...</span>
+                <span id="loadingText" style="margin-left: 10px;">Loading complaint details...</span>
             </div>
         </div>
     </div>
 
     <script>
-        // Get complaint ID from URL or localStorage
+        let currentLanguage = localStorage.getItem('currentLanguage') || 'en';
+        const viewDetailsTranslations = {
+            en: {
+                languageToggle: 'नेपाली',
+                pageTitle: 'Complaint Details',
+                loading: 'Loading complaint details...',
+                noComplaintId: 'No complaint ID provided',
+                noComplaintData: 'No complaint data received',
+                loadFailed: 'Failed to load complaint details. Please try again.',
+                complaintDetailsHeading: 'Complaint Details',
+                submittedBy: 'Submitted By',
+                submittedOn: 'Submitted On',
+                location: 'Location',
+                priority: 'Priority',
+                category: 'Category',
+                complaintId: 'Complaint ID',
+                description: 'Description',
+                noDescription: 'No description provided',
+                attachments: 'Attachments',
+                officerResponses: 'Officer Responses',
+                sendResponseToCitizen: 'Send Response to Citizen',
+                responsePlaceholder: 'Write your response or update about this complaint...',
+                sendResponse: 'Send Response',
+                responseSent: 'Response sent successfully!',
+                markTaskCompleted: 'Mark Task as Completed',
+                uploadEvidenceRequired: 'Upload Completion Evidence (Required)',
+                uploadEvidenceHint: 'Click to upload image proof of completion',
+                markAsCompleted: 'Mark as Completed',
+                taskCompletedSuccess: 'Task marked as completed successfully!',
+                completeUploadRequired: 'Please upload an image before marking as completed',
+                processing: 'Processing...',
+                completed: 'Completed',
+                sending: 'Sending...',
+                responseRequired: 'Please enter a response message',
+                completeFailed: 'Failed to complete task. Please try again.',
+                sendFailed: 'Failed to send response. Please try again.',
+                complaintResolved: 'Complaint Resolved',
+                complaintResolvedDesc: 'This complaint has been successfully completed',
+                completedBy: 'Completed by:',
+                completedOn: 'Completed on:',
+                completionEvidence: 'Completion Evidence:',
+                clickToViewEvidence: 'Click to view evidence',
+                completedByOfficer: 'This complaint has been marked as completed by the assigned officer.',
+                statusPending: 'Pending',
+                statusInProgress: 'In Progress',
+                statusResolved: 'Resolved',
+                statusCompleted: 'Completed',
+                statusRejected: 'Rejected',
+                priorityHigh: 'High',
+                priorityMedium: 'Medium',
+                priorityLow: 'Low',
+                locale: 'en-US'
+            },
+            ne: {
+                languageToggle: 'English',
+                pageTitle: 'गुनासो विवरण',
+                loading: 'गुनासो विवरण लोड हुँदैछ...',
+                noComplaintId: 'गुनासो आईडी प्रदान गरिएको छैन',
+                noComplaintData: 'गुनासो डेटा प्राप्त भएन',
+                loadFailed: 'गुनासो विवरण लोड गर्न असफल भयो। कृपया पुन: प्रयास गर्नुहोस्।',
+                complaintDetailsHeading: 'गुनासो विवरण',
+                submittedBy: 'पेश गर्ने',
+                submittedOn: 'पेश गरिएको मिति',
+                location: 'स्थान',
+                priority: 'प्राथमिकता',
+                category: 'श्रेणी',
+                complaintId: 'गुनासो आईडी',
+                description: 'विवरण',
+                noDescription: 'विवरण उपलब्ध छैन',
+                attachments: 'संलग्नकहरू',
+                officerResponses: 'अधिकारीको प्रतिक्रिया',
+                sendResponseToCitizen: 'नागरिकलाई प्रतिक्रिया पठाउनुहोस्',
+                responsePlaceholder: 'यस गुनासो सम्बन्धी प्रतिक्रिया वा अपडेट लेख्नुहोस्...',
+                sendResponse: 'प्रतिक्रिया पठाउनुहोस्',
+                responseSent: 'प्रतिक्रिया सफलतापूर्वक पठाइयो!',
+                markTaskCompleted: 'कार्य पूरा भएको रूपमा चिन्ह लगाउनुहोस्',
+                uploadEvidenceRequired: 'समाप्तिको प्रमाण अपलोड गर्नुहोस् (अनिवार्य)',
+                uploadEvidenceHint: 'समाप्ति प्रमाणको तस्बिर अपलोड गर्न क्लिक गर्नुहोस्',
+                markAsCompleted: 'पूरा भएको रूपमा चिन्ह लगाउनुहोस्',
+                taskCompletedSuccess: 'कार्य सफलतापूर्वक पूरा भएको रूपमा चिन्ह लगाइयो!',
+                completeUploadRequired: 'पूरा भएको भनेर चिन्ह लगाउनुअघि तस्बिर अपलोड गर्नुहोस्',
+                processing: 'प्रक्रिया हुँदै...',
+                completed: 'पूरा भयो',
+                sending: 'पठाइँदै...',
+                responseRequired: 'कृपया प्रतिक्रिया सन्देश लेख्नुहोस्',
+                completeFailed: 'कार्य पूरा गर्न असफल भयो। कृपया पुन: प्रयास गर्नुहोस्।',
+                sendFailed: 'प्रतिक्रिया पठाउन असफल भयो। कृपया पुन: प्रयास गर्नुहोस्।',
+                complaintResolved: 'गुनासो समाधान भयो',
+                complaintResolvedDesc: 'यो गुनासो सफलतापूर्वक पूरा भएको छ',
+                completedBy: 'पूरा गर्ने:',
+                completedOn: 'पूरा गरिएको मिति:',
+                completionEvidence: 'समाप्ति प्रमाण:',
+                clickToViewEvidence: 'प्रमाण हेर्न क्लिक गर्नुहोस्',
+                completedByOfficer: 'यो गुनासो तोकिएको अधिकारीले पूरा भएको रूपमा चिन्ह लगाएका छन्।',
+                statusPending: 'बाँकी',
+                statusInProgress: 'प्रगतिमा',
+                statusResolved: 'समाधान भयो',
+                statusCompleted: 'पूरा भयो',
+                statusRejected: 'अस्वीकृत',
+                priorityHigh: 'उच्च',
+                priorityMedium: 'मध्यम',
+                priorityLow: 'कम',
+                locale: 'ne-NP'
+            }
+        };
+
+        function getViewLang() {
+            const storedLang = localStorage.getItem('currentLanguage') || currentLanguage || 'en';
+            return viewDetailsTranslations[storedLang] || viewDetailsTranslations.en;
+        }
+
+        function formatDate(dateValue, withTime) {
+            const lang = getViewLang();
+            const options = withTime
+                ? { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }
+                : { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateValue).toLocaleDateString(lang.locale, options);
+        }
+
+        function getStatusLabel(statusValue, lang) {
+            const value = (statusValue || '').toString().trim().toLowerCase();
+            if (value === 'inprogress' || value === 'in progress') return lang.statusInProgress;
+            if (value === 'resolved') return lang.statusResolved;
+            if (value === 'completed') return lang.statusCompleted;
+            if (value === 'rejected') return lang.statusRejected;
+            if (value === 'pending' || value === '') return lang.statusPending;
+            return statusValue || lang.statusPending;
+        }
+
+        function getPriorityLabel(priorityValue, lang) {
+            const value = (priorityValue || '').toString().trim().toLowerCase();
+            if (value === 'high') return lang.priorityHigh;
+            if (value === 'medium') return lang.priorityMedium;
+            if (value === 'low') return lang.priorityLow;
+            return priorityValue || lang.priorityMedium;
+        }
+
+        function renderError(message) {
+            document.getElementById('mainContent').innerHTML = `<div class="error-message">${message}</div>`;
+        }
+
+        function applyViewLanguage() {
+            const lang = getViewLang();
+            const langBtn = document.getElementById('language-toggle');
+            if (langBtn) {
+                langBtn.innerHTML = `<i class="material-icons" style="font-size: 18px;">language</i> ${lang.languageToggle}`;
+            }
+
+            const loadingText = document.getElementById('loadingText');
+            if (loadingText) loadingText.textContent = lang.loading;
+
+            if (window.viewDetailsState && window.viewDetailsState.errorKey) {
+                renderError(lang[window.viewDetailsState.errorKey]);
+            } else if (window.viewDetailsState && window.viewDetailsState.errorMessage) {
+                renderError(window.viewDetailsState.errorMessage);
+            }
+
+            if (window.viewDetailsCache) {
+                renderViewDetails(window.viewDetailsCache);
+            }
+        }
+
+        function LanguageTranslate() {
+            currentLanguage = currentLanguage === 'en' ? 'ne' : 'en';
+            localStorage.setItem('currentLanguage', currentLanguage);
+            applyViewLanguage();
+        }
+        // Get complaint ID and language from URL or localStorage
         const urlParams = new URLSearchParams(window.location.search);
+        const langParam = urlParams.get('lang');
+        if (langParam === 'en' || langParam === 'ne') {
+            currentLanguage = langParam;
+            localStorage.setItem('currentLanguage', currentLanguage);
+        }
+
         let complaintId = urlParams.get('complaint_id');
         
         // If not in URL, check localStorage (for citizen dashboard)
@@ -34,7 +207,8 @@
         }
 
         if (!complaintId) {
-            document.getElementById('mainContent').innerHTML = '<div class="error-message">No complaint ID provided</div>';
+            window.viewDetailsState = { errorKey: 'noComplaintId' };
+            renderError(getViewLang().noComplaintId);
         } else {
             // First, get user type to determine what sections to show
             let userType = '';
@@ -57,7 +231,8 @@
                     console.log('Response data:', data); // Debug log
                     
                     if (data.error) {
-                        document.getElementById('mainContent').innerHTML = `<div class="error-message">${data.error}</div>`;
+                        window.viewDetailsState = { errorMessage: data.error };
+                        renderError(data.error);
                         return;
                     }
 
@@ -94,7 +269,8 @@
                     }
                     
                     if (!complaint) {
-                        document.getElementById('mainContent').innerHTML = '<div class="error-message">No complaint data received</div>';
+                        window.viewDetailsState = { errorKey: 'noComplaintData' };
+                        renderError(getViewLang().noComplaintData);
                         return;
                     }
                     
@@ -108,220 +284,230 @@
                         canManageComplaint
                     });
                     
-                    // Update page title
-                    document.getElementById('pageTitle').textContent = `Complaint Details - C${String(complaint.complaint_id).padStart(3, '0')}`;
+                    window.viewDetailsCache = {
+                        complaint,
+                        responses,
+                        completion,
+                        userType,
+                        officerDepartmentId,
+                        officerDepartmentName,
+                        canManageComplaint
+                    };
+                    window.viewDetailsState = { status: 'loaded' };
+                    renderViewDetails(window.viewDetailsCache);
+                })
+                .catch(error => {
+                    console.error('Error loading complaint:', error);
+                    window.viewDetailsState = { errorKey: 'loadFailed' };
+                    renderError(getViewLang().loadFailed);
+                });
+        }
 
-                    // Get status class and color
-                    let statusClass = 'status-pending';
-                    if (complaint.status === 'In Progress' || complaint.status === 'InProgress') {
-                        statusClass = 'status-inprogress';
-                    } else if (complaint.status === 'Completed') {
-                        statusClass = 'status-completed';
-                    } else if (complaint.status === 'Rejected') {
-                        statusClass = 'status-rejected';
-                    }
+        function renderViewDetails(viewData) {
+            const lang = getViewLang();
+            const { complaint, responses, completion, userType, officerDepartmentId, officerDepartmentName, canManageComplaint } = viewData;
 
-                    // Format date
-                    const date = new Date(complaint.created_at).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                    });
+            // Update page title
+            document.getElementById('pageTitle').textContent = `${lang.pageTitle} - C${String(complaint.complaint_id).padStart(3, '0')}`;
 
-                    // Build attachments HTML
-                    let attachmentsHTML = '';
-                    if (complaint.complaint_attachment) {
-                        const fileName = complaint.complaint_attachment.split('/').pop();
-                        attachmentsHTML = `
-                            <div class="attachments">
-                                <div class="detail-label">attachments</div>
-                                <div style="display: flex; gap: 10px;">
-                                    <a href="../uploads/complaints/${fileName}" class="attachment-file" target="_blank" download>
-                                        <i class="material-icons" style="font-size: 18px; margin-right: 8px;">attach_file</i>
-                                        <span>${fileName}</span>
-                                        <span class="download-icon">↓</span>
-                                    </a>
-                                </div>
-                            </div>
-                        `;
-                    }
+            // Get status class and color
+            let statusClass = 'status-pending';
+            if (complaint.status === 'In Progress' || complaint.status === 'InProgress') {
+                statusClass = 'status-inprogress';
+            } else if (complaint.status === 'Completed') {
+                statusClass = 'status-completed';
+            } else if (complaint.status === 'Rejected') {
+                statusClass = 'status-rejected';
+            }
 
-                    // Build officer responses HTML - only for Citizens
-                    let responsesHTML = '';
-                    if (userType !== 'Officer' && responses && responses.length > 0) {
-                        const responseItems = responses.map(response => {
-                            const responseDate = new Date(response.activity_date).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: 'short',
-                                day: 'numeric',
-                                hour: '2-digit',
-                                minute: '2-digit'
-                            });
-                            
-                            let fileHTML = '';
-                            if (response.file_path) {
-                                const fileName = response.file_path.split('/').pop();
-                                fileHTML = `
-                                    <div style="margin-top: 10px;">
-                                        <a href="../${response.file_path}" class="attachment-file" target="_blank" download style="font-size: 13px;">
-                                            <i class="material-icons" style="font-size: 16px;">attach_file</i>
-                                            <span>${fileName}</span>
-                                        </a>
-                                    </div>
-                                `;
-                            }
-                            
-                            return `
-                                <div class="response-item">
-                                    <div class="response-meta">
-                                        <div class="response-officer">
-                                            <i class="material-icons" style="font-size: 18px; color: #0d55e7;">person</i>
-                                            <strong>${response.officer_name || 'Officer'}</strong>
-                                        </div>
-                                        <div class="response-date">
-                                            <i class="material-icons" style="font-size: 16px;">schedule</i>
-                                            ${responseDate}
-                                        </div>
-                                    </div>
-                                    <div class="response-message">${response.message}</div>
-                                    ${fileHTML}
-                                </div>
-                            `;
-                        }).join('');
-                        
-                        responsesHTML = `
-                            <div class="officer-responses-display">
-                                <div class="responses-header">
-                                    <i class="material-icons">message</i>
-                                    <h3>Officer Responses</h3>
-                                    <span class="response-count">${responses.length}</span>
-                                </div>
-                                <div class="responses-list">
-                                    ${responseItems}
-                                </div>
+            const statusLabel = getStatusLabel(complaint.status, lang);
+            const priorityLabel = getPriorityLabel(complaint.priority_level, lang);
+
+            // Format date
+            const date = formatDate(complaint.created_at, false);
+
+            // Build attachments HTML
+            let attachmentsHTML = '';
+            if (complaint.complaint_attachment) {
+                const fileName = complaint.complaint_attachment.split('/').pop();
+                attachmentsHTML = `
+                    <div class="attachments">
+                        <div class="detail-label">${lang.attachments}</div>
+                        <div style="display: flex; gap: 10px;">
+                            <a href="../uploads/complaints/${fileName}" class="attachment-file" target="_blank" download>
+                                <i class="material-icons" style="font-size: 18px; margin-right: 8px;">attach_file</i>
+                                <span>${fileName}</span>
+                                <span class="download-icon">↓</span>
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Build officer responses HTML - only for Citizens
+            let responsesHTML = '';
+            if (userType !== 'Officer' && responses && responses.length > 0) {
+                const responseItems = responses.map(response => {
+                    const responseDate = formatDate(response.activity_date, true);
+                    
+                    let fileHTML = '';
+                    if (response.file_path) {
+                        const fileName = response.file_path.split('/').pop();
+                        fileHTML = `
+                            <div style="margin-top: 10px;">
+                                <a href="../${response.file_path}" class="attachment-file" target="_blank" download style="font-size: 13px;">
+                                    <i class="material-icons" style="font-size: 16px;">attach_file</i>
+                                    <span>${fileName}</span>
+                                </a>
                             </div>
                         `;
                     }
                     
-                    // Build completion info HTML - show to citizens when completed
-                    let completionHTML = '';
-                    const isCompleted = complaint.status && (complaint.status.toLowerCase() === 'completed' || complaint.status.toLowerCase() === 'resolved');
+                    return `
+                        <div class="response-item">
+                            <div class="response-meta">
+                                <div class="response-officer">
+                                    <i class="material-icons" style="font-size: 18px; color: #0d55e7;">person</i>
+                                    <strong>${response.officer_name || 'Officer'}</strong>
+                                </div>
+                                <div class="response-date">
+                                    <i class="material-icons" style="font-size: 16px;">schedule</i>
+                                    ${responseDate}
+                                </div>
+                            </div>
+                            <div class="response-message">${response.message}</div>
+                            ${fileHTML}
+                        </div>
+                    `;
+                }).join('');
+                
+                responsesHTML = `
+                    <div class="officer-responses-display">
+                        <div class="responses-header">
+                            <i class="material-icons">message</i>
+                            <h3>${lang.officerResponses}</h3>
+                            <span class="response-count">${responses.length}</span>
+                        </div>
+                        <div class="responses-list">
+                            ${responseItems}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Build completion info HTML - show to citizens when completed
+            let completionHTML = '';
+            const isCompleted = complaint.status && (complaint.status.toLowerCase() === 'completed' || complaint.status.toLowerCase() === 'resolved');
+            
+            if (userType !== 'Officer' && isCompleted) {
+                let completionContent = '';
+                
+                if (completion) {
+                    const completionDate = formatDate(completion.activity_date, true);
                     
-                    if (userType !== 'Officer' && isCompleted) {
-                        let completionContent = '';
-                        
-                        if (completion) {
-                            const completionDate = new Date(completion.activity_date).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                                hour: '2-digit',
-                                minute: '2-digit'
-                            });
-                            
-                            let evidenceHTML = '';
-                            if (completion.file_path) {
-                                evidenceHTML = `
-                                    <div style="margin-top: 15px;">
-                                        <div style="font-size: 13px; color: #666; margin-bottom: 8px;">
-                                            <i class="material-icons" style="font-size: 16px; vertical-align: middle;">image</i>
-                                            Completion Evidence:
-                                        </div>
-                                        <a href="../${completion.file_path}" target="_blank" style="text-decoration: none;">
-                                            <img src="../${completion.file_path}" 
-                                                 alt="Completion Evidence" 
-                                                 style="max-width: 100%; max-height: 300px; border-radius: 8px; border: 2px solid #e0e0e0; cursor: pointer;"
-                                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                                            <div style="display: none; padding: 20px; background: #f5f5f5; border-radius: 8px; text-align: center;">
-                                                <i class="material-icons" style="font-size: 48px; color: #999;">broken_image</i>
-                                                <p style="margin: 10px 0 0 0; color: #666;">Click to view evidence</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                `;
-                            }
-                            
-                            completionContent = `
-                                <div style="background: rgba(255,255,255,0.7); padding: 15px; border-radius: 8px;">
-                                    <div style="display: flex; align-items: center; margin-bottom: 10px;">
-                                        <i class="material-icons" style="font-size: 18px; color: #666; margin-right: 8px;">person</i>
-                                        <span style="color: #333; font-weight: 500;">Completed by: ${completion.officer_name || 'Officer'}</span>
-                                    </div>
-                                    <div style="display: flex; align-items: center;">
-                                        <i class="material-icons" style="font-size: 18px; color: #666; margin-right: 8px;">schedule</i>
-                                        <span style="color: #666;">Completed on: ${completionDate}</span>
-                                    </div>
-                                    ${evidenceHTML}
+                    let evidenceHTML = '';
+                    if (completion.file_path) {
+                        evidenceHTML = `
+                            <div style="margin-top: 15px;">
+                                <div style="font-size: 13px; color: #666; margin-bottom: 8px;">
+                                    <i class="material-icons" style="font-size: 16px; vertical-align: middle;">image</i>
+                                    ${lang.completionEvidence}
                                 </div>
-                            `;
-                        } else {
-                            completionContent = `
-                                <div style="background: rgba(255,255,255,0.7); padding: 15px; border-radius: 8px; text-align: center;">
-                                    <p style="margin: 0; color: #558b2f;">This complaint has been marked as completed by the assigned officer.</p>
-                                </div>
-                            `;
-                        }
-                        
-                        completionHTML = `
-                            <div class="completion-status-section" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); border-left: 4px solid #0d55e7; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-                                <div style="display: flex; align-items: center; margin-bottom: 15px;">
-                                    <i class="material-icons" style="font-size: 32px; color: #0d55e7; margin-right: 12px;">check_circle</i>
-                                    <div>
-                                        <h3 style="margin: 0; color: #1565c0; font-size: 18px;">Complaint Resolved</h3>
-                                        <p style="margin: 5px 0 0 0; color: #1976d2; font-size: 14px;">This complaint has been successfully completed</p>
+                                <a href="../${completion.file_path}" target="_blank" style="text-decoration: none;">
+                                    <img src="../${completion.file_path}" 
+                                         alt="Completion Evidence" 
+                                         style="max-width: 100%; max-height: 300px; border-radius: 8px; border: 2px solid #e0e0e0; cursor: pointer;"
+                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                    <div style="display: none; padding: 20px; background: #f5f5f5; border-radius: 8px; text-align: center;">
+                                        <i class="material-icons" style="font-size: 48px; color: #999;">broken_image</i>
+                                        <p style="margin: 10px 0 0 0; color: #666;">${lang.clickToViewEvidence}</p>
                                     </div>
-                                </div>
-                                ${completionContent}
+                                </a>
                             </div>
                         `;
                     }
+                    
+                    completionContent = `
+                        <div style="background: rgba(255,255,255,0.7); padding: 15px; border-radius: 8px;">
+                            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                <i class="material-icons" style="font-size: 18px; color: #666; margin-right: 8px;">person</i>
+                                <span style="color: #333; font-weight: 500;">${lang.completedBy} ${completion.officer_name || 'Officer'}</span>
+                            </div>
+                            <div style="display: flex; align-items: center;">
+                                <i class="material-icons" style="font-size: 18px; color: #666; margin-right: 8px;">schedule</i>
+                                <span style="color: #666;">${lang.completedOn} ${completionDate}</span>
+                            </div>
+                            ${evidenceHTML}
+                        </div>
+                    `;
+                } else {
+                    completionContent = `
+                        <div style="background: rgba(255,255,255,0.7); padding: 15px; border-radius: 8px; text-align: center;">
+                            <p style="margin: 0; color: #558b2f;">${lang.completedByOfficer}</p>
+                        </div>
+                    `;
+                }
+                
+                completionHTML = `
+                    <div class="completion-status-section" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); border-left: 4px solid #0d55e7; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <i class="material-icons" style="font-size: 32px; color: #0d55e7; margin-right: 12px;">check_circle</i>
+                            <div>
+                                <h3 style="margin: 0; color: #1565c0; font-size: 18px;">${lang.complaintResolved}</h3>
+                                <p style="margin: 5px 0 0 0; color: #1976d2; font-size: 14px;">${lang.complaintResolvedDesc}</p>
+                            </div>
+                        </div>
+                        ${completionContent}
+                    </div>
+                `;
+            }
 
-                    // Build main content
-                    const contentHTML = `
+            // Build main content
+            const contentHTML = `
                         <div class="top-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding: 20px 0; border-bottom: 2px solid #f0f0f0;">
-                            <h1 style="margin: 0; font-size: 28px; color: #1a1a1a; font-weight: 700;">complaintDetails</h1>
-                            <div class="status-tag" style="padding: 10px 20px; border-radius: 20px; font-weight: 600; font-size: 14px; ${statusClass === 'status-completed' || statusClass === 'status-resolved' ? 'background-color: #E8F5E9; color: #2E7D32;' : statusClass === 'status-inprogress' ? 'background-color: #E3F2FD; color: #1976D2;' : statusClass === 'status-rejected' ? 'background-color: #FFEBEE; color: #C62828;' : 'background-color: #FFF3E0; color: #E65100;'}">${complaint.status}</div>
+                            <h1 style="margin: 0; font-size: 28px; color: #1a1a1a; font-weight: 700;">${lang.complaintDetailsHeading}</h1>
+                            <div class="status-tag" style="padding: 10px 20px; border-radius: 20px; font-weight: 600; font-size: 14px; ${statusClass === 'status-completed' || statusClass === 'status-resolved' ? 'background-color: #E8F5E9; color: #2E7D32;' : statusClass === 'status-inprogress' ? 'background-color: #E3F2FD; color: #1976D2;' : statusClass === 'status-rejected' ? 'background-color: #FFEBEE; color: #C62828;' : 'background-color: #FFF3E0; color: #E65100;'}">${statusLabel}</div>
                         </div>
                         <div class="card11" style="background: white; border-radius: 12px; padding: 30px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); margin-bottom: 25px;">
                             <h2 style="margin: 0 0 25px 0; font-size: 24px; color: #1a1a1a; font-weight: 700;">${complaint.subject}</h2>
                             
                             <div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
                                 <div class="detail-item" style="padding: 16px; background: #f8f9fa; border-radius: 8px;">
-                                    <div class="detail-label" style="font-size: 13px; color: #888; font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">submittedBy</div>
+                                    <div class="detail-label" style="font-size: 13px; color: #888; font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">${lang.submittedBy}</div>
                                     <div class="detail-value" style="font-size: 16px; color: #1a1a1a; font-weight: 500;">${complaint.full_name || 'N/A'}</div>
                                 </div>
                                 <div class="detail-item" style="padding: 16px; background: #f8f9fa; border-radius: 8px;">
-                                    <div class="detail-label" style="font-size: 13px; color: #888; font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">submittedOn</div>
+                                    <div class="detail-label" style="font-size: 13px; color: #888; font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">${lang.submittedOn}</div>
                                     <div class="detail-value" style="font-size: 16px; color: #1a1a1a; font-weight: 500;">${date}</div>
                                 </div>
                             </div>
 
                             <div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
                                 <div class="detail-item" style="padding: 16px; background: #f8f9fa; border-radius: 8px;">
-                                    <div class="detail-label" style="font-size: 13px; color: #888; font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">location</div>
+                                    <div class="detail-label" style="font-size: 13px; color: #888; font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">${lang.location}</div>
                                     <div class="detail-value" style="font-size: 16px; color: #1a1a1a; font-weight: 500;">${complaint.location || 'N/A'}</div>
                                 </div>
                                 <div class="detail-item" style="padding: 16px; background: #f8f9fa; border-radius: 8px;">
-                                    <div class="detail-label" style="font-size: 13px; color: #888; font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">Priority</div>
-                                    <div class="detail-value" style="font-size: 16px; font-weight: 500;"><span style="padding: 6px 12px; border-radius: 6px; ${complaint.priority_level === 'High' ? 'background-color: #FFEBEE; color: #DC2626;' : complaint.priority_level === 'Medium' ? 'color: #F59E0B;' : 'background-color: #E8F5E9; color: #10B981;'}">${complaint.priority_level}</span></div>
+                                    <div class="detail-label" style="font-size: 13px; color: #888; font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">${lang.priority}</div>
+                                    <div class="detail-value" style="font-size: 16px; font-weight: 500;"><span style="padding: 6px 12px; border-radius: 6px; ${complaint.priority_level === 'High' ? 'background-color: #FFEBEE; color: #DC2626;' : complaint.priority_level === 'Medium' ? 'color: #F59E0B;' : 'background-color: #E8F5E9; color: #10B981;'}">${priorityLabel}</span></div>
                                 </div>
                             </div>
 
                             <div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px;">
                                 <div class="detail-item" style="padding: 16px; background: #f8f9fa; border-radius: 8px;">
-                                    <div class="detail-label" style="font-size: 13px; color: #888; font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">Category</div>
+                                    <div class="detail-label" style="font-size: 13px; color: #888; font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">${lang.category}</div>
                                     <div class="detail-value" style="font-size: 16px; color: #1a1a1a; font-weight: 500;">${complaint.category_name || 'N/A'}</div>
                                 </div>
                                 <div class="detail-item" style="padding: 16px; background: #f8f9fa; border-radius: 8px;">
-                                    <div class="detail-label" style="font-size: 13px; color: #888; font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">Complaint ID</div>
+                                    <div class="detail-label" style="font-size: 13px; color: #888; font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">${lang.complaintId}</div>
                                     <div class="detail-value" style="font-size: 16px; color: #1a1a1a; font-weight: 500;">C${String(complaint.complaint_id).padStart(3, '0')}</div>
                                 </div>
                             </div>
 
                             <div class="description-section" style="background: linear-gradient(135deg, #f5f7fa 0%, #f8f9fa 100%); padding: 20px; border-radius: 8px; border-left: 4px solid #2196F3;">
-                                <div class="detail-label" style="font-size: 13px; color: #888; font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px;">description</div>
+                                <div class="detail-label" style="font-size: 13px; color: #888; font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px;">${lang.description}</div>
                                 <div class="description-text" style="font-size: 15px; color: #333; line-height: 1.6;">
-                                    ${complaint.description || 'No description provided'}
+                                    ${complaint.description || lang.noDescription}
                                 </div>
                             </div>
 
@@ -336,34 +522,34 @@
                         <div class="officer-response-section" style="background: white; border-radius: 12px; padding: 30px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); margin-top: 25px;">
                             <div class="response-header" style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
                                 <i class="material-icons" style="font-size: 28px; color: #2196F3;">chat_bubble_outline</i>
-                                <h3 style="margin: 0; font-size: 20px; color: #1a1a1a; font-weight: 700;">Send Response to Citizen</h3>
+                                <h3 style="margin: 0; font-size: 20px; color: #1a1a1a; font-weight: 700;">${lang.sendResponseToCitizen}</h3>
                             </div>
                             <textarea 
                                 id="responseMessage" 
                                 class="response-textarea" 
-                                placeholder="Write your response or update about this complaint..."
+                                placeholder="${lang.responsePlaceholder}"
                                 style="width: 100%; min-height: 140px; padding: 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 15px; font-family: inherit; resize: vertical; transition: border-color 0.2s ease;"
                             ></textarea>
                             <button id="sendResponseBtn" class="send-response-btn" onclick="sendResponse(${complaint.complaint_id})" style="background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%); color: white; border: none; padding: 12px 28px; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 16px; display: flex; align-items: center; gap: 8px; transition: all 0.2s ease;">
                                 <i class="material-icons" style="font-size: 20px;">send</i>
-                                Send Response
+                                ${lang.sendResponse}
                             </button>
                             <div id="successMessage" class="success-message">
                                 <i class="material-icons" style="color: #155724;">check_circle</i>
-                                <span>Response sent successfully!</span>
+                                <span>${lang.responseSent}</span>
                             </div>
                         </div>
                         
                         <div class="task-completion-section">
                             <div class="completion-header">
                                 <i class="material-icons">task_alt</i>
-                                <h3>Mark Task as Completed</h3>
+                                <h3>${lang.markTaskCompleted}</h3>
                             </div>
                             
                             <div class="upload-section">
                                 <label class="upload-label">
                                     <i class="material-icons" style="font-size: 18px; vertical-align: middle; margin-right: 5px; color: #0d55e7;">image</i>
-                                    Upload Completion Evidence (Required)
+                                    ${lang.uploadEvidenceRequired}
                                 </label>
                                 <div class="file-upload-wrapper">
                                     <input 
@@ -375,7 +561,7 @@
                                     />
                                     <label for="completionImage" class="file-upload-label">
                                         <i class="material-icons">cloud_upload</i>
-                                        <span class="file-upload-text">Click to upload image proof of completion</span>
+                                        <span class="file-upload-text">${lang.uploadEvidenceHint}</span>
                                     </label>
                                 </div>
                                 <div id="fileName" class="file-name"></div>
@@ -383,22 +569,17 @@
                             
                             <button id="completeTaskBtn" class="complete-task-btn" disabled onclick="completeTask(${complaint.complaint_id})">
                                 <i class="material-icons" style="font-size: 22px;">check_circle</i>
-                                Mark as Completed
+                                ${lang.markAsCompleted}
                             </button>
                             <div id="completionSuccessMessage" class="success-message">
                                 <i class="material-icons" style="color: #155724;">check_circle</i>
-                                <span>Task marked as completed successfully!</span>
+                                <span>${lang.taskCompletedSuccess}</span>
                             </div>
                         </div>
                         ` : ''}
                     `;
 
-                    document.getElementById('mainContent').innerHTML = contentHTML;
-                })
-                .catch(error => {
-                    console.error('Error loading complaint:', error);
-                    document.getElementById('mainContent').innerHTML = '<div class="error-message">Failed to load complaint details. Please try again.</div>';
-                });
+            document.getElementById('mainContent').innerHTML = contentHTML;
         }
         
         // Handle file upload
@@ -422,15 +603,16 @@
             const fileInput = document.getElementById('completionImage');
             const btn = document.getElementById('completeTaskBtn');
             const successMsg = document.getElementById('completionSuccessMessage');
+            const lang = getViewLang();
             
             if (!fileInput.files || !fileInput.files[0]) {
-                alert('Please upload an image before marking as completed');
+                alert(lang.completeUploadRequired);
                 return;
             }
             
             // Disable button and show loading
             btn.disabled = true;
-            btn.innerHTML = '<i class="material-icons" style="font-size: 22px;">refresh</i> Processing...';
+            btn.innerHTML = `<i class="material-icons" style="font-size: 22px;">refresh</i> ${lang.processing}`;
             
             // Create FormData
             const formData = new FormData();
@@ -451,13 +633,13 @@
                     // Update status tag
                     const statusTag = document.querySelector('.status-tag');
                     if (statusTag) {
-                        statusTag.textContent = 'Completed';
+                        statusTag.textContent = getStatusLabel('Completed', lang);
                         statusTag.className = 'status-tag status-completed';
                     }
                     
                     // Disable form
                     fileInput.disabled = true;
-                    btn.innerHTML = '<i class="material-icons" style="font-size: 22px;">check_circle</i> Completed';
+                    btn.innerHTML = `<i class="material-icons" style="font-size: 22px;">check_circle</i> ${lang.completed}`;
                     btn.style.background = '#cbd5e0';
                     
                     setTimeout(() => {
@@ -466,14 +648,14 @@
                 } else {
                     alert('Error: ' + (data.error || 'Failed to complete task'));
                     btn.disabled = false;
-                    btn.innerHTML = '<i class="material-icons" style="font-size: 22px;">check_circle</i> Mark as Completed';
+                    btn.innerHTML = `<i class="material-icons" style="font-size: 22px;">check_circle</i> ${lang.markAsCompleted}`;
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Failed to complete task. Please try again.');
+                alert(lang.completeFailed);
                 btn.disabled = false;
-                btn.innerHTML = '<i class="material-icons" style="font-size: 22px;">check_circle</i> Mark as Completed';
+                btn.innerHTML = `<i class="material-icons" style="font-size: 22px;">check_circle</i> ${lang.markAsCompleted}`;
             });
         }
         
@@ -482,15 +664,16 @@
             const message = document.getElementById('responseMessage').value.trim();
             const btn = document.getElementById('sendResponseBtn');
             const successMsg = document.getElementById('successMessage');
+            const lang = getViewLang();
             
             if (!message) {
-                alert('Please enter a response message');
+                alert(lang.responseRequired);
                 return;
             }
             
             // Disable button and show loading
             btn.disabled = true;
-            btn.innerHTML = '<i class="material-icons" style="font-size: 20px;">refresh</i> Sending...';
+            btn.innerHTML = `<i class="material-icons" style="font-size: 20px;">refresh</i> ${lang.sending}`;
             
             // Send response to backend
             fetch('../backend/sendresponse.php', {
@@ -520,17 +703,28 @@
                     alert('Error: ' + (data.error || 'Failed to send response'));
                     // Re-enable button on error
                     btn.disabled = false;
-                    btn.innerHTML = '<i class="material-icons" style="font-size: 20px;">send</i> Send Response';
+                    btn.innerHTML = `<i class="material-icons" style="font-size: 20px;">send</i> ${lang.sendResponse}`;
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Failed to send response. Please try again.');
+                alert(lang.sendFailed);
                 // Re-enable button on error
                 btn.disabled = false;
-                btn.innerHTML = '<i class="material-icons" style="font-size: 20px;">send</i> Send Response';
+                btn.innerHTML = `<i class="material-icons" style="font-size: 20px;">send</i> ${lang.sendResponse}`;
             });
         }
+
+        document.addEventListener('DOMContentLoaded', applyViewLanguage);
+        if (document.readyState !== 'loading') {
+            applyViewLanguage();
+        }
+
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'currentLanguage') {
+                applyViewLanguage();
+            }
+        });
     </script>
 
 </body>
