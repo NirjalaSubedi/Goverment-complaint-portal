@@ -3,6 +3,8 @@ let currentLanguage = localStorage.getItem('currentLanguage') || 'en';
 const Translate = {
     'en': {
             'CompletedDesc': 'View all successfully resolved complaints',
+            'noCompletedComplaints': 'No completed complaints yet',
+            'completedComplaintsHint': 'Completed complaints will appear here',
             'UntitledDraft': 'Untitled draft',
             'NoLocationSet': 'No location set',
         'languageToggle': 'नेपाली',
@@ -53,6 +55,8 @@ const Translate = {
         'email': 'Email',
         'address': 'Address',
         'editProfile': 'Edit',
+        'profileSettingsTitle': 'Profile Settings',
+        'profileSettingsDesc': 'Manage your personal information',
 
         'title22': 'Complaint Submission',
         'titledesc': 'Provide detailed information about your issue',
@@ -85,6 +89,8 @@ const Translate = {
     },
     'ne': {
             'CompletedDesc': 'सबै सफलतापूर्वक समाधान भएका उजुरीहरू हेर्नुहोस्',
+            'noCompletedComplaints': 'अहिलेसम्म कुनै सम्पन्न उजुरी छैन',
+            'completedComplaintsHint': 'सम्पन्न उजुरीहरू यहाँ देखिनेछन्',
             'UntitledDraft': 'शीर्षक छैन',
             'NoLocationSet': 'स्थान सेट गरिएको छैन',
         'languageToggle': 'English',
@@ -135,6 +141,8 @@ const Translate = {
         'email': 'इमेल',
         'address': 'ठेगाना',
         'editProfile': 'प्सम्पादन गर्नुहोस्',
+        'profileSettingsTitle': 'प्रोफाइल सेटिङ्स',
+        'profileSettingsDesc': 'आफ्नो व्यक्तिगत जानकारी व्यवस्थापन गर्नुहोस्',
 
         'title22': 'गुनासो पेश गर्नुहोस्',
         'titledesc': 'आफ्नो समस्याको बारेमा विस्तृत जानकारी प्रदान गर्नुहोस्',
@@ -368,6 +376,13 @@ function applyTranslations() {
         const key = label.getAttribute('data-translate-key');
         if (key && Translate[lang][key]) {
             label.innerText = Translate[lang][key];
+        }
+    });
+
+    document.querySelectorAll('[data-translate-key]').forEach(el => {
+        const key = el.getAttribute('data-translate-key');
+        if (key && Translate[lang][key]) {
+            el.innerText = Translate[lang][key];
         }
     });
 
