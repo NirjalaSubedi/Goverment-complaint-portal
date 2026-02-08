@@ -62,6 +62,9 @@
                 sendFailed: 'Failed to send response. Please try again.',
                 complaintResolved: 'Complaint Resolved',
                 complaintResolvedDesc: 'This complaint has been successfully completed',
+                completionHistory: 'Completion History',
+                completionHistoryDesc: 'All completion updates for this complaint',
+                completionHistoryEmpty: 'No completion history available yet',
                 completedBy: 'Completed by:',
                 completedOn: 'Completed on:',
                 completionEvidence: 'Completion Evidence:',
@@ -113,6 +116,9 @@
                 sendFailed: 'प्रतिक्रिया पठाउन असफल भयो। कृपया पुन: प्रयास गर्नुहोस्।',
                 complaintResolved: 'गुनासो समाधान भयो',
                 complaintResolvedDesc: 'यो गुनासो सफलतापूर्वक पूरा भएको छ',
+                completionHistory: 'समाप्ति इतिहास',
+                completionHistoryDesc: 'यो गुनासोका सबै समाप्ति अपडेटहरू',
+                completionHistoryEmpty: 'अहिलेसम्म कुनै समाप्ति इतिहास उपलब्ध छैन',
                 completedBy: 'पूरा गर्ने:',
                 completedOn: 'पूरा गरिएको मिति:',
                 completionEvidence: 'समाप्ति प्रमाण:',
@@ -238,7 +244,7 @@
 
                     const complaint = data.complaint;
                     const responses = data.responses || [];
-                    const completion = data.completion;
+                    const completionHistory = data.completion_history || [];
                     const officerDepartmentId = data.officer_department_id;
                     const officerDepartmentName = data.officer_department_name;
                     
@@ -287,7 +293,7 @@
                     window.viewDetailsCache = {
                         complaint,
                         responses,
-                        completion,
+                        completionHistory,
                         userType,
                         officerDepartmentId,
                         officerDepartmentName,
@@ -305,7 +311,7 @@
 
         function renderViewDetails(viewData) {
             const lang = getViewLang();
-            const { complaint, responses, completion, userType, officerDepartmentId, officerDepartmentName, canManageComplaint } = viewData;
+            const { complaint, responses, completionHistory, userType, officerDepartmentId, officerDepartmentName, canManageComplaint } = viewData;
 
             // Update page title
             document.getElementById('pageTitle').textContent = `${lang.pageTitle} - C${String(complaint.complaint_id).padStart(3, '0')}`;
@@ -344,9 +350,9 @@
                 `;
             }
 
-            // Build officer responses HTML - only for Citizens
+            // Build officer responses HTML
             let responsesHTML = '';
-            if (userType !== 'Officer' && responses && responses.length > 0) {
+            if (responses && responses.length > 0) {
                 const responseItems = responses.map(response => {
                     const responseDate = formatDate(response.activity_date, true);
                     
@@ -395,20 +401,18 @@
                 `;
             }
             
-            // Build completion info HTML - show to citizens when completed
+            // Build completion info HTML
             let completionHTML = '';
             const isCompleted = complaint.status && (complaint.status.toLowerCase() === 'completed' || complaint.status.toLowerCase() === 'resolved');
             
-            if (userType !== 'Officer' && isCompleted) {
-                let completionContent = '';
-                
-                if (completion) {
+            if (completionHistory && completionHistory.length > 0) {
+                const completionItems = completionHistory.map((completion, index) => {
                     const completionDate = formatDate(completion.activity_date, true);
                     
                     let evidenceHTML = '';
                     if (completion.file_path) {
                         evidenceHTML = `
-                            <div style="margin-top: 15px;">
+                            <div style="margin-top: 12px;">
                                 <div style="font-size: 13px; color: #666; margin-bottom: 8px;">
                                     <i class="material-icons" style="font-size: 16px; vertical-align: middle;">image</i>
                                     ${lang.completionEvidence}
@@ -416,7 +420,7 @@
                                 <a href="../${completion.file_path}" target="_blank" style="text-decoration: none;">
                                     <img src="../${completion.file_path}" 
                                          alt="Completion Evidence" 
-                                         style="max-width: 100%; max-height: 300px; border-radius: 8px; border: 2px solid #e0e0e0; cursor: pointer;"
+                                         style="max-width: 100%; max-height: 260px; border-radius: 8px; border: 2px solid #e0e0e0; cursor: pointer;"
                                          onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                                     <div style="display: none; padding: 20px; background: #f5f5f5; border-radius: 8px; text-align: center;">
                                         <i class="material-icons" style="font-size: 48px; color: #999;">broken_image</i>
@@ -427,37 +431,52 @@
                         `;
                     }
                     
-                    completionContent = `
-                        <div style="background: rgba(255,255,255,0.7); padding: 15px; border-radius: 8px;">
-                            <div style="display: flex; align-items: center; margin-bottom: 10px;">
-                                <i class="material-icons" style="font-size: 18px; color: #666; margin-right: 8px;">person</i>
-                                <span style="color: #333; font-weight: 500;">${lang.completedBy} ${completion.officer_name || 'Officer'}</span>
+                    return `
+                        <div style="background: rgba(255,255,255,0.85); padding: 16px; border-radius: 10px; border: 1px solid #e5e7eb; margin-bottom: 12px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <i class="material-icons" style="font-size: 20px; color: #0d55e7;">check_circle</i>
+                                    <span style="font-weight: 600; color: #1a1a1a;">${completion.activity_text || lang.complaintResolved}</span>
+                                </div>
+                                <span style="font-size: 12px; color: #6b7280;">${completionDate}</span>
                             </div>
-                            <div style="display: flex; align-items: center;">
-                                <i class="material-icons" style="font-size: 18px; color: #666; margin-right: 8px;">schedule</i>
-                                <span style="color: #666;">${lang.completedOn} ${completionDate}</span>
+                            <div style="margin-top: 8px; display: flex; flex-wrap: wrap; gap: 12px; color: #4b5563; font-size: 13px;">
+                                <span>${lang.completedBy} ${completion.officer_name || 'Officer'}</span>
+                                ${completion.status_changed_to ? `<span>Status: ${completion.status_changed_to}</span>` : ''}
                             </div>
                             ${evidenceHTML}
                         </div>
                     `;
-                } else {
-                    completionContent = `
-                        <div style="background: rgba(255,255,255,0.7); padding: 15px; border-radius: 8px; text-align: center;">
-                            <p style="margin: 0; color: #558b2f;">${lang.completedByOfficer}</p>
-                        </div>
-                    `;
-                }
+                }).join('');
                 
                 completionHTML = `
                     <div class="completion-status-section" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); border-left: 4px solid #0d55e7; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-                        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <i class="material-icons" style="font-size: 32px; color: #0d55e7;">history</i>
+                                <div>
+                                    <h3 style="margin: 0; color: #1565c0; font-size: 18px;">${lang.completionHistory}</h3>
+                                    <p style="margin: 5px 0 0 0; color: #1976d2; font-size: 14px;">${lang.completionHistoryDesc}</p>
+                                </div>
+                            </div>
+                            <span style="background: #ffffff; color: #0d55e7; font-weight: 600; padding: 4px 10px; border-radius: 20px; font-size: 12px;">${completionHistory.length}</span>
+                        </div>
+                        ${completionItems}
+                    </div>
+                `;
+            } else if (isCompleted) {
+                completionHTML = `
+                    <div class="completion-status-section" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); border-left: 4px solid #0d55e7; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                        <div style="display: flex; align-items: center; margin-bottom: 12px;">
                             <i class="material-icons" style="font-size: 32px; color: #0d55e7; margin-right: 12px;">check_circle</i>
                             <div>
                                 <h3 style="margin: 0; color: #1565c0; font-size: 18px;">${lang.complaintResolved}</h3>
-                                <p style="margin: 5px 0 0 0; color: #1976d2; font-size: 14px;">${lang.complaintResolvedDesc}</p>
+                                <p style="margin: 5px 0 0 0; color: #1976d2; font-size: 14px;">${lang.completionHistoryEmpty}</p>
                             </div>
                         </div>
-                        ${completionContent}
+                        <div style="background: rgba(255,255,255,0.7); padding: 15px; border-radius: 8px; text-align: center;">
+                            <p style="margin: 0; color: #558b2f;">${lang.completedByOfficer}</p>
+                        </div>
                     </div>
                 `;
             }
