@@ -763,6 +763,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const newComplaintIcon = document.getElementById('newComplaintIcon');
             const newComplaintText = document.getElementById('newComplaintText');
+            const addTitleBtn = document.getElementById('addtitle');
             
             if (newComplaintIcon) {
                 newComplaintIcon.addEventListener('click', function(e) {
@@ -775,6 +776,15 @@
             
             if (newComplaintText) {
                 newComplaintText.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    sessionStorage.removeItem('complaintReferrer');
+                    localStorage.removeItem('draftToEditId');
+                    window.location.href = 'complaint_submit.html';
+                });
+            }
+
+            if (addTitleBtn) {
+                addTitleBtn.addEventListener('click', function(e) {
                     e.preventDefault();
                     sessionStorage.removeItem('complaintReferrer');
                     localStorage.removeItem('draftToEditId');
