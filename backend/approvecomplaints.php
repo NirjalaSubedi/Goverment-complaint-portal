@@ -19,9 +19,15 @@ require '../includes/databaseConnection.php';
 $officer_id = $_SESSION['user_id'];
 $complaint_id = isset($_POST['complaint_id']) ? intval($_POST['complaint_id']) : 0;
 $action = isset($_POST['action']) ? $_POST['action'] : ''; // 'approve' or 'reject'
+$reject_reason = isset($_POST['reject_reason']) ? trim($_POST['reject_reason']) : '';
 
 if (!$complaint_id || !in_array($action, ['approve', 'reject'])) {
     echo json_encode(['error' => 'Invalid complaint ID or action']);
+    exit;
+}
+
+if ($action === 'reject' && $reject_reason === '') {
+    echo json_encode(['error' => 'Rejection reason is required']);
     exit;
 }
 
@@ -103,6 +109,17 @@ if ($stmt->execute()) {
         $userStmt->close();
     }
     
+    if ($action === 'reject') {
+        $activitySql = "INSERT INTO complaintactivity (complaint_id, actor_id, activity_type, activity_text, status_changed_to, activity_date)
+                        VALUES (?, ?, 'StatusChange', ?, 'Rejected', NOW())";
+        $activityStmt = $conn->prepare($activitySql);
+        if ($activityStmt) {
+            $activityStmt->bind_param('iis', $complaint_id, $officer_id, $reject_reason);
+            $activityStmt->execute();
+            $activityStmt->close();
+        }
+    }
+
     // Always return success if complaint status was updated
     echo json_encode(['success' => true, 'message' => 'Complaint ' . $action . 'ed successfully', 'status' => $status]);
 } else {
