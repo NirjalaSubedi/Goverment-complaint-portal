@@ -108,6 +108,83 @@
             cursor: pointer;
             font-weight: 600;
         }
+
+        .reject-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+        }
+
+        .reject-modal-backdrop.show { display: flex; }
+
+        .reject-modal {
+            width: min(520px, 92vw);
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 18px 60px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+
+        .reject-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            font-weight: 700;
+            color: #c62828;
+        }
+
+        .reject-modal-body { padding: 16px 20px; }
+
+        .reject-modal-body label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .reject-modal-body textarea {
+            width: 100%;
+            min-height: 120px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        .reject-modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            padding: 14px 20px 18px;
+        }
+
+        .reject-btn-primary {
+            background: #c62828;
+            color: #fff;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .reject-btn-secondary {
+            background: #f5f5f5;
+            color: #333;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -299,6 +376,23 @@
                     <label>User ID</label>
                     <p id="profileUserId">-</p>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rejectModalBackdrop" class="reject-modal-backdrop" onclick="handleRejectBackdrop(event)">
+        <div class="reject-modal" role="dialog" aria-modal="true" aria-labelledby="rejectModalTitle">
+            <div class="reject-modal-header">
+                <span id="rejectModalTitle">Rejection Reason</span>
+                <button class="profile-modal-close" onclick="closeRejectModal()">&times;</button>
+            </div>
+            <div class="reject-modal-body">
+                <label for="rejectReasonInput" id="rejectReasonLabel">Reason</label>
+                <textarea id="rejectReasonInput" placeholder="Write why this complaint is being rejected..."></textarea>
+            </div>
+            <div class="reject-modal-actions">
+                <button class="reject-btn-secondary" type="button" id="rejectCancelBtn" onclick="closeRejectModal()">Cancel</button>
+                <button class="reject-btn-primary" type="button" id="rejectSubmitBtn" onclick="submitRejectReason()">Reject Complaint</button>
             </div>
         </div>
     </div>
@@ -731,11 +825,68 @@
     // Reject complaint
     function Rejectcomplaints(button) {
         const complaintId = button.getAttribute('data-complaint-id');
-        
+        openRejectModal(complaintId);
+    }
+
+    let currentRejectComplaintId = null;
+
+    function openRejectModal(complaintId) {
+        const lang = getOfficerLang();
+        currentRejectComplaintId = complaintId;
+        const backdrop = document.getElementById('rejectModalBackdrop');
+        const title = document.getElementById('rejectModalTitle');
+        const label = document.getElementById('rejectReasonLabel');
+        const input = document.getElementById('rejectReasonInput');
+        const cancelBtn = document.getElementById('rejectCancelBtn');
+        const submitBtn = document.getElementById('rejectSubmitBtn');
+
+        if (title) title.textContent = lang.rejectReasonTitle || 'Rejection Reason';
+        if (label) label.textContent = lang.rejectReasonTitle || 'Reason';
+        if (input) {
+            input.value = '';
+            input.placeholder = lang.rejectReasonPlaceholder || 'Write why this complaint is being rejected...';
+        }
+        if (cancelBtn) cancelBtn.textContent = lang.cancelReject || 'Cancel';
+        if (submitBtn) submitBtn.textContent = lang.submitReject || 'Reject Complaint';
+
+        if (backdrop) {
+            backdrop.classList.add('show');
+        }
+
+        if (input) input.focus();
+    }
+
+    function closeRejectModal() {
+        const backdrop = document.getElementById('rejectModalBackdrop');
+        if (backdrop) backdrop.classList.remove('show');
+        currentRejectComplaintId = null;
+    }
+
+    function handleRejectBackdrop(event) {
+        if (event.target && event.target.id === 'rejectModalBackdrop') {
+            closeRejectModal();
+        }
+    }
+
+    function submitRejectReason() {
+        const lang = getOfficerLang();
+        const rejectRequired = lang.rejectReasonRequired || 'Rejection reason is required.';
+        const input = document.getElementById('rejectReasonInput');
+        const reason = input ? input.value.trim() : '';
+        if (!currentRejectComplaintId) {
+            closeRejectModal();
+            return;
+        }
+        if (!reason) {
+            alert(rejectRequired);
+            return;
+        }
+
         const formData = new FormData();
-        formData.append('complaint_id', complaintId);
+        formData.append('complaint_id', currentRejectComplaintId);
         formData.append('action', 'reject');
-        
+        formData.append('reject_reason', reason);
+
         fetch('../backend/approvecomplaints.php', {
             method: 'POST',
             body: formData
@@ -743,8 +894,10 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                closeRejectModal();
                 alert('Complaint rejected!');
                 loadPendingComplaints();
+                loadAllComplaints();
             } else {
                 alert('Error: ' + data.error);
             }
