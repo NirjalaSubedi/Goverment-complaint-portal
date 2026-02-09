@@ -109,6 +109,31 @@ try {
             
             $completionStmt->close();
         }
+
+        // Fetch latest rejection info if any
+        $rejectionInfo = null;
+        $rejectionSql = "SELECT 
+                            ca.activity_text as reason,
+                            ca.activity_date,
+                            u.full_name as officer_name,
+                            u.email as officer_email
+                        FROM complaintactivity ca
+                        LEFT JOIN users u ON ca.actor_id = u.user_id
+                        WHERE ca.complaint_id = ?
+                        AND ca.activity_type = 'StatusChange'
+                        AND ca.status_changed_to = 'Rejected'
+                        ORDER BY ca.activity_date DESC
+                        LIMIT 1";
+        $rejectionStmt = $conn->prepare($rejectionSql);
+        if ($rejectionStmt) {
+            $rejectionStmt->bind_param('i', $complaintId);
+            $rejectionStmt->execute();
+            $rejectionResult = $rejectionStmt->get_result();
+            if ($rejectionResult && $rejectionResult->num_rows > 0) {
+                $rejectionInfo = $rejectionResult->fetch_assoc();
+            }
+            $rejectionStmt->close();
+        }
         
         // Get officer's department if logged in as officer
         $officerDepartmentId = null;
@@ -132,6 +157,7 @@ try {
             'complaint' => $complaint,
             'responses' => $responses,
             'completion_history' => $completionHistory,
+            'rejection_info' => $rejectionInfo,
             'officer_department_id' => $officerDepartmentId,
             'officer_department_name' => $officerDepartmentName
         ]);
