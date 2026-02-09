@@ -51,6 +51,12 @@ const officerTranslations = {
         approve: 'Approve',
         reject: 'Reject',
         assignedToMe: 'Assigned to me',
+        rejectReasonPrompt: 'Please enter a rejection reason:',
+        rejectReasonRequired: 'Rejection reason is required.',
+        rejectReasonTitle: 'Rejection Reason',
+        rejectReasonPlaceholder: 'Write why this complaint is being rejected...',
+        submitReject: 'Reject Complaint',
+        cancelReject: 'Cancel',
 
         // Status labels
         statusPending: 'Pending',
@@ -120,6 +126,12 @@ const officerTranslations = {
         approve: 'स्वीकृत',
         reject: 'अस्वीकृत',
         assignedToMe: 'मलाई तोकिएको',
+        rejectReasonPrompt: 'अस्वीकृत गर्ने कारण लेख्नुहोस्:',
+        rejectReasonRequired: 'अस्वीकृत गर्ने कारण आवश्यक छ।',
+        rejectReasonTitle: 'अस्वीकृत कारण',
+        rejectReasonPlaceholder: 'अस्वीकृत गर्नुको कारण लेख्नुहोस्...',
+        submitReject: 'गुनासो अस्वीकार गर्नुहोस्',
+        cancelReject: 'रद्द गर्नुहोस्',
 
         // Status labels
         statusPending: 'बाँकी',

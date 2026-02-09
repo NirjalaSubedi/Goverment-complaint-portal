@@ -75,6 +75,11 @@
                 statusResolved: 'Resolved',
                 statusCompleted: 'Completed',
                 statusRejected: 'Rejected',
+                rejectionDetails: 'Rejection Details',
+                rejectionReason: 'Reason',
+                rejectedBy: 'Rejected by',
+                rejectedOn: 'Rejected on',
+                noRejectionReason: 'No rejection reason provided',
                 priorityHigh: 'High',
                 priorityMedium: 'Medium',
                 priorityLow: 'Low',
@@ -129,6 +134,11 @@
                 statusResolved: 'समाधान भयो',
                 statusCompleted: 'पूरा भयो',
                 statusRejected: 'अस्वीकृत',
+                rejectionDetails: 'अस्वीकृत विवरण',
+                rejectionReason: 'कारण',
+                rejectedBy: 'अस्वीकृत गर्ने',
+                rejectedOn: 'अस्वीकृत मिति',
+                noRejectionReason: 'कारण उपलब्ध छैन',
                 priorityHigh: 'उच्च',
                 priorityMedium: 'मध्यम',
                 priorityLow: 'कम',
@@ -247,6 +257,7 @@
                     const completionHistory = data.completion_history || [];
                     const officerDepartmentId = data.officer_department_id;
                     const officerDepartmentName = data.officer_department_name;
+                    const rejectionInfo = data.rejection_info || null;
                     
                     // Check if officer can manage this complaint
                     // STRICT: Only show if we have positive confirmation
@@ -294,6 +305,7 @@
                         complaint,
                         responses,
                         completionHistory,
+                        rejectionInfo,
                         userType,
                         officerDepartmentId,
                         officerDepartmentName,
@@ -311,7 +323,7 @@
 
         function renderViewDetails(viewData) {
             const lang = getViewLang();
-            const { complaint, responses, completionHistory, userType, officerDepartmentId, officerDepartmentName, canManageComplaint } = viewData;
+            const { complaint, responses, completionHistory, rejectionInfo, userType, officerDepartmentId, officerDepartmentName, canManageComplaint } = viewData;
 
             // Update page title
             document.getElementById('pageTitle').textContent = `${lang.pageTitle} - C${String(complaint.complaint_id).padStart(3, '0')}`;
@@ -401,9 +413,37 @@
                 `;
             }
             
+            // Build rejection info HTML
+            let rejectionHTML = '';
+            const isRejected = complaint.status && complaint.status.toLowerCase() === 'rejected';
+            if (isRejected) {
+                const reasonText = rejectionInfo && rejectionInfo.reason ? rejectionInfo.reason : lang.noRejectionReason;
+                const rejectedBy = rejectionInfo && rejectionInfo.officer_name ? rejectionInfo.officer_name : 'Officer';
+                const rejectedOn = rejectionInfo && rejectionInfo.activity_date ? formatDate(rejectionInfo.activity_date, true) : '';
+                rejectionHTML = `
+                    <div style="background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%); border-left: 4px solid #c62828; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <i class="material-icons" style="font-size: 28px; color: #c62828;">block</i>
+                            <div>
+                                <h3 style="margin: 0; color: #b71c1c; font-size: 18px;">${lang.rejectionDetails}</h3>
+                            </div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.85); padding: 14px; border-radius: 10px; border: 1px solid #f1b0b7;">
+                            <div style="font-size: 13px; color: #8a1f2a; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px;">${lang.rejectionReason}</div>
+                            <div style="font-size: 15px; color: #3b0d12; line-height: 1.6;">${reasonText}</div>
+                            <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 12px; color: #5c2c2c; font-size: 13px;">
+                                <span>${lang.rejectedBy}: ${rejectedBy}</span>
+                                ${rejectedOn ? `<span>${lang.rejectedOn}: ${rejectedOn}</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
             // Build completion info HTML
             let completionHTML = '';
             const isCompleted = complaint.status && (complaint.status.toLowerCase() === 'completed' || complaint.status.toLowerCase() === 'resolved');
+            const allowOfficerActions = canManageComplaint && !isRejected;
             
             if (completionHistory && completionHistory.length > 0) {
                 const completionItems = completionHistory.map((completion, index) => {
@@ -533,11 +573,13 @@
                             ${attachmentsHTML}
                         </div>
                         
+                        ${rejectionHTML}
+
                         ${completionHTML}
                         
                         ${responsesHTML}
                         
-                        ${canManageComplaint ? `
+                        ${allowOfficerActions ? `
                         <div class="officer-response-section" style="background: white; border-radius: 12px; padding: 30px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); margin-top: 25px;">
                             <div class="response-header" style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
                                 <i class="material-icons" style="font-size: 28px; color: #2196F3;">chat_bubble_outline</i>
