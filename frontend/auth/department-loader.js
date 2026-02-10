@@ -1,13 +1,7 @@
-const departmentTranslations = {
-    'roads department': { ne: 'सडक विभाग' },
-    'road department': { ne: 'सडक विभाग' },
-    'water supply department': { ne: 'पानी आपूर्ति विभाग' },
-    'electricity authority': { ne: 'विद्युत प्राधिकरण' },
-    'anti-corruption commission': { ne: 'भ्रष्टाचार विरोधी विभाग' },
-    'anti-corruption department': { ne: 'भ्रष्टाचार विरोधी विभाग' },
-    'health': { ne: 'स्वास्थ्य' },
-    'other': { ne: 'अन्य' }
-};
+let departmentTranslations = {};
+let translationsLoaded = false;
+let isTranslating = false;
+const translateEndpoint = '../backend/translate.php';
 
 let cachedDepartments = [];
 
@@ -18,7 +12,7 @@ function normalizeDepartmentName(departmentName) {
 function getDepartmentLabel(departmentName) {
     const normalized = normalizeDepartmentName(departmentName);
     if (currentLanguage === 'ne' && departmentTranslations[normalized]) {
-        return departmentTranslations[normalized].ne;
+        return departmentTranslations[normalized];
     }
     return departmentName;
 }
@@ -53,18 +47,90 @@ function renderDepartments() {
     existingOptions.forEach(option => option.remove());
 
     const fragment = document.createDocumentFragment();
+    const missingTranslations = [];
     cachedDepartments.forEach(dept => {
         const option = document.createElement('option');
         option.value = dept.department_name;
+        const normalized = normalizeDepartmentName(dept.department_name);
         option.textContent = getDepartmentLabel(dept.department_name);
+        if (currentLanguage === 'ne' && !departmentTranslations[normalized]) {
+            missingTranslations.push(dept.department_name);
+        }
         fragment.appendChild(option);
     });
     select.appendChild(fragment);
+
+    if (currentLanguage === 'ne' && missingTranslations.length > 0) {
+        translateMissingDepartments(missingTranslations);
+    }
+}
+
+function loadDepartmentTranslations() {
+    if (translationsLoaded) return Promise.resolve();
+
+    return fetch('auth/department-translations.json')
+        .then(response => response.json())
+        .then(data => {
+            if (data && typeof data === 'object') {
+                const normalizedMap = {};
+                Object.keys(data).forEach(key => {
+                    normalizedMap[normalizeDepartmentName(key)] = data[key];
+                });
+                departmentTranslations = normalizedMap;
+            }
+            translationsLoaded = true;
+        })
+        .catch(() => {
+            translationsLoaded = true;
+        });
+}
+
+function translateMissingDepartments(departmentNames) {
+    if (isTranslating) return;
+    isTranslating = true;
+
+    const uniqueNames = Array.from(new Set(departmentNames));
+    const promises = uniqueNames.map(name => translateText(name));
+
+    Promise.all(promises)
+        .then(() => {
+            if (currentLanguage === 'ne') {
+                renderDepartments();
+            }
+        })
+        .finally(() => {
+            isTranslating = false;
+        });
+}
+
+function translateText(text) {
+    const normalized = normalizeDepartmentName(text);
+    if (!normalized || departmentTranslations[normalized]) {
+        return Promise.resolve();
+    }
+
+    return fetch(translateEndpoint, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            q: text
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.success && data.translatedText) {
+                departmentTranslations[normalized] = data.translatedText;
+            }
+        })
+        .catch(() => {
+        });
 }
 
 function loadDepartmentsForAuth() {
-    fetch('../backend/getdepartments_public.php')
-        .then(response => response.json())
+    Promise.all([loadDepartmentTranslations(), fetch('../backend/getdepartments_public.php')])
+        .then(results => results[1].json())
         .then(data => {
             if (data.success && Array.isArray(data.departments)) {
                 cachedDepartments = data.departments;
@@ -77,11 +143,14 @@ function loadDepartmentsForAuth() {
 }
 
 function updateAuthDepartmentOptions() {
-    if (cachedDepartments.length > 0) {
-        renderDepartments();
-    } else {
-        loadDepartmentsForAuth();
-    }
+    const ensureTranslations = translationsLoaded ? Promise.resolve() : loadDepartmentTranslations();
+    ensureTranslations.then(() => {
+        if (cachedDepartments.length > 0) {
+            renderDepartments();
+        } else {
+            loadDepartmentsForAuth();
+        }
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function() {

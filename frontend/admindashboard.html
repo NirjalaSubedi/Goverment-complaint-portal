@@ -95,18 +95,6 @@
                         <p>View Complaints</p>
                     </div>
                 </div>
-                <div class="Navbtn" id="addDepartmentTab" onclick="showAddDepartmentSection()">
-                    <div class="nav-btn">
-                        <i class="material-icons">domain</i>
-                        <p>Add Department</p>
-                    </div>
-                </div>
-                <div class="Navbtn" id="viewDepartmentsTab" onclick="showViewDepartmentsSection()">
-                    <div class="nav-btn">
-                        <i class="material-icons">apartment</i>
-                        <p>View Departments</p>
-                    </div>
-                </div>
                 <div class="logout nav-btn" style="margin-top: 20px;">
                     <i class="material-icons" style="color: red;">logout</i>
                     <a href="#" style="text-decoration: none; color: red;" onclick="sessionStorage.clear(); localStorage.clear(); alert('Account logout successfully!'); window.location.href='index.html'; return false;">Logout</a>
@@ -235,60 +223,7 @@
             </div>
         </div>
 
-        <div class="dashboard-container" id="addDepartmentSection" style="display: none;">
-            <div class="MainHeading">
-                <div class="myComplaintsHeading">
-                    <h2 class="myComplaintsText" id="addDepartmentHeading">Add Department</h2>
-                    <p id="addDepartmentDesc">Create a new department for officer assignments</p>
-                </div>
-            </div>
 
-            <div class="MainBox">
-                <div class="heading003" style="padding: 15px;">
-                    <h4 class="myComplaintsText1" id="addDepartmentFormHeading" style="font-size:18px;">New Department</h4>
-                </div>
-
-                <form onsubmit="submitDepartment(event)" style="padding: 15px; display: flex; flex-direction: column; gap: 12px; max-width: 520px;">
-                    <label for="departmentName" id="departmentNameLabel" style="font-weight: 600;">Department Name</label>
-                    <input id="departmentName" type="text" placeholder="Enter department name" style="padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;" required>
-                    <button type="submit" id="addDepartmentBtn" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; width: fit-content;">
-                        <i class="material-icons" style="vertical-align: middle;">add</i> Add Department
-                    </button>
-                    <div id="departmentMessage" style="font-size: 14px;"></div>
-                </form>
-            </div>
-        </div>
-
-        <div class="dashboard-container" id="viewDepartmentsSection" style="display: none;">
-            <div class="MainHeading">
-                <div class="myComplaintsHeading">
-                    <h2 class="myComplaintsText" id="viewDepartmentsHeading">All Departments</h2>
-                    <p id="viewDepartmentsDesc">View all departments available in the system</p>
-                </div>
-                <button onclick="loadDepartments()" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
-                    <i class="material-icons" style="vertical-align: middle;">refresh</i> Refresh
-                </button>
-            </div>
-
-            <div class="MainBox">
-                <div class="heading003" style="padding: 15px;">
-                    <h4 class="myComplaintsText1" id="viewDepartmentsListHeading" style="font-size:18px;">Departments List</h4>
-                </div>
-
-                <table class="testTable" id="departmentsTable">
-                    <tr class="ComplaintHeader1">
-                        <th style="text-align: center;">DEPARTMENT ID</th>
-                        <th>DEPARTMENT</th>
-                        <th>ACTIONS</th>
-                    </tr>
-                    <tbody id="departmentsTableBody">
-                    </tbody>
-                </table>
-                <div id="noDepartmentsMsg" style="text-align: center; padding: 20px; color: #666;">
-                    <p>No departments found</p>
-                </div>
-            </div>
-        </div>
     </div>
     <script src="languageToggle/adminLanguageToggle.js"></script>
     <script src="admin/admin-modal.js"></script>
