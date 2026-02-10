@@ -1,4 +1,4 @@
-let currentLanguage = localStorage.getItem('currentLanguage') || 'en';
+let currentLanguage = localStorage.getItem('currentLanguage') || 'ne';
 const Translate={
     'en':{
         languageToggle:'नेपाली',
@@ -199,9 +199,7 @@ const Translate={
     }
 }
 
-function LanguageTranslate(){
-    currentLanguage=currentLanguage==='en'?'ne':'en';
-    localStorage.setItem('currentLanguage', currentLanguage);
+function applyHomeLanguage() {
     document.getElementById('language-toggle').innerHTML = `<i class="material-icons">language</i> ${Translate[currentLanguage].languageToggle}`;
     document.getElementsByClassName('Heading1')[0].innerText=Translate[currentLanguage].title;
     document.getElementById('Features').innerText=Translate[currentLanguage].Features;
@@ -254,6 +252,12 @@ function LanguageTranslate(){
     document.getElementsByClassName('desc')[22].innerText=Translate[currentLanguage].privacy;
     document.getElementsByClassName('desc')[23].innerText=Translate[currentLanguage].terms;
     document.getElementsByClassName('desc')[24].innerText=Translate[currentLanguage].contactus;
+}
+
+function LanguageTranslate(){
+    currentLanguage=currentLanguage==='en'?'ne':'en';
+    localStorage.setItem('currentLanguage', currentLanguage);
+    applyHomeLanguage();
 
 
 }
@@ -313,5 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (isLoginPage) {
         loginLanguageTranslate();
         loginLanguageTranslate(); // Call twice to set the stored language
+    } else {
+        applyHomeLanguage();
     }
 });

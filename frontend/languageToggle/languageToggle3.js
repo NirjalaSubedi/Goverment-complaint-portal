@@ -1,4 +1,4 @@
-let currentLanguage = localStorage.getItem('currentLanguage') || 'en';
+let currentLanguage = localStorage.getItem('currentLanguage') || 'ne';
 
 const Translate = {
     'en': {
@@ -197,7 +197,7 @@ function initializeLanguage() {
     if (savedLang) {
         currentLanguage = savedLang;
     } else {
-        currentLanguage = 'en';
+        currentLanguage = 'ne';
         localStorage.setItem('citizenLanguage', currentLanguage);
         localStorage.setItem('currentLanguage', currentLanguage);
     }
