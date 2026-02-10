@@ -142,7 +142,6 @@
             </div>
         </div>
 
-        <!-- Manage Users Section -->
         <div class="dashboard-container" id="manageUsersSection" style="display: none;">
             <div class="MainHeading">
                 <div class="myComplaintsHeading">
@@ -159,7 +158,6 @@
                     <h4 class="myComplaintsText1" style="font-size:18px;">All Users</h4>
                 </div>
 
-                <!-- Filter Buttons -->
                 <div style="padding: 15px; border-bottom: 1px solid #ddd; display: flex; gap: 10px; flex-wrap: wrap;">
                     <button id="filterAllBtn" class="filter-btn active" onclick="filterUsers('all')" style="padding: 8px 16px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
                         All Users
@@ -192,7 +190,6 @@
             </div>
         </div>
 
-        <!-- View Complaints Section -->
         <div class="dashboard-container" id="viewComplaintsSection" style="display: none;">
             <div class="MainHeading">
                 <div class="myComplaintsHeading">
@@ -233,7 +230,6 @@
     <script src="admin/admin-manage-users.js"></script>
     <script src="admin/admin-view-complaints.js"></script>
     <script>
-        // Global variable to store all users
         let allUsersData = [];
         let currentFilter = 'all';
         document.addEventListener('DOMContentLoaded', function() {
