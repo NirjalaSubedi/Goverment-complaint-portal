@@ -1,17 +1,17 @@
 <?php
 session_start();
 include '../includes/databaseConnection.php';
-// Check if user is logged in and is an officer
+// Check if user is logged in and is an officer or admin
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(['error' => 'Not logged in']);
     exit;
 }
-if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'Officer') {
-    echo json_encode(['error' => 'Access denied. Officers only.']);
+if (!isset($_SESSION['user_type']) || !in_array($_SESSION['user_type'], ['Officer', 'Admin'], true)) {
+    echo json_encode(['error' => 'Access denied. Officers or admins only.']);
     exit;
 }
 
-// Fetch all complaints from database
+// Fetch complaints from database
 $query = "SELECT 
     c.complaint_id,
     c.subject,
@@ -29,8 +29,13 @@ FROM complaints c
 LEFT JOIN complaintcategories cc ON c.category_id = cc.category_id
 LEFT JOIN users u ON c.citizen_id = u.user_id
 LEFT JOIN departments d ON c.department_id = d.department_id
-WHERE c.status IN ('InProgress', 'Resolved', 'Completed', 'Rejected')
-ORDER BY c.submission_date DESC";
+";
+
+if ($_SESSION['user_type'] === 'Officer') {
+    $query .= "WHERE c.status IN ('InProgress', 'Resolved', 'Completed', 'Rejected')\n";
+}
+
+$query .= "ORDER BY c.submission_date DESC";
 
 $stmt = $conn->prepare($query);
 $stmt->execute();

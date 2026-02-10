@@ -10,6 +10,7 @@ const adminTranslations = {
         adminPanel: 'ADMIN PANEL',
         officerApprovals: 'Officer Approvals',
         manageUsers: 'Manage Users',
+        viewComplaints: 'View Complaints',
         logout: 'Logout',
         
         // Officer Approvals Section
@@ -40,7 +41,17 @@ const adminTranslations = {
         manage: 'MANAGE',
         noUsersFound: 'No users found',
         viewDocument: 'View Document',
-        deleteUser: 'Delete'
+        deleteUser: 'Delete',
+
+        // View Complaints Section
+        allComplaints: 'All Complaints',
+        viewComplaintsText: 'View all complaints submitted by citizens',
+        complaintsList: 'Complaints List',
+        complaint: 'COMPLAINT',
+        priority: 'PRIORITY',
+        date: 'DATE',
+        viewDetails: 'View Details',
+        noComplaintsFound: 'No complaints found'
     },
     'ne': {
         languageToggle: 'English',
@@ -52,6 +63,7 @@ const adminTranslations = {
         adminPanel: 'एडमिन प्यानल',
         officerApprovals: 'अधिकृत स्वीकृति',
         manageUsers: 'प्रयोगकर्ता व्यवस्थापन',
+        viewComplaints: 'गुनासो हेर्नुहोस्',
         logout: 'लगआउट',
         
         // Officer Approvals Section
@@ -82,7 +94,17 @@ const adminTranslations = {
         manage: 'व्यवस्थापन',
         noUsersFound: 'कुनै प्रयोगकर्ता फेला परेन',
         viewDocument: 'कागजात हेर्नुहोस्',
-        deleteUser: 'मेटाउनुहोस्'
+        deleteUser: 'मेटाउनुहोस्',
+
+        // View Complaints Section
+        allComplaints: 'सबै गुनासोहरू',
+        viewComplaintsText: 'नागरिकहरूले पेश गरेका सबै गुनासो हेर्नुहोस्',
+        complaintsList: 'गुनासो सूची',
+        complaint: 'गुनासो',
+        priority: 'प्राथमिकता',
+        date: 'मिति',
+        viewDetails: 'विवरण हेर्नुहोस्',
+        noComplaintsFound: 'कुनै गुनासो फेला परेन'
     }
 };
 
@@ -113,6 +135,7 @@ function updateAdminContent() {
     const navButtons = document.querySelectorAll('.nav-btn p');
     if (navButtons[0]) navButtons[0].textContent = lang.officerApprovals;
     if (navButtons[1]) navButtons[1].textContent = lang.manageUsers;
+    if (navButtons[2]) navButtons[2].textContent = lang.viewComplaints;
     
     const logoutLink = document.querySelector('.logout a');
     if (logoutLink) {
@@ -192,6 +215,28 @@ function updateAdminContent() {
     
     const noUsersMsg = document.querySelector('#noUsersMsg p');
     if (noUsersMsg) noUsersMsg.textContent = lang.noUsersFound;
+
+    // Update View Complaints Section
+    const viewComplaintsHeading = document.getElementById('viewComplaintsHeading');
+    if (viewComplaintsHeading) viewComplaintsHeading.textContent = lang.allComplaints;
+
+    const viewComplaintsDesc = document.getElementById('viewComplaintsDesc');
+    if (viewComplaintsDesc) viewComplaintsDesc.textContent = lang.viewComplaintsText;
+
+    const viewComplaintsListHeading = document.getElementById('viewComplaintsListHeading');
+    if (viewComplaintsListHeading) viewComplaintsListHeading.textContent = lang.complaintsList;
+
+    const complaintsTableHeaders = document.querySelectorAll('#complaintsTable th');
+    if (complaintsTableHeaders.length > 0) {
+        complaintsTableHeaders[0].textContent = lang.complaint;
+        complaintsTableHeaders[1].textContent = lang.status;
+        complaintsTableHeaders[2].textContent = lang.priority;
+        complaintsTableHeaders[3].textContent = lang.date;
+        complaintsTableHeaders[4].textContent = lang.actions;
+    }
+
+    const noComplaintsMsg = document.querySelector('#noComplaintsMsg p');
+    if (noComplaintsMsg) noComplaintsMsg.textContent = lang.noComplaintsFound;
 }
 
 // Function to toggle language

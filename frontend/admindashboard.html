@@ -89,6 +89,12 @@
                         <p>Manage Users</p>
                     </div>
                 </div>
+                <div class="Navbtn" id="viewComplaintsTab" onclick="showViewComplaintsSection()">
+                    <div class="nav-btn">
+                        <i class="material-icons">description</i>
+                        <p>View Complaints</p>
+                    </div>
+                </div>
                 <div class="logout nav-btn" style="margin-top: 20px;">
                     <i class="material-icons" style="color: red;">logout</i>
                     <a href="#" style="text-decoration: none; color: red;" onclick="sessionStorage.clear(); localStorage.clear(); alert('Account logout successfully!'); window.location.href='index.html'; return false;">Logout</a>
@@ -185,12 +191,47 @@
                 </div>
             </div>
         </div>
+
+        <!-- View Complaints Section -->
+        <div class="dashboard-container" id="viewComplaintsSection" style="display: none;">
+            <div class="MainHeading">
+                <div class="myComplaintsHeading">
+                    <h2 class="myComplaintsText" id="viewComplaintsHeading">All Complaints</h2>
+                    <p id="viewComplaintsDesc">View all complaints submitted by citizens</p>
+                </div>
+                <button onclick="loadAdminComplaints()" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    <i class="material-icons" style="vertical-align: middle;">refresh</i> Refresh
+                </button>
+            </div>
+
+            <div class="MainBox">
+                <div class="heading003" style="padding: 15px;">
+                    <h4 class="myComplaintsText1" id="viewComplaintsListHeading" style="font-size:18px;">Complaints List</h4>
+                </div>
+
+                <table class="testTable" id="complaintsTable">
+                    <tr class="ComplaintHeader1">
+                        <th>COMPLAINT</th>
+                        <th>STATUS</th>
+                        <th>PRIORITY</th>
+                        <th>DATE</th>
+                        <th>ACTIONS</th>
+                    </tr>
+                    <tbody id="complaintsTableBody">
+                    </tbody>
+                </table>
+                <div id="noComplaintsMsg" style="text-align: center; padding: 20px; color: #666;">
+                    <p>No complaints found</p>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="languageToggle/adminLanguageToggle.js"></script>
     <script src="admin/admin-modal.js"></script>
     <script src="admin/admin-tabs.js"></script>
     <script src="admin/admin-officer-approvals.js"></script>
     <script src="admin/admin-manage-users.js"></script>
+    <script src="admin/admin-view-complaints.js"></script>
     <script>
         // Global variable to store all users
         let allUsersData = [];
