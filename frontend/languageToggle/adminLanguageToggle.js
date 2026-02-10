@@ -331,6 +331,9 @@ function toggleAdminLanguage() {
     currentLanguage = currentLanguage === 'en' ? 'ne' : 'en';
     localStorage.setItem('currentLanguage', currentLanguage);
     updateAdminContent();
+    if (typeof loadDepartments === 'function') {
+        loadDepartments();
+    }
 }
 
 // Initialize on page load
