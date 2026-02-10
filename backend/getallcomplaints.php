@@ -1,7 +1,6 @@
 <?php
 session_start();
 include '../includes/databaseConnection.php';
-// Check if user is logged in and is an officer or admin
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(['error' => 'Not logged in']);
     exit;
@@ -11,7 +10,6 @@ if (!isset($_SESSION['user_type']) || !in_array($_SESSION['user_type'], ['Office
     exit;
 }
 
-// Fetch complaints from database
 $query = "SELECT 
     c.complaint_id,
     c.subject,

@@ -8,7 +8,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(['success' => false, 'message' => 'Please login first.']);
     exit;
@@ -18,7 +17,6 @@ $userId = $_SESSION['user_id'];
 
 $conn->query('SET FOREIGN_KEY_CHECKS=0');
 
-// Delete user from database
 $stmt = $conn->prepare('DELETE FROM users WHERE user_id = ?');
 
 if (!$stmt) {
@@ -30,10 +28,8 @@ if (!$stmt) {
 $stmt->bind_param('i', $userId);
 
 if ($stmt->execute()) {
-    // Re-enable foreign key checks
     $conn->query('SET FOREIGN_KEY_CHECKS=1');
     
-    // Destroy session after successful deletion
     session_destroy();
     echo json_encode(['success' => true, 'message' => 'Account deleted successfully.']);
 } else {

@@ -1,13 +1,11 @@
 <?php
 include '../includes/databaseConnection.php';
-// Check if email_verification table exists
 $checkTable = mysqli_query($conn, "SHOW TABLES LIKE 'email_verification'");
 $tableExists = mysqli_num_rows($checkTable) > 0;
 
 if ($tableExists) {
     echo "<h3 style='color: green;'>Email verification table already exists.</h3>";
 } else {
-    // Create email_verification table
     $createTable = "CREATE TABLE email_verification (
         id INT PRIMARY KEY AUTO_INCREMENT,
         user_id INT,
@@ -26,14 +24,12 @@ if ($tableExists) {
     }
 }
 
-// Check if users table has email_verified column
 $checkColumn = mysqli_query($conn, "SHOW COLUMNS FROM users LIKE 'email_verified'");
 $columnExists = mysqli_num_rows($checkColumn) > 0;
 
 if ($columnExists) {
     echo "<p style='color: green;'>Column 'email_verified' already exists in users table.</p>";
 } else {
-    // Add email_verified column to users table
     $addColumn = "ALTER TABLE users ADD COLUMN email_verified TINYINT(1) DEFAULT 0";
     if (mysqli_query($conn, $addColumn)) {
         echo "<p style='color: green;'>Column 'email_verified' added to users table successfully!</p>";

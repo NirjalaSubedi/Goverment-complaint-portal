@@ -7,7 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit('Method not allowed');
 }
 
-// Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     echo "<script>
         alert('Please login first.');
@@ -29,7 +28,6 @@ if (empty($oldPassword) || empty($newPassword) || empty($confirmPassword)) {
     exit;
 }
 
-// Check if new passwords match
 if ($newPassword !== $confirmPassword) {
     echo "<script>
         alert('New password and confirm password do not match.');
@@ -38,7 +36,6 @@ if ($newPassword !== $confirmPassword) {
     exit;
 }
 
-// Get current password from database
 $stmt = $conn->prepare('SELECT password_hash FROM users WHERE user_id = ?');
 $stmt->bind_param('i', $userId);
 $stmt->execute();
@@ -55,7 +52,6 @@ if ($result->num_rows !== 1) {
 $row = $result->fetch_assoc();
 $currentPasswordHash = $row['password_hash'];
 
-// Verify old password
 $validOldPassword = password_verify($oldPassword, $currentPasswordHash) || hash_equals($currentPasswordHash, $oldPassword);
 
 if (!$validOldPassword) {
@@ -66,10 +62,8 @@ if (!$validOldPassword) {
     exit;
 }
 
-// Hash new password
 $newPasswordHash = password_hash($newPassword, PASSWORD_DEFAULT);
 
-// Update password in database
 $updateStmt = $conn->prepare('UPDATE users SET password_hash = ? WHERE user_id = ?');
 $updateStmt->bind_param('si', $newPasswordHash, $userId);
 

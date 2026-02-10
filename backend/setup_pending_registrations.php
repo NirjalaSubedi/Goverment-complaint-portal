@@ -1,12 +1,6 @@
 <?php
-/**
- * Database Setup for Pending Registrations
- * Run this to create temporary table for unverified users
- */
-
 include '../includes/databaseConnection.php';
 
-// Create pending_registrations table for unverified users
 $createPendingTable = "CREATE TABLE IF NOT EXISTS pending_registrations (
     id INT PRIMARY KEY AUTO_INCREMENT,
     full_name VARCHAR(255) NOT NULL,

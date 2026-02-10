@@ -12,7 +12,6 @@ require_once '../includes/databaseConnection.php';
 $user_id = $_SESSION['user_id'];
 
 try {
-    // Get unread notifications
     $query = "SELECT * FROM notifications WHERE user_id = ? AND is_read = 0 ORDER BY created_at DESC LIMIT 10";
     $stmt = $conn->prepare($query);
     
@@ -30,7 +29,6 @@ try {
         $notifications[] = $row;
     }
     
-    // Get count of unread notifications
     $countQuery = "SELECT COUNT(*) as count FROM notifications WHERE user_id = ? AND is_read = 0";
     $countStmt = $conn->prepare($countQuery);
     $countStmt->bind_param("i", $user_id);

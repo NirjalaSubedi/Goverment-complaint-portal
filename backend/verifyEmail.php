@@ -5,12 +5,10 @@ include __DIR__ . '/emailVerify/sendVerification.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     $action = $_POST['action'];
     
-    // Verify submitted code
     if ($action === 'verify_code') {
         $email = mysqli_real_escape_string($conn, $_POST['email'] ?? '');
         $submittedCode = mysqli_real_escape_string($conn, $_POST['code'] ?? '');
         
-        // Check if pending registration exists
         if (!isset($_SESSION['pending_registration']) || $_SESSION['pending_registration']['email'] !== $email) {
             echo json_encode(['success' => false, 'message' => 'Registration data not found. Please register again.']);
             exit();
@@ -18,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         
         $pending = $_SESSION['pending_registration'];
         
-        // Check verification code from database
         $emailEsc = mysqli_real_escape_string($conn, $email);
         $codeEsc = mysqli_real_escape_string($conn, $submittedCode);
         $checkQuery = "SELECT * FROM email_verification 
@@ -38,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $verificationRow = mysqli_fetch_assoc($result);
         $verificationId = $verificationRow['id'];
         
-        // Code is valid - NOW insert into users table
         $fullname = mysqli_real_escape_string($conn, $pending['full_name']);
         $phonenumber = mysqli_real_escape_string($conn, $pending['phone_number']);
         $address = mysqli_real_escape_string($conn, $pending['address']);
@@ -62,20 +58,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         if (mysqli_query($conn, $sql)) {
             $newUserId = mysqli_insert_id($conn);
             
-            // Mark email as verified in users table
             mysqli_query($conn, "UPDATE users SET email_verified = 1 WHERE user_id = $newUserId");
             
-            // Mark verification as complete in email_verification table
             mysqli_query($conn, "UPDATE email_verification SET is_verified = 1, user_id = $newUserId WHERE id = $verificationId");
             
-            // If officer has ID path, insert into userdocuments
             if ($user_type === 'Officer' && !empty($pending['officer_id_path'])) {
                 $docType = 'OfficerID';
                 $docPathEsc = mysqli_real_escape_string($conn, $pending['officer_id_path']);
                 mysqli_query($conn, "INSERT INTO userdocuments(user_id, document_type, file_path, upload_date) VALUES ($newUserId, '$docType', '$docPathEsc', NOW())");
             }
             
-            // Clear session
             unset($_SESSION['pending_registration']);
             
             echo json_encode(['success' => true, 'message' => 'Email verified successfully']);
@@ -85,11 +77,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         exit();
     }
     
-    // Resend verification code
     if ($action === 'resend_code') {
         $email = mysqli_real_escape_string($conn, $_POST['email'] ?? '');
         
-        // Check if pending registration exists
         if (!isset($_SESSION['pending_registration']) || $_SESSION['pending_registration']['email'] !== $email) {
             echo json_encode(['success' => false, 'message' => 'Registration data not found']);
             exit();
@@ -101,10 +91,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $verificationCode = generateVerificationCode();
         $expiryTime = date('Y-m-d H:i:s', strtotime('+24 hours'));
         
-        // Update session with new code
         $_SESSION['pending_registration']['verification_code'] = $verificationCode;
         
-        // Insert new verification code into database
         $emailEsc = mysqli_real_escape_string($conn, $email);
         $insertVerification = "INSERT INTO email_verification (email, verification_code, code_expiry, is_verified) 
                               VALUES ('$emailEsc', '$verificationCode', '$expiryTime', 0)";

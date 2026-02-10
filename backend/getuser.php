@@ -7,7 +7,6 @@ if (!isset($_SESSION['user_id'])) {
 
 include('../includes/databaseConnection.php');
 
-// Fetch department if user is an officer
 $department = null;
 if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'Officer') {
     $userId = $_SESSION['user_id'];
@@ -21,7 +20,6 @@ if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'Officer') {
     $stmt->close();
 }
 
-// Return user information from session
 $userInfo = [
     'fullName' => $_SESSION['user_name'] ?? 'User',
     'email' => $_SESSION['user_email'] ?? '',

@@ -4,7 +4,6 @@ include '../includes/databaseConnection.php';
 
 header('Content-Type: application/json');
 
-//active login session
 if (!isset($_SESSION['user_id'])) {
     http_response_code(401);
     echo json_encode(['success' => false, 'error' => 'Unauthorized']);

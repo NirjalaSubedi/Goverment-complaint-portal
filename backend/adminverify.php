@@ -123,14 +123,12 @@ else if ($action === 'deleteUser') {
         $docStmt->execute();
         $docStmt->close();
         
-        // Delete user
         $userDeleteSql = "DELETE FROM users WHERE user_id = ?";
         $userStmt = $conn->prepare($userDeleteSql);
         $userStmt->bind_param('i', $userId);
         $userStmt->execute();
         $userStmt->close();
         
-        // Commit transaction
         mysqli_commit($conn);
         echo json_encode(['success' => true, 'message' => 'User deleted successfully']);
     } catch (Exception $e) {

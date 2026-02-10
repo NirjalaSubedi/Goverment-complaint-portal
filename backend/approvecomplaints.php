@@ -2,13 +2,11 @@
 session_start();
 header('Content-Type: application/json');
 
-// Check if user is logged in
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type'])) {
     echo json_encode(['error' => 'User not logged in']);
     exit;
 }
 
-// Only officers can approve complaints
 if ($_SESSION['user_type'] !== 'Officer') {
     echo json_encode(['error' => 'Only officers can approve complaints']);
     exit;
@@ -18,7 +16,7 @@ require '../includes/databaseConnection.php';
 
 $officer_id = $_SESSION['user_id'];
 $complaint_id = isset($_POST['complaint_id']) ? intval($_POST['complaint_id']) : 0;
-$action = isset($_POST['action']) ? $_POST['action'] : ''; // 'approve' or 'reject'
+$action = isset($_POST['action']) ? $_POST['action'] : '';
 $reject_reason = isset($_POST['reject_reason']) ? trim($_POST['reject_reason']) : '';
 
 if (!$complaint_id || !in_array($action, ['approve', 'reject'])) {
@@ -31,7 +29,6 @@ if ($action === 'reject' && $reject_reason === '') {
     exit;
 }
 
-// Get officer's department
 $deptQuery = "SELECT department_id FROM users WHERE user_id = ?";
 $deptStmt = $conn->prepare($deptQuery);
 $deptStmt->bind_param('i', $officer_id);
@@ -47,7 +44,6 @@ $officerDept = $deptResult->fetch_assoc();
 $departmentId = $officerDept['department_id'];
 $deptStmt->close();
 
-// Verify complaint belongs to officer's department
 $verifyQuery = "SELECT department_id FROM complaints WHERE complaint_id = ?";
 $verifyStmt = $conn->prepare($verifyQuery);
 $verifyStmt->bind_param('i', $complaint_id);
@@ -70,7 +66,6 @@ if ($complaintDeptId === 0 || $complaintDeptId !== $officerDeptId) {
 
 $verifyStmt->close();
 
-// Update complaint status
 if ($action === 'approve') {
     $status = 'InProgress';
 } else {
@@ -82,7 +77,6 @@ $stmt = $conn->prepare($query);
 $stmt->bind_param("si", $status, $complaint_id);
 
 if ($stmt->execute()) {
-    // Create notification for the citizen
     $userQuery = "SELECT citizen_id FROM complaints WHERE complaint_id = ?";
     $userStmt = $conn->prepare($userQuery);
     
@@ -96,7 +90,6 @@ if ($stmt->execute()) {
             $citizen_id = $userRow['citizen_id'];
             $message = ($action === 'approve') ? "Your complaint has been approved and is now in progress" : "Your complaint has been rejected";
             
-            // Insert notification
             $notifQuery = "INSERT INTO notifications (user_id, complaint_id, status, message, is_read) VALUES (?, ?, ?, ?, 0)";
             $notifStmt = $conn->prepare($notifQuery);
             

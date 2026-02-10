@@ -20,7 +20,6 @@ $priorityMap = [
     'low' => 'Low'
 ];
 $priority = $priorityMap[$priorityRaw] ?? 'Low';
-// Normalize category names to match departments
 $categoryAliases = [
     'roaddamage' => 'Roads Department',
     'road' => 'Roads Department',
@@ -67,7 +66,6 @@ if (!empty($_FILES['attachment']['name'])) {
     $targetPath = $complaintsDir . '/' . $uniqueName;
 
     if (move_uploaded_file($_FILES['attachment']['tmp_name'], $targetPath)) {
-        // Save relative path for DB
         $attachmentPath = 'uploads/complaints/' . $uniqueName;
     }
 }
@@ -77,7 +75,6 @@ if ($citizenId <= 0) {
     exit;
 }
 
-// Find department based on complaint category
 $departmentId = null;
 
 error_log("DEBUG: Looking for department: '$normalizedCategory'");
@@ -108,18 +105,15 @@ $insert = $conn->prepare('INSERT INTO complaints (citizen_id, category_id, depar
 $insert->bind_param('iiissssss', $citizenId, $categoryId, $departmentId, $location, $description, $priority, $status, $attachmentPath, $subject);
 
 if ($insert->execute()) {
-    // Get new complaint id for notifications
     $complaintId = $insert->insert_id;
     $insert->close();
 
-    // Notify all officers in the same department (if department detected)
     if (!empty($departmentId)) {
         $officerStmt = $conn->prepare('SELECT user_id FROM users WHERE user_type = "Officer" AND department_id = ?');
         if ($officerStmt) {
             $officerStmt->bind_param('i', $departmentId);
             if ($officerStmt->execute()) {
                 $officersRes = $officerStmt->get_result();
-                // Prepare notification insert once, reuse
                 $notifStmt = $conn->prepare('INSERT INTO notifications (user_id, complaint_id, status, message, is_read) VALUES (?, ?, ?, ?, 0)');
                 if ($notifStmt) {
                     $pendingStatus = 'Pending';
@@ -127,7 +121,7 @@ if ($insert->execute()) {
                     while ($officer = $officersRes->fetch_assoc()) {
                         $officerId = (int)$officer['user_id'];
                         $notifStmt->bind_param('iiss', $officerId, $complaintId, $pendingStatus, $notifMsg);
-                        $notifStmt->execute(); // intentionally ignore failures to not block submit
+                        $notifStmt->execute();
                     }
                     $notifStmt->close();
                 }

@@ -33,7 +33,6 @@ if (!preg_match('/^[0-9]{10}$/', $phoneNumber)) {
     exit;
 }
 
-// Update user profile in database
 $sql = "UPDATE users SET full_name = ?, phone_number = ?, email = ?, address = ? WHERE user_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param('ssssi', $fullName, $phoneNumber, $email, $address, $userId);

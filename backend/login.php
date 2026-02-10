@@ -24,7 +24,6 @@ if ($result && $result->num_rows === 1) {
     $valid = password_verify($password, $row['password_hash']) || hash_equals($row['password_hash'], $password);
 
     if ($valid) {
-        // Check if email is verified
         if (!$row['email_verified']) {
             echo "<script>
                 alert('Please verify your email first. Check your email for the verification code.');
@@ -33,7 +32,6 @@ if ($result && $result->num_rows === 1) {
             exit;
         }
         
-        // Check if officer is approved
         if ($row['user_type'] === 'Officer' && $row['is_approved'] !== 'Approved') {
             echo "<script>
                 alert('Your account is pending admin approval. Please wait for confirmation.');
@@ -46,13 +44,11 @@ if ($result && $result->num_rows === 1) {
         $_SESSION['user_name'] = $row['full_name'];
         $_SESSION['user_type'] = $row['user_type'];
 
-        // Update last_login_at
         $updateStmt = $conn->prepare('UPDATE users SET last_login_at = NOW() WHERE user_id = ?');
         $updateStmt->bind_param('i', $row['user_id']);
         $updateStmt->execute();
         $updateStmt->close();
 
-        // Redirect based on user type
         if ($row['user_type'] === 'Citizen') {
             echo "<script>window.location.href = '../frontend/citizendashboard.html';</script>";
         } else if ($row['user_type'] === 'Officer') {

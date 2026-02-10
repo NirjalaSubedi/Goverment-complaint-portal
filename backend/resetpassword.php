@@ -12,10 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
     
-    // Clean up expired/old codes to avoid bloat
     $conn->query("DELETE FROM password_reset WHERE expiry_time < NOW() OR created_at < DATE_SUB(NOW(), INTERVAL 1 DAY)");
     
-    // Always check the latest code for this email
     $latestStmt = $conn->prepare("SELECT id, verification_code, expiry_time, used FROM password_reset WHERE email = ? ORDER BY created_at DESC LIMIT 1");
     $latestStmt->bind_param("s", $email);
     $latestStmt->execute();
@@ -26,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
     
-    // Validate code
     $codesMatch = ($latest['verification_code'] === $verificationCode);
     $isExpired = strtotime($latest['expiry_time']) < time();
     $alreadyUsed = (bool)$latest['used'];
@@ -35,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode([
             'success' => false,
             'message' => 'Invalid or expired verification code',
-            // Debug info to help local troubleshooting
             'debug' => [
                 'expected_code' => $latest['verification_code'],
                 'entered_code' => $verificationCode,
@@ -49,15 +45,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
     
-    // Hash the new password
     $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
     
-    // Update the user's password (column is password_hash)
     $updateStmt = $conn->prepare("UPDATE users SET password_hash = ? WHERE email = ?");
     $updateStmt->bind_param("ss", $hashedPassword, $email);
     
     if ($updateStmt->execute()) {
-        // Mark the verification code as used
         $markUsedStmt = $conn->prepare("UPDATE password_reset SET used = TRUE WHERE id = ?");
         $markUsedStmt->bind_param("i", $latest['id']);
         $markUsedStmt->execute();

@@ -2,11 +2,9 @@
 session_start();
 header('Content-Type: application/json');
 
-// Enable error reporting for debugging
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
 
-// Check if complaint_id is provided
 if (!isset($_GET['complaint_id'])) {
     echo json_encode(['error' => 'Complaint ID not provided']);
     exit;
@@ -17,7 +15,6 @@ try {
 
     $complaintId = intval($_GET['complaint_id']);
 
-    // Fetch complaint details with user information, category, and department
     $sql = "SELECT 
                 c.complaint_id,
                 c.subject,
@@ -57,7 +54,6 @@ try {
     if ($result->num_rows > 0) {
         $complaint = $result->fetch_assoc();
         
-        // Fetch officer responses from complaintactivity table
         $responsesSql = "SELECT 
                             ca.activity_text as message,
                             ca.activity_date,
@@ -82,7 +78,6 @@ try {
         
         $responseStmt->close();
         
-        // Fetch completion activity history
         $completionHistory = [];
         $completionSql = "SELECT 
                             ca.activity_text,
@@ -110,7 +105,6 @@ try {
             $completionStmt->close();
         }
 
-        // Fetch latest rejection info if any
         $rejectionInfo = null;
         $rejectionSql = "SELECT 
                             ca.activity_text as reason,
@@ -135,7 +129,6 @@ try {
             $rejectionStmt->close();
         }
         
-        // Get officer's department if logged in as officer
         $officerDepartmentId = null;
         $officerDepartmentName = null;
         if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'Officer' && isset($_SESSION['user_id'])) {

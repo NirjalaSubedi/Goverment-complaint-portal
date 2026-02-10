@@ -2,7 +2,6 @@
 session_start();
 header('Content-Type: application/json');
 
-// Check if user is logged in and is an officer
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type'])) {
     echo json_encode(['success' => false, 'error' => 'Not logged in']);
     exit;
@@ -13,7 +12,6 @@ if ($_SESSION['user_type'] !== 'Officer') {
     exit;
 }
 
-// Get POST data
 $input = json_decode(file_get_contents('php://input'), true);
 
 if (!$input || !isset($input['complaint_id']) || !isset($input['message'])) {
@@ -32,7 +30,6 @@ if (empty($message)) {
 
 include('../includes/databaseConnection.php');
 
-// Get officer's department
 $deptQuery = "SELECT department_id FROM users WHERE user_id = ?";
 $deptStmt = $conn->prepare($deptQuery);
 $deptStmt->bind_param('i', $officerId);
@@ -48,7 +45,6 @@ $officerDept = $deptResult->fetch_assoc();
 $departmentId = $officerDept['department_id'];
 $deptStmt->close();
 
-// Verify complaint belongs to officer's department
 $verifyQuery = "SELECT department_id FROM complaints WHERE complaint_id = ?";
 $verifyStmt = $conn->prepare($verifyQuery);
 $verifyStmt->bind_param('i', $complaintId);
@@ -71,7 +67,6 @@ if ($complaintDeptId === 0 || $complaintDeptId !== $officerDeptId) {
 
 $verifyStmt->close();
 
-// Insert response into complaintactivity table
 $sql = "INSERT INTO complaintactivity (complaint_id, actor_id, activity_type, activity_text, activity_date) 
         VALUES (?, ?, 'Response', ?, NOW())";
 
@@ -85,7 +80,6 @@ if (!$stmt) {
 $stmt->bind_param('iis', $complaintId, $officerId, $message);
 
 if ($stmt->execute()) {
-    // Create notification for the citizen
     $userQuery = "SELECT citizen_id FROM complaints WHERE complaint_id = ?";
     $userStmt = $conn->prepare($userQuery);
     if ($userStmt) {

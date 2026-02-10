@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
     
-    // Check if email exists in database
     $stmt = $conn->prepare("SELECT user_id, full_name FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -26,15 +25,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $user = $result->fetch_assoc();
     
-    // Generate 6-digit verification code
     $verificationCode = sprintf("%06d", mt_rand(1, 999999));
     
-    // Delete old codes for this email to keep only the latest
     $deleteStmt = $conn->prepare("DELETE FROM password_reset WHERE email = ?");
     $deleteStmt->bind_param("s", $email);
     $deleteStmt->execute();
     
-    // Insert new verification code with DB-based expiry (avoids PHP/DB timezone mismatch)
     $insertStmt = $conn->prepare("INSERT INTO password_reset (email, verification_code, expiry_time) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 15 MINUTE))");
     
     if (!$insertStmt) {
@@ -49,7 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
     
-    // Code inserted successfully
     $emailSent = false;
     if (file_exists('./emailVerify/vendor/autoload.php')) {
         require_once './emailVerify/vendor/autoload.php';
@@ -57,7 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $mail = new PHPMailer(true);
             
-            // Server settings
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
@@ -66,11 +60,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
             
-            // Recipients
             $mail->setFrom('nikaasGoverment@gmail.com', 'Nikaas Government Portal');
             $mail->addAddress($email, $user['full_name']);
             
-            // Content
             $mail->isHTML(true);
             $mail->Subject = 'Password Reset Verification Code';
             $mail->Body = "
@@ -87,15 +79,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->send();
             $emailSent = true;
         } catch (Exception $e) {
-            // Email sending failed, but we'll still return success
-            // In production, you might want to handle this differently
         }
     }
     
     echo json_encode([
         'success' => true, 
         'message' => 'Verification code sent to your email',
-        'code' => $verificationCode // Remove this in production!
+        'code' => $verificationCode
     ]);
     
     $stmt->close();

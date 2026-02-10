@@ -7,7 +7,6 @@ if (!isset($_SESSION['user_id'])) {
 
 include('../includes/databaseConnection.php');
 
-// Fetch user profile details from database
 $userId = $_SESSION['user_id'];
 $sql = "SELECT full_name, email, phone_number, address FROM users WHERE user_id = ?";
 $stmt = $conn->prepare($sql);
@@ -16,7 +15,6 @@ $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
-// Return user profile information
 $profileInfo = [
     'fullName' => $user['full_name'] ?? '',
     'email' => $user['email'] ?? '',

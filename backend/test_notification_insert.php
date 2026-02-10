@@ -2,15 +2,13 @@
 session_start();
 require_once '../includes/databaseConnection.php';
 
-// Test notification insertion
-$test_user_id = 3; // Change this to a valid user_id from your users table
-$test_complaint_id = 31; // Change this to a valid complaint_id
+$test_user_id = 3;
+$test_complaint_id = 31;
 $test_status = "InProgress";
 $test_message = "Test notification";
 
 echo "<h2>Testing Notification Insertion</h2>";
 
-// Try to insert
 $query = "INSERT INTO notifications (user_id, complaint_id, status, message, is_read) VALUES (?, ?, ?, ?, 0)";
 $stmt = $conn->prepare($query);
 
@@ -29,7 +27,6 @@ if ($stmt) {
     echo "<p style='color:red;'>✗ Prepare failed: " . $conn->error . "</p>";
 }
 
-// Check if there are any notifications
 $checkQuery = "SELECT * FROM notifications ORDER BY created_at DESC LIMIT 5";
 $result = $conn->query($checkQuery);
 
