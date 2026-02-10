@@ -1,4 +1,7 @@
 let currentLanguage = localStorage.getItem('currentLanguage') || 'ne';
+if (!localStorage.getItem('currentLanguage')) {
+    localStorage.setItem('currentLanguage', 'ne');
+}
 
 const Translate = {
     'en': {
