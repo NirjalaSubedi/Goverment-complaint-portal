@@ -67,7 +67,7 @@ $officerDept = $deptResult->fetch_assoc();
 $departmentId = $officerDept['department_id'];
 $deptStmt->close();
 
-$verifyQuery = "SELECT department_id FROM complaints WHERE complaint_id = ?";
+$verifyQuery = "SELECT department_id, status FROM complaints WHERE complaint_id = ?";
 $verifyStmt = $conn->prepare($verifyQuery);
 $verifyStmt->bind_param('i', $complaintId);
 $verifyStmt->execute();
@@ -81,9 +81,15 @@ if ($verifyResult->num_rows === 0) {
 $complaint = $verifyResult->fetch_assoc();
 $complaintDeptId = intval($complaint['department_id']);
 $officerDeptId = intval($departmentId);
+$complaintStatus = strtolower(trim($complaint['status'] ?? ''));
 
 if ($complaintDeptId === 0 || $complaintDeptId !== $officerDeptId) {
     echo json_encode(['success' => false, 'error' => 'You can only complete complaints from your own department']);
+    exit;
+}
+
+if ($complaintStatus !== 'inprogress' && $complaintStatus !== 'in progress' && $complaintStatus !== 'resolved') {
+    echo json_encode(['success' => false, 'error' => 'Complaint must be approved before marking as completed']);
     exit;
 }
 

@@ -30,7 +30,7 @@ LEFT JOIN departments d ON c.department_id = d.department_id
 ";
 
 if ($_SESSION['user_type'] === 'Officer') {
-    $query .= "WHERE c.status IN ('InProgress', 'Resolved', 'Completed', 'Rejected')\n";
+    $query .= "WHERE c.status IN ('Pending', 'InProgress', 'Resolved', 'Completed', 'Rejected') OR c.status IS NULL\n";
 }
 
 $query .= "ORDER BY c.submission_date DESC";

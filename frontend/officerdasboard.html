@@ -584,6 +584,7 @@
                                 </div>
                             </td>
                             <td style="padding: 18px;" id="approvedeletebtn">
+                                <button class="viewDetailsBtn" onclick="viewComplaintDetails(${complaint.complaint_id})" style="background-color: #2196F3; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; margin-right: 8px; transition: all 0.2s ease;">${lang.viewDetails}</button>
                                 <button class="viewDetailsBtn approveBtn" data-complaint-id="${complaint.complaint_id}" onclick="Approvecomplaints(this)" style="background-color: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; margin-right: 8px; transition: all 0.2s ease;">${lang.approve}</button>
                                 <button class="viewDetailsBtn rejectBtn" data-complaint-id="${complaint.complaint_id}" onclick="Rejectcomplaints(this)" style="background-color: #F44336; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">${lang.reject}</button>
                             </td>

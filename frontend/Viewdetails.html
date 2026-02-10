@@ -442,8 +442,10 @@
 
             // Build completion info HTML
             let completionHTML = '';
-            const isCompleted = complaint.status && (complaint.status.toLowerCase() === 'completed' || complaint.status.toLowerCase() === 'resolved');
-            const allowOfficerActions = canManageComplaint && !isRejected;
+            const statusValue = (complaint.status || '').toString().trim().toLowerCase();
+            const isCompleted = statusValue === 'completed' || statusValue === 'resolved';
+            const isInProgress = statusValue === 'inprogress' || statusValue === 'in progress';
+            const allowOfficerActions = canManageComplaint && (isInProgress || statusValue === 'resolved');
             
             if (completionHistory && completionHistory.length > 0) {
                 const completionItems = completionHistory.map((completion, index) => {
