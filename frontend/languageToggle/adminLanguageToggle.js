@@ -11,6 +11,8 @@ const adminTranslations = {
         officerApprovals: 'Officer Approvals',
         manageUsers: 'Manage Users',
         viewComplaints: 'View Complaints',
+        addDepartment: 'Add Department',
+        viewDepartments: 'View Departments',
         logout: 'Logout',
         
         // Officer Approvals Section
@@ -51,7 +53,23 @@ const adminTranslations = {
         priority: 'PRIORITY',
         date: 'DATE',
         viewDetails: 'View Details',
-        noComplaintsFound: 'No complaints found'
+        noComplaintsFound: 'No complaints found',
+
+        // Add Department Section
+        addDepartmentHeading: 'Add Department',
+        addDepartmentDesc: 'Create a new department for officer assignments',
+        addDepartmentFormHeading: 'New Department',
+        departmentNameLabel: 'Department Name',
+        departmentNamePlaceholder: 'Enter department name',
+        addDepartmentBtn: 'Add Department',
+
+        // View Departments Section
+        viewDepartmentsHeading: 'All Departments',
+        viewDepartmentsDesc: 'View all departments available in the system',
+        viewDepartmentsListHeading: 'Departments List',
+        departmentIdHeader: 'DEPARTMENT ID',
+        departmentHeader: 'DEPARTMENT',
+        noDepartmentsFound: 'No departments found'
     },
     'ne': {
         languageToggle: 'English',
@@ -64,6 +82,8 @@ const adminTranslations = {
         officerApprovals: 'अधिकृत स्वीकृति',
         manageUsers: 'प्रयोगकर्ता व्यवस्थापन',
         viewComplaints: 'गुनासो हेर्नुहोस्',
+        addDepartment: 'विभाग थप्नुहोस्',
+        viewDepartments: 'विभागहरू हेर्नुहोस्',
         logout: 'लगआउट',
         
         // Officer Approvals Section
@@ -104,7 +124,23 @@ const adminTranslations = {
         priority: 'प्राथमिकता',
         date: 'मिति',
         viewDetails: 'विवरण हेर्नुहोस्',
-        noComplaintsFound: 'कुनै गुनासो फेला परेन'
+        noComplaintsFound: 'कुनै गुनासो फेला परेन',
+
+        // Add Department Section
+        addDepartmentHeading: 'विभाग थप्नुहोस्',
+        addDepartmentDesc: 'अधिकारी नियुक्तिका लागि नयाँ विभाग बनाउनुहोस्',
+        addDepartmentFormHeading: 'नयाँ विभाग',
+        departmentNameLabel: 'विभागको नाम',
+        departmentNamePlaceholder: 'विभागको नाम लेख्नुहोस्',
+        addDepartmentBtn: 'विभाग थप्नुहोस्',
+
+        // View Departments Section
+        viewDepartmentsHeading: 'सबै विभागहरू',
+        viewDepartmentsDesc: 'प्रणालीमा रहेका सबै विभागहरू हेर्नुहोस्',
+        viewDepartmentsListHeading: 'विभाग सूची',
+        departmentIdHeader: 'विभाग आईडी',
+        departmentHeader: 'विभाग',
+        noDepartmentsFound: 'कुनै विभाग फेला परेन'
     }
 };
 
@@ -136,6 +172,8 @@ function updateAdminContent() {
     if (navButtons[0]) navButtons[0].textContent = lang.officerApprovals;
     if (navButtons[1]) navButtons[1].textContent = lang.manageUsers;
     if (navButtons[2]) navButtons[2].textContent = lang.viewComplaints;
+    if (navButtons[3]) navButtons[3].textContent = lang.addDepartment;
+    if (navButtons[4]) navButtons[4].textContent = lang.viewDepartments;
     
     const logoutLink = document.querySelector('.logout a');
     if (logoutLink) {
@@ -237,6 +275,44 @@ function updateAdminContent() {
 
     const noComplaintsMsg = document.querySelector('#noComplaintsMsg p');
     if (noComplaintsMsg) noComplaintsMsg.textContent = lang.noComplaintsFound;
+
+    const addDepartmentHeading = document.getElementById('addDepartmentHeading');
+    if (addDepartmentHeading) addDepartmentHeading.textContent = lang.addDepartmentHeading;
+
+    const addDepartmentDesc = document.getElementById('addDepartmentDesc');
+    if (addDepartmentDesc) addDepartmentDesc.textContent = lang.addDepartmentDesc;
+
+    const addDepartmentFormHeading = document.getElementById('addDepartmentFormHeading');
+    if (addDepartmentFormHeading) addDepartmentFormHeading.textContent = lang.addDepartmentFormHeading;
+
+    const departmentNameLabel = document.getElementById('departmentNameLabel');
+    if (departmentNameLabel) departmentNameLabel.textContent = lang.departmentNameLabel;
+
+    const departmentNameInput = document.getElementById('departmentName');
+    if (departmentNameInput) departmentNameInput.placeholder = lang.departmentNamePlaceholder;
+
+    const addDepartmentBtn = document.getElementById('addDepartmentBtn');
+    if (addDepartmentBtn) {
+        addDepartmentBtn.innerHTML = `<i class="material-icons" style="vertical-align: middle;">add</i> ${lang.addDepartmentBtn}`;
+    }
+
+    const viewDepartmentsHeading = document.getElementById('viewDepartmentsHeading');
+    if (viewDepartmentsHeading) viewDepartmentsHeading.textContent = lang.viewDepartmentsHeading;
+
+    const viewDepartmentsDesc = document.getElementById('viewDepartmentsDesc');
+    if (viewDepartmentsDesc) viewDepartmentsDesc.textContent = lang.viewDepartmentsDesc;
+
+    const viewDepartmentsListHeading = document.getElementById('viewDepartmentsListHeading');
+    if (viewDepartmentsListHeading) viewDepartmentsListHeading.textContent = lang.viewDepartmentsListHeading;
+
+    const departmentsTableHeaders = document.querySelectorAll('#departmentsTable th');
+    if (departmentsTableHeaders.length > 0) {
+        departmentsTableHeaders[0].textContent = lang.departmentIdHeader;
+        departmentsTableHeaders[1].textContent = lang.departmentHeader;
+    }
+
+    const noDepartmentsMsg = document.querySelector('#noDepartmentsMsg p');
+    if (noDepartmentsMsg) noDepartmentsMsg.textContent = lang.noDepartmentsFound;
 }
 
 // Function to toggle language
