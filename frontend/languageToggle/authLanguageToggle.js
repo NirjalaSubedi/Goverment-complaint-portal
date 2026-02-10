@@ -189,6 +189,9 @@ function toggleAuthLanguage() {
     currentLanguage = currentLanguage === 'en' ? 'ne' : 'en';
     localStorage.setItem('currentLanguage', currentLanguage);
     updateAuthPageContent();
+    if (typeof updateAuthDepartmentOptions === 'function') {
+        updateAuthDepartmentOptions();
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {

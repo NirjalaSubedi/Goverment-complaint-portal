@@ -68,12 +68,7 @@
                 <input type="text" id="address" name="address" placeholder="Enter your address" required/>
                 <label for="department" class="department">department</label>
                 <select id="department" name="department">
-                    <option value="" disabled selected class="select">Select your department</option>
-                    <option value="Roads Department" class="roaddepartments"> Roads Department</option>
-                    <option value="Water Supply Department" class="waterSupply">Water Supply Department</option>
-                    <option value="Electricity Authority" class="electricityAuthority">Electricity Authority</option>
-                    <option value="Anti-Corruption Commission" class="AntiCorruptions"> Anti-Corruption Commission</option>
-                    <option value="Other" class="other">Other</option>
+                    <option value="" disabled selected class="select" data-placeholder="true">Select your department</option>
                 </select>
                 <label for="position" class="position">Position</label>
                 <input type="text" id="position" name="position" placeholder="Enter your position"/>
@@ -97,6 +92,7 @@
     </div>
    <script src="button/buttonclick.js"></script>
    <script src="button/selectUserType.js"></script>
+   <script src="auth/department-loader.js"></script>
    <script>
        // Initialize login page language
        document.addEventListener('DOMContentLoaded', function() {
