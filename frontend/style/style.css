@@ -895,6 +895,31 @@ table th{
     background-color:#edeef0;
     font-size:14px;
 }
+.table-actions{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+}
+.action-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:6px 12px;
+    border:none;
+    border-radius:4px;
+    cursor:pointer;
+    font-size:12px;
+    margin:4px 0;
+}
+.action-btn .material-icons{
+    font-size:16px;
+    vertical-align: middle;
+}
+.delete-btn{
+    background-color:#dc3545;
+    color:white;
+}
 .combine-logo-title{
     padding: 20px;
     display:flex;
