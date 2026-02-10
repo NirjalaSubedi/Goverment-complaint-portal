@@ -1,5 +1,5 @@
 function getAdminLang() {
-    const langKey = localStorage.getItem('currentLanguage') || 'ne';
+    const langKey = localStorage.getItem('currentLanguage') || 'en';
     if (typeof adminTranslations !== 'undefined' && adminTranslations[langKey]) {
         return adminTranslations[langKey];
     }

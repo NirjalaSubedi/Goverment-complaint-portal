@@ -1,4 +1,4 @@
-let currentLanguage = localStorage.getItem('currentLanguage') || 'ne';
+let currentLanguage = localStorage.getItem('languagePreference') || localStorage.getItem('citizenLanguage') || localStorage.getItem('currentLanguage') || 'en';
 const Translate={
     'en':{
         languageToggle:'नेपाली',
@@ -200,6 +200,19 @@ const Translate={
 }
 
 function applyHomeLanguage() {
+    const storedLang = localStorage.getItem('languagePreference') || localStorage.getItem('citizenLanguage') || localStorage.getItem('currentLanguage');
+    if (storedLang) {
+        currentLanguage = storedLang;
+        localStorage.setItem('languagePreference', currentLanguage);
+        localStorage.setItem('currentLanguage', currentLanguage);
+        localStorage.setItem('citizenLanguage', currentLanguage);
+    } else {
+        currentLanguage = currentLanguage || 'en';
+        localStorage.setItem('languagePreference', currentLanguage);
+        localStorage.setItem('currentLanguage', currentLanguage);
+        localStorage.setItem('citizenLanguage', currentLanguage);
+    }
+
     document.getElementById('language-toggle').innerHTML = `<i class="material-icons">language</i> ${Translate[currentLanguage].languageToggle}`;
     document.getElementsByClassName('Heading1')[0].innerText=Translate[currentLanguage].title;
     document.getElementById('Features').innerText=Translate[currentLanguage].Features;
@@ -256,7 +269,9 @@ function applyHomeLanguage() {
 
 function LanguageTranslate(){
     currentLanguage=currentLanguage==='en'?'ne':'en';
+    localStorage.setItem('languagePreference', currentLanguage);
     localStorage.setItem('currentLanguage', currentLanguage);
+    localStorage.setItem('citizenLanguage', currentLanguage);
     applyHomeLanguage();
 
 
@@ -264,7 +279,9 @@ function LanguageTranslate(){
 
 function loginLanguageTranslate(){
     currentLanguage=currentLanguage==='en'?'ne':'en';
+    localStorage.setItem('languagePreference', currentLanguage);
     localStorage.setItem('currentLanguage', currentLanguage);
+    localStorage.setItem('citizenLanguage', currentLanguage);
     document.getElementById('language-toggle').innerHTML = `<i class="material-icons">language</i> ${Translate[currentLanguage].languageToggle}`;
     document.getElementById('Heading').innerText=Translate[currentLanguage].title2;
     document.getElementById('tagline').innerText=Translate[currentLanguage].tagline;

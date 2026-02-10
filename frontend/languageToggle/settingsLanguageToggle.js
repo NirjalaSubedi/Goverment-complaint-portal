@@ -1,4 +1,4 @@
-let currentLanguage = localStorage.getItem('currentLanguage') || 'ne';
+let currentLanguage = localStorage.getItem('currentLanguage') || 'en';
 const settingsTranslations = {
     'en': {
         languageToggle: 'नेपाली',

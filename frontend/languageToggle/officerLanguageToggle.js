@@ -1,8 +1,8 @@
 // Officer Dashboard Language Toggle
 // Load language preference from localStorage, default to Nepali
-let currentLanguage = localStorage.getItem('currentLanguage') || 'ne';
+let currentLanguage = localStorage.getItem('currentLanguage') || 'en';
 if (!localStorage.getItem('currentLanguage')) {
-    localStorage.setItem('currentLanguage', 'ne');
+    localStorage.setItem('currentLanguage', 'en');
 }
 
 const officerTranslations = {
@@ -175,7 +175,7 @@ function updateProfileModalLabels() {
 
 // Function to update page content
 function updateOfficerContent() {
-    const storedLang = localStorage.getItem('currentLanguage') || 'ne';
+    const storedLang = localStorage.getItem('currentLanguage') || 'en';
     currentLanguage = storedLang;
     const lang = officerTranslations[currentLanguage] || officerTranslations.en;
     

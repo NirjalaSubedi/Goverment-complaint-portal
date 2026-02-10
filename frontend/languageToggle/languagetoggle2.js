@@ -1,6 +1,7 @@
-let currentLanguage = localStorage.getItem('currentLanguage') || 'ne';
-if (!localStorage.getItem('currentLanguage')) {
-    localStorage.setItem('currentLanguage', 'ne');
+let currentLanguage = localStorage.getItem('languagePreference') || localStorage.getItem('currentLanguage') || 'en';
+if (!localStorage.getItem('currentLanguage') && !localStorage.getItem('languagePreference')) {
+    localStorage.setItem('languagePreference', 'en');
+    localStorage.setItem('currentLanguage', 'en');
 }
 
 const Translate = {
@@ -238,12 +239,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initializeLanguage() {
     // Prefer citizenLanguage for persistence across citizen pages and settings
-    const savedLang = localStorage.getItem('citizenLanguage') || localStorage.getItem('currentLanguage');
+    const savedLang = localStorage.getItem('languagePreference') || localStorage.getItem('citizenLanguage') || localStorage.getItem('currentLanguage');
 
     if (savedLang) {
         currentLanguage = savedLang;
+        localStorage.setItem('languagePreference', savedLang);
+        localStorage.setItem('currentLanguage', savedLang);
+        localStorage.setItem('citizenLanguage', savedLang);
     } else {
-        currentLanguage = 'ne';
+        currentLanguage = 'en';
+        localStorage.setItem('languagePreference', currentLanguage);
         localStorage.setItem('citizenLanguage', currentLanguage);
         localStorage.setItem('currentLanguage', currentLanguage);
     }
@@ -253,6 +258,7 @@ function initializeLanguage() {
 
 function LanguageTranslate() {
     currentLanguage = currentLanguage === 'en' ? 'ne' : 'en';
+    localStorage.setItem('languagePreference', currentLanguage);
     localStorage.setItem('currentLanguage', currentLanguage);
     localStorage.setItem('citizenLanguage', currentLanguage);
 
@@ -467,7 +473,7 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 
 function getActiveCitizenLanguage() {
-    return localStorage.getItem('citizenLanguage') || localStorage.getItem('currentLanguage') || currentLanguage || 'en';
+    return localStorage.getItem('languagePreference') || localStorage.getItem('citizenLanguage') || localStorage.getItem('currentLanguage') || currentLanguage || 'en';
 }
 
 function getLocalizedStatus(statusValue) {
