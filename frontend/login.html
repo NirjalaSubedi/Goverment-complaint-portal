@@ -94,50 +94,47 @@
    <script src="button/selectUserType.js"></script>
    <script src="auth/department-loader.js"></script>
    <script>
-       // Initialize login page language
-       document.addEventListener('DOMContentLoaded', function() {
-           const lang = authTranslations[currentLanguage];
-           
+       function updateLoginRegisterContent() {
            const heading = document.getElementById('Heading');
            if (heading) {
                heading.textContent = currentLanguage === 'en' ? 'Nikaas' : 'निकास';
            }
-           
+
            const tagline = document.getElementById('tagline');
            if (tagline) {
                tagline.textContent = currentLanguage === 'en' ? 'Make your Voice Heard' : 'आफ्नो आवाज बनाउनुहोस्';
            }
-           
+
            // Update login form labels and buttons
            const loginLabels = document.querySelectorAll('.login-form-section label');
            const emailLabel = Array.from(loginLabels).find(l => l.className === 'email');
            const passwordLabel = Array.from(loginLabels).find(l => l.className === 'password');
-           
+
            if (emailLabel) emailLabel.textContent = currentLanguage === 'en' ? 'Email' : 'इमेल';
            if (passwordLabel) passwordLabel.textContent = currentLanguage === 'en' ? 'Password' : 'पासवर्ड';
-           
+
            const emailInput = document.getElementById('email');
            if (emailInput) emailInput.placeholder = currentLanguage === 'en' ? 'Email address' : 'इमेल ठेगाना';
-           
+
            const passwordInput = document.getElementById('password');
            if (passwordInput) passwordInput.placeholder = currentLanguage === 'en' ? 'password' : 'पासवर्ड';
-           
+
            const rememberLabel = document.querySelector('label[for="remember-me"]');
            if (rememberLabel) rememberLabel.textContent = currentLanguage === 'en' ? 'Remember Me' : 'मलाई सम्झनुहोस्';
-           
+
            const signInBtn = document.querySelector('.login-form-section .submit-btn.signin');
            if (signInBtn) signInBtn.textContent = currentLanguage === 'en' ? 'Sign In' : 'साइन इन गर्नुहोस्';
-           
+
            const forgotLink = document.querySelector('.forgot-password a');
            if (forgotLink) forgotLink.textContent = currentLanguage === 'en' ? 'Forgot your Password?' : 'तपाईंको पासवर्ड बिर्सनुभयो?';
-           
-           // Update register form
+
+           // Update register form labels
            const registerLabels = document.querySelectorAll('.register-form-section label');
            const updateLabel = (labelClass, enText, neText) => {
                const label = Array.from(registerLabels).find(l => l.className === labelClass);
                if (label) label.textContent = currentLanguage === 'en' ? enText : neText;
            };
-           
+
            updateLabel('fullname', 'FullName', 'पूरा नाम');
            updateLabel('phonenumber', 'PhoneNumber', 'फोन नम्बर');
            updateLabel('email1', 'Email', 'इमेल');
@@ -148,24 +145,59 @@
            updateLabel('citizenship', 'Citizenship Number', 'नागरिकता नम्बर');
            updateLabel('password1', 'Password', 'पासवर्ड');
            updateLabel('confirmpassword', 'Confirm Password', 'पासवर्ड पुष्टि गर्नुहोस्');
-           
+
+           const userTypeLabel = document.getElementById('user-type');
+           if (userTypeLabel) userTypeLabel.textContent = currentLanguage === 'en' ? 'User Type' : 'प्रयोगकर्ता प्रकार';
+
+           const fullNameInput = document.getElementById('fullName');
+           if (fullNameInput) fullNameInput.placeholder = currentLanguage === 'en' ? 'Enter your full name' : 'आफ्नो पूरा नाम प्रविष्ट गर्नुहोस्';
+
+           const phoneInput = document.getElementById('phonenumber');
+           if (phoneInput) phoneInput.placeholder = currentLanguage === 'en' ? 'Enter your phone number' : 'आफ्नो फोन नम्बर प्रविष्ट गर्नुहोस्';
+
+           const registerEmailInput = document.getElementById('email1');
+           if (registerEmailInput) registerEmailInput.placeholder = currentLanguage === 'en' ? 'Enter your email' : 'आफ्नो इमेल प्रविष्ट गर्नुहोस्';
+
+           const addressInput = document.getElementById('address');
+           if (addressInput) addressInput.placeholder = currentLanguage === 'en' ? 'Enter your address' : 'आफ्नो ठेगाना प्रविष्ट गर्नुहोस्';
+
+           const positionInput = document.getElementById('position');
+           if (positionInput) positionInput.placeholder = currentLanguage === 'en' ? 'Enter your position' : 'आफ्नो पद प्रविष्ट गर्नुहोस्';
+
+           const citizenshipInput = document.getElementById('citizenshipNumber');
+           if (citizenshipInput) citizenshipInput.placeholder = currentLanguage === 'en' ? 'Enter your citizenship number' : 'आफ्नो नागरिकता नम्बर प्रविष्ट गर्नुहोस्';
+
+           const passwordInputReg = document.getElementById('password1');
+           if (passwordInputReg) passwordInputReg.placeholder = currentLanguage === 'en' ? 'Create a password' : 'पासवर्ड सिर्जना गर्नुहोस्';
+
+           const confirmPasswordInput = document.getElementById('confirmPassword');
+           if (confirmPasswordInput) confirmPasswordInput.placeholder = currentLanguage === 'en' ? 'Confirm your password' : 'नयाँ पासवर्ड पुन: पुष्टि गर्नुहोस्';
+
            // Update user type buttons
            const citizenBtn = document.getElementById('citizen-btn');
            const officerBtn = document.getElementById('officer-btn');
            if (citizenBtn) citizenBtn.textContent = currentLanguage === 'en' ? 'Citizen' : 'नागरिक';
            if (officerBtn) officerBtn.textContent = currentLanguage === 'en' ? 'Officer' : 'अधिकारी';
-           
+
            const loginRegisterBtns = document.querySelectorAll('.toggle-login-register-btn button');
            const loginBtn = Array.from(loginRegisterBtns).find(b => b.id === 'Login-btn');
            const registerBtn = Array.from(loginRegisterBtns).find(b => b.id === 'Register-btn');
            if (loginBtn) loginBtn.textContent = currentLanguage === 'en' ? 'Login' : 'लगइन';
            if (registerBtn) registerBtn.textContent = currentLanguage === 'en' ? 'Register' : 'दर्ता गर्नुहोस्';
-           
+
            const createAccountBtn = document.querySelector('.register-form-section .submit-btn.createAccount');
            if (createAccountBtn) createAccountBtn.textContent = currentLanguage === 'en' ? 'Create Account' : 'खाता सिर्जना गर्नुहोस्';
-           
+
            const agreeText = document.getElementById('agree');
            if (agreeText) agreeText.textContent = currentLanguage === 'en' ? 'By continuing, in you agree to our ' : 'जारी राखेर, तपाईं हाम्रो सहमत हुनुहुन्छ ';
+
+           const tosLink = document.getElementById('tosapp');
+           if (tosLink) tosLink.textContent = currentLanguage === 'en' ? 'Terms of services and Privacy Policy' : 'सेवा सर्तहरू र गोपनीयता नीति';
+       }
+
+       // Initialize login page language
+       document.addEventListener('DOMContentLoaded', function() {
+           updateLoginRegisterContent();
        });
    </script>
 </body>

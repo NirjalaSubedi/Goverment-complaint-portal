@@ -1,16 +1,24 @@
 const departmentTranslations = {
-    'Roads Department': { ne: 'सडक विभाग' },
-    'Water Supply Department': { ne: 'पानी आपूर्ति विभाग' },
-    'Electricity Authority': { ne: 'विद्युत प्राधिकरण' },
-    'Anti-Corruption Commission': { ne: 'भ्रष्टाचार विरोधी विभाग' },
-    'Other': { ne: 'अन्य' }
+    'roads department': { ne: 'सडक विभाग' },
+    'road department': { ne: 'सडक विभाग' },
+    'water supply department': { ne: 'पानी आपूर्ति विभाग' },
+    'electricity authority': { ne: 'विद्युत प्राधिकरण' },
+    'anti-corruption commission': { ne: 'भ्रष्टाचार विरोधी विभाग' },
+    'anti-corruption department': { ne: 'भ्रष्टाचार विरोधी विभाग' },
+    'health': { ne: 'स्वास्थ्य' },
+    'other': { ne: 'अन्य' }
 };
 
 let cachedDepartments = [];
 
+function normalizeDepartmentName(departmentName) {
+    return (departmentName || '').trim().toLowerCase();
+}
+
 function getDepartmentLabel(departmentName) {
-    if (currentLanguage === 'ne' && departmentTranslations[departmentName]) {
-        return departmentTranslations[departmentName].ne;
+    const normalized = normalizeDepartmentName(departmentName);
+    if (currentLanguage === 'ne' && departmentTranslations[normalized]) {
+        return departmentTranslations[normalized].ne;
     }
     return departmentName;
 }

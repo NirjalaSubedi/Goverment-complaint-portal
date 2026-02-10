@@ -192,6 +192,9 @@ function toggleAuthLanguage() {
     if (typeof updateAuthDepartmentOptions === 'function') {
         updateAuthDepartmentOptions();
     }
+    if (typeof updateLoginRegisterContent === 'function') {
+        updateLoginRegisterContent();
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
