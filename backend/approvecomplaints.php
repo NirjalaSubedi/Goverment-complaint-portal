@@ -120,7 +120,6 @@ if ($stmt->execute()) {
         }
     }
 
-    // Always return success if complaint status was updated
     echo json_encode(['success' => true, 'message' => 'Complaint ' . $action . 'ed successfully', 'status' => $status]);
 } else {
     echo json_encode(['error' => 'Failed to update complaint']);

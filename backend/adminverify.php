@@ -3,8 +3,6 @@ include '../includes/databaseConnection.php';
 header('Content-Type: application/json');
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
 if ($action === 'getPendingOfficers') {
-    // Fetch all pending officers
-        // upload document of officer so admin can view it
         $sql = "SELECT u.user_id, u.full_name, u.email, u.phone_number, u.position,
                                      d.department_name,
                                      (SELECT ud.file_path
@@ -75,7 +73,6 @@ else if ($action === 'rejectOfficer') {
 }
 
 else if ($action === 'getAllUsers') {
-    // Fetching all users (Citizens and Officers)
     $sql = "SELECT u.user_id, u.full_name, u.email, u.phone_number, u.position, u.user_type,
                    d.department_name,
                    u.is_approved
@@ -89,7 +86,6 @@ else if ($action === 'getAllUsers') {
     
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
-            // Get document for officers
             if ($row['user_type'] === 'Officer') {
                 $docSql = "SELECT file_path FROM userdocuments WHERE user_id = {$row['user_id']} ORDER BY upload_date DESC LIMIT 1";
                 $docResult = mysqli_query($conn, $docSql);
@@ -118,11 +114,9 @@ else if ($action === 'deleteUser') {
         exit;
     }
     
-    // Start transaction
     mysqli_begin_transaction($conn);
     
     try {
-        // Delete user documents first
         $docDeleteSql = "DELETE FROM userdocuments WHERE user_id = ?";
         $docStmt = $conn->prepare($docDeleteSql);
         $docStmt->bind_param('i', $userId);
