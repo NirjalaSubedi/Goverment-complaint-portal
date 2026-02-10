@@ -1,4 +1,3 @@
-// Modal functions for document viewing
 function openDocumentModal(filePath) {
     const modal = document.getElementById('documentModal');
     const iframe = document.getElementById('documentFrame');

@@ -1,3 +1,16 @@
+function getAdminLang() {
+    const langKey = localStorage.getItem('currentLanguage') || 'en';
+    if (typeof adminTranslations !== 'undefined' && adminTranslations[langKey]) {
+        return adminTranslations[langKey];
+    }
+    return {
+        deleteDepartment: 'Delete',
+        deleteDepartmentConfirm: 'Are you sure you want to delete this department?',
+        deleteDepartmentSuccess: 'Department deleted successfully',
+        deleteDepartmentFailed: 'Failed to delete department'
+    };
+}
+
 function submitDepartment(event) {
     if (event) event.preventDefault();
 
@@ -63,6 +76,7 @@ function loadDepartments() {
 }
 
 function renderDepartments(departments) {
+    const lang = getAdminLang();
     const tbody = document.getElementById('departmentsTableBody');
     tbody.innerHTML = '';
 
@@ -71,10 +85,43 @@ function renderDepartments(departments) {
         row.innerHTML = `
             <td style="text-align: center;">${department.department_id ?? 'N/A'}</td>
             <td>${department.department_name || 'N/A'}</td>
+            <td>
+                <div class="table-actions">
+                    <button class="action-btn delete-btn" onclick="deleteDepartment(${department.department_id})">
+                        <i class="material-icons">delete</i> ${lang.deleteDepartment}
+                    </button>
+                </div>
+            </td>
         `;
         tbody.appendChild(row);
     });
 
     document.getElementById('departmentsTable').style.display = 'table';
     document.getElementById('noDepartmentsMsg').style.display = 'none';
+}
+
+function deleteDepartment(departmentId) {
+    const lang = getAdminLang();
+    if (!departmentId) return;
+    if (!confirm(lang.deleteDepartmentConfirm)) return;
+
+    const formData = new FormData();
+    formData.append('department_id', departmentId);
+
+    fetch('../backend/deletedepartment.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message || lang.deleteDepartmentSuccess);
+            loadDepartments();
+        } else {
+            alert(data.message || lang.deleteDepartmentFailed);
+        }
+    })
+    .catch(() => {
+        alert(lang.deleteDepartmentFailed);
+    });
 }

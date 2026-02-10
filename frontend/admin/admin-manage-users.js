@@ -1,8 +1,6 @@
-// Global variable to store all users
 let allUsersData = [];
 let currentFilter = 'all';
 
-// Manage Users functionality
 function loadAllUsers() {
     console.log('Loading all users...');
     fetch('../backend/adminverify.php?action=getAllUsers')
@@ -36,11 +34,9 @@ function loadAllUsers() {
 }
 
 function displayAllUsers(users) {
-    // Store all users for filtering
     allUsersData = users;
     currentFilter = 'all';
     
-    // Reset filter buttons
     document.getElementById('filterAllBtn').style.backgroundColor = '#007bff';
     document.getElementById('filterCitizenBtn').style.backgroundColor = '#28a745';
     document.getElementById('filterOfficerBtn').style.backgroundColor = '#dc3545';
@@ -52,12 +48,10 @@ function displayAllUsers(users) {
 function filterUsers(userType) {
     currentFilter = userType;
     
-    // Update filter button styles
     document.getElementById('filterAllBtn').style.backgroundColor = userType === 'all' ? '#0056b3' : '#007bff';
     document.getElementById('filterCitizenBtn').style.backgroundColor = userType === 'Citizen' ? '#218838' : '#28a745';
     document.getElementById('filterOfficerBtn').style.backgroundColor = userType === 'Officer' ? '#c82333' : '#dc3545';
     
-    // Filter the users
     let filteredUsers = allUsersData;
     if (userType !== 'all') {
         filteredUsers = allUsersData.filter(user => user.user_type === userType);
@@ -82,12 +76,10 @@ function renderUsers(users) {
         const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8'];
         const bgColor = colors[Math.floor(Math.random() * colors.length)];
 
-        // Only show document for Officers
         const documentCell = user.user_type === 'Officer' && user.file_path
             ? `<td><a href="javascript:void(0)" onclick="openDocumentModal('${user.file_path}')" style="text-decoration: none; color: #007bff;"><i class="material-icons" style="vertical-align: middle;">description</i> View Doc</a></td>`
             : '';
 
-        // Status badge styling
         let statusBadge = '';
         if (user.is_approved === 'Approved') {
             statusBadge = '<span style="background-color: #28a745; color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px;">Approved</span>';
@@ -129,12 +121,10 @@ function renderUsers(users) {
         tbody.appendChild(row);
     });
 
-    // Show table and hide no users message
     document.getElementById('usersTable').style.display = 'table';
     document.getElementById('noUsersMsg').style.display = 'none';
 }
 
-// Delete user functions
 function confirmDeleteUser(userId, userName) {
     if (confirm(`Are you sure you want to delete ${userName}? This action cannot be undone.`)) {
         deleteUser(userId);

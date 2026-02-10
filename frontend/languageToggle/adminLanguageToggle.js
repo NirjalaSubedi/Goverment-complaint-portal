@@ -69,7 +69,12 @@ const adminTranslations = {
         viewDepartmentsListHeading: 'Departments List',
         departmentIdHeader: 'DEPARTMENT ID',
         departmentHeader: 'DEPARTMENT',
-        noDepartmentsFound: 'No departments found'
+        departmentActionsHeader: 'ACTIONS',
+        noDepartmentsFound: 'No departments found',
+        deleteDepartment: 'Delete',
+        deleteDepartmentConfirm: 'Are you sure you want to delete this department?',
+        deleteDepartmentSuccess: 'Department deleted successfully',
+        deleteDepartmentFailed: 'Failed to delete department'
     },
     'ne': {
         languageToggle: 'English',
@@ -140,7 +145,12 @@ const adminTranslations = {
         viewDepartmentsListHeading: 'विभाग सूची',
         departmentIdHeader: 'विभाग आईडी',
         departmentHeader: 'विभाग',
-        noDepartmentsFound: 'कुनै विभाग फेला परेन'
+        departmentActionsHeader: 'कार्यहरू',
+        noDepartmentsFound: 'कुनै विभाग फेला परेन',
+        deleteDepartment: 'मेटाउनुहोस्',
+        deleteDepartmentConfirm: 'के तपाईं यो विभाग मेटाउन चाहनुहुन्छ?',
+        deleteDepartmentSuccess: 'विभाग सफलतापूर्वक मेटियो',
+        deleteDepartmentFailed: 'विभाग मेटाउन असफल भयो'
     }
 };
 
@@ -309,6 +319,7 @@ function updateAdminContent() {
     if (departmentsTableHeaders.length > 0) {
         departmentsTableHeaders[0].textContent = lang.departmentIdHeader;
         departmentsTableHeaders[1].textContent = lang.departmentHeader;
+        if (departmentsTableHeaders[2]) departmentsTableHeaders[2].textContent = lang.departmentActionsHeader;
     }
 
     const noDepartmentsMsg = document.querySelector('#noDepartmentsMsg p');
