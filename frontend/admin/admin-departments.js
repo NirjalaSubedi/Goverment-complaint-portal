@@ -85,7 +85,7 @@ function renderDepartments(departments) {
         row.innerHTML = `
             <td style="text-align: center;">${department.department_id ?? 'N/A'}</td>
             <td>${department.department_name || 'N/A'}</td>
-            <td>
+            <td class="actions-cell">
                 <div class="table-actions">
                     <button class="action-btn delete-btn" onclick="deleteDepartment(${department.department_id})">
                         <i class="material-icons">delete</i> ${lang.deleteDepartment}

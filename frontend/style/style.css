@@ -920,6 +920,9 @@ table th{
     background-color:#dc3545;
     color:white;
 }
+.actions-cell{
+    vertical-align: bottom;
+}
 .combine-logo-title{
     padding: 20px;
     display:flex;
