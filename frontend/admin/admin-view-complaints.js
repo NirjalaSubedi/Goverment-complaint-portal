@@ -53,37 +53,54 @@ function showComplaintsError(message) {
 
 function formatAdminStatus(status) {
     const value = (status || '').toString().trim().toLowerCase();
-    if (value === 'inprogress' || value === 'in progress') return 'In Progress';
-    if (value === 'resolved') return 'Resolved';
-    if (value === 'completed') return 'Completed';
-    if (value === 'rejected') return 'Rejected';
-    if (value === 'pending' || value === '') return 'Pending';
-    return status;
+    if (value === 'inprogress' || value === 'in progress') return 'in_progress';
+    if (value === 'resolved') return 'resolved';
+    if (value === 'completed') return 'completed';
+    if (value === 'rejected') return 'rejected';
+    if (value === 'pending' || value === '') return 'pending';
+    return 'pending';
 }
 
-function buildStatusBadge(statusText) {
-    const value = (statusText || '').toLowerCase();
-    if (value === 'in progress' || value === 'inprogress') {
-        return '<span style="background-color: #E3F2FD; color: #1976D2; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-block;">In Progress</span>';
+function getStatusLabel(statusKey, lang) {
+    switch (statusKey) {
+        case 'in_progress':
+            return lang.statusInProgress;
+        case 'resolved':
+            return lang.statusResolved;
+        case 'completed':
+            return lang.statusCompleted;
+        case 'rejected':
+            return lang.statusRejected;
+        default:
+            return lang.statusPending;
     }
-    if (value === 'resolved' || value === 'completed') {
-        return '<span style="background-color: #E8F5E9; color: #2E7D32; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-block;">' + (value === 'resolved' ? 'Resolved' : 'Completed') + '</span>';
+}
+
+function buildStatusBadge(statusKey) {
+    const lang = getAdminLang();
+    if (statusKey === 'in_progress') {
+        return '<span style="background-color: #E3F2FD; color: #1976D2; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-block;">' + lang.statusInProgress + '</span>';
     }
-    if (value === 'rejected') {
-        return '<span style="background-color: #FFEBEE; color: #C62828; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-block;">Rejected</span>';
+    if (statusKey === 'resolved' || statusKey === 'completed') {
+        const label = statusKey === 'resolved' ? lang.statusResolved : lang.statusCompleted;
+        return '<span style="background-color: #E8F5E9; color: #2E7D32; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-block;">' + label + '</span>';
     }
-    return '<span style="background-color: #FFF3E0; color: #E65100; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-block;">Pending</span>';
+    if (statusKey === 'rejected') {
+        return '<span style="background-color: #FFEBEE; color: #C62828; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-block;">' + lang.statusRejected + '</span>';
+    }
+    return '<span style="background-color: #FFF3E0; color: #E65100; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-block;">' + lang.statusPending + '</span>';
 }
 
 function buildPriorityBadge(priorityLevel) {
+    const lang = getAdminLang();
     const value = (priorityLevel || '').toString().trim().toLowerCase();
     if (value === 'high') {
-        return '<span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; background-color: #DC2626; border-radius: 50%; display: inline-block;"></span><span style="color: #DC2626; font-weight: 500;">High</span></span>';
+        return '<span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; background-color: #DC2626; border-radius: 50%; display: inline-block;"></span><span style="color: #DC2626; font-weight: 500;">' + lang.priorityHigh + '</span></span>';
     }
     if (value === 'low') {
-        return '<span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; background-color: #10B981; border-radius: 50%; display: inline-block;"></span><span style="color: #10B981; font-weight: 500;">Low</span></span>';
+        return '<span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; background-color: #10B981; border-radius: 50%; display: inline-block;"></span><span style="color: #10B981; font-weight: 500;">' + lang.priorityLow + '</span></span>';
     }
-    return '<span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; background-color: #F59E0B; border-radius: 50%; display: inline-block;"></span><span style="color: #F59E0B; font-weight: 500;">Medium</span></span>';
+    return '<span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; background-color: #F59E0B; border-radius: 50%; display: inline-block;"></span><span style="color: #F59E0B; font-weight: 500;">' + lang.priorityMedium + '</span></span>';
 }
 
 function renderAdminComplaints(complaints) {
@@ -93,8 +110,8 @@ function renderAdminComplaints(complaints) {
 
     complaints.forEach(complaint => {
         const row = document.createElement('tr');
-        const statusLabel = formatAdminStatus(complaint.status);
-        const statusBadge = buildStatusBadge(statusLabel);
+        const statusKey = formatAdminStatus(complaint.status);
+        const statusBadge = buildStatusBadge(statusKey);
         const priorityBadge = buildPriorityBadge(complaint.priority_level || 'Medium');
         const submittedDate = complaint.submission_date ? new Date(complaint.submission_date).toLocaleDateString() : 'N/A';
         const citizenName = complaint.citizen_name || 'Citizen';

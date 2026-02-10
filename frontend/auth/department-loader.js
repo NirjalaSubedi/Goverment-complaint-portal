@@ -3,6 +3,14 @@ let translationsLoaded = false;
 let isTranslating = false;
 const translateEndpoint = '../backend/translate.php';
 
+const fallbackDepartments = [
+    { department_name: 'Roads Department' },
+    { department_name: 'Water Supply Department' },
+    { department_name: 'Electricity Authority' },
+    { department_name: 'Anti-Corruption Commission' },
+    { department_name: 'Other' }
+];
+
 let cachedDepartments = [];
 
 function normalizeDepartmentName(departmentName) {
@@ -48,6 +56,7 @@ function renderDepartments() {
 
     const fragment = document.createDocumentFragment();
     const missingTranslations = [];
+
     cachedDepartments.forEach(dept => {
         const option = document.createElement('option');
         option.value = dept.department_name;
@@ -58,6 +67,7 @@ function renderDepartments() {
         }
         fragment.appendChild(option);
     });
+
     select.appendChild(fragment);
 
     if (currentLanguage === 'ne' && missingTranslations.length > 0) {
@@ -82,6 +92,23 @@ function loadDepartmentTranslations() {
         })
         .catch(() => {
             translationsLoaded = true;
+        });
+}
+
+function loadDepartmentsForAuth() {
+    Promise.all([loadDepartmentTranslations(), fetch('../backend/getdepartments_public.php')])
+        .then(results => results[1].json())
+        .then(data => {
+            if (data.success && Array.isArray(data.departments) && data.departments.length > 0) {
+                cachedDepartments = data.departments;
+            } else {
+                cachedDepartments = fallbackDepartments;
+            }
+            renderDepartments();
+        })
+        .catch(() => {
+            cachedDepartments = fallbackDepartments;
+            renderDepartments();
         });
 }
 
@@ -125,20 +152,6 @@ function translateText(text) {
             }
         })
         .catch(() => {
-        });
-}
-
-function loadDepartmentsForAuth() {
-    Promise.all([loadDepartmentTranslations(), fetch('../backend/getdepartments_public.php')])
-        .then(results => results[1].json())
-        .then(data => {
-            if (data.success && Array.isArray(data.departments)) {
-                cachedDepartments = data.departments;
-                renderDepartments();
-            }
-        })
-        .catch(() => {
-            setDepartmentPlaceholder();
         });
 }
 

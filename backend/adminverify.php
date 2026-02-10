@@ -117,23 +117,101 @@ else if ($action === 'deleteUser') {
     mysqli_begin_transaction($conn);
     
     try {
+        $complaintIds = [];
+        $complaintsStmt = $conn->prepare('SELECT complaint_id FROM complaints WHERE citizen_id = ?');
+        if (!$complaintsStmt) {
+            throw new Exception('Failed to prepare complaint lookup: ' . $conn->error);
+        }
+        $complaintsStmt->bind_param('i', $userId);
+        if (!$complaintsStmt->execute()) {
+            throw new Exception('Failed to lookup complaints: ' . $complaintsStmt->error);
+        }
+        $result = $complaintsStmt->get_result();
+        while ($row = $result->fetch_assoc()) {
+            $complaintIds[] = (int)$row['complaint_id'];
+        }
+        $complaintsStmt->close();
+
+        if (!empty($complaintIds)) {
+            $placeholders = implode(',', array_fill(0, count($complaintIds), '?'));
+            $types = str_repeat('i', count($complaintIds));
+
+            $notifByComplaintStmt = $conn->prepare("DELETE FROM notifications WHERE complaint_id IN ($placeholders)");
+            if ($notifByComplaintStmt) {
+                $notifByComplaintStmt->bind_param($types, ...$complaintIds);
+                if (!$notifByComplaintStmt->execute()) {
+                    throw new Exception('Failed to delete complaint notifications: ' . $notifByComplaintStmt->error);
+                }
+                $notifByComplaintStmt->close();
+            }
+
+            $activityStmt = $conn->prepare("DELETE FROM complaintactivity WHERE complaint_id IN ($placeholders)");
+            if ($activityStmt) {
+                $activityStmt->bind_param($types, ...$complaintIds);
+                if (!$activityStmt->execute()) {
+                    throw new Exception('Failed to delete complaint activity: ' . $activityStmt->error);
+                }
+                $activityStmt->close();
+            }
+        }
+
+        $notifUserStmt = $conn->prepare('DELETE FROM notifications WHERE user_id = ?');
+        if ($notifUserStmt) {
+            $notifUserStmt->bind_param('i', $userId);
+            if (!$notifUserStmt->execute()) {
+                throw new Exception('Failed to delete user notifications: ' . $notifUserStmt->error);
+            }
+            $notifUserStmt->close();
+        }
+
+        $draftStmt = $conn->prepare('DELETE FROM complaint_drafts WHERE citizen_id = ?');
+        if ($draftStmt) {
+            $draftStmt->bind_param('i', $userId);
+            if (!$draftStmt->execute()) {
+                throw new Exception('Failed to delete complaint drafts: ' . $draftStmt->error);
+            }
+            $draftStmt->close();
+        }
+
+        $activityActorStmt = $conn->prepare('DELETE FROM complaintactivity WHERE actor_id = ?');
+        if ($activityActorStmt) {
+            $activityActorStmt->bind_param('i', $userId);
+            if (!$activityActorStmt->execute()) {
+                throw new Exception('Failed to delete actor activity: ' . $activityActorStmt->error);
+            }
+            $activityActorStmt->close();
+        }
+
+        $complaintStmt = $conn->prepare('DELETE FROM complaints WHERE citizen_id = ?');
+        if ($complaintStmt) {
+            $complaintStmt->bind_param('i', $userId);
+            if (!$complaintStmt->execute()) {
+                throw new Exception('Failed to delete complaints: ' . $complaintStmt->error);
+            }
+            $complaintStmt->close();
+        }
+
         $docDeleteSql = "DELETE FROM userdocuments WHERE user_id = ?";
         $docStmt = $conn->prepare($docDeleteSql);
         $docStmt->bind_param('i', $userId);
-        $docStmt->execute();
+        if (!$docStmt->execute()) {
+            throw new Exception('Failed to delete user documents: ' . $docStmt->error);
+        }
         $docStmt->close();
         
         $userDeleteSql = "DELETE FROM users WHERE user_id = ?";
         $userStmt = $conn->prepare($userDeleteSql);
         $userStmt->bind_param('i', $userId);
-        $userStmt->execute();
+        if (!$userStmt->execute()) {
+            throw new Exception('Failed to delete user: ' . $userStmt->error);
+        }
         $userStmt->close();
         
         mysqli_commit($conn);
         echo json_encode(['success' => true, 'message' => 'User deleted successfully']);
     } catch (Exception $e) {
         mysqli_rollback($conn);
-        echo json_encode(['success' => false, 'message' => 'Failed to delete user']);
+        echo json_encode(['success' => false, 'message' => 'Failed to delete user: ' . $e->getMessage()]);
     }
     exit;
 }
