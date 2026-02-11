@@ -33,9 +33,7 @@
     <script>
         let resendCountdown = 0;
         let userEmail = '';
-        
-        // Load email from URL parameter on page load
-        window.addEventListener('load', function() {
+                window.addEventListener('load', function() {
             const urlParams = new URLSearchParams(window.location.search);
             userEmail = urlParams.get('email') || '';
             
@@ -44,7 +42,6 @@
             }
         });
         
-        // Handle form submission
         document.getElementById('verificationForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
