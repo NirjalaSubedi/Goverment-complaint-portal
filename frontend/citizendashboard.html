@@ -384,7 +384,7 @@
             }
         }
 
-        // Close dropdown when clicking outside
+        
         document.addEventListener('click', function(event) {
             const dropdown = document.getElementById('notification-dropdown');
             const icon = document.getElementById('notifications-icon');
@@ -393,7 +393,7 @@
             }
         });
 
-        // Load notifications
+        
         function loadNotifications() {
             fetch('../backend/getnotifications.php')
                 .then(response => response.json())
@@ -403,7 +403,7 @@
                         const badge = document.getElementById('notification-badge');
                         const unreadCount = data.unread_count;
 
-                        // Update badge
+                        
                         if (unreadCount > 0) {
                             badge.style.display = 'flex';
                             badge.textContent = unreadCount > 9 ? '9+' : unreadCount;
@@ -411,7 +411,7 @@
                             badge.style.display = 'none';
                         }
 
-                        // Populate notification list
+                        
                         if (data.notifications.length === 0) {
                             const noNotifText = currentLanguage === 'ne' ? 'अहिले कुनै सूचना छैन' : 'No notifications yet';
                             notificationList.innerHTML = `<div class="notification-empty">${noNotifText}</div>`;
@@ -451,7 +451,7 @@
                 .catch(error => console.error('Error marking notification as read:', error));
         }
 
-        // Mark all notifications as read
+        
         function markAllNotificationsRead() {
             fetch('../backend/marknotificationsread.php', {
                 method: 'POST',
@@ -466,7 +466,7 @@
                 .catch(error => console.error('Error marking all notifications as read:', error));
         }
 
-        // Get time ago string
+        
         function getTimeAgo(date) {
             const seconds = Math.floor((new Date() - date) / 1000);
             
@@ -497,7 +497,7 @@
                 }
                 const data = await res.json();
                 if (!data.success) throw new Error(data.error || 'Failed to delete draft');
-                // Optimistically remove the row so user sees it disappear immediately
+                
                 const row = document.querySelector(`tr[data-draft-id="${draftId}"]`);
                 if (row && row.parentElement) {
                     row.parentElement.removeChild(row);
@@ -729,8 +729,8 @@
             window.location.href = 'Viewdetails.html';
         }
         
-        // Sort completed complaints
-        let completedSortOrder = 'desc'; // Default: newest first
+        
+        let completedSortOrder = 'desc'; 
         function sortCompletedComplaints() {
             const tableBody = document.getElementById('completed-complaints-table-body');
             const rows = Array.from(tableBody.querySelectorAll('tr')).filter(row => !row.id);
@@ -742,9 +742,9 @@
                 const dateB = new Date(b.querySelector('td:nth-child(4) p').textContent);
                 
                 if (completedSortOrder === 'desc') {
-                    return dateB - dateA; // Newest first
+                    return dateB - dateA; 
                 } else {
-                    return dateA - dateB; // Oldest first
+                    return dateA - dateB;
                 }
             });
             
