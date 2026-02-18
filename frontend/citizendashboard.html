@@ -370,12 +370,9 @@
             })
             .catch(error => console.error('Error loading user info:', error));
 
-        // Load notifications on page load
         loadNotifications();
-        // Refresh notifications every 30 seconds
         setInterval(loadNotifications, 30000);
 
-        // Toggle notification dropdown
         function toggleNotificationDropdown() {
             const dropdown = document.getElementById('notification-dropdown');
             dropdown.classList.toggle('show');
@@ -432,7 +429,6 @@
                 .catch(error => console.error('Error loading notifications:', error));
         }
 
-        // Mark notification as read
         function markNotificationAsRead(notificationId) {
             const formData = new FormData();
             formData.append('notification_id', notificationId);
