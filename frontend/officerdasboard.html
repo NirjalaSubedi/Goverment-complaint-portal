@@ -349,7 +349,7 @@
                         row.onmouseenter = function() { this.style.backgroundColor = '#f8f9fa'; };
                         row.onmouseleave = function() { this.style.backgroundColor = 'white'; };
                         
-                        // Get icon based on category
+                        
                         let icon = 'description';
                         let iconClass = '';
                         let iconBg = 'rgb(248, 221, 211)';
@@ -372,7 +372,7 @@
                             iconBg = 'rgb(255, 249, 196)';
                         }
                         
-                        // Status styling
+                        
                         let statusBadge = '';
                         const complaintStatus = complaint.status ? complaint.status.toLowerCase() : '';
                         const statusLabel = getStatusLabel(complaint.status, lang);
@@ -387,7 +387,7 @@
                             statusBadge = `<span style="background-color: #FFF3E0; color: #E65100; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; display: inline-block;">${statusLabel}</span>`;
                         }
                         
-                        // Priority styling
+                        
                         let priorityBadge = '';
                         let priorityText = complaint.priority_level || 'Medium';
                         let priorityLabel = getPriorityLabel(priorityText, lang);
@@ -399,7 +399,7 @@
                             priorityBadge = `<span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; background-color: #10B981; border-radius: 50%; display: inline-block;"></span><span style="color: #10B981; font-weight: 500;">${priorityLabel}</span></span>`;
                         }
                         
-                        // Format date
+                        
                         let date = complaint.submission_date ? new Date(complaint.submission_date).toLocaleDateString('en-CA') : '';
                         
                         row.innerHTML = `
@@ -436,7 +436,7 @@
             .catch(error => console.error('Error loading complaints:', error));
     }
 
-    // Load assigned complaints
+    
     function loadAssignedComplaints() {
         const lang = getOfficerLang();
         fetch('../backend/getassignedcomplaints.php')
@@ -458,7 +458,7 @@
                         tr.onmouseenter = function() { this.style.backgroundColor = '#f8f9fa'; };
                         tr.onmouseleave = function() { this.style.backgroundColor = 'white'; };
                         
-                        // Get icon based on category
+                
                         let icon = 'description';
                         let iconClass = '';
                         let iconBg = 'rgb(248, 221, 211)';
@@ -481,7 +481,7 @@
                             iconBg = 'rgb(255, 249, 196)';
                         }
                         
-                        // Format date
+                    
                         let date = complaint.submission_date ? new Date(complaint.submission_date).toLocaleDateString('en-CA') : '';
                         
                         tr.innerHTML = `
@@ -518,7 +518,7 @@
             .catch(error => console.error('Error loading assigned complaints:', error));
     }
 
-    // Load pending complaints
+
     function loadPendingComplaints() {
         const lang = getOfficerLang();
         fetch('../backend/getpendingcomplaints.php')
@@ -541,7 +541,6 @@
                         tr.onmouseenter = function() { this.style.backgroundColor = '#f8f9fa'; };
                         tr.onmouseleave = function() { this.style.backgroundColor = 'white'; };
                         
-                        // Get icon based on category
                         let icon = 'description';
                         let iconClass = '';
                         let iconBg = 'rgb(248, 221, 211)';
@@ -564,7 +563,7 @@
                             iconBg = 'rgb(255, 249, 196)';
                         }
                         
-                        // Format date
+                        
                         let date = complaint.submission_date ? new Date(complaint.submission_date).toLocaleDateString('en-CA') : '';
                         
                         tr.innerHTML = `
@@ -600,7 +599,6 @@
             .catch(error => console.error('Error loading pending complaints:', error));
     }
 
-    // Approve complaint
     function Approvecomplaints(button) {
         const complaintId = button.getAttribute('data-complaint-id');
         
@@ -613,28 +611,24 @@
             body: formData
         })
         .then(response => {
-            // Check if response is ok
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            return response.text(); // Get as text first
+            return response.text(); 
         })
         .then(text => {
             try {
                 const data = JSON.parse(text);
                 if (data.success) {
                     alert('Complaint approved successfully!');
-                    // Reload pending complaints to remove approved complaint
                     loadPendingComplaints();
                     loadAllComplaints();
                 } else {
                     alert('Error: ' + data.error);
                 }
             } catch (e) {
-                // If JSON parsing fails, show the raw response
                 console.error('Response text:', text);
                 console.error('Parse error:', e);
-                // Still reload in case the complaint was actually approved
                 loadPendingComplaints();
                 loadAllComplaints();
             }
@@ -645,7 +639,6 @@
         });
     }
 
-    // Reject complaint
     function Rejectcomplaints(button) {
         const complaintId = button.getAttribute('data-complaint-id');
         openRejectModal(complaintId);
@@ -731,19 +724,16 @@
         });
     }
 
-    // Navigate to review page with complaint ID
     function reviewComplaint(complaintId) {
         const lang = localStorage.getItem('currentLanguage') || 'en';
         window.location.href = `Viewdetails.html?complaint_id=${complaintId}&lang=${lang}`;
     }
     
-    // Navigate to complaint details page
     function viewComplaintDetails(complaintId) {
         const lang = localStorage.getItem('currentLanguage') || 'en';
         window.location.href = `Viewdetails.html?complaint_id=${complaintId}&lang=${lang}`;
     }
 
-    // Load completed complaints for officers
     function loadOfficerCompletedComplaints() {
         const lang = getOfficerLang();
         console.log('Loading officer completed complaints...');
@@ -767,14 +757,12 @@
                 
                 console.log('Total complaints:', data.complaints ? data.complaints.length : 0);
                 
-                // Log each complaint status
                 if (data.complaints) {
                     data.complaints.forEach((c, index) => {
                         console.log(`Complaint ${index + 1} - ID: ${c.complaint_id}, Status: "${c.status}"`);
                     });
                 }
                 
-                // Filter only completed complaints
                 const completedComplaints = data.complaints ? data.complaints.filter(c => {
                     if (!c.status) return false;
                     const status = c.status.toString().trim().toLowerCase();
@@ -794,7 +782,6 @@
                         tr.onmouseenter = function() { this.style.backgroundColor = '#f8f9fa'; };
                         tr.onmouseleave = function() { this.style.backgroundColor = 'white'; };
                         
-                        // Get icon based on category
                         let icon = 'description';
                         let iconClass = '';
                         let iconBg = 'rgb(248, 221, 211)';
@@ -817,7 +804,6 @@
                             iconBg = 'rgb(255, 249, 196)';
                         }
                         
-                        // Format date
                         let date = complaint.submission_date ? new Date(complaint.submission_date).toLocaleDateString('en-CA') : '';
                         
                         tr.innerHTML = `
@@ -859,7 +845,6 @@
             .catch(error => console.error('Error loading completed complaints:', error));
     }
 
-    // ---------------- Notifications (Officer) -----------------
     const notifIcon = document.getElementById('notifications-icon');
     const notifBadge = document.getElementById('notification-badge');
     const notifDropdown = document.getElementById('notification-dropdown');

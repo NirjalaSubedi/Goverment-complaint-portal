@@ -207,7 +207,6 @@
             localStorage.setItem('currentLanguage', currentLanguage);
             applyViewLanguage();
         }
-        // Get complaint ID and language from URL or localStorage
         const urlParams = new URLSearchParams(window.location.search);
         const langParam = urlParams.get('lang');
         if (langParam === 'en' || langParam === 'ne') {
@@ -217,7 +216,6 @@
 
         let complaintId = urlParams.get('complaint_id');
         
-        // If not in URL, check localStorage (for citizen dashboard)
         if (!complaintId) {
             complaintId = localStorage.getItem('selectedComplaintId');
         }
@@ -226,7 +224,6 @@
             window.viewDetailsState = { errorKey: 'noComplaintId' };
             renderError(getViewLang().noComplaintId);
         } else {
-            // First, get user type to determine what sections to show
             let userType = '';
             
             fetch('../backend/getuser.php', { credentials: 'include' })
@@ -234,7 +231,6 @@
                 .then(userData => {
                     userType = userData.userType || '';
                     
-                    // Now fetch complaint details from database
                     return fetch(`../backend/getcomplaintdetails.php?complaint_id=${complaintId}`);
                 })
                 .then(response => {
@@ -259,21 +255,16 @@
                     const officerDepartmentName = data.officer_department_name;
                     const rejectionInfo = data.rejection_info || null;
                     
-                    // Check if officer can manage this complaint
-                    // STRICT: Only show if we have positive confirmation
                     let canManageComplaint = false;
                     
                     if (userType === 'Officer' && officerDepartmentId) {
-                        // Method 1: Explicit department_id match (most reliable)
                         if (complaint.department_id && complaint.department_id === officerDepartmentId) {
                             canManageComplaint = true;
                         }
-                        // Method 2: For NULL department_id, match by category AND department name
                         else if (!complaint.department_id && complaint.category_name && officerDepartmentName) {
                             const categoryLower = complaint.category_name.toLowerCase();
                             const deptLower = officerDepartmentName.toLowerCase();
                             
-                            // Only match if both category and department contain same keywords
                             if ((categoryLower.includes('electric') && deptLower.includes('electric')) ||
                                 (categoryLower.includes('electricity') && deptLower.includes('electricity')) ||
                                 (categoryLower.includes('road') && deptLower.includes('road')) ||
@@ -291,7 +282,6 @@
                         return;
                     }
                     
-                    // Debug log
                     console.log('DEBUG:', {
                         userType,
                         officerDepartmentId,
@@ -325,10 +315,8 @@
             const lang = getViewLang();
             const { complaint, responses, completionHistory, rejectionInfo, userType, officerDepartmentId, officerDepartmentName, canManageComplaint } = viewData;
 
-            // Update page title
             document.getElementById('pageTitle').textContent = `${lang.pageTitle} - C${String(complaint.complaint_id).padStart(3, '0')}`;
 
-            // Get status class and color
             let statusClass = 'status-pending';
             if (complaint.status === 'In Progress' || complaint.status === 'InProgress') {
                 statusClass = 'status-inprogress';
@@ -341,10 +329,8 @@
             const statusLabel = getStatusLabel(complaint.status, lang);
             const priorityLabel = getPriorityLabel(complaint.priority_level, lang);
 
-            // Format date
             const date = formatDate(complaint.created_at, false);
 
-            // Build attachments HTML
             let attachmentsHTML = '';
             if (complaint.complaint_attachment) {
                 const fileName = complaint.complaint_attachment.split('/').pop();
@@ -362,7 +348,6 @@
                 `;
             }
 
-            // Build officer responses HTML
             let responsesHTML = '';
             if (responses && responses.length > 0) {
                 const responseItems = responses.map(response => {
@@ -413,7 +398,6 @@
                 `;
             }
             
-            // Build rejection info HTML
             let rejectionHTML = '';
             const isRejected = complaint.status && complaint.status.toLowerCase() === 'rejected';
             if (isRejected) {
@@ -440,7 +424,6 @@
                 `;
             }
 
-            // Build completion info HTML
             let completionHTML = '';
             const statusValue = (complaint.status || '').toString().trim().toLowerCase();
             const isCompleted = statusValue === 'completed' || statusValue === 'resolved';
@@ -523,7 +506,6 @@
                 `;
             }
 
-            // Build main content
             const contentHTML = `
                         <div class="top-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding: 20px 0; border-bottom: 2px solid #f0f0f0;">
                             <h1 style="margin: 0; font-size: 28px; color: #1a1a1a; font-weight: 700;">${lang.complaintDetailsHeading}</h1>
@@ -645,7 +627,6 @@
             document.getElementById('mainContent').innerHTML = contentHTML;
         }
         
-        // Handle file upload
         function handleFileUpload(input) {
             const fileNameDiv = document.getElementById('fileName');
             const completeBtn = document.getElementById('completeTaskBtn');
@@ -661,7 +642,6 @@
             }
         }
         
-        // Complete task
         function completeTask(complaintId) {
             const fileInput = document.getElementById('completionImage');
             const btn = document.getElementById('completeTaskBtn');
@@ -673,11 +653,9 @@
                 return;
             }
             
-            // Disable button and show loading
             btn.disabled = true;
             btn.innerHTML = `<i class="material-icons" style="font-size: 22px;">refresh</i> ${lang.processing}`;
             
-            // Create FormData
             const formData = new FormData();
             formData.append('complaint_id', complaintId);
             formData.append('completion_image', fileInput.files[0]);
@@ -700,7 +678,6 @@
                         statusTag.className = 'status-tag status-completed';
                     }
                     
-                    // Disable form
                     fileInput.disabled = true;
                     btn.innerHTML = `<i class="material-icons" style="font-size: 22px;">check_circle</i> ${lang.completed}`;
                     btn.style.background = '#cbd5e0';
@@ -752,19 +729,15 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Clear textarea
                     document.getElementById('responseMessage').value = '';
                     
-                    // Show success message
                     successMsg.classList.add('show');
                     
-                    // Reload the page after 1.5 seconds to show the new response
                     setTimeout(() => {
                         window.location.reload();
                     }, 1500);
                 } else {
                     alert('Error: ' + (data.error || 'Failed to send response'));
-                    // Re-enable button on error
                     btn.disabled = false;
                     btn.innerHTML = `<i class="material-icons" style="font-size: 20px;">send</i> ${lang.sendResponse}`;
                 }
@@ -772,7 +745,6 @@
             .catch(error => {
                 console.error('Error:', error);
                 alert(lang.sendFailed);
-                // Re-enable button on error
                 btn.disabled = false;
                 btn.innerHTML = `<i class="material-icons" style="font-size: 20px;">send</i> ${lang.sendResponse}`;
             });

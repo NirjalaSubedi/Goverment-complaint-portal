@@ -53,14 +53,12 @@
         </form>
     </div>
     <script>
-        // Handle back button navigation
         document.addEventListener('DOMContentLoaded', async function() {
             const backButton = document.getElementById('backButton');
             if (backButton) {
                 backButton.addEventListener('click', async function(e) {
                     e.preventDefault();
                     
-                    // Check if user is logged in
                     let isLoggedIn = false;
                     try {
                         const response = await fetch('../backend/fetchprofile.php', { 
@@ -73,7 +71,6 @@
                     
                     const referrer = sessionStorage.getItem('complaintReferrer');
                     
-                    // If not logged in OR came from index.html, go to index.html
                     if (!isLoggedIn || referrer === 'index.html') {
                         sessionStorage.removeItem('complaintReferrer');
                         window.location.href = 'index.html';

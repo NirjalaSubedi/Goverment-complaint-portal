@@ -105,7 +105,6 @@
                tagline.textContent = currentLanguage === 'en' ? 'Make your Voice Heard' : 'आफ्नो आवाज बनाउनुहोस्';
            }
 
-           // Update login form labels and buttons
            const loginLabels = document.querySelectorAll('.login-form-section label');
            const emailLabel = Array.from(loginLabels).find(l => l.className === 'email');
            const passwordLabel = Array.from(loginLabels).find(l => l.className === 'password');
@@ -128,7 +127,6 @@
            const forgotLink = document.querySelector('.forgot-password a');
            if (forgotLink) forgotLink.textContent = currentLanguage === 'en' ? 'Forgot your Password?' : 'तपाईंको पासवर्ड बिर्सनुभयो?';
 
-           // Update register form labels
            const registerLabels = document.querySelectorAll('.register-form-section label');
            const updateLabel = (labelClass, enText, neText) => {
                const label = Array.from(registerLabels).find(l => l.className === labelClass);
@@ -195,7 +193,6 @@
            if (tosLink) tosLink.textContent = currentLanguage === 'en' ? 'Terms of services and Privacy Policy' : 'सेवा सर्तहरू र गोपनीयता नीति';
        }
 
-       // Initialize login page language
        document.addEventListener('DOMContentLoaded', function() {
            updateLoginRegisterContent();
        });
