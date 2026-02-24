@@ -54,7 +54,7 @@
                             </div>
                             <div class="logout">
                                 <i class="material-icons">logout</i>
-                                <a href="#" class="dropdown-text" onclick="const savedLang = localStorage.getItem('languagePreference') || (typeof getActiveCitizenLanguage === 'function' ? getActiveCitizenLanguage() : (localStorage.getItem('citizenLanguage') || localStorage.getItem('currentLanguage'))) || 'en'; sessionStorage.clear(); localStorage.clear(); localStorage.setItem('languagePreference', savedLang); localStorage.setItem('currentLanguage', savedLang); localStorage.setItem('citizenLanguage', savedLang); alert('Account logout successfully!'); window.location.href='index.html'; return false;">Logout</a>
+                                <a href="#" class="dropdown-text" onclick="handleLogout(); return false;">Logout</a>
                             </div>
                         </div>
                     </div>
@@ -361,9 +361,43 @@
 
 </div>
     <script>
-        fetch('../backend/getuser.php')
+        function handleLogout() {
+            const savedLang = localStorage.getItem('languagePreference')
+                || (typeof getActiveCitizenLanguage === 'function' ? getActiveCitizenLanguage() : (localStorage.getItem('citizenLanguage') || localStorage.getItem('currentLanguage')))
+                || 'en';
+
+            fetch('../backend/logout.php', {
+                method: 'POST',
+                credentials: 'include'
+            })
+            .catch(() => null)
+            .finally(() => {
+                sessionStorage.clear();
+                localStorage.clear();
+                localStorage.setItem('languagePreference', savedLang);
+                localStorage.setItem('currentLanguage', savedLang);
+                localStorage.setItem('citizenLanguage', savedLang);
+                alert('Account logout successfully!');
+                window.location.href = 'index.html';
+            });
+        }
+
+        fetch('../backend/getuser.php?expectedRole=Citizen', { credentials: 'include' })
             .then(response => response.json())
             .then(data => {
+                if (data.error) {
+                    if (data.currentRole === 'Officer') {
+                        window.location.href = 'officerdasboard.html';
+                        return;
+                    }
+                    if (data.currentRole === 'Admin') {
+                        window.location.href = 'admindashboard.html';
+                        return;
+                    }
+                    window.location.href = 'login.html';
+                    return;
+                }
+
                 if (data.fullName) {
                     document.querySelector('.username').textContent = data.fullName;
                 }
@@ -1060,7 +1094,7 @@
         });
 
     function openProfileModal() {
-        fetch('../backend/getuser.php', { credentials: 'include' })
+        fetch('../backend/getuser.php?expectedRole=Citizen', { credentials: 'include' })
             .then(response => response.json())
             .then(data => {
                 if (data.error) return;

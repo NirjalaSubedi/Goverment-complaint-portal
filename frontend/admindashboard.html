@@ -97,7 +97,7 @@
                 </div>
                 <div class="logout nav-btn" style="margin-top: 20px;">
                     <i class="material-icons" style="color: red;">logout</i>
-                    <a href="#" style="text-decoration: none; color: red;" onclick="const savedLang = localStorage.getItem('languagePreference') || (typeof getActiveCitizenLanguage === 'function' ? getActiveCitizenLanguage() : (localStorage.getItem('citizenLanguage') || localStorage.getItem('currentLanguage'))) || 'en'; sessionStorage.clear(); localStorage.clear(); localStorage.setItem('languagePreference', savedLang); localStorage.setItem('currentLanguage', savedLang); localStorage.setItem('citizenLanguage', savedLang); alert('Account logout successfully!'); window.location.href='index.html'; return false;">Logout</a>
+                    <a href="#" style="text-decoration: none; color: red;" onclick="handleLogout(); return false;">Logout</a>
                 </div>
             </div>
         </div>
@@ -234,6 +234,28 @@
     <script>
         let allUsersData = [];
         let currentFilter = 'all';
+
+        function handleLogout() {
+            const savedLang = localStorage.getItem('languagePreference')
+                || (typeof getActiveCitizenLanguage === 'function' ? getActiveCitizenLanguage() : (localStorage.getItem('citizenLanguage') || localStorage.getItem('currentLanguage')))
+                || 'en';
+
+            fetch('../backend/logout.php', {
+                method: 'POST',
+                credentials: 'include'
+            })
+            .catch(() => null)
+            .finally(() => {
+                sessionStorage.clear();
+                localStorage.clear();
+                localStorage.setItem('languagePreference', savedLang);
+                localStorage.setItem('currentLanguage', savedLang);
+                localStorage.setItem('citizenLanguage', savedLang);
+                alert('Account logout successfully!');
+                window.location.href = 'index.html';
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             loadPendingOfficers();
         });
