@@ -328,7 +328,6 @@ function loginLanguageTranslate(){
     document.getElementById('email1').placeholder=Translate[currentLanguage].emailplaceholder;
 }
 
-// Apply language on page load for login.html
 document.addEventListener('DOMContentLoaded', function() {
     const isLoginPage = document.getElementById('Heading') && document.getElementById('tagline');
     if (isLoginPage) {

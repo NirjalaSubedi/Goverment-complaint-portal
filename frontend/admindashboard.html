@@ -232,29 +232,45 @@
     <script src="admin/admin-manage-users.js"></script>
     <script src="admin/admin-view-complaints.js"></script>
     <script>
-        let allUsersData = [];
-        let currentFilter = 'all';
-
         function handleLogout() {
             const savedLang = localStorage.getItem('languagePreference')
                 || (typeof getActiveCitizenLanguage === 'function' ? getActiveCitizenLanguage() : (localStorage.getItem('citizenLanguage') || localStorage.getItem('currentLanguage')))
                 || 'en';
 
-            fetch('../backend/logout.php', {
-                method: 'POST',
-                credentials: 'include'
-            })
-            .catch(() => null)
-            .finally(() => {
-                sessionStorage.clear();
-                localStorage.clear();
-                localStorage.setItem('languagePreference', savedLang);
-                localStorage.setItem('currentLanguage', savedLang);
-                localStorage.setItem('citizenLanguage', savedLang);
-                alert('Account logout successfully!');
-                window.location.href = 'index.html';
-            });
+            sessionStorage.clear();
+            localStorage.clear();
+            localStorage.setItem('languagePreference', savedLang);
+            localStorage.setItem('currentLanguage', savedLang);
+            localStorage.setItem('citizenLanguage', savedLang);
+            window.location.href = '../backend/logout.php?redirect=../frontend/login.html';
         }
+
+        fetch('../backend/getuser.php?expectedRole=Admin', { credentials: 'include' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    if (data.currentRole === 'Citizen') {
+                        window.location.href = 'citizendashboard.html';
+                        return;
+                    }
+                    if (data.currentRole === 'Officer') {
+                        window.location.href = 'officerdasboard.html';
+                        return;
+                    }
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                if (data.fullName) {
+                    const usernameEl = document.querySelector('.username');
+                    if (usernameEl) {
+                        usernameEl.textContent = data.fullName;
+                    }
+                }
+            })
+            .catch(() => {
+                window.location.href = 'login.html';
+            });
 
         document.addEventListener('DOMContentLoaded', function() {
             loadPendingOfficers();

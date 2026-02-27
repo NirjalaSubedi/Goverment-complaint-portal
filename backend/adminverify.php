@@ -1,6 +1,20 @@
 <?php
+session_start();
 include '../includes/databaseConnection.php';
 header('Content-Type: application/json');
+
+if (!isset($_SESSION['user_id'])) {
+    http_response_code(401);
+    echo json_encode(['success' => false, 'message' => 'Not logged in']);
+    exit;
+}
+
+if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'Admin') {
+    http_response_code(403);
+    echo json_encode(['success' => false, 'message' => 'Access denied. Admins only.']);
+    exit;
+}
+
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
 if ($action === 'getPendingOfficers') {
         $sql = "SELECT u.user_id, u.full_name, u.email, u.phone_number, u.position,

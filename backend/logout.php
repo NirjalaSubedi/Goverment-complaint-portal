@@ -1,6 +1,7 @@
 <?php
 session_start();
-header('Content-Type: application/json');
+
+$redirect = $_GET['redirect'] ?? '';
 
 $_SESSION = [];
 
@@ -18,6 +19,13 @@ if (ini_get('session.use_cookies')) {
 }
 
 session_destroy();
+
+if ($redirect !== '') {
+    header('Location: ' . $redirect);
+    exit;
+}
+
+header('Content-Type: application/json');
 
 echo json_encode([
     'success' => true,
