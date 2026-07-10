@@ -1,19 +1,20 @@
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-require 'vendor/autoload.php';
+require_once __DIR__ . '/../../includes/env.php';
+require_once __DIR__ . '/vendor/autoload.php';
 function sendVerificationEmail($recipientEmail, $recipientName, $verificationCode) {
     $mail = new PHPMailer(true);
     try {
         $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com'; 
+        $mail->Host       = envValue('MAIL_HOST', 'smtp.gmail.com'); 
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'nikaasGoverment@gmail.com';  
-        $mail->Password   = 'nocf qdgg liwd ezif';    
+        $mail->Username   = envValue('MAIL_USERNAME', 'nikaasGoverment@gmail.com');  
+        $mail->Password   = envValue('MAIL_PASSWORD', '');    
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = 587;
+        $mail->Port       = (int) envValue('MAIL_PORT', 587);
         
-        $mail->setFrom('nikaasGoverment@gmail.com', 'Government Complaint Portal');
+        $mail->setFrom(envValue('MAIL_FROM_EMAIL', 'nikaasGoverment@gmail.com'), 'Government Complaint Portal');
         $mail->addAddress($recipientEmail, $recipientName);
         
         $mail->isHTML(true);
@@ -75,7 +76,7 @@ function sendVerificationEmail($recipientEmail, $recipientName, $verificationCod
     } catch (Exception $e) {
         $errorMsg = "Email sending failed: " . $mail->ErrorInfo;
         error_log($errorMsg);
-        file_put_contents('../uploads/email_error_log.txt', date('Y-m-d H:i:s') . " - " . $errorMsg . "\n", FILE_APPEND);
+        file_put_contents(__DIR__ . '/../../uploads/email_error_log.txt', date('Y-m-d H:i:s') . " - " . $errorMsg . "\n", FILE_APPEND);
         return false;
     }
 }

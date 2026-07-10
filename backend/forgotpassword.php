@@ -1,6 +1,7 @@
 <?php
 header('Content-Type: application/json');
 require_once '../includes/databaseConnection.php';
+require_once __DIR__ . '/../includes/env.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -46,21 +47,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     $emailSent = false;
-    if (file_exists('./emailVerify/vendor/autoload.php')) {
-        require_once './emailVerify/vendor/autoload.php';
+    if (file_exists(__DIR__ . '/emailVerify/vendor/autoload.php')) {
+        require_once __DIR__ . '/emailVerify/vendor/autoload.php';
         
         try {
             $mail = new PHPMailer(true);
             
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
+            $mail->Host = envValue('MAIL_HOST', 'smtp.gmail.com');
             $mail->SMTPAuth = true;
-            $mail->Username = 'nikaasGoverment@gmail.com';
-            $mail->Password = 'nocf qdgg liwd ezif';
+            $mail->Username = envValue('MAIL_USERNAME', 'nikaasGoverment@gmail.com');
+            $mail->Password = envValue('MAIL_PASSWORD', '');
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587;
+            $mail->Port = (int) envValue('MAIL_PORT', 587);
             
-            $mail->setFrom('nikaasGoverment@gmail.com', 'Nikaas Government Portal');
+            $mail->setFrom(envValue('MAIL_FROM_EMAIL', 'nikaasGoverment@gmail.com'), 'Nikaas Government Portal');
             $mail->addAddress($email, $user['full_name']);
             
             $mail->isHTML(true);
